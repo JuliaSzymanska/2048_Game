@@ -1,0 +1,5 @@
+Accelerometer - accelerometer-icm20690
+Magnetic - mag-akm09918
+Light - light-liteon-ltr582
+Gyroscope - gyroscope-icm20690
+Proximity - proximity-ltr582

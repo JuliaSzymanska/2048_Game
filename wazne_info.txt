@@ -1,0 +1,22 @@
+1. Wykorzystuje czujniki odczytujące stan otoczenia urządzenia.
+2. Interpretuje odczytane dane.
+3. Ewentualnie steruje jakimś układem wykonawczym.
+4. https://play.google.com/store/apps/details?id=com.wered.sensorsmultitool odczytuje nazwy konkretnych czunikow
+5. Znalezc note katalogowa dla danego czujnika na przyklad - https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMI160-DS000.pdf dla czujnika BBMI160 zyroskop/acelerometr - wskazać w jaki sposób dane są fizycznie odczytywane – czyli rejestry ze wskazaniami, filtry, zakres pomiarowy, itp. A także w jaki sposób (przy pomocy jakiego interfejsu) realizowana jest procedura odczytu (tu i2c lub spi). Ważne są ustawienia tego interfejsu.
+6. Np. akcelerometr + spi (2), Żyroskop + i2c (2), czujnik światła + i2c (1, bo i2c już było), GPS + uart (2), itd. BT (z niedomyślnie wybranym(i) profilami)  (1).
+7. Po drugie dla Javy utworzone są analogiczne do MISRA czy JSF standardy - "Code Conventions for the Java Programming Language". Dokument od Oracla jest już dość wiekowy, ale analogiczny od Googla (np. https://google.github.io/styleguide/javaguide.html) - całkiem świeży. Proszę zwrócić uwagę, że dotyczy też np. Kotlina. 
+8. Proszę w deklaracji tej zawrzeć informacje o sposobie wykorzystania czujników (koniecznie!), modelu tabletu/telefonu (zalecane). Jednym słowem - jakiś krótki opis skupiony na tym, co stanowi efekty nauczania przedmiotu. Warto z góry przemyśleć sprawę i policzyć funkcjonalności. 
+9. "Przy wyborze aplikacji na androida - czy implementacja obsługi urządzeń peryferyjnych typu GPS, czujniki, itp za pomocą gotowych funkcji z API androida zalicza także implementacje interfejsów UART, SPI... , czy też trzeba napisać własną obsługę tych interfejsów. Innymi słowy czy korzystanie z czujników ma być "niskopoziomowe"?"
+Niskopoziomowy jest tylko opis. 
+Nie są Państwo w stanie napisać samodzielnie sterownika dla Linuksa/Androida (jest taki sam) i uruchomić go na telefonie. Odczyt wielkości jest zatem za pomocą standardowego API Androida - por. przykłady w sekcji "plan B".
+W ramach tego opisu trzeba napisać (w przykładzie: spi) prędkość,liczba bitów na transfer, ustawienia cpol, cpha, adres, tryb pracy, sposób zapisu, sposób odczytu (czasami są tożsame, a czasami niekoniecznie).
+Proszę wszakże pamiętać, że odczyt danych to jedna rzecz, a jego interpretacja - to coś innego. Np. co oznacza wartość 123 odczytana z akcelerometru?
+
+
+Nasze funkcjonalności:
+1. Czujnik linii papilarnych
+2. Acelerometr/ żyroskop
+3. Czujnik światła - dark mode
+4. Dzwięk
+5. Ekran
+Ewentualnie - mikrofon, joystick

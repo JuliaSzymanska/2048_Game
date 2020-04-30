@@ -1,5 +1,16 @@
+HUAWEI P20 PRO
+
 Accelerometer - accelerometer-icm20690
 Magnetic - mag-akm09918
 Light - light-liteon-ltr582
 Gyroscope - gyroscope-icm20690
 Proximity - proximity-ltr582
+
+
+HTC U 11
+BMI160 Accelerometer BOSCH
+BMI160 Gyroscope BOSCH
+BMI160 Step Counter BOSCH
+AK09915 Magnetometer AKM
+CM36686 Proximity Sensor Capella
+CM36686 Light Sensor Capella

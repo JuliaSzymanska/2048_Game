@@ -17,6 +17,8 @@ Nasze funkcjonalności:
 1. Czujnik linii papilarnych
 2. Acelerometr/ żyroskop
 3. Czujnik światła - dark mode
-4. Dzwięk
+4. Poziom dzwięku - mikrofon 
 5. Ekran
-Ewentualnie - mikrofon, joystick
+6. Głośnik (?)
+7. Joystick
+8. GPS

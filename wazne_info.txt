@@ -14,7 +14,7 @@ Proszę wszakże pamiętać, że odczyt danych to jedna rzecz, a jego interpreta
 
 
 Nasze funkcjonalności:
-1. Czujnik linii papilarnych
+1. Czujnik linii papilarnych ------
 2. Acelerometr/ żyroskop
 3. Czujnik światła - dark mode
 4. Poziom dzwięku - mikrofon 

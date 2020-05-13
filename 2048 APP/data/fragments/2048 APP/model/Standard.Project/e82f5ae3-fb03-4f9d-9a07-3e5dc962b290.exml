@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="2048 APP" version="4">
+  <OBJECT>
+    <ID name="2048 APP" mc="Standard.Project" uid="e82f5ae3-fb03-4f9d-9a07-3e5dc962b290"/>
+    <ATTRIBUTES>
+      <ATT name="ProjectContext"></ATT>
+      <ATT name="ProjectDescr"></ATT>
+      <ATT name="Name"><![CDATA[2048 APP]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Model">
+        <COMPID name="2048 app" mc="Standard.Package" uid="0c2f72d3-3842-4e6a-b1c2-c8c161c78988"/>
+      </COMP>
+      <COMP relation="DiagramRoot">
+        <COMPID name="2048 APP" mc="Infrastructure.DiagramSet" uid="67a3418e-3618-4c8b-a3de-18c23757529c"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

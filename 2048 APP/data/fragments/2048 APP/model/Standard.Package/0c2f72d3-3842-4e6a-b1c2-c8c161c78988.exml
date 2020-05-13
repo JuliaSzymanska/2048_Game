@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="2048 app" version="4">
+  <OBJECT>
+    <ID name="2048 app" mc="Standard.Package" uid="0c2f72d3-3842-4e6a-b1c2-c8c161c78988"/>
+    <PID name="2048 APP" mc="Standard.Project" uid="e82f5ae3-fb03-4f9d-9a07-3e5dc962b290"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[2048 app]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Board" mc="Standard.Class" uid="b58b5049-31d1-48ca-88a9-5a910897606f"/>
+        <COMPID name="Field" mc="Standard.Class" uid="c5edd274-9ace-480a-80a9-751666aaf9a9"/>
+        <OBJECT>
+          <ID name="Directions" mc="Standard.Enumeration" uid="8565ab44-e6d3-4fef-9eec-d687b4d7a614"/>
+          <ATTRIBUTES>
+            <ATT name="IsElementary">true</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Directions]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="OwnedElement">
+              <OBJECT>
+                <ID name="Up" mc="Standard.Enumeration" uid="15671c5b-d6ed-4116-99fd-79cc63da430d"/>
+                <ATTRIBUTES>
+                  <ATT name="IsElementary">true</ATT>
+                  <ATT name="IsAbstract">false</ATT>
+                  <ATT name="IsLeaf">false</ATT>
+                  <ATT name="IsRoot">false</ATT>
+                  <ATT name="Visibility">VisibilityUndefined</ATT>
+                  <ATT name="Name"><![CDATA[Up]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Down" mc="Standard.Enumeration" uid="5f63467b-457b-4b82-a995-cb64b2021a1a"/>
+                <ATTRIBUTES>
+                  <ATT name="IsElementary">true</ATT>
+                  <ATT name="IsAbstract">false</ATT>
+                  <ATT name="IsLeaf">false</ATT>
+                  <ATT name="IsRoot">false</ATT>
+                  <ATT name="Visibility">VisibilityUndefined</ATT>
+                  <ATT name="Name"><![CDATA[Down]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Left" mc="Standard.Enumeration" uid="fabd059b-8fe6-424a-879a-51cf7faa5da2"/>
+                <ATTRIBUTES>
+                  <ATT name="IsElementary">true</ATT>
+                  <ATT name="IsAbstract">false</ATT>
+                  <ATT name="IsLeaf">false</ATT>
+                  <ATT name="IsRoot">false</ATT>
+                  <ATT name="Visibility">VisibilityUndefined</ATT>
+                  <ATT name="Name"><![CDATA[Left]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Descriptor">
+                    <OBJECT>
+                      <ID name="Note" mc="Infrastructure.Note" uid="a7bf9dc0-48e4-40c2-8506-4d828d456d2d"/>
+                      <ATTRIBUTES>
+                        <ATT name="Content"><![CDATA[Nie wiem jak to połączyć (ENUM)
+
+]]></ATT>
+                        <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                        <ATT name="Name"><![CDATA[Note]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Model">
+                          <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Right" mc="Standard.Enumeration" uid="72b2178a-0717-4f92-b895-5b1cbf7773ba"/>
+                <ATTRIBUTES>
+                  <ATT name="IsElementary">true</ATT>
+                  <ATT name="IsAbstract">false</ATT>
+                  <ATT name="IsLeaf">false</ATT>
+                  <ATT name="IsRoot">false</ATT>
+                  <ATT name="Visibility">VisibilityUndefined</ATT>
+                  <ATT name="Name"><![CDATA[Right]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <COMPID name="Game" mc="Standard.Class" uid="bc4b322c-07e4-4931-86f2-7ebb1015a87e"/>
+        <COMPID name="java.util.time" mc="Standard.Class" uid="08f9191d-ad46-4765-9267-df40483383e5"/>
+        <COMPID name="DAO" mc="Standard.Class" uid="5d0fb28f-7eee-4556-aa0a-baf1153ee3ec"/>
+        <COMPID name="GameDaoFactory" mc="Standard.Class" uid="5a402ec2-c2b8-4f30-b9fa-195c618cc94d"/>
+        <COMPID name="FileBoardDao" mc="Standard.Class" uid="25f66af1-0c97-4d35-83af-bb56cc9cfb9a"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="2048 app Class diagram" mc="Standard.ClassDiagram" uid="4fdd2f84-d4ee-4546-8810-77e37d0a377a"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

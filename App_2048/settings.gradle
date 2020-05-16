@@ -1,2 +1,4 @@
 rootProject.name='Game2048'
 include ':app'
+include ':app:model'
+include ':model2'

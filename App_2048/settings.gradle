@@ -1,0 +1,2 @@
+rootProject.name='Game2048'
+include ':app'

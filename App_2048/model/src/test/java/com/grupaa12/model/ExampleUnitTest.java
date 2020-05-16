@@ -1,4 +1,4 @@
-package com.grupaa12.model2;
+package com.grupaa12.model;
 
 import org.junit.Test;
 

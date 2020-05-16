@@ -1,4 +1,4 @@
-package com.grupaa12.model2;
+package com.grupaa12.model;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.grupaa12.model2.test", appContext.getPackageName());
+        assertEquals("com.grupaa12.model.test", appContext.getPackageName());
     }
 }

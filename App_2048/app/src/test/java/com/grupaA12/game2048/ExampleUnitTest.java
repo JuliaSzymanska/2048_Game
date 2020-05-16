@@ -1,8 +1,7 @@
 package com.grupaA12.game2048;
 
-import org.junit.Test;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

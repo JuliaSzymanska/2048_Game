@@ -5,7 +5,8 @@ public class Field {
     private int value;
 
     public Field(int value) {
-        if (value > 0 && value % 2 == 0) {
+
+        if (value >= 0 && value % 2 == 0) {
             this.value = value;
         }
     }
@@ -15,7 +16,8 @@ public class Field {
     }
 
     public void setValue(int value) {
-        if (value > 0 && value % 2 == 0) {
+        // TODO: 17.05.2020 value moze byc tylko potega dwojki
+        if (value >= 0 && value % 2 == 0) {
             this.value = value;
         }
     }

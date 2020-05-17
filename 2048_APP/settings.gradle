@@ -1,2 +1,2 @@
 rootProject.name='2048_APP'
-include ':app'
+include ':app', ':module'

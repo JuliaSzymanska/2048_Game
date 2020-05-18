@@ -23,7 +23,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+        mavenCentral()
     }
 }
 
@@ -40,3 +40,5 @@ task checkstyle(type: Checkstyle) {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+

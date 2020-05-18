@@ -144,10 +144,6 @@ public class Board {
         return cloneBoard;
     }
 
-//    public static void main(String[] args) {
-//        System.out.println("JD");
-//    }
-
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)

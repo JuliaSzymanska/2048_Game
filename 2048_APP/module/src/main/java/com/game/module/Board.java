@@ -63,6 +63,14 @@ public class Board {
                 this.getFieldByPos(3, col));
     }
 
+    private List<Field> getRow(int row) {
+        return Arrays.asList(
+                this.getFieldByPos(row, 0),
+                this.getFieldByPos(row, 1),
+                this.getFieldByPos(row, 2),
+                this.getFieldByPos(row, 3));
+    }
+
     /*  12 13 14 15
         8  9  10 11
         4  5  6  7

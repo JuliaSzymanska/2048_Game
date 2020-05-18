@@ -31,6 +31,10 @@ public class Field {
                 .toString();
     }
 
+    public void setNextValue() {
+        this.value = this.value * 2;
+    }
+
     public int getValue() {
         return value;
     }

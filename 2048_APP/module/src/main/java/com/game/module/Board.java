@@ -5,7 +5,10 @@ import androidx.annotation.MainThread;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -46,6 +49,23 @@ public class Board {
 
     public int getScore() {
         return score;
+    }
+
+    private List<Field> getAllEmptyFields() {
+        List<Field> listOfEmptyFields = new ArrayList<>();
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            if(this.board.get(i).getValue() == 0) {
+                // przepisuje referencje specjalnie
+                listOfEmptyFields.add(this.board.get(i));
+            }
+        }
+        return listOfEmptyFields;
+    }
+
+    private void addNewNonEmptyFieldAfterMove() {
+        List<Field> allEmptyFields = getAllEmptyFields();
+        Collections.shuffle(allEmptyFields);
+        allEmptyFields.get(0).setValue(Math.random() >= .9 ? 4 : 2);
     }
 
     public Field getFieldByPos(int x, int y) {
@@ -99,7 +119,7 @@ public class Board {
             }
 
         }
-
+        addNewNonEmptyFieldAfterMove();
     }
 
     // TODO: 18.05.2020 myslalem że mogę potrzebować narazie do testów

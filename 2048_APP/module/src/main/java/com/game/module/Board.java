@@ -26,6 +26,7 @@ public class Board {
     }
 
     // FIXME: 18.05.2020 taa no to jest gowno ale testuje sobie ._.
+    //  poza testem nie ma powodu żeby to istniało
     Board(List<Integer> integerList) {
         this.board = newBoard();
         int counter = 0;
@@ -62,13 +63,20 @@ public class Board {
         return listOfEmptyFields;
     }
 
+    /**
+     * Fills a random empty field in board with either 2 or 4 (9:1 probablility ratio).
+     * Called after calling move methods.
+     */
     private void addNewNonEmptyFieldAfterMove() {
         List<Field> allEmptyFields = getAllEmptyFields();
         Collections.shuffle(allEmptyFields);
         allEmptyFields.get(0).setValue(Math.random() >= .9 ? 4 : 2);
     }
 
-    public Field getFieldByPos(int x, int y) {
+    // TODO: 18.05.2020 takie obejscie myslalem w sumie żeby zrobić
+    //  żeby brać sobie te fieldy tak jaby to był 2d list
+    //  a potem i tak z tego nie korzystam bo jestem gupi ehh
+    private Field getFieldByPos(int x, int y) {
         if ((x < 0 || x > 3) || (y < 0 || y > 3)) {
             throw new IndexOutOfBoundsException("FIX ME"); // TODO: 18.05.2020 komunikat
         }
@@ -123,6 +131,7 @@ public class Board {
     }
 
     // TODO: 18.05.2020 myslalem że mogę potrzebować narazie do testów
+    //  ale póki co nie używam
     public void setFieldValue(int x, int y, int value) {
         this.getFieldByPos(x, y).setValue(value);
     }

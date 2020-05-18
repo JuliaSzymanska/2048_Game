@@ -46,6 +46,11 @@ public class BoardTest {
         //  ten test jest beznadziejny.
         //  Sprawdza czy w miejscach w których po ruchu powinny sie pojawic wartosci to prawda
         //  ale jezeli pojawila by sie gdzies wartosc ktorej nie powinno byc to nie sprawdzi :(
+        //  pomysł na test jest taki: stworzyć sobie planszę o wcześniej założonych wartosciach, lista integers
+        //  rozrysować sobie jak po ruchu się powinna zmienić plansza
+        //  stworzyć taką listę wartości która ma tak wygladac jak plansza po ruchu
+        //  porównać planszę z oczekiwanym wynikiem.
+        //  sprawdzić czy w którymś polu które miało być puste pojawiła się albo 2 albo 4
         List<Integer> expectedValuesAfterMove = new ArrayList<Integer>() {
             {
                 add(0);
@@ -88,11 +93,6 @@ public class BoardTest {
             }
 
         }
-        System.out.println(board);
-        System.out.println(expectedValuesAfterMove);
         Assertions.assertTrue(hasNewValueAppeared);
-
-
-
     }
 }

@@ -104,7 +104,8 @@ public class Board {
         4  5  6  7
         0  1  2  3
      */
-    // TODO: 18.05.2020 NIE JESTEM DUMNY Z TEGO, prosze zrób ot jakoś ładnie  
+    // TODO: 18.05.2020 NIE JESTEM DUMNY Z TEGO, prosze zrób ot jakoś ładnie
+    //  jest źle, popraw
     void moveRight() {
         boolean[] prevMoved = new boolean[]{false, false, false, false};
         for (int i = 0; i < BOARD_DIMENSIONS - 1; i++) {
@@ -125,7 +126,6 @@ public class Board {
                 }
                 else prevMoved[j] = false;
             }
-
         }
         addNewNonEmptyFieldAfterMove();
     }

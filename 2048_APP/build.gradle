@@ -14,7 +14,10 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+
 }
+
+apply plugin: 'checkstyle'
 
 allprojects {
     repositories {
@@ -22,6 +25,16 @@ allprojects {
         jcenter()
         
     }
+}
+
+task checkstyle(type: Checkstyle) {
+    configFile = rootProject.file('config/checkstyle/checkstyle2019.xml')
+
+    source 'module/src/main/java'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    classpath = files()
 }
 
 task clean(type: Delete) {

@@ -19,7 +19,7 @@ public class Board {
         return Arrays.asList(new Field[BOARD_DIMENSIONS]);
     }
 
-    public void resetBoard(){
+    public void resetBoard() {
         this.board = newBoard();
     }
 
@@ -27,10 +27,17 @@ public class Board {
         return score;
     }
 
-    public List<Field> getBoard() {
+    public Field getFieldByPos(int x, int y) {
+        if ((x < 0 || x > 3) || (y < 0 || y > 3)) {
+            throw new IndexOutOfBoundsException("FIX ME"); // TODO: 18.05.2020 komunikat
+        }
+        return this.board.get(x + y * 4); // od lewej do prawej, od dołu do góry
+    }
+
+    public List<Field> getCopyBoard() {
         List<Field> cloneBoard = Arrays.asList(new Field[BOARD_DIMENSIONS]);
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
-                cloneBoard.set(i, this.board.get(i));
+            cloneBoard.set(i, this.board.get(i));
         }
         return cloneBoard;
     }

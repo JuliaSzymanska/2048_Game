@@ -119,7 +119,7 @@ public class Board {
                     }
                     if (col1.get(j).getValue() == col2.get(j).getValue()) {
                         col1.get(j).setValue(0);
-                        col2.get(j).setValue(col2.get(j).setNextValue();
+                        col2.get(j).setNextValue();
                         prevMoved[j] = true;
                     }
                 }

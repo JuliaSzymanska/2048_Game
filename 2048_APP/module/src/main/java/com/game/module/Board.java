@@ -114,7 +114,7 @@ public class Board {
                 Arrays.asList(new Field[BOARD_DIMENSIONS]));
         List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS - 1; i++) {
-            row = getRow(i);
+            row = getColumn(i);
             System.out.println(row);
             rows.set(i, checkAvailableMoves(row));
             System.out.println(rows.get(i));
@@ -126,40 +126,47 @@ public class Board {
     }
 
     private List<Field> checkAvailableMoves(List<Field> list) {
-        boolean[] moved = new boolean[BOARD_DIMENSIONS];
-        Arrays.fill(moved, Boolean.FALSE);
+//        boolean[] moved = new boolean[BOARD_DIMENSIONS];
+//        Arrays.fill(moved, Boolean.FALSE);
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
             boolean found = false;
             int index = i - 1;
             while (!found && index >= 0) {
-                if (i != 0 && list.get(i).getValue() == list.get(index).getValue() && !moved[i] && !moved[i - 1] && list.get(i).getValue() != 0) {
+                boolean iIterator = (i != 0);
+                boolean equals = (list.get(i).getValue() == list.get(index).getValue());
+                boolean zero = (list.get(i).getValue() != 0);
+//                if (i != 0 && list.get(i).getValue() == list.get(index).getValue() && list.get(i).getValue() != 0) {
+                if (iIterator && equals && zero) {
                     list.get(i).setNextValue();
                     found = true;
-                    moved[i] = true;
-                    for (int j = i - 1; j >= 0; j--) {
+//                    moved[i] = true;
+                    for (int j = index; j >= 0; j--) {
                         if (j > 0) {
                             list.set(j, list.get(j - 1));
                         } else {
-                            list.set(j, list.set(j, new Field()));
+                            list.set(j, new Field());
                         }
                     }
-                } else if (list.get(i).getValue() == 0) {
-                    if (i > 0) {
-                        for (int j = i - 1; j >= 0; j--) {
-                            if (j > 0) {
-                                list.set(j, list.get(j - 1));
-                            } else {
-                                list.set(j, list.set(j, new Field()));
-                            }
-                        }
-                    }
+//                } else if (list.get(i).getValue() == 0) {
+//                    found = true;
+//                    if (i > 0) {
+//                        for (int j = i - 1; j >= 0; j--) {
+//                            if (j > 0) {
+//                                list.set(j, list.get(j - 1));
+//                            } else {
+//                                list.set(j, list.set(j, new Field()));
+//                            }
+//                        }
+//                    }
+                } else if (list.get(index).getValue() != 0) {
+                    found = true;
                 }
                 index--;
             }
         }
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
             if (list.get(i).getValue() == 0) {
-                for (int j = i - 1; j >= 0; j--) {
+                for (int j = i; j >= 0; j--) {
                     if (j > 0) {
                         list.set(j, list.get(j - 1));
                     } else {

@@ -113,7 +113,7 @@ public class Board {
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
                 Arrays.asList(new Field[BOARD_DIMENSIONS]));
         List<Field> row;
-        for (int i = 0; i < BOARD_DIMENSIONS - 1; i++) {
+        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             row = getColumn(i);
             System.out.println(row);
             rows.set(i, checkAvailableMoves(row));
@@ -126,8 +126,6 @@ public class Board {
     }
 
     private List<Field> checkAvailableMoves(List<Field> list) {
-//        boolean[] moved = new boolean[BOARD_DIMENSIONS];
-//        Arrays.fill(moved, Boolean.FALSE);
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
             boolean found = false;
             int index = i - 1;
@@ -139,7 +137,6 @@ public class Board {
                 if (iIterator && equals && zero) {
                     list.get(i).setNextValue();
                     found = true;
-//                    moved[i] = true;
                     for (int j = index; j >= 0; j--) {
                         if (j > 0) {
                             list.set(j, list.get(j - 1));
@@ -147,17 +144,6 @@ public class Board {
                             list.set(j, new Field());
                         }
                     }
-//                } else if (list.get(i).getValue() == 0) {
-//                    found = true;
-//                    if (i > 0) {
-//                        for (int j = i - 1; j >= 0; j--) {
-//                            if (j > 0) {
-//                                list.set(j, list.get(j - 1));
-//                            } else {
-//                                list.set(j, list.set(j, new Field()));
-//                            }
-//                        }
-//                    }
                 } else if (list.get(index).getValue() != 0) {
                     found = true;
                 }

@@ -83,7 +83,7 @@ public class Board {
         return this.board.get(x + y * 4); // od lewej do prawej, od dołu do góry
     }
 
-    private List<Field> getColumn(int col) {
+    private List<Field> getRow(int col) {
         return Arrays.asList(
                 this.getFieldByPos(0, col),
                 this.getFieldByPos(1, col),
@@ -91,7 +91,7 @@ public class Board {
                 this.getFieldByPos(3, col));
     }
 
-    private List<Field> getRow(int row) {
+    private List<Field> getColumn(int row) {
         return Arrays.asList(
                 this.getFieldByPos(row, 0),
                 this.getFieldByPos(row, 1),
@@ -114,12 +114,32 @@ public class Board {
                 Arrays.asList(new Field[BOARD_DIMENSIONS]));
         List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
-            row = getColumn(i);
+            row = getRow(i);
             System.out.println(row);
             rows.set(i, checkAvailableMoves(row));
             System.out.println(rows.get(i));
         }
-        int counter = 0;
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            board.set(i, rows.get(i / BOARD_DIMENSIONS).get(i % BOARD_DIMENSIONS));
+        }
+    }
+
+    void moveLeft() {
+        List<List<Field>> rows = Arrays.asList(
+                Arrays.asList(new Field[BOARD_DIMENSIONS]),
+                Arrays.asList(new Field[BOARD_DIMENSIONS]),
+                Arrays.asList(new Field[BOARD_DIMENSIONS]),
+                Arrays.asList(new Field[BOARD_DIMENSIONS]));
+        List<Field> row;
+        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
+            row = getRow(i);
+            System.out.println(row);
+            Collections.reverse(row);
+            row = checkAvailableMoves(row);
+            Collections.reverse(row);
+            System.out.println(row);
+            rows.set(i, row);
+        }
         for (int i = 0; i < BOARD_SIZE; i++) {
             board.set(i, rows.get(i / BOARD_DIMENSIONS).get(i % BOARD_DIMENSIONS));
         }
@@ -146,18 +166,18 @@ public class Board {
                     }
                 } else if (list.get(index).getValue() != 0) {
                     found = true;
+                } else if (list.get(i).getValue() == 0) {
+                    found = true;
                 }
                 index--;
             }
         }
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
-            if (list.get(i).getValue() == 0) {
-                for (int j = i; j >= 0; j--) {
-                    if (j > 0) {
-                        list.set(j, list.get(j - 1));
-                    } else {
-                        list.set(j, list.set(j, new Field()));
-                    }
+            for (int j = i; j >= 0; j--) {
+                if (j > 0) {
+                    list.set(j, list.get(j - 1));
+                } else {
+                    list.set(j, list.set(j, new Field()));
                 }
             }
         }

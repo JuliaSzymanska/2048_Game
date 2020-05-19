@@ -1,6 +1,11 @@
 apply plugin: 'com.android.library'
 
 
+// TODO: poszukiwania xd
+//  https://stackoverflow.com/questions/46161608/intellij-junit-5-jupiter/46161799#46161799
+//  https://junit.org/junit5/docs/current/user-guide/#running-tests-ide-intellij-idea
+// to chyba nie ale moze https://stackoverflow.com/questions/31975388/gradle-test-command-not-running-any-tests/31975806
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -50,7 +55,9 @@ dependencies {
 // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
 
 
-
+// todo:
+//  https://junit.org/junit5/docs/current/user-guide/#running-tests-ide-intellij-idea
+//  W tym linku tak jest napisane >.>
 //
 //test {
 //    useJUnitPlatform()

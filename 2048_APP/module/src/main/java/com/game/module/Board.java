@@ -82,6 +82,7 @@ public class Board {
         }
         return this.board.get(x + y * 4); // od lewej do prawej, od dołu do góry
     }
+
     // TODO: 19.05.2020 rzad to bedzie tak jak wdlg komentarza nizej: rzad pierwszy(zerowy) 12, 13, 14, 15
     private List<Field> getRow(int col) {
         return Arrays.asList(
@@ -190,6 +191,7 @@ public class Board {
             boolean found = false;
             int index = i - 1;
             while (!found && index >= 0) {
+                // TODO: 19.05.2020 dalam tutaj te boole to w debuggerze bylo widac co jest false a co true
                 boolean iIterator = (i != 0);
                 boolean equals = (list.get(i).getValue() == list.get(index).getValue());
                 boolean zero = (list.get(i).getValue() != 0);
@@ -212,19 +214,21 @@ public class Board {
                 index--;
             }
         }
+        // TODO: 19.05.2020 narazie nie mam pomyslu ale jesli jest np taki rzad : 0 8 0 0, to przesunie ostatnie zero
+        // TODO: i będzie 0 0 8 0 i to ostatnie zero tutaj zostanie i juz go nie usunie
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
             if (list.get(i).getValue() == 0) {
                 for (int j = i; j >= 0; j--) {
                     if (j > 0) {
                         list.set(j, list.get(j - 1));
-                } else{
-                    list.set(j, list.set(j, new Field()));
+                    } else {
+                        list.set(j, list.set(j, new Field()));
+                    }
                 }
             }
         }
-    }
         return list;
-}
+    }
 
     // TODO: 18.05.2020 myslalem że mogę potrzebować narazie do testów
     //  ale póki co nie używam

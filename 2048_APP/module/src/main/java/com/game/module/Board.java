@@ -82,7 +82,7 @@ public class Board {
         }
         return this.board.get(x + y * 4); // od lewej do prawej, od dołu do góry
     }
-
+    // TODO: 19.05.2020 rzad to bedzie tak jak wdlg komentarza nizej: rzad pierwszy(zerowy) 12, 13, 14, 15
     private List<Field> getRow(int col) {
         return Arrays.asList(
                 this.getFieldByPos(0, col),
@@ -91,6 +91,7 @@ public class Board {
                 this.getFieldByPos(3, col));
     }
 
+    // TODO: 19.05.2020 kolumna to bedzie tak jak wdlg komentarza nizej: kolumna pierwsza(zerowa) 12, 8, 4, 0
     private List<Field> getColumn(int row) {
         return Arrays.asList(
                 this.getFieldByPos(row, 0),
@@ -104,8 +105,7 @@ public class Board {
         4  5  6  7
         0  1  2  3
      */
-    // TODO: 18.05.2020 NIE JESTEM DUMNY Z TEGO, prosze zrób ot jakoś ładnie
-    //  jest źle, popraw
+
     void moveRight() {
         List<List<Field>> rows = Arrays.asList(
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
@@ -145,6 +145,46 @@ public class Board {
         }
     }
 
+    void moveDown() {
+        List<List<Field>> cols = Arrays.asList(
+                Arrays.asList(new Field[BOARD_DIMENSIONS]),
+                Arrays.asList(new Field[BOARD_DIMENSIONS]),
+                Arrays.asList(new Field[BOARD_DIMENSIONS]),
+                Arrays.asList(new Field[BOARD_DIMENSIONS]));
+        List<Field> col;
+        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
+            col = getColumn(i);
+            System.out.println(col);
+            col = checkAvailableMoves(col);
+            cols.set(i, col);
+            System.out.println(cols.get(i));
+        }
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            board.set(i, cols.get(i % BOARD_DIMENSIONS).get(i / BOARD_DIMENSIONS));
+        }
+    }
+
+    void moveUp() {
+        List<List<Field>> cols = Arrays.asList(
+                Arrays.asList(new Field[BOARD_DIMENSIONS]),
+                Arrays.asList(new Field[BOARD_DIMENSIONS]),
+                Arrays.asList(new Field[BOARD_DIMENSIONS]),
+                Arrays.asList(new Field[BOARD_DIMENSIONS]));
+        List<Field> col;
+        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
+            col = getColumn(i);
+            System.out.println(col);
+            Collections.reverse(col);
+            col = checkAvailableMoves(col);
+            Collections.reverse(col);
+            System.out.println(col);
+            cols.set(i, col);
+        }
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            board.set(i, cols.get(i / BOARD_DIMENSIONS).get(i % BOARD_DIMENSIONS));
+        }
+    }
+
     private List<Field> checkAvailableMoves(List<Field> list) {
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
             boolean found = false;
@@ -164,25 +204,27 @@ public class Board {
                             list.set(j, new Field());
                         }
                     }
-                } else if (list.get(index).getValue() != 0) {
-                    found = true;
                 } else if (list.get(i).getValue() == 0) {
+                    found = true;
+                } else if (list.get(index).getValue() != 0) {
                     found = true;
                 }
                 index--;
             }
         }
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
-            for (int j = i; j >= 0; j--) {
-                if (j > 0) {
-                    list.set(j, list.get(j - 1));
-                } else {
+            if (list.get(i).getValue() == 0) {
+                for (int j = i; j >= 0; j--) {
+                    if (j > 0) {
+                        list.set(j, list.get(j - 1));
+                } else{
                     list.set(j, list.set(j, new Field()));
                 }
             }
         }
-        return list;
     }
+        return list;
+}
 
     // TODO: 18.05.2020 myslalem że mogę potrzebować narazie do testów
     //  ale póki co nie używam

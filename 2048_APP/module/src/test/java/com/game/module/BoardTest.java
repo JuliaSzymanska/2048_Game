@@ -76,7 +76,7 @@ public class BoardTest {
 //        };
         Board board = new Board(integers);
         System.out.println(board.toString());
-        board.moveLeft();
+        board.moveDown();
         System.out.println(board.toString());
 //
 //        Iterator<Field> it1 = board.getCopyBoard().iterator();

@@ -25,12 +25,12 @@ public class Board {
         this.board = newBoard();
     }
 
-    // FIXME: 18.05.2020 taa no to jest gowno ale testuje sobie ._.
+    // FIXME: 18.05.2020 taa no to jest srednie ale testuje sobie ._.
     //  poza testem nie ma powodu żeby to istniało
     Board(List<Integer> integerList) {
         this.board = newBoard();
         int counter = 0;
-        for(int i : integerList) {
+        for (int i : integerList) {
             board.get(counter).setValue(i);
             counter++;
         }
@@ -55,7 +55,7 @@ public class Board {
     private List<Field> getAllEmptyFields() {
         List<Field> listOfEmptyFields = new ArrayList<>();
         for (int i = 0; i < BOARD_SIZE; i++) {
-            if(this.board.get(i).getValue() == 0) {
+            if (this.board.get(i).getValue() == 0) {
                 // przepisuje referencje specjalnie
                 listOfEmptyFields.add(this.board.get(i));
             }
@@ -75,7 +75,7 @@ public class Board {
 
     // TODO: 18.05.2020 takie obejscie myslalem w sumie żeby zrobić
     //  żeby brać sobie te fieldy tak jaby to był 2d list
-    //  a potem i tak z tego nie korzystam bo jestem gupi ehh
+    //  a potem i tak z tego nie korzystam
     private Field getFieldByPos(int x, int y) {
         if ((x < 0 || x > 3) || (y < 0 || y > 3)) {
             throw new IndexOutOfBoundsException("FIX ME"); // TODO: 18.05.2020 komunikat
@@ -107,27 +107,68 @@ public class Board {
     // TODO: 18.05.2020 NIE JESTEM DUMNY Z TEGO, prosze zrób ot jakoś ładnie
     //  jest źle, popraw
     void moveRight() {
-        boolean[] prevMoved = new boolean[]{false, false, false, false};
+        List<List<Field>> rows = Arrays.asList(
+                Arrays.asList(new Field[BOARD_DIMENSIONS]),
+                Arrays.asList(new Field[BOARD_DIMENSIONS]),
+                Arrays.asList(new Field[BOARD_DIMENSIONS]),
+                Arrays.asList(new Field[BOARD_DIMENSIONS]));
+        List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS - 1; i++) {
-            List<Field> col1 = getColumn(i);
-            List<Field> col2 = getColumn(i + 1);
-            for (int j = 0; j < BOARD_DIMENSIONS; j++) {
-                if (!prevMoved[j]) {
-                    if (col2.get(j).getValue() == 0) {
-                        col2.get(j).setValue(col1.get(j).getValue());
-                        col1.get(j).setValue(0);
-                        prevMoved[j] = true;
+            row = getRow(i);
+            System.out.println(row);
+            rows.set(i, checkAvailableMoves(row));
+            System.out.println(rows.get(i));
+        }
+        int counter = 0;
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            board.set(i, rows.get(i / BOARD_DIMENSIONS).get(i % BOARD_DIMENSIONS));
+        }
+    }
+
+    private List<Field> checkAvailableMoves(List<Field> list) {
+        boolean[] moved = new boolean[BOARD_DIMENSIONS];
+        Arrays.fill(moved, Boolean.FALSE);
+        for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
+            boolean found = false;
+            int index = i - 1;
+            while (!found && index >= 0) {
+                if (i != 0 && list.get(i).getValue() == list.get(index).getValue() && !moved[i] && !moved[i - 1] && list.get(i).getValue() != 0) {
+                    list.get(i).setNextValue();
+                    found = true;
+                    moved[i] = true;
+                    for (int j = i - 1; j >= 0; j--) {
+                        if (j > 0) {
+                            list.set(j, list.get(j - 1));
+                        } else {
+                            list.set(j, list.set(j, new Field()));
+                        }
                     }
-                    if (col1.get(j).getValue() == col2.get(j).getValue()) {
-                        col1.get(j).setValue(0);
-                        col2.get(j).setNextValue();
-                        prevMoved[j] = true;
+                } else if (list.get(i).getValue() == 0) {
+                    if (i > 0) {
+                        for (int j = i - 1; j >= 0; j--) {
+                            if (j > 0) {
+                                list.set(j, list.get(j - 1));
+                            } else {
+                                list.set(j, list.set(j, new Field()));
+                            }
+                        }
                     }
                 }
-                else prevMoved[j] = false;
+                index--;
             }
         }
-        addNewNonEmptyFieldAfterMove();
+        for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
+            if (list.get(i).getValue() == 0) {
+                for (int j = i - 1; j >= 0; j--) {
+                    if (j > 0) {
+                        list.set(j, list.get(j - 1));
+                    } else {
+                        list.set(j, list.set(j, new Field()));
+                    }
+                }
+            }
+        }
+        return list;
     }
 
     // TODO: 18.05.2020 myslalem że mogę potrzebować narazie do testów

@@ -25,7 +25,7 @@ public class Board {
         this.board = newBoard();
     }
 
-    // FIXME: 18.05.2020 taa no to jest gowno ale testuje sobie ._.
+    // FIXME: 18.05.2020 taa no to jest nie najlepsze ale testuje sobie ._.
     //  poza testem nie ma powodu żeby to istniało
     Board(List<Integer> integerList) {
         this.board = newBoard();

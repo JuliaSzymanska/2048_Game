@@ -216,13 +216,33 @@ public class Board {
         }
         // TODO: 19.05.2020 narazie nie mam pomyslu ale jesli jest np taki rzad : 0 8 0 0, to przesunie ostatnie zero
         // TODO: i będzie 0 0 8 0 i to ostatnie zero tutaj zostanie i juz go nie usunie
-        for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
-            if (list.get(i).getValue() == 0) {
-                for (int j = i; j >= 0; j--) {
-                    if (j > 0) {
-                        list.set(j, list.get(j - 1));
-                    } else {
-                        list.set(j, list.set(j, new Field()));
+
+        int index = 0;
+        int zero_count = 0;
+        for (Field f : list) {
+            if (f.getValue() != 0) {
+                break;
+            }
+            index++;
+        }
+        for (Field f : list) {
+            if (f.getValue() == 0) {
+                zero_count++;
+            }
+        }
+
+        int move_right_count = zero_count - index;
+
+        for (int i = 0; i < move_right_count; i++) {
+            for (int j = BOARD_DIMENSIONS - 1; j >= 0; j--) {
+
+                if (list.get(j).getValue() == 0) {
+                    for (int k = j; k >= 0; k--) {
+                        if (k > 0) {
+                            list.set(k, list.get(k - 1));
+                        } else {
+                            list.set(k, list.set(k, new Field()));
+                        }
                     }
                 }
             }

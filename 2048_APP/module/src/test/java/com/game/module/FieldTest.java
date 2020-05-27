@@ -46,10 +46,16 @@ public class FieldTest {
     @Test
     public void fieldSetValueTest() {
         Field field = new Field(4);
-        Assertions.assertEquals(field.getValue(), 4);
+        Assertions.assertEquals(4, field.getValue());
         field.setValue(3);
-        Assertions.assertNotEquals(field, 3);
-        Assertions.assertEquals(field.getValue(), 4);
+        // TODO: 27.05.2020 jakos nie podoba mi sie to ze jak oczekujesz ze test sie nie wykona to podajesz
+        //  field a jak ma sie wykonac to field.getValue()
+        // TODO: 27.05.2020 testy sie nie zgadzaja, dziwne bo liczba 3 przechodzi a nie powinn
+        Assertions.assertNotEquals(3, field);
+        Assertions.assertEquals(4, field.getValue());
+        field.setValue(12);
+        Assertions.assertNotEquals(12, field);
+        Assertions.assertEquals(4, field.getValue());
     }
 
 }

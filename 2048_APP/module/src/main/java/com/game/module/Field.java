@@ -1,5 +1,7 @@
 package com.game.module;
 
+import androidx.annotation.Nullable;
+
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class Field {
@@ -8,8 +10,10 @@ public class Field {
 
     public Field(int value) {
 
-        if (value >= 0 && value % 2 == 0) {
+        if (isPowerOfTwo()) {
             this.value = value;
+        } else{
+            throw new IllegalArgumentException("Value has to be a power of 2");
         }
     }
 
@@ -18,10 +22,28 @@ public class Field {
     }
 
     public void setValue(int value) {
-        // TODO: 17.05.2020 value moze byc tylko potega dwojki
-        if (value >= 0 && value % 2 == 0) {
+        if (isPowerOfTwo()) {
             this.value = value;
+        } else{
+            throw new IllegalArgumentException("Value has to be a power of 2");
         }
+    }
+
+    public boolean isPowerOfTwo()
+    {
+        if (this.value == 0)
+            return true;
+
+        while (this.value != 1) {
+            if (this.value % 2 != 0)
+                return false;
+            this.value = this.value / 2;
+        }
+        return true;
+//        System.out.println((int)(Math.ceil((Math.log(this.value) / Math.log(2)))));
+//        System.out.println((int)(Math.floor(((Math.log(this.value) / Math.log(2))))));
+//        return (int)(Math.ceil((Math.log(this.value) / Math.log(2))))
+//                == (int)(Math.floor(((Math.log(this.value) / Math.log(2)))));
     }
 
     @Override
@@ -37,6 +59,20 @@ public class Field {
 
     public int getValue() {
         return value;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if (!(obj instanceof Field)) {
+            return false;
+        }
+
+        Field c = (Field) obj;
+        return this.value == c.value;
     }
 
 }

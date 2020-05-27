@@ -1,15 +1,13 @@
 package com.game.module;
 
-import androidx.annotation.MainThread;
+import androidx.annotation.Nullable;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 // TODO: 17.05.2020 https://rosettacode.org/wiki/2048#Java kod gry w javie
@@ -22,13 +20,11 @@ public class Board {
     private int score = 0;
 
     public Board() {
-        this.board = newBoard();
+        this.board = newFieldsList();
     }
 
-    // FIXME: 18.05.2020 taa no to jest srednie ale testuje sobie ._.
-    //  poza testem nie ma powodu żeby to istniało
     Board(List<Integer> integerList) {
-        this.board = newBoard();
+        this.board = newFieldsList();
         int counter = 0;
         for (int i : integerList) {
             board.get(counter).setValue(i);
@@ -36,7 +32,12 @@ public class Board {
         }
     }
 
-    private List<Field> newBoard() {
+    /**
+     * Creates new fields list and set their values to 0.
+     *
+     * @return List of fields.
+     */
+    private List<Field> newFieldsList() {
         List<Field> fieldList = Arrays.asList(new Field[BOARD_SIZE]);
         for (int i = 0; i < BOARD_SIZE; i++) {
             fieldList.set(i, new Field(0));
@@ -44,8 +45,11 @@ public class Board {
         return fieldList;
     }
 
+    /**
+     * Reset board variable by creating new fields list.
+     */
     public void resetBoard() {
-        this.board = newBoard();
+        this.board = newFieldsList();
     }
 
     public int getScore() {
@@ -56,7 +60,6 @@ public class Board {
         List<Field> listOfEmptyFields = new ArrayList<>();
         for (int i = 0; i < BOARD_SIZE; i++) {
             if (this.board.get(i).getValue() == 0) {
-                // przepisuje referencje specjalnie
                 listOfEmptyFields.add(this.board.get(i));
             }
         }
@@ -73,17 +76,13 @@ public class Board {
         allEmptyFields.get(0).setValue(Math.random() >= .9 ? 4 : 2);
     }
 
-    // TODO: 18.05.2020 takie obejscie myslalem w sumie żeby zrobić
-    //  żeby brać sobie te fieldy tak jaby to był 2d list
-    //  a potem i tak z tego nie korzystam
     private Field getFieldByPos(int x, int y) {
         if ((x < 0 || x > 3) || (y < 0 || y > 3)) {
-            throw new IndexOutOfBoundsException("FIX ME"); // TODO: 18.05.2020 komunikat
+            throw new IndexOutOfBoundsException("Values have to be in range 0 - 3");
         }
         return this.board.get(x + y * 4); // od lewej do prawej, od dołu do góry
     }
 
-    // TODO: 19.05.2020 rzad to bedzie tak jak wdlg komentarza nizej: rzad pierwszy(zerowy) 12, 13, 14, 15
     private List<Field> getRow(int col) {
         return Arrays.asList(
                 this.getFieldByPos(0, col),
@@ -92,7 +91,6 @@ public class Board {
                 this.getFieldByPos(3, col));
     }
 
-    // TODO: 19.05.2020 kolumna to bedzie tak jak wdlg komentarza nizej: kolumna pierwsza(zerowa) 12, 8, 4, 0
     private List<Field> getColumn(int row) {
         return Arrays.asList(
                 this.getFieldByPos(row, 0),
@@ -116,9 +114,7 @@ public class Board {
         List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             row = getRow(i);
-            System.out.println(row);
             rows.set(i, checkAvailableMoves(row));
-            System.out.println(rows.get(i));
         }
         for (int i = 0; i < BOARD_SIZE; i++) {
             board.set(i, rows.get(i / BOARD_DIMENSIONS).get(i % BOARD_DIMENSIONS));
@@ -134,11 +130,9 @@ public class Board {
         List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             row = getRow(i);
-            System.out.println(row);
             Collections.reverse(row);
             row = checkAvailableMoves(row);
             Collections.reverse(row);
-            System.out.println(row);
             rows.set(i, row);
         }
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -155,10 +149,8 @@ public class Board {
         List<Field> col;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             col = getColumn(i);
-            System.out.println(col);
             col = checkAvailableMoves(col);
             cols.set(i, col);
-            System.out.println(cols.get(i));
         }
         for (int i = 0; i < BOARD_SIZE; i++) {
             board.set(i, cols.get(i % BOARD_DIMENSIONS).get(i / BOARD_DIMENSIONS));
@@ -174,11 +166,9 @@ public class Board {
         List<Field> col;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             col = getColumn(i);
-            System.out.println(col);
             Collections.reverse(col);
             col = checkAvailableMoves(col);
             Collections.reverse(col);
-            System.out.println(col);
             cols.set(i, col);
         }
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -191,12 +181,11 @@ public class Board {
             boolean found = false;
             int index = i - 1;
             while (!found && index >= 0) {
-                // TODO: 19.05.2020 dalam tutaj te boole to w debuggerze bylo widac co jest false a co true
-                boolean iIterator = (i != 0);
-                boolean equals = (list.get(i).getValue() == list.get(index).getValue());
-                boolean zero = (list.get(i).getValue() != 0);
-//                if (i != 0 && list.get(i).getValue() == list.get(index).getValue() && list.get(i).getValue() != 0) {
-                if (iIterator && equals && zero) {
+//                boolean iIterator = (i != 0);
+//                boolean equals = (list.get(i).getValue() == list.get(index).getValue());
+//                boolean zero = (list.get(i).getValue() != 0);
+                if (i != 0 && list.get(i).getValue() == list.get(index).getValue() && list.get(i).getValue() != 0) {
+//                if (iIterator && equals && zero) {
                     list.get(i).setNextValue();
                     found = true;
                     for (int j = index; j >= 0; j--) {
@@ -214,8 +203,6 @@ public class Board {
                 index--;
             }
         }
-        // TODO: 19.05.2020 narazie nie mam pomyslu ale jesli jest np taki rzad : 0 8 0 0, to przesunie ostatnie zero
-        // TODO: i będzie 0 0 8 0 i to ostatnie zero tutaj zostanie i juz go nie usunie
 
         int index = 0;
         int zero_count = 0;
@@ -266,8 +253,22 @@ public class Board {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+        return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE)
                 .append("board", board)
                 .toString();
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if (!(obj instanceof Board)) {
+            return false;
+        }
+
+        Board c = (Board) obj;
+        return this.board == c.board;
     }
 }

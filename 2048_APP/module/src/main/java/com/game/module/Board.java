@@ -113,20 +113,20 @@ public class Board implements Serializable {
         return this.board.get(x + y * 4); // od lewej do prawej, od dołu do góry
     }
 
-    private List<Field> getRow(int col) {
+    private List<Field> getRow(int row) {
         return Arrays.asList(
-                this.getFieldByPos(0, col),
-                this.getFieldByPos(1, col),
-                this.getFieldByPos(2, col),
-                this.getFieldByPos(3, col));
+                this.getFieldByPos(0, row),
+                this.getFieldByPos(1, row),
+                this.getFieldByPos(2, row),
+                this.getFieldByPos(3, row));
     }
 
-    private List<Field> getColumn(int row) {
+    private List<Field> getColumn(int col) {
         return Arrays.asList(
-                this.getFieldByPos(row, 0),
-                this.getFieldByPos(row, 1),
-                this.getFieldByPos(row, 2),
-                this.getFieldByPos(row, 3));
+                this.getFieldByPos(col, 0),
+                this.getFieldByPos(col, 1),
+                this.getFieldByPos(col, 2),
+                this.getFieldByPos(col, 3));
     }
 
 

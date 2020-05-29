@@ -130,7 +130,9 @@ public class Board implements Serializable {
     }
 
 
-    // TODO: 29.05.2020 zrobic z tego enum moze?, moze przeniesc do innej klasy
+    // TODO: 29.05.2020 zrobic z tego enum moze?,
+    //  a moze nie? te inty są descriptive enough
+    //  moze przeniesc do innej klasy
     void move(int direction) {
         switch (direction) {
             case MOVE_UP:

@@ -16,7 +16,10 @@ import java.util.List;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class BoardTest {
-
+    // TODO: 29.05.2020 ZOSTAW SYSTEM.OUT W TESTACH
+    //  one nie wyswietlaja sie na konsoli uruchamiajac przez graddle,
+    //  ale pojawia sie w pliku index.html przy odpowiednich testach
+    //  podoba mi sie :p
     private static <A, B> List<Pair<A, B>> zip(List<A> listA, List<B> listB) {
         if (listA.size() != listB.size()) {
             throw new IllegalArgumentException("Lists must have same size");
@@ -80,6 +83,8 @@ public class BoardTest {
             }
         };
         Board board = new Board(this.integers);
+        System.out.println("MOVE RIGHT");
+        System.out.println("BEFORE");
         System.out.println(board);
         board.move(Board.MOVE_RIGHT);
         for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
@@ -87,6 +92,7 @@ public class BoardTest {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
             }
         }
+        System.out.println("AFTER");
         System.out.println(board);
     }
 
@@ -116,6 +122,8 @@ public class BoardTest {
             }
         };
         Board board = new Board(this.integers);
+        System.out.println("MOVE LEFT");
+        System.out.println("BEFORE");
         System.out.println(board);
         board.move(Board.MOVE_LEFT);
         for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
@@ -123,8 +131,13 @@ public class BoardTest {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
             }
         }
+        System.out.println("AFTER");
         System.out.println(board);
     }
+
+    // TODO: 29.05.2020 to nie dzialalo
+    //  a test był tak napisany że przyjmowało zły wynik jako dobry i się NIE WYWALAL
+    //  proszę nie rób tak więcej >.>
 
     @Test
     public void boardMoveUpTest() {
@@ -152,6 +165,8 @@ public class BoardTest {
             }
         };
         Board board = new Board(this.integers);
+        System.out.println("MOVE UP");
+        System.out.println("BEFORE");
         System.out.println(board);
         board.move(Board.MOVE_UP);
         for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
@@ -159,6 +174,7 @@ public class BoardTest {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
             }
         }
+        System.out.println("AFTER");
         System.out.println(board);
     }
 
@@ -188,6 +204,8 @@ public class BoardTest {
             }
         };
         Board board = new Board(this.integers);
+        System.out.println("MOVE DOWN");
+        System.out.println("BEFORE");
         System.out.println(board);
         board.move(Board.MOVE_DOWN);
         for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
@@ -195,6 +213,7 @@ public class BoardTest {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
             }
         }
+        System.out.println("AFTER");
         System.out.println(board);
     }
 
@@ -226,8 +245,6 @@ public class BoardTest {
                 Assert.assertEquals(item.getLeft(), item.getRight());
         }
         copyBoard.get(7).setValue(16);
-        System.out.println(copyBoard.get(7));
-        System.out.println(board.getCopyBoard().get(7));
         Assert.assertNotEquals(copyBoard.get(7), board.getCopyBoard().get(7));
     }
 

@@ -1,5 +1,6 @@
 package com.game.module;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -66,6 +67,16 @@ public class FieldTest {
     @Test
     public void toStringTest() {
         assertEquals(new Field(4).toString(), "4");
+    }
+
+    @Test
+    public void FieldDefaultConstructorTest() {
+        Assert.assertEquals(new Field().getValue(), 0);
+    }
+
+    @Test
+    public void FieldCopyConstructorTest() {
+        Assert.assertEquals(new Field(new Field(2048)).getValue(), 2048);
     }
 
 }

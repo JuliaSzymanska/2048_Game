@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +18,7 @@ import java.util.Objects;
 
 // TODO: 17.05.2020 https://rosettacode.org/wiki/2048#Java kod gry w javie
 
-public class Board {
+public class Board implements Serializable {
 
     private List<Field> board;
     private final int BOARD_DIMENSIONS = 4;
@@ -25,11 +26,11 @@ public class Board {
     private int score = 0;
 
     public Board() {
-        this.board = newFieldsList();
+        this.resetBoard();
     }
 
     Board(List<Integer> integerList) {
-        this.board = newFieldsList();
+        this.resetBoard();
         int counter = 0;
         for (int i : integerList) {
             board.get(counter).setValue(i);
@@ -59,6 +60,10 @@ public class Board {
 
     public int getScore() {
         return score;
+    }
+
+    public void updateScore(int scoreDelta) {
+        this.score += scoreDelta;
     }
 
     private List<Field> getAllEmptyFields() {
@@ -186,18 +191,14 @@ public class Board {
             boolean found = false;
             int index = i - 1;
             while (!found && index >= 0) {
-//                boolean iIterator = (i != 0);
-//                boolean equals = (list.get(i).getValue() == list.get(index).getValue());
-//                boolean zero = (list.get(i).getValue() != 0);
                 if (i != 0 && list.get(i).getValue() == list.get(index).getValue() && list.get(i).getValue() != 0) {
-//                if (iIterator && equals && zero) {
                     list.get(i).setNextValue();
                     found = true;
                     for (int j = index; j >= 0; j--) {
                         if (j > 0) {
-                            list.set(j, list.get(j - 1));
+                            list.get(j).setValue(list.get(j - 1).getValue());
                         } else {
-                            list.set(j, new Field());
+                            list.get(j).setValue(0);
                         }
                     }
                 } else if (list.get(i).getValue() == 0) {
@@ -231,9 +232,9 @@ public class Board {
                 if (list.get(j).getValue() == 0) {
                     for (int k = j; k >= 0; k--) {
                         if (k > 0) {
-                            list.set(k, list.get(k - 1));
+                            list.get(k).setValue(list.get(k - 1).getValue());
                         } else {
-                            list.set(k, list.set(k, new Field()));
+                            list.get(k).setValue(0);
                         }
                     }
                 }
@@ -258,9 +259,13 @@ public class Board {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE)
-                .append("board", board)
-                .toString();
+        ToStringBuilder toStringBuilder = new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE);
+        toStringBuilder.append("");
+        for(int i = 0; i < BOARD_DIMENSIONS; i++) {
+            toStringBuilder.append(this.getRow(i));
+            toStringBuilder.append("\n");
+        }
+        return toStringBuilder.toString();
     }
 
     @Override

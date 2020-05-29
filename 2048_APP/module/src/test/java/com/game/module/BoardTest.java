@@ -1,7 +1,7 @@
 package com.game.module;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class BoardTest {
     };
 
     @Test
-    void boardMoveRightTest() {
+    public void boardMoveRightTest() {
         List<Integer> expectedValuesAfterMove = new ArrayList<Integer>() {
             {
                 add(0);

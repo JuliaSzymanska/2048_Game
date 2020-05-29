@@ -1,17 +1,11 @@
 apply plugin: 'com.android.library'
 
-
-// TODO: poszukiwania xd
-//  https://stackoverflow.com/questions/46161608/intellij-junit-5-jupiter/46161799#46161799
-//  https://junit.org/junit5/docs/current/user-guide/#running-tests-ide-intellij-idea
-// to chyba nie ale moze https://stackoverflow.com/questions/31975388/gradle-test-command-not-running-any-tests/31975806
-
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        minSdkVersion 23
+        minSdkVersion 22
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -25,13 +19,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug {
-            testCoverageEnabled true
-        }
-    }
-
-    testOptions {
-        unitTests.includeAndroidResources = true
     }
 
 }
@@ -39,26 +26,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-
-//    testImplementation 'junit:junit:4.12'
-
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'org.apache.commons:commons-lang3:3.6'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'org.apache.commons:commons-lang3:3.9'
 }
-// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-
-
-// todo:
-//  https://junit.org/junit5/docs/current/user-guide/#running-tests-ide-intellij-idea
-//  W tym linku tak jest napisane >.>
-//
-//test {
-//    useJUnitPlatform()
-//}

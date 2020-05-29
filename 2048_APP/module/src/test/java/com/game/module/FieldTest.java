@@ -1,12 +1,12 @@
 package com.game.module;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -35,30 +35,30 @@ public class FieldTest {
     // TODO: 18.05.2020 CHCE ODPALAC TESTY W GRADLU
     //  ale nie umiem ._.
     //  umiem za to przez android studio odpalic wszystkie na raz, ale chce w gradlu!
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void fieldCreationTest() {
         for (int i : this.listOfPossibleFieldValues) {
-            Assertions.assertEquals(new Field(i).getValue(), i);
+            assertEquals(new Field(i).getValue(), i);
         }
-        Assertions.assertNotEquals(new Field(-1), -1);
+        assertNotEquals(new Field(-1), -1);
     }
 
     @Test
     public void fieldSetValueTest() {
         Field field = new Field(4);
-        Assertions.assertEquals(4, field.getValue());
+        assertEquals(4, field.getValue());
         try {
             field.setValue(3);
         } catch (IllegalArgumentException ignore) {
         }
-        Assertions.assertNotEquals(3, field.getValue());
-        Assertions.assertEquals(4, field.getValue());
+        assertNotEquals(3, field.getValue());
+        assertEquals(4, field.getValue());
         try {
             field.setValue(12);
         } catch (IllegalArgumentException ignore) {
         }
-        Assertions.assertNotEquals(12, field.getValue());
-        Assertions.assertEquals(4, field.getValue());
+        assertNotEquals(12, field.getValue());
+        assertEquals(4, field.getValue());
     }
 
 }

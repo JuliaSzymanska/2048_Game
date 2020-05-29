@@ -1,10 +1,9 @@
 package com.game.a2048_app;
 
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

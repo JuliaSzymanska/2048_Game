@@ -226,4 +226,17 @@ public class BoardTest {
         }
         Assert.assertEquals(newFieldsCounter, 1);
     }
+
+    @Test
+    public void copyBoardTest() {
+        Board board = new Board(this.integers);
+        List<Field> copyBoard = board.getCopyBoard();
+        for (Pair<Field, Field> item: zip(copyBoard, board.getCopyBoard())) {
+                Assert.assertEquals(item.getLeft(), item.getRight());
+        }
+        copyBoard.get(7).setValue(16);
+        System.out.println(copyBoard.get(7));
+        System.out.println(board.getCopyBoard().get(7));
+        Assert.assertNotEquals(copyBoard.get(7), board.getCopyBoard().get(7));
+    }
 }

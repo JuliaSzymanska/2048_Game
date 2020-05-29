@@ -21,6 +21,10 @@ public class Field implements Serializable, Comparable<Field> {
         }
     }
 
+    Field (Field field) {
+        this.value = field.getValue();
+    }
+
     Field() {
         value = 0;
     }

@@ -5,10 +5,15 @@ import androidx.annotation.Nullable;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 // TODO: 17.05.2020 https://rosettacode.org/wiki/2048#Java kod gry w javie
 
@@ -259,16 +264,24 @@ public class Board {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
-        if (obj == this) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-
-        if (!(obj instanceof Board)) {
+        if (o == null) {
             return false;
         }
-
-        Board c = (Board) obj;
-        return this.board == c.board;
+        if (!(o instanceof Board)) {
+            return false;
+        }
+        Board board = (Board) o;
+        return new EqualsBuilder().append(board.board, this.board).isEquals();
     }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this.board).toHashCode();
+    }
+
+
 }

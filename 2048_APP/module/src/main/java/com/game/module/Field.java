@@ -2,6 +2,8 @@ package com.game.module;
 
 import androidx.annotation.Nullable;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class Field {
@@ -50,17 +52,23 @@ public class Field {
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
-        if (obj == this) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-
-        if (!(obj instanceof Field)) {
+        if (o == null) {
             return false;
         }
+        if (!(o instanceof Field)) {
+            return false;
+        }
+        Field field = (Field) o;
+        return new EqualsBuilder().append(field.value, this.value).isEquals();
+    }
 
-        Field c = (Field) obj;
-        return this.value == c.value;
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this.value).toHashCode();
     }
 
 }

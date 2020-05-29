@@ -8,6 +8,10 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: 29.05.2020  JACOCO nie działa :(
+//  https://android.jlelse.eu/get-beautiful-coverage-reports-in-your-android-projects-ce9ba281507f
+//  spróbuj może to w wolnej chwili
+
 
 /**
  * Example local unit test, which will execute on the development machine (host).

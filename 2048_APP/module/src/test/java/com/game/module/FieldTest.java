@@ -47,14 +47,17 @@ public class FieldTest {
     public void fieldSetValueTest() {
         Field field = new Field(4);
         Assertions.assertEquals(4, field.getValue());
-        field.setValue(3);
-        // TODO: 27.05.2020 jakos nie podoba mi sie to ze jak oczekujesz ze test sie nie wykona to podajesz
-        //  field a jak ma sie wykonac to field.getValue()
-        // TODO: 27.05.2020 testy sie nie zgadzaja, dziwne bo liczba 3 przechodzi a nie powinn
-        Assertions.assertNotEquals(3, field);
+        try {
+            field.setValue(3);
+        } catch (IllegalArgumentException ignore) {
+        }
+        Assertions.assertNotEquals(3, field.getValue());
         Assertions.assertEquals(4, field.getValue());
-        field.setValue(12);
-        Assertions.assertNotEquals(12, field);
+        try {
+            field.setValue(12);
+        } catch (IllegalArgumentException ignore) {
+        }
+        Assertions.assertNotEquals(12, field.getValue());
         Assertions.assertEquals(4, field.getValue());
     }
 

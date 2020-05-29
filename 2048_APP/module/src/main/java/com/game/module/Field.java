@@ -6,7 +6,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class Field {
+import java.io.Serializable;
+
+public class Field implements Serializable, Comparable<Field> {
 
     private int value;
 
@@ -14,7 +16,7 @@ public class Field {
 
         if (isPowerOfTwo(value)) {
             this.value = value;
-        } else{
+        } else {
             throw new IllegalArgumentException("Value has to be a power of 2");
         }
     }
@@ -26,13 +28,12 @@ public class Field {
     public void setValue(int value) {
         if (isPowerOfTwo(value)) {
             this.value = value;
-        } else{
+        } else {
             throw new IllegalArgumentException("Value has to be a power of 2");
         }
     }
 
-    public boolean isPowerOfTwo(int x)
-    {
+    public boolean isPowerOfTwo(int x) {
         return (x & (x - 1)) == 0;
     }
 
@@ -71,4 +72,18 @@ public class Field {
         return new HashCodeBuilder().append(this.value).toHashCode();
     }
 
+    @Override
+    public int compareTo(Field o) {
+        if (o == null) {
+            throw new NullPointerException("comparing to null");
+        }
+        if (this.equals(o)) {
+            return 0;
+        } else if (this.value < o.value) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
 }
+

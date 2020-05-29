@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class FieldTest {
 
-    List<Integer> listOfPossibleFieldValues = new ArrayList<Integer>() {
+    private List<Integer> listOfPossibleFieldValues = new ArrayList<Integer>() {
         {
             add(0);
             add(2);
@@ -47,18 +47,25 @@ public class FieldTest {
     public void fieldSetValueTest() {
         Field field = new Field(4);
         assertEquals(4, field.getValue());
+
         try {
             field.setValue(3);
-        } catch (IllegalArgumentException ignore) {
-        }
+        } catch (IllegalArgumentException ignore){}
+
         assertNotEquals(3, field.getValue());
         assertEquals(4, field.getValue());
+
         try {
             field.setValue(12);
-        } catch (IllegalArgumentException ignore) {
-        }
+        } catch (IllegalArgumentException ignore) {}
+
         assertNotEquals(12, field.getValue());
         assertEquals(4, field.getValue());
+    }
+
+    @Test
+    public void toStringTest() {
+        assertEquals(new Field(4).toString(), "4");
     }
 
 }

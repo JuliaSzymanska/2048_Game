@@ -12,7 +12,7 @@ public class Field implements Serializable, Comparable<Field> {
 
     private int value;
 
-    public Field(int value) {
+    Field(int value) {
 
         if (isPowerOfTwo(value)) {
             this.value = value;
@@ -21,11 +21,11 @@ public class Field implements Serializable, Comparable<Field> {
         }
     }
 
-    public Field() {
+    Field() {
         value = 0;
     }
 
-    public void setValue(int value) {
+    void setValue(int value) {
         if (isPowerOfTwo(value)) {
             this.value = value;
         } else {
@@ -33,7 +33,7 @@ public class Field implements Serializable, Comparable<Field> {
         }
     }
 
-    public boolean isPowerOfTwo(int x) {
+    private boolean isPowerOfTwo(int x) {
         return (x & (x - 1)) == 0;
     }
 
@@ -44,11 +44,11 @@ public class Field implements Serializable, Comparable<Field> {
                 .toString();
     }
 
-    public void setNextValue() {
+    void setNextValue() {
         this.value = this.value * 2;
     }
 
-    public int getValue() {
+    int getValue() {
         return value;
     }
 

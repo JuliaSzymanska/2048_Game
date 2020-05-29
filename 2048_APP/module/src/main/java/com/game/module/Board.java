@@ -187,6 +187,9 @@ public class Board implements Serializable {
         }
     }
 
+    // TODO: 29.05.2020 To trzeba rozbić i okomentować ładnie i najlepiej uprościć
+    //  nie jestem w stanie zdebugować dlaczego ruch do góry nie działa bo nie wiadomo co tutaj się dzieje
+    //  je wiem że mi opowiadałaś co tam na klikałaś, ale no jakby dzien pozniej juz nie wiadomo o co cho
     private List<Field> checkAvailableMoves(List<Field> list) {
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
             boolean found = false;

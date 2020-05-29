@@ -162,6 +162,7 @@ public class Board implements Serializable {
             col = checkAvailableMoves(col);
             cols.set(i, col);
         }
+        // TODO: 29.05.2020 W każdym z nich - nie można podmieniać referencji do fieldów
         for (int i = 0; i < BOARD_SIZE; i++) {
             board.set(i, cols.get(i % BOARD_DIMENSIONS).get(i / BOARD_DIMENSIONS));
         }

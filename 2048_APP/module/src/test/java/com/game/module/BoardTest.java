@@ -160,7 +160,7 @@ public class BoardTest {
         for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
             System.out.println("LEFT " + item.getLeft() + " RIGHT " + item.getRight());
             if (!item.getLeft().equals(0)) {
-                // TODO: 29.05.2020 zakomentowalem
+                // TODO: 29.05.2020 zakomentowalem bo nie dziala :v
 //                Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
             }
         }
@@ -212,19 +212,15 @@ public class BoardTest {
     }
 
     @Test
-    public void createNewFieldTest() {
+    public void createNewBoardFieldAmountTest() {
         Board board = new Board();
-        for (Field f : board.getCopyBoard()) {
-            Assert.assertEquals(f.getValue(), 0);
-        }
-        board.move(Board.MOVE_RIGHT);
         int newFieldsCounter = 0;
         for (Field f : board.getCopyBoard()) {
             if (f.getValue() != 0) {
                 newFieldsCounter++;
             }
         }
-        Assert.assertEquals(newFieldsCounter, 1);
+        Assert.assertEquals(newFieldsCounter, 2);
     }
 
     @Test
@@ -238,5 +234,18 @@ public class BoardTest {
         System.out.println(copyBoard.get(7));
         System.out.println(board.getCopyBoard().get(7));
         Assert.assertNotEquals(copyBoard.get(7), board.getCopyBoard().get(7));
+    }
+
+    @Test
+    public void restartGameTest() {
+        Board board = new Board(this.integers);
+        Assert.assertEquals(board.getScore(), 0);
+        board.move(Board.MOVE_RIGHT);
+        Assert.assertEquals(board.getScore(), 12);
+        board.restartGame();
+        for (Field i : board.getCopyBoard()) {
+            Assert.assertEquals(i.getValue(), 0);
+        }
+        Assert.assertEquals(board.getScore(), 0);
     }
 }

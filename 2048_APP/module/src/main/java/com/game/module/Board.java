@@ -21,17 +21,20 @@ import java.util.Objects;
 public class Board implements Serializable {
 
     private List<Field> board;
-    private final int BOARD_DIMENSIONS = 4;
-    private final int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
     private int score = 0;
 
     final static int MOVE_UP = 0;
     final static int MOVE_RIGHT = 1;
     final static int MOVE_DOWN = 2;
     final static int MOVE_LEFT = 3;
+    private final int BOARD_DIMENSIONS = 4;
+    private final int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
 
     public Board() {
         this.resetBoard();
+        // 2 pola na poczatku gry
+        this.addNewNonEmptyFieldAfterMove();
+        this.addNewNonEmptyFieldAfterMove();
     }
 
     Board(List<Integer> integerList) {
@@ -41,6 +44,11 @@ public class Board implements Serializable {
             board.get(counter).setValue(i);
             counter++;
         }
+    }
+
+    void restartGame() {
+        this.resetBoard();
+        this.score = 0;
     }
 
     /**
@@ -59,11 +67,11 @@ public class Board implements Serializable {
     /**
      * Reset board variable by creating new fields list.
      */
-    public void resetBoard() {
+    void resetBoard() {
         this.board = newFieldsList();
     }
 
-    public int getScore() {
+    int getScore() {
         return score;
     }
 
@@ -86,6 +94,13 @@ public class Board implements Serializable {
      * Called after calling move methods.
      */
     private void addNewNonEmptyFieldAfterMove() {
+        try {
+            this.isGameOver();
+        } catch (Exception e) {
+            // TODO: 29.05.2020 Aktualnie tylko łapię i nic nei robię.
+            //  Zamiar jest taki żeby rzucać ten wyjątek gdzies w klasie Game żeby stwierdzic czy gra sie skonczyla.
+            e.printStackTrace();
+        }
         List<Field> allEmptyFields = getAllEmptyFields();
         Collections.shuffle(allEmptyFields);
         allEmptyFields.get(0).setValue(Math.random() >= .9 ? 4 : 2);
@@ -318,5 +333,20 @@ public class Board implements Serializable {
         return new HashCodeBuilder().append(this.board).toHashCode();
     }
 
+    // TODO: 29.05.2020 Add GameOverException
+    /**
+     * Checks if game is over.
+     * CALL ONLY BEFORE TRYING TO ADD A NEW FIELD AFTER MOVE
+     * @throws Exception when there are no empty fields on the board
+     */
+    private void isGameOver() throws Exception {
+        for (Field i : this.board) {
+            if(i.getValue() == 0) {
+                return;
+            }
+        }
+        // TODO: 29.05.2020 add own exception and catch to detect game over
+        throw new Exception("GAME OVER");
+    }
 
 }

@@ -126,9 +126,6 @@ public class BoardTest {
         System.out.println(board);
     }
 
-    // TODO: 29.05.2020 Nie dziala, i wgl czemu tutaj byly expected values after move które nie powinny wyjsc?
-    //  trochę mnie to zmyliło że to przechodzi a nie powinno >.>
-
     @Test
     public void boardMoveUpTest() {
         List<Integer> expectedValuesAfterMove = new ArrayList<Integer>() {
@@ -158,10 +155,8 @@ public class BoardTest {
         System.out.println(board);
         board.move(Board.MOVE_UP);
         for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
-            System.out.println("LEFT " + item.getLeft() + " RIGHT " + item.getRight());
             if (!item.getLeft().equals(0)) {
-                // TODO: 29.05.2020 zakomentowalem bo nie dziala :v
-//                Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
+                Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
             }
         }
         System.out.println(board);

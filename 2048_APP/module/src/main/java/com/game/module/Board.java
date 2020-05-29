@@ -1,20 +1,16 @@
 package com.game.module;
 
-import androidx.annotation.Nullable;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 // TODO: 17.05.2020 https://rosettacode.org/wiki/2048#Java kod gry w javie
 
@@ -162,7 +158,7 @@ public class Board implements Serializable {
         List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             row = getRow(i);
-            rows.set(i, checkAvailableMoves(row));
+            rows.set(i, moveFieldsInRowOrColumn(row));
         }
         for (int i = 0; i < BOARD_SIZE; i++) {
             board.set(i, rows.get(i / BOARD_DIMENSIONS).get(i % BOARD_DIMENSIONS));
@@ -180,7 +176,7 @@ public class Board implements Serializable {
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             row = getRow(i);
             Collections.reverse(row);
-            row = checkAvailableMoves(row);
+            row = moveFieldsInRowOrColumn(row);
             Collections.reverse(row);
             rows.set(i, row);
         }
@@ -198,7 +194,7 @@ public class Board implements Serializable {
         List<Field> col;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             col = getColumn(i);
-            col = checkAvailableMoves(col);
+            col = moveFieldsInRowOrColumn(col);
             cols.set(i, col);
         }
         // TODO: 29.05.2020 W każdym z nich - nie można podmieniać referencji do fieldów
@@ -208,6 +204,7 @@ public class Board implements Serializable {
     }
 
     private void moveUp() {
+        // TODO: 29.05.2020 to do osobnej funkcji w kazdym ruchu
         List<List<Field>> cols = Arrays.asList(
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
@@ -217,40 +214,41 @@ public class Board implements Serializable {
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             col = getColumn(i);
             Collections.reverse(col);
-            col = checkAvailableMoves(col);
+            col = moveFieldsInRowOrColumn(col);
             Collections.reverse(col);
             cols.set(i, col);
         }
+        // TODO: 29.05.2020 to do osobnej funkcji w kazdym ruchu
         for (int i = 0; i < BOARD_SIZE; i++) {
-            board.set(i, cols.get(i / BOARD_DIMENSIONS).get(i % BOARD_DIMENSIONS));
+            board.set(i, cols.get(i % BOARD_DIMENSIONS).get(i / BOARD_DIMENSIONS));
         }
     }
 
     // TODO: 29.05.2020 To trzeba rozbić i okomentować ładnie i najlepiej uprościć
     //  nie jestem w stanie zdebugować dlaczego ruch do góry nie działa bo nie wiadomo co tutaj się dzieje
     //  je wiem że mi opowiadałaś co tam na klikałaś, ale no jakby dzien pozniej juz nie wiadomo o co cho
-    private List<Field> checkAvailableMoves(List<Field> list) {
+    private List<Field> moveFieldsInRowOrColumn(List<Field> fieldsList) {
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
             boolean found = false;
             int index = i - 1;
             while (!found && index >= 0) {
-                if (i != 0 && list.get(i).getValue() == list.get(index).getValue() && list.get(i).getValue() != 0) {
-                    list.get(i).setNextValue();
+                if (i != 0 && fieldsList.get(i).getValue() == fieldsList.get(index).getValue() && fieldsList.get(i).getValue() != 0) {
+                    fieldsList.get(i).setNextValue();
 
                     // TODO: 29.05.2020 chyba ok
-                    this.updateScore(list.get(i).getValue());
+                    this.updateScore(fieldsList.get(i).getValue());
 
                     found = true;
                     for (int j = index; j >= 0; j--) {
                         if (j > 0) {
-                            list.get(j).setValue(list.get(j - 1).getValue());
+                            fieldsList.get(j).setValue(fieldsList.get(j - 1).getValue());
                         } else {
-                            list.get(j).setValue(0);
+                            fieldsList.get(j).setValue(0);
                         }
                     }
-                } else if (list.get(i).getValue() == 0) {
+                } else if (fieldsList.get(i).getValue() == 0) {
                     found = true;
-                } else if (list.get(index).getValue() != 0) {
+                } else if (fieldsList.get(index).getValue() != 0) {
                     found = true;
                 }
                 index--;
@@ -259,13 +257,13 @@ public class Board implements Serializable {
 
         int index = 0;
         int zero_count = 0;
-        for (Field f : list) {
+        for (Field f : fieldsList) {
             if (f.getValue() != 0) {
                 break;
             }
             index++;
         }
-        for (Field f : list) {
+        for (Field f : fieldsList) {
             if (f.getValue() == 0) {
                 zero_count++;
             }
@@ -276,18 +274,18 @@ public class Board implements Serializable {
         for (int i = 0; i < move_right_count; i++) {
             for (int j = BOARD_DIMENSIONS - 1; j >= 0; j--) {
 
-                if (list.get(j).getValue() == 0) {
+                if (fieldsList.get(j).getValue() == 0) {
                     for (int k = j; k >= 0; k--) {
                         if (k > 0) {
-                            list.get(k).setValue(list.get(k - 1).getValue());
+                            fieldsList.get(k).setValue(fieldsList.get(k - 1).getValue());
                         } else {
-                            list.get(k).setValue(0);
+                            fieldsList.get(k).setValue(0);
                         }
                     }
                 }
             }
         }
-        return list;
+        return fieldsList;
     }
 
     // TODO: 18.05.2020 myslalem że mogę potrzebować narazie do testów

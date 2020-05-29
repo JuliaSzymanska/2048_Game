@@ -1,5 +1,9 @@
 package com.game.module;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.time.StopWatch;
 
 // TODO: 29.05.2020 DAO
@@ -7,7 +11,10 @@ import org.apache.commons.lang3.time.StopWatch;
 //  ^ wygląda legitnie
 
 public class Game {
-    private Board gameBoard;
+    // TODO: 29.05.2020 Myslę że gra powina być singletonem
+    private static final Game INSTANCE = new Game();
+
+    private Board gameBoard = new Board();
     private StopWatch watch = new StopWatch();
     private int highScore;
 
@@ -17,10 +24,14 @@ public class Game {
     final static int MOVE_DOWN = Board.MOVE_DOWN;
     final static int MOVE_LEFT = Board.MOVE_LEFT;
 
-    public Game() {
+    private Game() {
         // TODO: 29.05.2020 Condition jak dodamy DAO, czy istnieje zapisana gra
         //  jezeli istnieje - przypisujemy ja do planszy, jesli nie - tworzymy nową.
         startNewGame();
+    }
+
+    public static Game getInstance() {
+        return INSTANCE;
     }
 
     public void move(int direction) {
@@ -39,13 +50,14 @@ public class Game {
         this.gameBoard.restartGame();
         this.watch.reset();
         this.watch.start();
+        this.highScore = 0;
     }
 
     public void pauseTimer() {
         watch.suspend();
     }
 
-    public void unpauseTime() {
+    public void unpauseTimer() {
         watch.resume();
     }
 
@@ -57,4 +69,40 @@ public class Game {
         return this.gameBoard.getScore();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Game game = (Game) o;
+
+        return new EqualsBuilder()
+                .append(highScore, game.highScore)
+                .append(gameBoard, game.gameBoard)
+                .append(watch, game.watch)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(gameBoard)
+                .append(watch)
+                .append(highScore)
+                .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("gameBoard", gameBoard)
+                .append("watch", watch)
+                .append("highScore", highScore)
+                .toString();
+    }
+
+    public int getHighScore() {
+        return highScore;
+    }
 }

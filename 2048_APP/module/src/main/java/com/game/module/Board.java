@@ -315,22 +315,21 @@ public class Board implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null) {
-            return false;
-        }
-        if (!(o instanceof Board)) {
-            return false;
-        }
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
         Board board = (Board) o;
-        return new EqualsBuilder().append(board.board, this.board).isEquals();
+        return new EqualsBuilder()
+                .append(board.board, this.board)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.board).toHashCode();
+        return new HashCodeBuilder(17, 37)
+                .append(this.board)
+                .toHashCode();
     }
 
     // TODO: 29.05.2020 Add GameOverException

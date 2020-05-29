@@ -58,22 +58,21 @@ public class Field implements Serializable, Comparable<Field> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null) {
-            return false;
-        }
-        if (!(o instanceof Field)) {
-            return false;
-        }
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
         Field field = (Field) o;
-        return new EqualsBuilder().append(field.value, this.value).isEquals();
+        return new EqualsBuilder()
+                .append(field.value, this.value)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.value).toHashCode();
+        return new HashCodeBuilder(17,  37)
+                .append(this.value)
+                .toHashCode();
     }
 
     @Override

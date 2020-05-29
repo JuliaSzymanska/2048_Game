@@ -81,7 +81,7 @@ public class BoardTest {
         };
         Board board = new Board(this.integers);
         System.out.println(board);
-        board.moveRight();
+        board.move(Board.MOVE_RIGHT);
         for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
             if (!item.getLeft().equals(0)) {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
@@ -117,7 +117,7 @@ public class BoardTest {
         };
         Board board = new Board(this.integers);
         System.out.println(board);
-        board.moveLeft();
+        board.move(Board.MOVE_LEFT);
         for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
             if (!item.getLeft().equals(0)) {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
@@ -156,7 +156,7 @@ public class BoardTest {
         };
         Board board = new Board(this.integers);
         System.out.println(board);
-        board.moveUp();
+        board.move(Board.MOVE_UP);
         for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
             System.out.println("LEFT " + item.getLeft() + " RIGHT " + item.getRight());
             if (!item.getLeft().equals(0)) {
@@ -194,12 +194,36 @@ public class BoardTest {
         };
         Board board = new Board(this.integers);
         System.out.println(board);
-        board.moveDown();
+        board.move(Board.MOVE_DOWN);
         for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
             if (!item.getLeft().equals(0)) {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
             }
         }
         System.out.println(board);
+    }
+
+    @Test
+    public void updateScoreTest() {
+        Board board = new Board(this.integers);
+        Assert.assertEquals(board.getScore(), 0);
+        board.move(Board.MOVE_RIGHT);
+        Assert.assertEquals(board.getScore(), 12);
+    }
+
+    @Test
+    public void createNewFieldTest() {
+        Board board = new Board();
+        for (Field f : board.getCopyBoard()) {
+            Assert.assertEquals(f.getValue(), 0);
+        }
+        board.move(Board.MOVE_RIGHT);
+        int newFieldsCounter = 0;
+        for (Field f : board.getCopyBoard()) {
+            if (f.getValue() != 0) {
+                newFieldsCounter++;
+            }
+        }
+        Assert.assertEquals(newFieldsCounter, 1);
     }
 }

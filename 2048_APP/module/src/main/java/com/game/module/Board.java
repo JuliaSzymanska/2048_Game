@@ -25,6 +25,11 @@ public class Board implements Serializable {
     private final int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
     private int score = 0;
 
+    final static int MOVE_UP = 0;
+    final static int MOVE_RIGHT = 1;
+    final static int MOVE_DOWN = 2;
+    final static int MOVE_LEFT = 3;
+
     public Board() {
         this.resetBoard();
     }
@@ -62,7 +67,7 @@ public class Board implements Serializable {
         return score;
     }
 
-    public void updateScore(int scoreDelta) {
+    private void updateScore(int scoreDelta) {
         this.score += scoreDelta;
     }
 
@@ -109,13 +114,29 @@ public class Board implements Serializable {
                 this.getFieldByPos(row, 3));
     }
 
-    /*  12 13 14 15
-        8  9  10 11
-        4  5  6  7
-        0  1  2  3
-     */
 
-    void moveRight() {
+    // TODO: 29.05.2020 zrobic z tego enum moze?, moze przeniesc do innej klasy
+    void move(int direction) {
+        switch (direction) {
+            case MOVE_UP:
+                moveUp();
+                break;
+            case MOVE_RIGHT:
+                moveRight();
+                break;
+            case MOVE_DOWN:
+                moveDown();
+                break;
+            case MOVE_LEFT:
+                moveLeft();
+                break;
+            default:
+                throw new IllegalArgumentException("value can only be equal to 0, 1, 2 or 3");
+        }
+        this.addNewNonEmptyFieldAfterMove();
+    }
+    
+    private void moveRight() {
         List<List<Field>> rows = Arrays.asList(
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
@@ -130,8 +151,9 @@ public class Board implements Serializable {
             board.set(i, rows.get(i / BOARD_DIMENSIONS).get(i % BOARD_DIMENSIONS));
         }
     }
+    
 
-    void moveLeft() {
+    private void moveLeft() {
         List<List<Field>> rows = Arrays.asList(
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
@@ -150,7 +172,7 @@ public class Board implements Serializable {
         }
     }
 
-    void moveDown() {
+    private void moveDown() {
         List<List<Field>> cols = Arrays.asList(
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
@@ -168,7 +190,7 @@ public class Board implements Serializable {
         }
     }
 
-    void moveUp() {
+    private void moveUp() {
         List<List<Field>> cols = Arrays.asList(
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
@@ -197,6 +219,10 @@ public class Board implements Serializable {
             while (!found && index >= 0) {
                 if (i != 0 && list.get(i).getValue() == list.get(index).getValue() && list.get(i).getValue() != 0) {
                     list.get(i).setNextValue();
+
+                    // TODO: 29.05.2020 chyba ok
+                    this.updateScore(list.get(i).getValue());
+
                     found = true;
                     for (int j = index; j >= 0; j--) {
                         if (j > 0) {

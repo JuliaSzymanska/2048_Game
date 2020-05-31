@@ -12,8 +12,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-// TODO: 17.05.2020 https://rosettacode.org/wiki/2048#Java kod gry w javie
-
 public class Board implements Serializable {
 
     private List<Field> board;
@@ -27,14 +25,14 @@ public class Board implements Serializable {
     private final int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
 
     public Board() {
-        this.resetBoard();
+        this.board = newFieldsList();
         // 2 pola na poczatku gry
         this.addNewNonEmptyFieldAfterMove();
         this.addNewNonEmptyFieldAfterMove();
     }
 
     Board(List<Integer> integerList) {
-        this.resetBoard();
+        this.board = newFieldsList();
         int counter = 0;
         for (int i : integerList) {
             board.get(counter).setValue(i);
@@ -64,7 +62,9 @@ public class Board implements Serializable {
      * Reset board variable by creating new fields list.
      */
     void resetBoard() {
-        this.board = newFieldsList();
+        for(int i = 0; i < BOARD_SIZE; i++){
+            board.get(i).setValue(0);
+        }
     }
 
     int getScore() {
@@ -235,7 +235,7 @@ public class Board implements Serializable {
                 if (i != 0 && fieldsList.get(i).getValue() == fieldsList.get(index).getValue() && fieldsList.get(i).getValue() != 0) {
                     fieldsList.get(i).setNextValue();
 
-                    // TODO: 29.05.2020 chyba ok
+                    // TODO: 29.05.2020 sprawdzic cyz dobrze dziala
                     this.updateScore(fieldsList.get(i).getValue());
 
                     found = true;
@@ -347,5 +347,4 @@ public class Board implements Serializable {
         // TODO: 29.05.2020 add own exception and catch to detect game over
         throw new Exception("GAME OVER");
     }
-
 }

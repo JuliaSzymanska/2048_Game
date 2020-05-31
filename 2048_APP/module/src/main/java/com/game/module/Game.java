@@ -50,7 +50,6 @@ public class Game {
         this.gameBoard.restartGame();
         this.watch.reset();
         this.watch.start();
-        this.highScore = 0;
     }
 
     public void pauseTimer() {
@@ -61,6 +60,7 @@ public class Game {
         watch.resume();
     }
 
+    // TODO: 30.05.2020 przekonwertowac to na jakies madre wartosci
     public long getElapsedTime() {
         return watch.getNanoTime();
     }

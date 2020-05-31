@@ -137,7 +137,7 @@ public class BoardTest {
 
     // TODO: 29.05.2020 to nie dzialalo
     //  a test był tak napisany że przyjmowało zły wynik jako dobry i się NIE WYWALAL
-    //  proszę nie rób tak więcej >.>
+    //  proszę nie rób tak więcej >.> :)
 
     @Test
     public void boardMoveUpTest() {
@@ -234,6 +234,7 @@ public class BoardTest {
                 newFieldsCounter++;
             }
         }
+        // TODO: 31.05.2020 zrobic drugi test ktory sprawdzi czy po ruchu tworzy sie nowe pole
         Assert.assertEquals(newFieldsCounter, 2);
     }
 

@@ -102,6 +102,11 @@ public class Board implements Serializable {
         allEmptyFields.get(0).setValue(Math.random() >= .9 ? 4 : 2);
     }
 
+    /**
+     * @param x
+     * @param y
+     * @return
+     */
     private Field getFieldByPos(int x, int y) {
         if ((x < 0 || x > 3) || (y < 0 || y > 3)) {
             throw new IndexOutOfBoundsException("Values have to be in range 0 - 3");
@@ -109,6 +114,10 @@ public class Board implements Serializable {
         return this.board.get(x + y * 4); // od lewej do prawej, od dołu do góry
     }
 
+    /**
+     * @param row
+     * @return
+     */
     private List<Field> getRow(int row) {
         return Arrays.asList(
                 this.getFieldByPos(0, row),
@@ -117,6 +126,10 @@ public class Board implements Serializable {
                 this.getFieldByPos(3, row));
     }
 
+    /**
+     * @param col
+     * @return
+     */
     private List<Field> getColumn(int col) {
         return Arrays.asList(
                 this.getFieldByPos(col, 0),
@@ -129,6 +142,8 @@ public class Board implements Serializable {
     // TODO: 29.05.2020 zrobic z tego enum moze?,
     //  a moze nie? te inty są descriptive enough
     //  moze przeniesc do innej klasy
+
+    // TODO: 31.05.2020 sprawdzic czy enum moze zwrocic funkcje po intcie
     void move(int direction) {
         switch (direction) {
             case MOVE_UP:
@@ -157,27 +172,15 @@ public class Board implements Serializable {
                 Arrays.asList(new Field[BOARD_DIMENSIONS]));
     }
 
-    private void setBoardsRowsFromList(List<List<Field>> list){
-        for (int i = 0; i < list.size(); i++) {
-            board.get(i).setValue(list.get(i / BOARD_DIMENSIONS).get(i % BOARD_DIMENSIONS).getValue());
-        }
-    }
-
-    private void setBoardsColsFromList(List<List<Field>> list){
-        System.out.println(list.size());
-        for (int i = 0; i < list.size(); i++) {
-            board.get(i).setValue(list.get(i % BOARD_DIMENSIONS).get(i / BOARD_DIMENSIONS).getValue());
-        }
-    }
-
+    // TODO: 31.05.2020 Przemek skroc to tak jak sb wymarzyles
     private void moveRight() {
         List<List<Field>> rows = get2dList();
         List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             row = getRow(i);
-            rows.set(i, moveFieldsInRowOrColumn(row));
+            moveFieldsInRowOrColumn(row);
+            rows.set(i, row);
         }
-        setBoardsRowsFromList(rows);
     }
 
     private void moveLeft() {
@@ -186,11 +189,10 @@ public class Board implements Serializable {
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             row = getRow(i);
             Collections.reverse(row);
-            row = moveFieldsInRowOrColumn(row);
+            moveFieldsInRowOrColumn(row);
             Collections.reverse(row);
             rows.set(i, row);
         }
-        setBoardsRowsFromList(rows);
     }
 
     private void moveDown() {
@@ -198,10 +200,9 @@ public class Board implements Serializable {
         List<Field> col;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             col = getColumn(i);
-            col = moveFieldsInRowOrColumn(col);
+            moveFieldsInRowOrColumn(col);
             cols.set(i, col);
         }
-        setBoardsColsFromList(cols);
     }
 
     private void moveUp() {
@@ -210,14 +211,32 @@ public class Board implements Serializable {
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             col = getColumn(i);
             Collections.reverse(col);
-            col = moveFieldsInRowOrColumn(col);
+            moveFieldsInRowOrColumn(col);
             Collections.reverse(col);
             cols.set(i, col);
         }
-        setBoardsColsFromList(cols);
     }
 
-    private int countZerosToDelete(List<Field> fieldsList){
+    /**
+     * Moves fields to right side and set last fields value to 0.
+     *
+     * @param fieldsList 2d list of fields in board as rows or columns.
+     * @param index      index of the field to start with.
+     */
+    private void moveFiledsPositions(List<Field> fieldsList, int index) {
+        for (int i = index; i >= 0; i--) {
+            if (i > 0) {
+                //jesli nie jest to ostatni element to przesuwa go o jeden w prawo
+                fieldsList.get(i).setValue(fieldsList.get(i - 1).getValue());
+            } else {
+                //jesli to jest ostatni element to ustawiamy wartosc na 0
+                fieldsList.get(i).setValue(0);
+            }
+        }
+    }
+
+    // TODO: 31.05.2020 dodaj tu komentarze bo ty to pisales
+    private int countZerosToDelete(List<Field> fieldsList) {
         int index = 0;
         int zero_count = 0;
         for (Field f : fieldsList) {
@@ -231,53 +250,59 @@ public class Board implements Serializable {
                 zero_count++;
             }
         }
-
         return zero_count - index;
     }
 
-    private void removeZerosInMove(List<Field> fieldsList){
+    /**
+     * Removes zeros before others values.
+     *
+     * @param fieldsList 2d list of fields in board as rows or columns.
+     */
+    private void removeZerosInMove(List<Field> fieldsList) {
         int countMoves = countZerosToDelete(fieldsList);
         for (int i = 0; i < countMoves; i++) {
             for (int j = BOARD_DIMENSIONS - 1; j >= 0; j--) {
+                //jesli wartosc jest rowna 0 to przesun od tej pozycji w prawo o 1
                 if (fieldsList.get(j).getValue() == 0) {
-                    for (int k = j; k >= 0; k--) {
-                        if (k > 0) {
-                            fieldsList.get(k).setValue(fieldsList.get(k - 1).getValue());
-                        } else {
-                            fieldsList.get(k).setValue(0);
-                        }
-                    }
+                    moveFiledsPositions(fieldsList, j);
                 }
             }
         }
     }
 
-    private List<Field> moveFieldsInRowOrColumn(List<Field> fieldsList) {
+    private void moveFieldsInRowOrColumn(List<Field> fieldsList) {
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
+            //bool, ktorego wartosc oznacza czy zostala znaleziony inny field z ktorym field moze sie polaczyc
             boolean found = false;
+            // index na ktorym mamy szukac fielda do polaczenia
             int index = i - 1;
+            //dopoki nie znalezlizmy(badz na pewno nie da sie znalezc) oraz index znajduje sie w rozmiarze liscie
             while (!found && index >= 0) {
+                //jesli nie jest to ostatni element oraz to pole i pole na indexie sa rowne i pole ma wartosc rozna od 0 to
                 if (i != 0 && fieldsList.get(i).getValue() == fieldsList.get(index).getValue() && fieldsList.get(i).getValue() != 0) {
+                    //podnies do kwadratu wartosc pola
                     fieldsList.get(i).setNextValue();
+                    //zwieksz liczbe pkt
                     this.updateScore(fieldsList.get(i).getValue());
-                    for (int j = index; j >= 0; j--) {
-                        if (j > 0) {
-                            fieldsList.get(j).setValue(fieldsList.get(j - 1).getValue());
-                        } else {
-                            fieldsList.get(j).setValue(0);
-                        }
-                    }
+                    //przesun pola o jeden w prawo
+                    moveFiledsPositions(fieldsList, index);
+                    //ustaw wartosc boola na true czyli znalezlismy
                     found = true;
+                    //jesli pole jest rowne zero
                 } else if (fieldsList.get(i).getValue() == 0) {
+                    //ustaw bool na znalezione - czyli nie musimy szukac liczby do poalczenia bo to jest zero
                     found = true;
+                    // jesli wartosc pola na indeksie jest rozna od zera
                 } else if (fieldsList.get(index).getValue() != 0) {
+                    //ustaw bool na znaleziony bo dla tego pola nie znajdziemy pola do polaczneia
                     found = true;
                 }
+                //zmniejsz indeks o 1, czyi szukamy na nastepnym polu do polaczenia, jesli found == true to nie ma znaczenia
                 index--;
             }
         }
+        //wywolaj metode usuwajaca zera z planszy pomiedzy liczbami
         removeZerosInMove(fieldsList);
-        return fieldsList;
     }
 
     // TODO: 18.05.2020 myslalem że mogę potrzebować narazie do testów

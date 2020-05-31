@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Board implements Serializable {
 
@@ -166,6 +164,7 @@ public class Board implements Serializable {
     }
 
     private void setBoardsColsFromList(List<List<Field>> list){
+        System.out.println(list.size());
         for (int i = 0; i < list.size(); i++) {
             board.get(i).setValue(list.get(i % BOARD_DIMENSIONS).get(i / BOARD_DIMENSIONS).getValue());
         }
@@ -179,9 +178,6 @@ public class Board implements Serializable {
             rows.set(i, moveFieldsInRowOrColumn(row));
         }
         setBoardsRowsFromList(rows);
-//        for (int i = 0; i < BOARD_SIZE; i++) {
-//            board.set(i, rows.get(i / BOARD_DIMENSIONS).get(i % BOARD_DIMENSIONS));
-//        }
     }
 
     private void moveLeft() {
@@ -221,37 +217,7 @@ public class Board implements Serializable {
         setBoardsColsFromList(cols);
     }
 
-    // TODO: 29.05.2020 To trzeba rozbić i okomentować ładnie i najlepiej uprościć
-    //  nie jestem w stanie zdebugować dlaczego ruch do góry nie działa bo nie wiadomo co tutaj się dzieje
-    //  je wiem że mi opowiadałaś co tam na klikałaś, ale no jakby dzien pozniej juz nie wiadomo o co cho
-    private List<Field> moveFieldsInRowOrColumn(List<Field> fieldsList) {
-        for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
-            boolean found = false;
-            int index = i - 1;
-            while (!found && index >= 0) {
-                if (i != 0 && fieldsList.get(i).getValue() == fieldsList.get(index).getValue() && fieldsList.get(i).getValue() != 0) {
-                    fieldsList.get(i).setNextValue();
-
-                    // TODO: 29.05.2020 sprawdzic cyz dobrze dziala
-                    this.updateScore(fieldsList.get(i).getValue());
-
-                    found = true;
-                    for (int j = index; j >= 0; j--) {
-                        if (j > 0) {
-                            fieldsList.get(j).setValue(fieldsList.get(j - 1).getValue());
-                        } else {
-                            fieldsList.get(j).setValue(0);
-                        }
-                    }
-                } else if (fieldsList.get(i).getValue() == 0) {
-                    found = true;
-                } else if (fieldsList.get(index).getValue() != 0) {
-                    found = true;
-                }
-                index--;
-            }
-        }
-
+    private int countZerosToDelete(List<Field> fieldsList){
         int index = 0;
         int zero_count = 0;
         for (Field f : fieldsList) {
@@ -266,11 +232,13 @@ public class Board implements Serializable {
             }
         }
 
-        int move_right_count = zero_count - index;
+        return zero_count - index;
+    }
 
-        for (int i = 0; i < move_right_count; i++) {
+    private void removeZerosInMove(List<Field> fieldsList){
+        int countMoves = countZerosToDelete(fieldsList);
+        for (int i = 0; i < countMoves; i++) {
             for (int j = BOARD_DIMENSIONS - 1; j >= 0; j--) {
-
                 if (fieldsList.get(j).getValue() == 0) {
                     for (int k = j; k >= 0; k--) {
                         if (k > 0) {
@@ -282,6 +250,33 @@ public class Board implements Serializable {
                 }
             }
         }
+    }
+
+    private List<Field> moveFieldsInRowOrColumn(List<Field> fieldsList) {
+        for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
+            boolean found = false;
+            int index = i - 1;
+            while (!found && index >= 0) {
+                if (i != 0 && fieldsList.get(i).getValue() == fieldsList.get(index).getValue() && fieldsList.get(i).getValue() != 0) {
+                    fieldsList.get(i).setNextValue();
+                    this.updateScore(fieldsList.get(i).getValue());
+                    for (int j = index; j >= 0; j--) {
+                        if (j > 0) {
+                            fieldsList.get(j).setValue(fieldsList.get(j - 1).getValue());
+                        } else {
+                            fieldsList.get(j).setValue(0);
+                        }
+                    }
+                    found = true;
+                } else if (fieldsList.get(i).getValue() == 0) {
+                    found = true;
+                } else if (fieldsList.get(index).getValue() != 0) {
+                    found = true;
+                }
+                index--;
+            }
+        }
+        removeZerosInMove(fieldsList);
         return fieldsList;
     }
 

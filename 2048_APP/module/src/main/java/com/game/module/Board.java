@@ -96,13 +96,7 @@ public class Board implements Serializable {
      * Called after calling move methods.
      */
     private void addNewNonEmptyFieldAfterMove() throws GameOverException {
-        try {
-            this.isGameOver();
-        } catch (GameOverException e) {
-            // TODO: 29.05.2020 Aktualnie tylko łapię i nic nei robię.
-            //  Zamiar jest taki żeby rzucać ten wyjątek gdzies w klasie Game żeby stwierdzic czy gra sie skonczyla.
-            throw e;
-        }
+        this.isGameOver();
         List<Field> allEmptyFields = getAllEmptyFields();
         Collections.shuffle(allEmptyFields);
         allEmptyFields.get(0).setValue(Math.random() >= .9 ? 4 : 2);
@@ -167,12 +161,7 @@ public class Board implements Serializable {
             default:
                 throw new IllegalArgumentException("value can only be equal to 0, 1, 2 or 3");
         }
-        try {
-            this.addNewNonEmptyFieldAfterMove();
-        } catch (GameOverException e) {
-            // TODO: 31.05.2020 narazie rzucamy ten wyjatek zeby pozniej zlapac w gui
-            throw e;
-        }
+        this.addNewNonEmptyFieldAfterMove();
     }
 
     private List<List<Field>> get2dList() {
@@ -234,7 +223,7 @@ public class Board implements Serializable {
      * @param fieldsList 2d list of fields in board as rows or columns.
      * @param index      index of the field to start with.
      */
-    private void moveFiledsPositions(List<Field> fieldsList, int index) {
+    private void moveFieldsPositions(List<Field> fieldsList, int index) {
         for (int i = index; i >= 0; i--) {
             if (i > 0) {
                 //jesli nie jest to ostatni element to przesuwa go o jeden w prawo
@@ -275,7 +264,7 @@ public class Board implements Serializable {
             for (int j = BOARD_DIMENSIONS - 1; j >= 0; j--) {
                 //jesli wartosc jest rowna 0 to przesun od tej pozycji w prawo o 1
                 if (fieldsList.get(j).getValue() == 0) {
-                    moveFiledsPositions(fieldsList, j);
+                    moveFieldsPositions(fieldsList, j);
                 }
             }
         }
@@ -296,7 +285,7 @@ public class Board implements Serializable {
                     //zwieksz liczbe pkt
                     this.updateScore(fieldsList.get(i).getValue());
                     //przesun pola o jeden w prawo
-                    moveFiledsPositions(fieldsList, index);
+                    moveFieldsPositions(fieldsList, index);
                     //ustaw wartosc boola na true czyli znalezlismy
                     found = true;
                     //jesli pole jest rowne zero
@@ -360,8 +349,6 @@ public class Board implements Serializable {
                 .toHashCode();
     }
 
-    // TODO: 29.05.2020 Add GameOverException
-
     /**
      * Checks if game is over.
      * CALL ONLY BEFORE TRYING TO ADD A NEW FIELD AFTER MOVE
@@ -374,7 +361,6 @@ public class Board implements Serializable {
                 return;
             }
         }
-        // TODO: 29.05.2020 add own exception and catch to detect game over
         throw new GameOverException("Game over");
     }
 }

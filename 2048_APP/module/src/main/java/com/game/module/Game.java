@@ -34,13 +34,8 @@ public class Game {
         return INSTANCE;
     }
 
-    public void move(int direction) {
-        try {
-            this.gameBoard.move(direction);
-        } catch (GameOverException e) {
-            // TODO: 31.05.2020 tutaj tez powinnismy chyba rzucac ten wyjatek
-            e.printStackTrace();
-        }
+    public void move(int direction) throws GameOverException {
+        this.gameBoard.move(direction);
         // TODO: 29.05.2020 zapisac gre po kazdym ruchu gdy juz mamy dao
         this.updateHighscore();
     }

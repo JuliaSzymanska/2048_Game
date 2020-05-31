@@ -14,7 +14,11 @@ public class GameTest {
     @Test
     public void move() {
         Game game = Game.getInstance();
-        game.move(Game.MOVE_RIGHT);
+        try {
+            game.move(Game.MOVE_RIGHT);
+        } catch (GameOverException e) {
+            Assert.fail();
+        }
     }
 
     @Test

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Board implements Serializable {
 
@@ -62,8 +64,8 @@ public class Board implements Serializable {
      * Reset board variable by creating new fields list.
      */
     void resetBoard() {
-        for(int i = 0; i < BOARD_SIZE; i++){
-            board.get(i).setValue(0);
+        for (Field i : board) {
+            i.setValue(0);
         }
     }
 
@@ -148,30 +150,42 @@ public class Board implements Serializable {
         }
         this.addNewNonEmptyFieldAfterMove();
     }
-    
-    private void moveRight() {
-        List<List<Field>> rows = Arrays.asList(
+
+    private List<List<Field>> get2dList() {
+        return Arrays.asList(
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
                 Arrays.asList(new Field[BOARD_DIMENSIONS]));
+    }
+
+    private void setBoardsRowsFromList(List<List<Field>> list){
+        for (int i = 0; i < list.size(); i++) {
+            board.get(i).setValue(list.get(i / BOARD_DIMENSIONS).get(i % BOARD_DIMENSIONS).getValue());
+        }
+    }
+
+    private void setBoardsColsFromList(List<List<Field>> list){
+        for (int i = 0; i < list.size(); i++) {
+            board.get(i).setValue(list.get(i % BOARD_DIMENSIONS).get(i / BOARD_DIMENSIONS).getValue());
+        }
+    }
+
+    private void moveRight() {
+        List<List<Field>> rows = get2dList();
         List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             row = getRow(i);
             rows.set(i, moveFieldsInRowOrColumn(row));
         }
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            board.set(i, rows.get(i / BOARD_DIMENSIONS).get(i % BOARD_DIMENSIONS));
-        }
+        setBoardsRowsFromList(rows);
+//        for (int i = 0; i < BOARD_SIZE; i++) {
+//            board.set(i, rows.get(i / BOARD_DIMENSIONS).get(i % BOARD_DIMENSIONS));
+//        }
     }
-    
 
     private void moveLeft() {
-        List<List<Field>> rows = Arrays.asList(
-                Arrays.asList(new Field[BOARD_DIMENSIONS]),
-                Arrays.asList(new Field[BOARD_DIMENSIONS]),
-                Arrays.asList(new Field[BOARD_DIMENSIONS]),
-                Arrays.asList(new Field[BOARD_DIMENSIONS]));
+        List<List<Field>> rows = get2dList();
         List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             row = getRow(i);
@@ -180,36 +194,22 @@ public class Board implements Serializable {
             Collections.reverse(row);
             rows.set(i, row);
         }
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            board.set(i, rows.get(i / BOARD_DIMENSIONS).get(i % BOARD_DIMENSIONS));
-        }
+        setBoardsRowsFromList(rows);
     }
 
     private void moveDown() {
-        List<List<Field>> cols = Arrays.asList(
-                Arrays.asList(new Field[BOARD_DIMENSIONS]),
-                Arrays.asList(new Field[BOARD_DIMENSIONS]),
-                Arrays.asList(new Field[BOARD_DIMENSIONS]),
-                Arrays.asList(new Field[BOARD_DIMENSIONS]));
+        List<List<Field>> cols = get2dList();
         List<Field> col;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             col = getColumn(i);
             col = moveFieldsInRowOrColumn(col);
             cols.set(i, col);
         }
-        // TODO: 29.05.2020 W każdym z nich - nie można podmieniać referencji do fieldów
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            board.set(i, cols.get(i % BOARD_DIMENSIONS).get(i / BOARD_DIMENSIONS));
-        }
+        setBoardsColsFromList(cols);
     }
 
     private void moveUp() {
-        // TODO: 29.05.2020 to do osobnej funkcji w kazdym ruchu
-        List<List<Field>> cols = Arrays.asList(
-                Arrays.asList(new Field[BOARD_DIMENSIONS]),
-                Arrays.asList(new Field[BOARD_DIMENSIONS]),
-                Arrays.asList(new Field[BOARD_DIMENSIONS]),
-                Arrays.asList(new Field[BOARD_DIMENSIONS]));
+        List<List<Field>> cols = get2dList();
         List<Field> col;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             col = getColumn(i);
@@ -218,10 +218,7 @@ public class Board implements Serializable {
             Collections.reverse(col);
             cols.set(i, col);
         }
-        // TODO: 29.05.2020 to do osobnej funkcji w kazdym ruchu
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            board.set(i, cols.get(i % BOARD_DIMENSIONS).get(i / BOARD_DIMENSIONS));
-        }
+        setBoardsColsFromList(cols);
     }
 
     // TODO: 29.05.2020 To trzeba rozbić i okomentować ładnie i najlepiej uprościć
@@ -306,7 +303,7 @@ public class Board implements Serializable {
     public String toString() {
         ToStringBuilder toStringBuilder = new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE);
         toStringBuilder.append("");
-        for(int i = 0; i < BOARD_DIMENSIONS; i++) {
+        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             toStringBuilder.append(this.getRow(i));
             toStringBuilder.append("\n");
         }
@@ -333,14 +330,16 @@ public class Board implements Serializable {
     }
 
     // TODO: 29.05.2020 Add GameOverException
+
     /**
      * Checks if game is over.
      * CALL ONLY BEFORE TRYING TO ADD A NEW FIELD AFTER MOVE
+     *
      * @throws Exception when there are no empty fields on the board
      */
     private void isGameOver() throws Exception {
         for (Field i : this.board) {
-            if(i.getValue() == 0) {
+            if (i.getValue() == 0) {
                 return;
             }
         }

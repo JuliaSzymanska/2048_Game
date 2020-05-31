@@ -364,6 +364,6 @@ public class Board implements Serializable {
             }
         }
         // TODO: 29.05.2020 add own exception and catch to detect game over
-        throw new Exception("GAME OVER");
+        throw new GameOverException("Game over");
     }
 }

@@ -18,7 +18,7 @@ public class Game {
     private StopWatch watch = new StopWatch();
     private int highScore;
 
-    // TODO: 29.05.2020 nie podoba mi sie
+    // TODO: 29.05.2020 nie podoba mi sie -- mi tez nie
     final static int MOVE_UP = Board.MOVE_UP;
     final static int MOVE_RIGHT = Board.MOVE_RIGHT;
     final static int MOVE_DOWN = Board.MOVE_DOWN;
@@ -35,7 +35,12 @@ public class Game {
     }
 
     public void move(int direction) {
-        this.gameBoard.move(direction);
+        try {
+            this.gameBoard.move(direction);
+        } catch (GameOverException e) {
+            // TODO: 31.05.2020 tutaj tez powinnismy chyba rzucac ten wyjatek
+            e.printStackTrace();
+        }
         // TODO: 29.05.2020 zapisac gre po kazdym ruchu gdy juz mamy dao
         this.updateHighscore();
     }

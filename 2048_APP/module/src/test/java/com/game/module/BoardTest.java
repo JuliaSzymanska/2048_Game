@@ -16,10 +16,6 @@ import java.util.List;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class BoardTest {
-    // TODO: 29.05.2020 ZOSTAW SYSTEM.OUT W TESTACH
-    //  one nie wyswietlaja sie na konsoli uruchamiajac przez graddle,
-    //  ale pojawia sie w pliku index.html przy odpowiednich testach
-    //  podoba mi sie :p
     private static <A, B> List<Pair<A, B>> zip(List<A> listA, List<B> listB) {
         if (listA.size() != listB.size()) {
             throw new IllegalArgumentException("Lists must have same size");
@@ -58,7 +54,7 @@ public class BoardTest {
     };
 
     @Test
-    public void boardMoveRightTest() {
+    public void boardMoveRightTest(){
         List<Integer> expectedValuesAfterMove = new ArrayList<Integer>() {
             {
                 add(0);
@@ -86,7 +82,12 @@ public class BoardTest {
         System.out.println("MOVE RIGHT");
         System.out.println("BEFORE");
         System.out.println(board);
-        board.move(Board.MOVE_RIGHT);
+        try {
+            board.move(Board.MOVE_RIGHT);
+        } catch (GameOverException e) {
+            System.out.println(e.getMessage());
+            Assert.fail();
+        }
         for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
             if (!item.getLeft().equals(0)) {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
@@ -97,7 +98,7 @@ public class BoardTest {
     }
 
     @Test
-    public void boardMoveLeftTest() {
+    public void boardMoveLeftTest(){
         List<Integer> expectedValuesAfterMove = new ArrayList<Integer>() {
             {
                 add(4);
@@ -125,7 +126,12 @@ public class BoardTest {
         System.out.println("MOVE LEFT");
         System.out.println("BEFORE");
         System.out.println(board);
-        board.move(Board.MOVE_LEFT);
+        try {
+            board.move(Board.MOVE_LEFT);
+        } catch (GameOverException e) {
+            System.out.println(e.getMessage());
+            Assert.fail();
+        }
         for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
             if (!item.getLeft().equals(0)) {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
@@ -135,12 +141,8 @@ public class BoardTest {
         System.out.println(board);
     }
 
-    // TODO: 29.05.2020 to nie dzialalo
-    //  a test był tak napisany że przyjmowało zły wynik jako dobry i się NIE WYWALAL
-    //  proszę nie rób tak więcej >.> :)
-
     @Test
-    public void boardMoveUpTest() {
+    public void boardMoveUpTest(){
         List<Integer> expectedValuesAfterMove = new ArrayList<Integer>() {
             {
                 add(4);
@@ -168,7 +170,12 @@ public class BoardTest {
         System.out.println("MOVE UP");
         System.out.println("BEFORE");
         System.out.println(board);
-        board.move(Board.MOVE_UP);
+        try {
+            board.move(Board.MOVE_UP);
+        } catch (GameOverException e) {
+            System.out.println(e.getMessage());
+            Assert.fail();
+        }
         for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
             if (!item.getLeft().equals(0)) {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
@@ -179,7 +186,7 @@ public class BoardTest {
     }
 
     @Test
-    public void boardMoveDownTest() {
+    public void boardMoveDownTest(){
         List<Integer> expectedValuesAfterMove = new ArrayList<Integer>() {
             {
                 add(0);
@@ -207,7 +214,12 @@ public class BoardTest {
         System.out.println("MOVE DOWN");
         System.out.println("BEFORE");
         System.out.println(board);
-        board.move(Board.MOVE_DOWN);
+        try {
+            board.move(Board.MOVE_DOWN);
+        } catch (GameOverException e) {
+            System.out.println(e.getMessage());
+            Assert.fail();
+        }
         for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
             if (!item.getLeft().equals(0)) {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
@@ -218,10 +230,15 @@ public class BoardTest {
     }
 
     @Test
-    public void updateScoreTest() {
+    public void updateScoreTest(){
         Board board = new Board(this.integers);
         Assert.assertEquals(board.getScore(), 0);
-        board.move(Board.MOVE_RIGHT);
+        try {
+            board.move(Board.MOVE_RIGHT);
+        } catch (GameOverException e) {
+            System.out.println(e.getMessage());
+            Assert.fail();
+        }
         Assert.assertEquals(board.getScore(), 12);
     }
 
@@ -253,7 +270,12 @@ public class BoardTest {
     public void restartGameTest() {
         Board board = new Board(this.integers);
         Assert.assertEquals(board.getScore(), 0);
-        board.move(Board.MOVE_RIGHT);
+        try {
+            board.move(Board.MOVE_RIGHT);
+        } catch (GameOverException e) {
+            System.out.println(e.getMessage());
+            Assert.fail();
+        }
         Assert.assertEquals(board.getScore(), 12);
         board.restartGame();
         for (Field i : board.getCopyBoard()) {

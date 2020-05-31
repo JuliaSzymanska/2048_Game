@@ -27,8 +27,14 @@ public class Board implements Serializable {
     public Board() {
         this.board = newFieldsList();
         // 2 pola na poczatku gry
-        this.addNewNonEmptyFieldAfterMove();
-        this.addNewNonEmptyFieldAfterMove();
+        try {
+            this.addNewNonEmptyFieldAfterMove();
+            this.addNewNonEmptyFieldAfterMove();
+        } catch (GameOverException e) {
+            // TODO: 31.05.2020 narazie tu nie rzucam teog wyajtku bo sie robi straszny balagan
+            e.printStackTrace();
+        }
+
     }
 
     Board(List<Integer> integerList) {
@@ -89,13 +95,13 @@ public class Board implements Serializable {
      * Fills a random empty field in board with either 2 or 4 (9:1 probablility ratio).
      * Called after calling move methods.
      */
-    private void addNewNonEmptyFieldAfterMove() {
+    private void addNewNonEmptyFieldAfterMove() throws GameOverException {
         try {
             this.isGameOver();
-        } catch (Exception e) {
+        } catch (GameOverException e) {
             // TODO: 29.05.2020 Aktualnie tylko łapię i nic nei robię.
             //  Zamiar jest taki żeby rzucać ten wyjątek gdzies w klasie Game żeby stwierdzic czy gra sie skonczyla.
-            e.printStackTrace();
+            throw e;
         }
         List<Field> allEmptyFields = getAllEmptyFields();
         Collections.shuffle(allEmptyFields);
@@ -144,7 +150,7 @@ public class Board implements Serializable {
     //  moze przeniesc do innej klasy
 
     // TODO: 31.05.2020 sprawdzic czy enum moze zwrocic funkcje po intcie
-    void move(int direction) {
+    void move(int direction) throws GameOverException {
         switch (direction) {
             case MOVE_UP:
                 moveUp();
@@ -161,7 +167,12 @@ public class Board implements Serializable {
             default:
                 throw new IllegalArgumentException("value can only be equal to 0, 1, 2 or 3");
         }
-        this.addNewNonEmptyFieldAfterMove();
+        try {
+            this.addNewNonEmptyFieldAfterMove();
+        } catch (GameOverException e) {
+            // TODO: 31.05.2020 narazie rzucamy ten wyjatek zeby pozniej zlapac w gui
+            throw e;
+        }
     }
 
     private List<List<Field>> get2dList() {
@@ -357,7 +368,7 @@ public class Board implements Serializable {
      *
      * @throws Exception when there are no empty fields on the board
      */
-    private void isGameOver() throws Exception {
+    private void isGameOver() throws GameOverException {
         for (Field i : this.board) {
             if (i.getValue() == 0) {
                 return;

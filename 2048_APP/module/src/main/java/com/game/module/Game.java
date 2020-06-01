@@ -69,6 +69,11 @@ public class Game {
         return this.gameBoard.getScore();
     }
 
+
+    public int getHighScore() {
+        return highScore;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -100,9 +105,5 @@ public class Game {
                 .append("watch", watch)
                 .append("highScore", highScore)
                 .toString();
-    }
-
-    public int getHighScore() {
-        return highScore;
     }
 }

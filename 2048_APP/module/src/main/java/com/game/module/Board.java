@@ -26,15 +26,7 @@ public class Board implements Serializable {
 
     public Board() {
         this.board = newFieldsList();
-        // 2 pola na poczatku gry
-        try {
-            this.addNewNonEmptyFieldAfterMove();
-            this.addNewNonEmptyFieldAfterMove();
-        } catch (GameOverException e) {
-            // TODO: 31.05.2020 narazie tu nie rzucam teog wyajtku bo sie robi straszny balagan
-            e.printStackTrace();
-        }
-
+        this.resetBoard();
     }
 
     Board(List<Integer> integerList) {
@@ -67,9 +59,17 @@ public class Board implements Serializable {
     /**
      * Reset board variable by creating new fields list.
      */
-    void resetBoard() {
+   private void resetBoard() {
         for (Field i : board) {
             i.setValue(0);
+        }
+        // 2 pola na poczatku gry
+        try {
+            this.addNewNonEmptyFieldAfterMove();
+            this.addNewNonEmptyFieldAfterMove();
+        } catch (GameOverException e) {
+            // TODO: 31.05.2020 narazie tu nie rzucam teog wyajtku bo sie robi straszny balagan
+            e.printStackTrace();
         }
     }
 

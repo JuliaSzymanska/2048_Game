@@ -6,6 +6,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.time.StopWatch;
 
+import java.util.List;
+
 // TODO: 29.05.2020 DAO
 //  https://www.youtube.com/watch?v=0cg09tlAAQ0
 //  ^ wygląda legitnie
@@ -32,6 +34,10 @@ public class Game {
 
     public static Game getInstance() {
         return INSTANCE;
+    }
+
+    public List<Field> getCopyOfTheBoard(){
+        return gameBoard.getCopyBoard();
     }
 
     public void move(int direction) throws GameOverException {

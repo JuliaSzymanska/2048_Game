@@ -10,7 +10,7 @@ public class Field implements Serializable, Comparable<Field> {
 
     private int value;
 
-    Field(int value) {
+    public Field(int value) {
 
         if (isPowerOfTwo(value)) {
             this.value = value;

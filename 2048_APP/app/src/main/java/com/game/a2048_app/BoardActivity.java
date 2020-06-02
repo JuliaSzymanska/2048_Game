@@ -2,7 +2,10 @@ package com.game.a2048_app;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,13 +15,17 @@ import android.widget.Toast;
 
 import com.game.module.Field;
 import com.game.module.Game;
+import com.game.module.GameOverException;
 
 public class BoardActivity extends AppCompatActivity {
 
-    private Game game = Game.getInstance();
-    GridView gridView;
+    OnSwipeTouchListener onSwipeTouchListener;
+
+    private static Game game = Game.getInstance();
+    private static ArrayAdapter<Field> adapter;
+    private static GridView gridView;
     // TODO: 01.06.2020 narazie mamy zwykla tablice fieldow
-    private Field[] fields = game.getCopyOfTheBoard().toArray(new Field[0]);
+    private static Field[] fields = game.getCopyOfTheBoard().toArray(new Field[0]);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +33,7 @@ public class BoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board);
         gridView = (GridView) findViewById(R.id.gridView);
         // TODO: 01.06.2020 cos mi sie obilo o uszy ze to moze byc listener ale i'm not sure to trzeba bedzie sprawdzic
-        ArrayAdapter<Field> adapter = new ArrayAdapter<Field>(this,
+        adapter = new ArrayAdapter<Field>(this,
                 android.R.layout.simple_list_item_1, fields);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -37,10 +44,109 @@ public class BoardActivity extends AppCompatActivity {
 
             }
         });
+        this.onSwipeTouchListener = new OnSwipeTouchListener(this, gridView);
     }
 
-    private void setListOfFields(){
+
+    private void setListOfFields() {
 
     }
 
+    public static class OnSwipeTouchListener implements View.OnTouchListener {
+        private final GestureDetector gestureDetector;
+        Context context;
+
+        OnSwipeTouchListener(Context ctx, View mainView) {
+            gestureDetector = new GestureDetector(ctx, new GestureListener());
+            mainView.setOnTouchListener(this);
+            context = ctx;
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return gestureDetector.onTouchEvent(event);
+        }
+
+        public class GestureListener extends
+                GestureDetector.SimpleOnGestureListener {
+            private static final int SWIPE_THRESHOLD = 10;
+            private static final int SWIPE_VELOCITY_THRESHOLD = 10;
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                boolean result = false;
+                try {
+                    float diffY = e2.getY() - e1.getY();
+                    float diffX = e2.getX() - e1.getX();
+                    if (Math.abs(diffX) > Math.abs(diffY)) {
+                        if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                            if (diffX > 0) {
+                                onSwipeRight();
+                            } else {
+                                onSwipeLeft();
+                            }
+                            result = true;
+                        }
+                    } else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffY > 0) {
+                            onSwipeBottom();
+                        } else {
+                            onSwipeTop();
+                        }
+                        result = true;
+                    }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                return result;
+            }
+        }
+
+        void onSwipeRight() throws GameOverException {
+            game.move(Game.MOVE_RIGHT);
+            fields = game.getCopyOfTheBoard().toArray(new Field[0]);
+            adapter.notifyDataSetChanged();
+            this.onSwipe.swipeRight();
+        }
+
+        void onSwipeLeft() throws GameOverException {
+            game.move(Game.MOVE_LEFT);
+            fields = game.getCopyOfTheBoard().toArray(new Field[0]);
+            adapter.notifyDataSetChanged();
+            this.onSwipe.swipeLeft();
+        }
+
+        void onSwipeTop() throws GameOverException {
+            game.move(Game.MOVE_UP);
+            fields = game.getCopyOfTheBoard().toArray(new Field[0]);
+            adapter.notifyDataSetChanged();
+            this.onSwipe.swipeTop();
+        }
+
+        void onSwipeBottom() throws GameOverException {
+            game.move(Game.MOVE_DOWN);
+            fields = game.getCopyOfTheBoard().toArray(new Field[0]);
+            adapter.notifyDataSetChanged();
+            this.onSwipe.swipeBottom();
+        }
+
+        interface onSwipeListener {
+            void swipeRight();
+
+            void swipeTop();
+
+            void swipeBottom();
+
+            void swipeLeft();
+        }
+
+        onSwipeListener onSwipe;
+    }
 }
+
+

@@ -316,7 +316,9 @@ public class Board implements Serializable {
         for (int i = 0; i < BOARD_SIZE; i++) {
             cloneBoard.set(i, new Field(this.board.get(i)));
         }
-        return cloneBoard;
+        // TODO: 02.06.2020 FIX
+//        return  cloneBoard;
+        return this.board;
     }
 
     @Override

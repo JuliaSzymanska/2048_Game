@@ -21,10 +21,10 @@ public class Game {
     private int highScore;
 
     // TODO: 29.05.2020 nie podoba mi sie -- mi tez nie
-    final static int MOVE_UP = Board.MOVE_UP;
-    final static int MOVE_RIGHT = Board.MOVE_RIGHT;
-    final static int MOVE_DOWN = Board.MOVE_DOWN;
-    final static int MOVE_LEFT = Board.MOVE_LEFT;
+    public final static int MOVE_UP = Board.MOVE_UP;
+    public final static int MOVE_RIGHT = Board.MOVE_RIGHT;
+    public final static int MOVE_DOWN = Board.MOVE_DOWN;
+    public final static int MOVE_LEFT = Board.MOVE_LEFT;
 
     private Game() {
         // TODO: 29.05.2020 Condition jak dodamy DAO, czy istnieje zapisana gra

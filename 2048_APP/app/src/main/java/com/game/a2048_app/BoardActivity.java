@@ -55,6 +55,8 @@ public class BoardActivity extends AppCompatActivity {
     // TODO: 02.06.2020 Aktualnie bardzo mocno polegam na staticach (game oraz adapter)
     //  oraz kurcze no uzywam oryginalnego boarda a nie chce
     //  jestem pewien że da się lepiej ale dopiero zaczyma to ogarniac a teraz ide sobie zrobic jesc
+    //  https://stackoverflow.com/questions/4139288/android-how-to-handle-right-to-left-swipe-gestures
+    //  https://www.tutorialspoint.com/how-to-detect-swipe-direction-between-left-right-and-up-down-in-android
     public static class OnSwipeTouchListener implements View.OnTouchListener {
         private final GestureDetector gestureDetector;
         Context context;
@@ -112,7 +114,7 @@ public class BoardActivity extends AppCompatActivity {
 
         void onSwipeRight() throws GameOverException {
             game.move(Game.MOVE_RIGHT);
-            // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview. 
+            // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
             adapter.notifyDataSetChanged();
             this.onSwipe.swipeRight();
         }

@@ -15,7 +15,7 @@ import com.game.module.GameOverException;
 
 public class OnSwipeTouchListener implements View.OnTouchListener {
     private final GestureDetector gestureDetector;
-    Context context;
+    private Context context;
 
     OnSwipeTouchListener(Context ctx, View mainView) {
         gestureDetector = new GestureDetector(ctx, new GestureListener());

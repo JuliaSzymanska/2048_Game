@@ -18,11 +18,12 @@ import com.game.module.Game;
 import com.game.module.GameOverException;
 
 public class BoardActivity extends AppCompatActivity {
+// public class BoardActivity extends AppCompatActivity implements BoardActivity.OnSwipeTouchListener.onSwipeListener {
 
     OnSwipeTouchListener onSwipeTouchListener;
 
-    private static Game game = Game.getInstance();
-    private static ArrayAdapter<Field> adapter;
+    private Game game = Game.getInstance();
+    private ArrayAdapter<Field> adapter;
     private GridView gridView;
     // TODO: 01.06.2020 narazie mamy zwykla tablice fieldow
     private Field[] fields = game.getCopyOfTheBoard().toArray(new Field[0]);
@@ -44,7 +45,34 @@ public class BoardActivity extends AppCompatActivity {
 
             }
         });
-        this.onSwipeTouchListener = new OnSwipeTouchListener(this, gridView);
+       this.onSwipeTouchListener = new OnSwipeTouchListener(this, gridView);
+       this.onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
+           @Override
+           public void swipeRight() throws GameOverException {
+               game.move(Game.MOVE_RIGHT);
+               // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
+               adapter.notifyDataSetChanged();
+           }
+
+           @Override
+           public void swipeTop() throws GameOverException {
+               game.move(Game.MOVE_UP);
+               adapter.notifyDataSetChanged();
+           }
+
+           @Override
+           public void swipeBottom() throws GameOverException {
+               game.move(Game.MOVE_DOWN);
+               adapter.notifyDataSetChanged();
+           }
+
+           @Override
+           public void swipeLeft() throws GameOverException {
+               game.move(Game.MOVE_LEFT);
+               adapter.notifyDataSetChanged();
+           }
+       };
+
     }
 
 
@@ -113,38 +141,29 @@ public class BoardActivity extends AppCompatActivity {
         }
 
         void onSwipeRight() throws GameOverException {
-            game.move(Game.MOVE_RIGHT);
-            // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
-            adapter.notifyDataSetChanged();
             this.onSwipe.swipeRight();
         }
 
         void onSwipeLeft() throws GameOverException {
-            game.move(Game.MOVE_LEFT);
-            adapter.notifyDataSetChanged();
             this.onSwipe.swipeLeft();
         }
 
         void onSwipeTop() throws GameOverException {
-            game.move(Game.MOVE_UP);
-            adapter.notifyDataSetChanged();
             this.onSwipe.swipeTop();
         }
 
         void onSwipeBottom() throws GameOverException {
-            game.move(Game.MOVE_DOWN);
-            adapter.notifyDataSetChanged();
             this.onSwipe.swipeBottom();
         }
 
         interface onSwipeListener {
-            void swipeRight();
+            void swipeRight() throws GameOverException;
 
-            void swipeTop();
+            void swipeTop() throws GameOverException;
 
-            void swipeBottom();
+            void swipeBottom() throws GameOverException;
 
-            void swipeLeft();
+            void swipeLeft() throws GameOverException;
         }
 
         onSwipeListener onSwipe;

@@ -23,9 +23,9 @@ public class BoardActivity extends AppCompatActivity {
 
     private static Game game = Game.getInstance();
     private static ArrayAdapter<Field> adapter;
-    private static GridView gridView;
+    private GridView gridView;
     // TODO: 01.06.2020 narazie mamy zwykla tablice fieldow
-    private static Field[] fields = game.getCopyOfTheBoard().toArray(new Field[0]);
+    private Field[] fields = game.getCopyOfTheBoard().toArray(new Field[0]);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,9 @@ public class BoardActivity extends AppCompatActivity {
 
     }
 
+    // TODO: 02.06.2020 Aktualnie bardzo mocno polegam na staticach (game oraz adapter)
+    //  oraz kurcze no uzywam oryginalnego boarda a nie chce
+    //  jestem pewien że da się lepiej ale dopiero zaczyma to ogarniac a teraz ide sobie zrobic jesc
     public static class OnSwipeTouchListener implements View.OnTouchListener {
         private final GestureDetector gestureDetector;
         Context context;
@@ -109,28 +112,25 @@ public class BoardActivity extends AppCompatActivity {
 
         void onSwipeRight() throws GameOverException {
             game.move(Game.MOVE_RIGHT);
-            fields = game.getCopyOfTheBoard().toArray(new Field[0]);
+            // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview. 
             adapter.notifyDataSetChanged();
             this.onSwipe.swipeRight();
         }
 
         void onSwipeLeft() throws GameOverException {
             game.move(Game.MOVE_LEFT);
-            fields = game.getCopyOfTheBoard().toArray(new Field[0]);
             adapter.notifyDataSetChanged();
             this.onSwipe.swipeLeft();
         }
 
         void onSwipeTop() throws GameOverException {
             game.move(Game.MOVE_UP);
-            fields = game.getCopyOfTheBoard().toArray(new Field[0]);
             adapter.notifyDataSetChanged();
             this.onSwipe.swipeTop();
         }
 
         void onSwipeBottom() throws GameOverException {
             game.move(Game.MOVE_DOWN);
-            fields = game.getCopyOfTheBoard().toArray(new Field[0]);
             adapter.notifyDataSetChanged();
             this.onSwipe.swipeBottom();
         }

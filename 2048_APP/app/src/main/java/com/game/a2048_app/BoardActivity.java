@@ -1,5 +1,6 @@
 package com.game.a2048_app;
 
+import androidx.annotation.MainThread;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import com.game.module.Game;
 import com.game.module.GameOverException;
 
 public class BoardActivity extends AppCompatActivity implements SensorEventListener {
+    private static final float VALUE_DRIFT = 0.05f;
 // public class BoardActivity extends AppCompatActivity implements BoardActivity.OnSwipeTouchListener.onSwipeListener {
 
     OnSwipeTouchListener onSwipeTouchListener;
@@ -49,6 +52,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView mTextSensorAzimuth;
     private TextView mTextSensorPitch;
     private TextView mTextSensorRoll;
+
+    // Testing Rotation
+    private ImageView mSpotTop;
+    private ImageView mSpotBottom;
+    private ImageView mSpotLeft;
+    private ImageView mSpotRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +120,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mTextSensorPitch = (TextView) findViewById(R.id.mTextSensorPitch);
         mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
 
+        mSpotTop = (ImageView) findViewById(R.id.spot_top);
+        mSpotBottom = (ImageView) findViewById(R.id.spot_bottom);
+        mSpotLeft = (ImageView) findViewById(R.id.spot_left);
+        mSpotRight = (ImageView) findViewById(R.id.spot_right);
     }
 
 
@@ -177,13 +190,43 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         float azimuth = orientationValues[0];
         float pitch = orientationValues[1];
         float roll = orientationValues[2];
+
+        if (Math.abs(pitch) < VALUE_DRIFT) {
+            pitch = 0;
+        }
+        if (Math.abs(roll) < VALUE_DRIFT) {
+            roll = 0;
+        }
+
         mTextSensorAzimuth.setText(getResources().getString(
                 R.string.value_format, azimuth));
         mTextSensorPitch.setText(getResources().getString(
                 R.string.value_format, pitch));
         mTextSensorRoll.setText(getResources().getString(
                 R.string.value_format, roll));
+
+        // TODO: 03.06.2020 w zależności od rotacji wypełnia się alpha kulek
+        //  wizualizacja efektów obrotu
+        //  do usuniecia potem
+
+        mSpotTop.setAlpha(0f);
+        mSpotBottom.setAlpha(0f);
+        mSpotLeft.setAlpha(0f);
+        mSpotRight.setAlpha(0f);
+
+        if (pitch > 0) {
+            mSpotBottom.setAlpha((float) (pitch / Math.PI));
+        } else {
+            mSpotTop.setAlpha((float) Math.abs(pitch / Math.PI));
+        }
+        if (roll > 0) {
+            mSpotLeft.setAlpha((float) (roll / Math.PI));
+        } else {
+            mSpotRight.setAlpha((float) Math.abs(roll / Math.PI));
+        }
     }
+
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {

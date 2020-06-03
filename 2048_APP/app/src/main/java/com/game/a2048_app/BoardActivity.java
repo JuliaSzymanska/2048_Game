@@ -123,14 +123,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mSensorMagnetometer = mSensorManager.getDefaultSensor(
                 Sensor.TYPE_MAGNETIC_FIELD);
 
-        mTextSensorAzimuth = (TextView) findViewById(R.id.mTextSensorAzimuth);
-        mTextSensorPitch = (TextView) findViewById(R.id.mTextSensorPitch);
-        mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
-
-        mSpotTop = (ImageView) findViewById(R.id.spot_top);
-        mSpotBottom = (ImageView) findViewById(R.id.spot_bottom);
-        mSpotLeft = (ImageView) findViewById(R.id.spot_left);
-        mSpotRight = (ImageView) findViewById(R.id.spot_right);
+//        mTextSensorAzimuth = (TextView) findViewById(R.id.mTextSensorAzimuth);
+//        mTextSensorPitch = (TextView) findViewById(R.id.mTextSensorPitch);
+//        mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
+//
+//        mSpotTop = (ImageView) findViewById(R.id.spot_top);
+//        mSpotBottom = (ImageView) findViewById(R.id.spot_bottom);
+//        mSpotLeft = (ImageView) findViewById(R.id.spot_left);
+//        mSpotRight = (ImageView) findViewById(R.id.spot_right);
     }
 
 
@@ -223,32 +223,32 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             roll = 0;
         }
 
-        mTextSensorAzimuth.setText(getResources().getString(
-                R.string.value_format, azimuth));
-        mTextSensorPitch.setText(getResources().getString(
-                R.string.value_format, pitch));
-        mTextSensorRoll.setText(getResources().getString(
-                R.string.value_format, roll));
+//        mTextSensorAzimuth.setText(getResources().getString(
+//                R.string.value_format, azimuth));
+//        mTextSensorPitch.setText(getResources().getString(
+//                R.string.value_format, pitch));
+//        mTextSensorRoll.setText(getResources().getString(
+//                R.string.value_format, roll));
 
         // TODO: 03.06.2020 w zależności od rotacji wypełnia się alpha kulek
         //  wizualizacja efektów obrotu
         //  do usuniecia potem
 
-        mSpotTop.setAlpha(0f);
-        mSpotBottom.setAlpha(0f);
-        mSpotLeft.setAlpha(0f);
-        mSpotRight.setAlpha(0f);
-
-        if (pitch > 0) {
-            mSpotBottom.setAlpha((float) (pitch / Math.PI));
-        } else {
-            mSpotTop.setAlpha((float) Math.abs(pitch / Math.PI));
-        }
-        if (roll > 0) {
-            mSpotLeft.setAlpha((float) (roll / Math.PI));
-        } else {
-            mSpotRight.setAlpha((float) Math.abs(roll / Math.PI));
-        }
+//        mSpotTop.setAlpha(0f);
+//        mSpotBottom.setAlpha(0f);
+//        mSpotLeft.setAlpha(0f);
+//        mSpotRight.setAlpha(0f);
+//
+//        if (pitch > 0) {
+//            mSpotBottom.setAlpha((float) (pitch / Math.PI));
+//        } else {
+//            mSpotTop.setAlpha((float) Math.abs(pitch / Math.PI));
+//        }
+//        if (roll > 0) {
+//            mSpotLeft.setAlpha((float) (roll / Math.PI));
+//        } else {
+//            mSpotRight.setAlpha((float) Math.abs(roll / Math.PI));
+//        }
 
         // TODO: 03.06.2020 jesli dobrze rozumiem to wtedy znaczy że telefon lezy poziomo lub jest maks o 45 stopni wychylony
         if (Math.abs(prevPitch) < 0.8 && Math.abs(prevRoll) < 0.8 ) {

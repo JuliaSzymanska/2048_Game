@@ -37,46 +37,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:layout_width="@dimen/spot_size"
-        android:layout_height="@dimen/spot_size"
-        android:id="@+id/spot_top"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription"
-        app:srcCompat="@drawable/spot"
-        />
-    <ImageView
-        android:id="@+id/spot_bottom"
-        android:layout_width="@dimen/spot_size"
-        android:layout_height="@dimen/spot_size"
+<!--    <ImageView-->
+<!--        android:layout_width="@dimen/spot_size"-->
+<!--        android:layout_height="@dimen/spot_size"-->
+<!--        android:id="@+id/spot_top"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        tools:ignore="ContentDescription"-->
+<!--        app:srcCompat="@drawable/spot"-->
+<!--        />-->
+<!--    <ImageView-->
+<!--        android:id="@+id/spot_bottom"-->
+<!--        android:layout_width="@dimen/spot_size"-->
+<!--        android:layout_height="@dimen/spot_size"-->
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/spot"
-        tools:ignore="ContentDescription" />
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:srcCompat="@drawable/spot"-->
+<!--        tools:ignore="ContentDescription" />-->
 
-    <ImageView
-        android:id="@+id/spot_right"
-        android:layout_width="@dimen/spot_size"
-        android:layout_height="@dimen/spot_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/spot"
-        tools:ignore="ContentDescription"/>
+<!--    <ImageView-->
+<!--        android:id="@+id/spot_right"-->
+<!--        android:layout_width="@dimen/spot_size"-->
+<!--        android:layout_height="@dimen/spot_size"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/spot"-->
+<!--        tools:ignore="ContentDescription"/>-->
 
-    <ImageView
-        android:id="@+id/spot_left"
-        android:layout_width="@dimen/spot_size"
-        android:layout_height="@dimen/spot_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/spot"
-        tools:ignore="ContentDescription" />
+<!--    <ImageView-->
+<!--        android:id="@+id/spot_left"-->
+<!--        android:layout_width="@dimen/spot_size"-->
+<!--        android:layout_height="@dimen/spot_size"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/spot"-->
+<!--        tools:ignore="ContentDescription" />-->
 
     <TextView
         android:id="@+id/textView"
@@ -91,87 +91,87 @@
         app:layout_constraintVertical_bias="0.27"
         tools:ignore="HardcodedText" />
 
-    <TextView
-        android:id="@+id/mTextSensorAzimuth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="285dp"
-        android:layout_marginTop="253dp"
-        android:layout_marginEnd="67dp"
-        android:layout_marginBottom="459dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <TextView-->
+<!--        android:id="@+id/mTextSensorAzimuth"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="285dp"-->
+<!--        android:layout_marginTop="253dp"-->
+<!--        android:layout_marginEnd="67dp"-->
+<!--        android:layout_marginBottom="459dp"-->
+<!--        android:text="TextView"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <TextView
-        android:id="@+id/mTextSensorRoll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="188dp"
-        android:layout_marginTop="253dp"
-        android:layout_marginEnd="164dp"
-        android:layout_marginBottom="459dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <TextView-->
+<!--        android:id="@+id/mTextSensorRoll"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="188dp"-->
+<!--        android:layout_marginTop="253dp"-->
+<!--        android:layout_marginEnd="164dp"-->
+<!--        android:layout_marginBottom="459dp"-->
+<!--        android:text="TextView"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <TextView
-        android:id="@+id/mTextSensorPitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="77dp"
-        android:layout_marginTop="253dp"
-        android:layout_marginEnd="275dp"
-        android:layout_marginBottom="459dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <TextView-->
+<!--        android:id="@+id/mTextSensorPitch"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="77dp"-->
+<!--        android:layout_marginTop="253dp"-->
+<!--        android:layout_marginEnd="275dp"-->
+<!--        android:layout_marginBottom="459dp"-->
+<!--        android:text="TextView"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="72dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="77dp"
-        android:layout_marginTop="197dp"
-        android:layout_marginEnd="262dp"
-        android:layout_marginBottom="518dp"
-        android:text="SensorPitch"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <TextView-->
+<!--        android:id="@+id/textView5"-->
+<!--        android:layout_width="72dp"-->
+<!--        android:layout_height="16dp"-->
+<!--        android:layout_marginStart="77dp"-->
+<!--        android:layout_marginTop="197dp"-->
+<!--        android:layout_marginEnd="262dp"-->
+<!--        android:layout_marginBottom="518dp"-->
+<!--        android:text="SensorPitch"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="171dp"
-        android:layout_marginTop="197dp"
-        android:layout_marginEnd="172dp"
-        android:layout_marginBottom="515dp"
-        android:text="SensorRoll"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <TextView-->
+<!--        android:id="@+id/textView6"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="171dp"-->
+<!--        android:layout_marginTop="197dp"-->
+<!--        android:layout_marginEnd="172dp"-->
+<!--        android:layout_marginBottom="515dp"-->
+<!--        android:text="SensorRoll"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="272dp"
-        android:layout_marginTop="197dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginBottom="515dp"
-        android:text="SensorAzimuth"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <TextView-->
+<!--        android:id="@+id/textView7"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="272dp"-->
+<!--        android:layout_marginTop="197dp"-->
+<!--        android:layout_marginEnd="42dp"-->
+<!--        android:layout_marginBottom="515dp"-->
+<!--        android:text="SensorAzimuth"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

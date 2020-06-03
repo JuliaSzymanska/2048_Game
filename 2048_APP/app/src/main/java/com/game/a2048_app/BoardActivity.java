@@ -191,6 +191,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         float pitch = orientationValues[1];
         float roll = orientationValues[2];
 
+        // malutkie odchylenie -> zmiana na 0
         if (Math.abs(pitch) < VALUE_DRIFT) {
             pitch = 0;
         }
@@ -224,6 +225,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         } else {
             mSpotRight.setAlpha((float) Math.abs(roll / Math.PI));
         }
+
+        // TODO: 03.06.2020 jak dodamy tutaj kiedyś już obsługe gry przez obracanie telefonem
+        //  trzeba dodac opcje wylaczania tego
     }
 
 

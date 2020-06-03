@@ -25,6 +25,11 @@ import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 public class BoardActivity extends AppCompatActivity implements SensorEventListener {
     private static final float VALUE_DRIFT = 0.05f;
 // public class BoardActivity extends AppCompatActivity implements BoardActivity.OnSwipeTouchListener.onSwipeListener {
@@ -58,6 +63,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private ImageView mSpotBottom;
     private ImageView mSpotLeft;
     private ImageView mSpotRight;
+
+    private float[] previousValuesAzimuthPitchRoll = new float[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +145,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     // TODO: 03.06.2020
     //  https://codelabs.developers.google.com/codelabs/advanced-android-training-sensor-orientation/#0
+    //  https://androidkennel.org/android-sensors-game-tutorial/
+    //  https://www.androidauthority.com/how-to-add-sensor-support-to-your-apps-810715/
     @Override
     protected void onStart() {
         super.onStart();
@@ -150,11 +159,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         // (SENSOR_DELAY_NORMAL).
         if (mSensorAccelerometer != null) {
             mSensorManager.registerListener(this, mSensorAccelerometer,
-                    SensorManager.SENSOR_DELAY_NORMAL);
+                    SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorMagnetometer != null) {
             mSensorManager.registerListener(this, mSensorMagnetometer,
-                    SensorManager.SENSOR_DELAY_NORMAL);
+                    SensorManager.SENSOR_DELAY_GAME);
         }
     }
 
@@ -167,6 +176,16 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mSensorManager.unregisterListener(this);
     }
 
+    // TODO: 03.06.2020 myślę że trzeba jakoś założyć że telefon leży na 'plecach'
+    //  i sprawdzać czy na tych plecach faktycznie leży, bo to ułatwi bardzo operowanie na tym czyms
+    //  i teraz nie wiem czy po prostu sprawdzać czy pochlenie w danym kierunku zmieniło się ponad ileś
+    //  np ponad 30 stopni albo 45, i czy poprzednio pochylenie było mniejsze od tej wartości
+    //  czy moze jakos predkosc tej zmiany sprawdzac?
+
+    // TODO: 03.06.2020 Aktualnie chyba działa, ale nie ładowałem na telefon.
+    //  Działa w ten sposób że jeżeli po prostu przekroczymy wychylenie o ponad 45 stopni(leżąc na plecach)
+    //  to sie odpowiednio rusza.
+    //  obejrzyj sobie
     @Override
     public void onSensorChanged(SensorEvent event) {
         int sensorType = event.sensor.getType();
@@ -183,6 +202,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         float[] rotationMatrix = new float[9];
         boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
                 null, mAccelerometerData, mMagnetometerData);
+
         float[] orientationValues = new float[3];
         if (rotationOK) {
             SensorManager.getOrientation(rotationMatrix, orientationValues);
@@ -190,6 +210,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         float azimuth = orientationValues[0];
         float pitch = orientationValues[1];
         float roll = orientationValues[2];
+
+        float prevAzimuth = this.previousValuesAzimuthPitchRoll[0];
+        float prevPitch = this.previousValuesAzimuthPitchRoll[1];
+        float prevRoll = this.previousValuesAzimuthPitchRoll[2];
 
         // malutkie odchylenie -> zmiana na 0
         if (Math.abs(pitch) < VALUE_DRIFT) {
@@ -226,8 +250,34 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             mSpotRight.setAlpha((float) Math.abs(roll / Math.PI));
         }
 
-        // TODO: 03.06.2020 jak dodamy tutaj kiedyś już obsługe gry przez obracanie telefonem
-        //  trzeba dodac opcje wylaczania tego
+        // TODO: 03.06.2020 jesli dobrze rozumiem to wtedy znaczy że telefon lezy poziomo lub jest maks o 45 stopni wychylony
+        if (Math.abs(prevPitch) < 0.8 && Math.abs(prevRoll) < 0.8 ) {
+            if (Math.abs(pitch) >= 0.8 || Math.abs(roll) >= 0.8) {
+                try {
+                    if (pitch >= 0.8) {
+                        game.move(Game.MOVE_DOWN);
+                        adapter.notifyDataSetChanged();
+                    }
+                    else if (pitch <= -0.8) {
+                        game.move(Game.MOVE_UP);
+                        adapter.notifyDataSetChanged();
+                    }
+                    else if (roll >= 0.8) {
+                        game.move(Game.MOVE_RIGHT);
+                        adapter.notifyDataSetChanged();
+                    }
+                    else if(roll <= -0.8) {
+                        game.move(Game.MOVE_LEFT);
+                        adapter.notifyDataSetChanged();
+                    }
+                }catch (GameOverException e) {
+                    // TODO: 03.06.2020 konczyc tu gre
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        this.previousValuesAzimuthPitchRoll = orientationValues;
     }
 
 

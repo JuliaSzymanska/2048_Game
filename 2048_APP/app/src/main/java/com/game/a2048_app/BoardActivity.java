@@ -108,28 +108,28 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
                 adapter.notifyDataSetChanged();
                 // TODO: 04.06.2020 narazie tak to jest potem trzebabedzie dodac jakies ladne listenery albo bindingi
-//                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
 
             @Override
             public void swipeTop() throws GameOverException {
                 game.move(Game.MOVE_UP);
                 adapter.notifyDataSetChanged();
-//                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
 
             @Override
             public void swipeBottom() throws GameOverException {
                 game.move(Game.MOVE_DOWN);
                 adapter.notifyDataSetChanged();
-//                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
 
             @Override
             public void swipeLeft() throws GameOverException {
                 game.move(Game.MOVE_LEFT);
                 adapter.notifyDataSetChanged();
-//                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
         };
 
@@ -150,7 +150,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
         mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
         score = (TextView) findViewById(R.id.score);
-        score = (TextView) findViewById(R.id.time);
+        time = (TextView) findViewById(R.id.time);
 
 
 //        mSpotTop = (ImageView) findViewById(R.id.spot_top);
@@ -270,7 +270,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mTextSensorRoll.setText(getResources().getString(
                 R.string.value_format, roll));
         score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
-        time.setText(String.format("%s%s", "Czas: ", game.getElapsedTime()));
+        long milisec = game.getElapsedTime() / 1000000;
+        int sec = (int)Math.floor((double)(milisec / 1000));
+        milisec = milisec - (sec * 1000);
+        time.setText(String.format("Czas: %s:%s", sec, milisec));
+//        time.setText("Czas:");
 
         // TODO: 03.06.2020 w zależności od rotacji wypełnia się alpha kulek
         //  wizualizacja efektów obrotu

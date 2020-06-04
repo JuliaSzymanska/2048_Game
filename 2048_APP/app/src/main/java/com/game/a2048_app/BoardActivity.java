@@ -57,6 +57,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private float mLightData;
     private float mProximityData;
     private boolean hasMoved = false;
+    private boolean isRunning = true;
+    int scoreGame = game.getCurrentScore();
 
     // TextViews to display current sensor values.
     private TextView mTextSensorAzimuth;
@@ -65,6 +67,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView mTextSensorLux;
     private TextView mTextSensorProximity;
     private TextView score;
+    private TextView time;
 
     // Testing Rotation
     private ImageView mSpotTop;
@@ -105,28 +108,28 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
                 adapter.notifyDataSetChanged();
                 // TODO: 04.06.2020 narazie tak to jest potem trzebabedzie dodac jakies ladne listenery albo bindingi
-                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+//                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
 
             @Override
             public void swipeTop() throws GameOverException {
                 game.move(Game.MOVE_UP);
                 adapter.notifyDataSetChanged();
-                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+//                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
 
             @Override
             public void swipeBottom() throws GameOverException {
                 game.move(Game.MOVE_DOWN);
                 adapter.notifyDataSetChanged();
-                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+//                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
 
             @Override
             public void swipeLeft() throws GameOverException {
                 game.move(Game.MOVE_LEFT);
                 adapter.notifyDataSetChanged();
-                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+//                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
         };
 
@@ -147,7 +150,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
         mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
         score = (TextView) findViewById(R.id.score);
-        int scoreGame = game.getCurrentScore();
+        score = (TextView) findViewById(R.id.time);
+
 
 //        mSpotTop = (ImageView) findViewById(R.id.spot_top);
 //        mSpotBottom = (ImageView) findViewById(R.id.spot_bottom);
@@ -191,6 +195,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             mSensorManager.registerListener(this, mSensorLight,
                     SensorManager.SENSOR_DELAY_GAME);
         }
+        if (mSensorProximity != null) {
+            mSensorManager.registerListener(this, mSensorProximity,
+                    SensorManager.SENSOR_DELAY_GAME);
+        }
     }
 
     @Override
@@ -225,6 +233,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 break;
             case Sensor.TYPE_LIGHT:
                 mLightData = event.values[0];
+            case Sensor.TYPE_PROXIMITY:
+                mProximityData = event.values[0];
             default:
                 return;
         }
@@ -260,6 +270,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mTextSensorRoll.setText(getResources().getString(
                 R.string.value_format, roll));
         score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+        time.setText(String.format("%s%s", "Czas: ", game.getElapsedTime()));
 
         // TODO: 03.06.2020 w zależności od rotacji wypełnia się alpha kulek
         //  wizualizacja efektów obrotu
@@ -309,6 +320,17 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         // TODO: 04.06.2020 SPRAWDZ CZY JEST OK
         if (Math.abs(pitch) < 0.2 && Math.abs(roll) < 0.2) {
             hasMoved = false;
+        }
+
+        // TODO: 04.06.2020 Proximity sensor zatrzymuje sie czas po zblizeniu
+        if (mProximityData < 10) {
+            if (isRunning == true) {
+                game.pauseTimer();
+                isRunning = false;
+            }
+        } else if (isRunning == false) {
+            game.unpauseTimer();
+            isRunning = true;
         }
 
         // TODO: 04.06.2020 Narazie sprawdzialm jakby dziala ta zmiana kolorow w tekstfieldach

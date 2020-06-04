@@ -36,7 +36,7 @@ public class Game {
         return INSTANCE;
     }
 
-    public List<Field> getCopyOfTheBoard(){
+    public List<Field> getCopyOfTheBoard() {
         return gameBoard.getCopyBoard();
     }
 

@@ -1,10 +1,13 @@
 package com.game.a2048_app;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -209,45 +213,44 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 break;
             case Sensor.TYPE_LIGHT:
                 mLightData = event.values[0];
-
             default:
                 return;
         }
-        float[] rotationMatrix = new float[9];
-        boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
-                null, mAccelerometerData, mMagnetometerData);
 
-        float[] orientationValues = new float[3];
-        if (rotationOK) {
-            SensorManager.getOrientation(rotationMatrix, orientationValues);
-        }
-        float azimuth = orientationValues[0];
-        float pitch = orientationValues[1];
-        float roll = orientationValues[2];
+            float[] rotationMatrix = new float[9];
+            boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
+                    null, mAccelerometerData, mMagnetometerData);
 
-        float prevAzimuth = this.previousValuesAzimuthPitchRoll[0];
-        float prevPitch = this.previousValuesAzimuthPitchRoll[1];
-        float prevRoll = this.previousValuesAzimuthPitchRoll[2];
+            float[] orientationValues = new float[3];
+            if (rotationOK) {
+                SensorManager.getOrientation(rotationMatrix, orientationValues);
+            }
+            float azimuth = orientationValues[0];
+            float pitch = orientationValues[1];
+            float roll = orientationValues[2];
 
-        // malutkie odchylenie -> zmiana na 0
-        if (Math.abs(pitch) < VALUE_DRIFT) {
-            pitch = 0;
-        }
-        if (Math.abs(roll) < VALUE_DRIFT) {
-            roll = 0;
-        }
+            float prevAzimuth = this.previousValuesAzimuthPitchRoll[0];
+            float prevPitch = this.previousValuesAzimuthPitchRoll[1];
+            float prevRoll = this.previousValuesAzimuthPitchRoll[2];
 
-        mTextSensorAzimuth.setText(getResources().getString(
-                R.string.value_format, azimuth));
-        mTextSensorPitch.setText(getResources().getString(
-                R.string.value_format, pitch));
-        mTextSensorRoll.setText(getResources().getString(
-                R.string.value_format, roll));
-        mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
+            // malutkie odchylenie -> zmiana na 0
+            if (Math.abs(pitch) < VALUE_DRIFT) {
+                pitch = 0;
+            }
+            if (Math.abs(roll) < VALUE_DRIFT) {
+                roll = 0;
+            }
 
-        // TODO: 03.06.2020 w zależności od rotacji wypełnia się alpha kulek
-        //  wizualizacja efektów obrotu
-        //  do usuniecia potem
+            mTextSensorAzimuth.setText(getResources().getString(
+                    R.string.value_format, azimuth));
+            mTextSensorPitch.setText(getResources().getString(
+                    R.string.value_format, pitch));
+            mTextSensorRoll.setText(getResources().getString(
+                    R.string.value_format, roll));
+
+            // TODO: 03.06.2020 w zależności od rotacji wypełnia się alpha kulek
+            //  wizualizacja efektów obrotu
+            //  do usuniecia potem
 
 //        mSpotTop.setAlpha(0f);
 //        mSpotBottom.setAlpha(0f);
@@ -265,38 +268,49 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 //            mSpotRight.setAlpha((float) Math.abs(roll / Math.PI));
 //        }
 
-        // TODO: 03.06.2020 jesli dobrze rozumiem to wtedy znaczy że telefon lezy poziomo lub jest maks o 45 stopni wychylony
-        if (Math.abs(prevPitch) < 0.6 && Math.abs(prevRoll) < 0.8 ) {
-            if (!hasMoved && Math.abs(pitch) >= 0.6 || Math.abs(roll) >= 0.8) {
-                try {
-                    if (pitch >= 0.6) {
-                        game.move(Game.MOVE_UP);
-                        adapter.notifyDataSetChanged();
+            // TODO: 03.06.2020 jesli dobrze rozumiem to wtedy znaczy że telefon lezy poziomo lub jest maks o 45 stopni wychylony
+            if (Math.abs(prevPitch) < 0.4 && Math.abs(prevRoll) < 0.7) {
+                if (!hasMoved && Math.abs(pitch) >= 0.4 || Math.abs(roll) >= 0.7) {
+                    try {
+                        if (pitch >= 0.4) {
+                            game.move(Game.MOVE_UP);
+                            adapter.notifyDataSetChanged();
+                        } else if (pitch <= -0.4) {
+                            game.move(Game.MOVE_DOWN);
+                            adapter.notifyDataSetChanged();
+                        } else if (roll >= 0.7) {
+                            game.move(Game.MOVE_RIGHT);
+                            adapter.notifyDataSetChanged();
+                        } else if (roll <= -0.7) {
+                            game.move(Game.MOVE_LEFT);
+                            adapter.notifyDataSetChanged();
+                        }
+                        hasMoved = true;
+                    } catch (GameOverException e) {
+                        // TODO: 03.06.2020 konczyc tu gre
+                        e.printStackTrace();
                     }
-                    else if (pitch <= -0.6) {
-                        game.move(Game.MOVE_DOWN);
-                        adapter.notifyDataSetChanged();
-                    } else if (roll >= 0.8) {
-                        game.move(Game.MOVE_RIGHT);
-                        adapter.notifyDataSetChanged();
-                    } else if (roll <= -0.8) {
-                        game.move(Game.MOVE_LEFT);
-                        adapter.notifyDataSetChanged();
-                    }
-                    hasMoved = true;
-                }catch (GameOverException e) {
-                    // TODO: 03.06.2020 konczyc tu gre
-                    e.printStackTrace();
                 }
             }
-        }
 
-        // TODO: 04.06.2020 SPRAWDZ CZY JEST OK JULOSZYM1212
-        if (Math.abs(pitch) < 0.2 && Math.abs(roll) < 0.2 ) {
-            hasMoved = false;
-        }
+            // TODO: 04.06.2020 SPRAWDZ CZY JEST OK
+            if (Math.abs(pitch) < 0.2 && Math.abs(roll) < 0.2) {
+                hasMoved = false;
+            }
 
-        this.previousValuesAzimuthPitchRoll = orientationValues;
+            this.previousValuesAzimuthPitchRoll = orientationValues;
+
+            mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
+            ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
+            ColorDrawable viewColor = (ColorDrawable) cl.getBackground();
+            int colorId = viewColor.getColor();
+        System.out.println(colorId);
+            if (mLightData < 30 && colorId != -5924712) {
+                cl.setBackgroundColor(Color.rgb(165,152,152));
+            }
+            else if (mLightData >= 30 && colorId != -10281){
+                cl.setBackgroundColor(Color.rgb(255,215,215));
+            }
     }
 
 

@@ -26,6 +26,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private static final float VALUE_DRIFT = 0.05f;
 // public class BoardActivity extends AppCompatActivity implements BoardActivity.OnSwipeTouchListener.onSwipeListener {
 
+    // TODO: 04.06.2020 możesz dodać żeby było widac jaki ruch wykonalismy i kiedy
+    //  żebyśmy wiedzieli czy się zgadza
+
     OnSwipeTouchListener onSwipeTouchListener;
 
     private Game game = Game.getInstance();
@@ -46,6 +49,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private float[] mAccelerometerData = new float[3];
     private float[] mMagnetometerData = new float[3];
     private float mLightData;
+    private boolean hasMoved = false;
 
     // TextViews to display current sensor values.
     private TextView mTextSensorAzimuth;
@@ -262,14 +266,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 //        }
 
         // TODO: 03.06.2020 jesli dobrze rozumiem to wtedy znaczy że telefon lezy poziomo lub jest maks o 45 stopni wychylony
-        if (Math.abs(prevPitch) < 0.8 && Math.abs(prevRoll) < 0.8) {
-            if (Math.abs(pitch) >= 0.8 || Math.abs(roll) >= 0.8) {
+        if (Math.abs(prevPitch) < 0.6 && Math.abs(prevRoll) < 0.8 ) {
+            if (!hasMoved && Math.abs(pitch) >= 0.6 || Math.abs(roll) >= 0.8) {
                 try {
-                    if (pitch >= 0.8) {
-                        game.move(Game.MOVE_DOWN);
-                        adapter.notifyDataSetChanged();
-                    } else if (pitch <= -0.8) {
+                    if (pitch >= 0.6) {
                         game.move(Game.MOVE_UP);
+                        adapter.notifyDataSetChanged();
+                    }
+                    else if (pitch <= -0.6) {
+                        game.move(Game.MOVE_DOWN);
                         adapter.notifyDataSetChanged();
                     } else if (roll >= 0.8) {
                         game.move(Game.MOVE_RIGHT);
@@ -278,11 +283,17 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                         game.move(Game.MOVE_LEFT);
                         adapter.notifyDataSetChanged();
                     }
-                } catch (GameOverException e) {
+                    hasMoved = true;
+                }catch (GameOverException e) {
                     // TODO: 03.06.2020 konczyc tu gre
                     e.printStackTrace();
                 }
             }
+        }
+
+        // TODO: 04.06.2020 SPRAWDZ CZY JEST OK JULOSZYM1212
+        if (Math.abs(pitch) < 0.2 && Math.abs(roll) < 0.2 ) {
+            hasMoved = false;
         }
 
         this.previousValuesAzimuthPitchRoll = orientationValues;

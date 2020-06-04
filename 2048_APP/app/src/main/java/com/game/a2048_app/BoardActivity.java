@@ -1,18 +1,15 @@
 package com.game.a2048_app;
 
-import androidx.annotation.MainThread;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
-import android.hardware.SensorAdditionalInfo;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,11 +21,6 @@ import android.widget.Toast;
 import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 public class BoardActivity extends AppCompatActivity implements SensorEventListener {
     private static final float VALUE_DRIFT = 0.05f;
@@ -49,14 +41,17 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     // sensor manager.
     private Sensor mSensorAccelerometer;
     private Sensor mSensorMagnetometer;
+    private Sensor mSensorLight;
 
     private float[] mAccelerometerData = new float[3];
     private float[] mMagnetometerData = new float[3];
+    private float mLightData;
 
     // TextViews to display current sensor values.
     private TextView mTextSensorAzimuth;
     private TextView mTextSensorPitch;
     private TextView mTextSensorRoll;
+    private TextView mTextSensorLux;
 
     // Testing Rotation
     private ImageView mSpotTop;
@@ -64,11 +59,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private ImageView mSpotLeft;
     private ImageView mSpotRight;
 
+    // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
+    // Pitch: The top-to-bottom tilt of the device. 0 is flat.
+    // Roll: The left-to-right tilt of the device. 0 is flat.
+
     private float[] previousValuesAzimuthPitchRoll = new float[3];
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO: 03.06.2020 pluje sie ale tak jest w tutorialu na stronie androida
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
@@ -85,48 +84,51 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
             }
         });
-       this.onSwipeTouchListener = new OnSwipeTouchListener(this, gridView);
-       this.onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
-           @Override
-           public void swipeRight() throws GameOverException {
-               game.move(Game.MOVE_RIGHT);
-               // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
-               adapter.notifyDataSetChanged();
-           }
+        this.onSwipeTouchListener = new OnSwipeTouchListener(this, gridView);
+        this.onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
+            @Override
+            public void swipeRight() throws GameOverException {
+                game.move(Game.MOVE_RIGHT);
+                // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
+                adapter.notifyDataSetChanged();
+            }
 
-           @Override
-           public void swipeTop() throws GameOverException {
-               game.move(Game.MOVE_UP);
-               adapter.notifyDataSetChanged();
-           }
+            @Override
+            public void swipeTop() throws GameOverException {
+                game.move(Game.MOVE_UP);
+                adapter.notifyDataSetChanged();
+            }
 
-           @Override
-           public void swipeBottom() throws GameOverException {
-               game.move(Game.MOVE_DOWN);
-               adapter.notifyDataSetChanged();
-           }
+            @Override
+            public void swipeBottom() throws GameOverException {
+                game.move(Game.MOVE_DOWN);
+                adapter.notifyDataSetChanged();
+            }
 
-           @Override
-           public void swipeLeft() throws GameOverException {
-               game.move(Game.MOVE_LEFT);
-               adapter.notifyDataSetChanged();
-           }
-       };
+            @Override
+            public void swipeLeft() throws GameOverException {
+                game.move(Game.MOVE_LEFT);
+                adapter.notifyDataSetChanged();
+            }
+        };
 
         // Get accelerometer and magnetometer sensors from the sensor manager.
-        // The getDefaultSensor() method returns null if the sensor
-        // is not available on the device.
+        //        // The getDefaultSensor() method returns null if the sensor
+        //        // is not available on the device.
         mSensorManager = (SensorManager) getSystemService(
                 Context.SENSOR_SERVICE);
         mSensorAccelerometer = mSensorManager.getDefaultSensor(
                 Sensor.TYPE_ACCELEROMETER);
         mSensorMagnetometer = mSensorManager.getDefaultSensor(
                 Sensor.TYPE_MAGNETIC_FIELD);
+        mSensorLight = mSensorManager.getDefaultSensor(
+                Sensor.TYPE_LIGHT);
 
-//        mTextSensorAzimuth = (TextView) findViewById(R.id.mTextSensorAzimuth);
-//        mTextSensorPitch = (TextView) findViewById(R.id.mTextSensorPitch);
-//        mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
-//
+        mTextSensorAzimuth = (TextView) findViewById(R.id.mTextSensorAzimuth);
+        mTextSensorPitch = (TextView) findViewById(R.id.mTextSensorPitch);
+        mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
+        mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
+
 //        mSpotTop = (ImageView) findViewById(R.id.spot_top);
 //        mSpotBottom = (ImageView) findViewById(R.id.spot_bottom);
 //        mSpotLeft = (ImageView) findViewById(R.id.spot_left);
@@ -165,6 +167,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             mSensorManager.registerListener(this, mSensorMagnetometer,
                     SensorManager.SENSOR_DELAY_GAME);
         }
+        if (mSensorLight != null) {
+            mSensorManager.registerListener(this, mSensorLight,
+                    SensorManager.SENSOR_DELAY_GAME);
+        }
     }
 
     @Override
@@ -186,6 +192,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     //  Działa w ten sposób że jeżeli po prostu przekroczymy wychylenie o ponad 45 stopni(leżąc na plecach)
     //  to sie odpowiednio rusza.
     //  obejrzyj sobie
+
     @Override
     public void onSensorChanged(SensorEvent event) {
         int sensorType = event.sensor.getType();
@@ -196,6 +203,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             case Sensor.TYPE_MAGNETIC_FIELD:
                 mMagnetometerData = event.values.clone();
                 break;
+            case Sensor.TYPE_LIGHT:
+                mLightData = event.values[0];
+
             default:
                 return;
         }
@@ -223,12 +233,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             roll = 0;
         }
 
-//        mTextSensorAzimuth.setText(getResources().getString(
-//                R.string.value_format, azimuth));
-//        mTextSensorPitch.setText(getResources().getString(
-//                R.string.value_format, pitch));
-//        mTextSensorRoll.setText(getResources().getString(
-//                R.string.value_format, roll));
+        mTextSensorAzimuth.setText(getResources().getString(
+                R.string.value_format, azimuth));
+        mTextSensorPitch.setText(getResources().getString(
+                R.string.value_format, pitch));
+        mTextSensorRoll.setText(getResources().getString(
+                R.string.value_format, roll));
+        mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
 
         // TODO: 03.06.2020 w zależności od rotacji wypełnia się alpha kulek
         //  wizualizacja efektów obrotu
@@ -238,7 +249,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 //        mSpotBottom.setAlpha(0f);
 //        mSpotLeft.setAlpha(0f);
 //        mSpotRight.setAlpha(0f);
-//
+
 //        if (pitch > 0) {
 //            mSpotBottom.setAlpha((float) (pitch / Math.PI));
 //        } else {
@@ -251,26 +262,23 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 //        }
 
         // TODO: 03.06.2020 jesli dobrze rozumiem to wtedy znaczy że telefon lezy poziomo lub jest maks o 45 stopni wychylony
-        if (Math.abs(prevPitch) < 0.8 && Math.abs(prevRoll) < 0.8 ) {
+        if (Math.abs(prevPitch) < 0.8 && Math.abs(prevRoll) < 0.8) {
             if (Math.abs(pitch) >= 0.8 || Math.abs(roll) >= 0.8) {
                 try {
                     if (pitch >= 0.8) {
                         game.move(Game.MOVE_DOWN);
                         adapter.notifyDataSetChanged();
-                    }
-                    else if (pitch <= -0.8) {
+                    } else if (pitch <= -0.8) {
                         game.move(Game.MOVE_UP);
                         adapter.notifyDataSetChanged();
-                    }
-                    else if (roll >= 0.8) {
+                    } else if (roll >= 0.8) {
                         game.move(Game.MOVE_RIGHT);
                         adapter.notifyDataSetChanged();
-                    }
-                    else if(roll <= -0.8) {
+                    } else if (roll <= -0.8) {
                         game.move(Game.MOVE_LEFT);
                         adapter.notifyDataSetChanged();
                     }
-                }catch (GameOverException e) {
+                } catch (GameOverException e) {
                     // TODO: 03.06.2020 konczyc tu gre
                     e.printStackTrace();
                 }
@@ -279,7 +287,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         this.previousValuesAzimuthPitchRoll = orientationValues;
     }
-
 
 
     @Override

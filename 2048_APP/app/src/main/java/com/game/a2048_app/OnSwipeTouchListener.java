@@ -8,8 +8,8 @@ import android.view.View;
 import com.game.module.GameOverException;
 
 // TODO: 02.06.2020 Aktualnie bardzo mocno polegam na staticach (game oraz adapter) EDIT: JUZ NIE ale zostawiam narazie historycznie xD
-//  oraz kurcze no uzywam oryginalnego boarda a nie chce
-//  jestem pewien że da się lepiej ale dopiero zaczyma to ogarniac a teraz ide sobie zrobic jesc
+//  oraz no uzywam oryginalnego boarda a nie chce
+//  jestem pewien że da się lepiej ale dopiero zaczyma to ogarniac
 //  https://stackoverflow.com/questions/4139288/android-how-to-handle-right-to-left-swipe-gestures
 //  https://www.tutorialspoint.com/how-to-detect-swipe-direction-between-left-right-and-up-down-in-android
 

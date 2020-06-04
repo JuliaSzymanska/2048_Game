@@ -75,7 +75,6 @@ public class Game {
         return this.gameBoard.getScore();
     }
 
-
     public int getHighScore() {
         return highScore;
     }

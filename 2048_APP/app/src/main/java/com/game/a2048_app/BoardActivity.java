@@ -2,6 +2,8 @@ package com.game.a2048_app;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -62,6 +64,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView mTextSensorRoll;
     private TextView mTextSensorLux;
     private TextView mTextSensorProximity;
+    private TextView score;
 
     // Testing Rotation
     private ImageView mSpotTop;
@@ -101,24 +104,29 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 game.move(Game.MOVE_RIGHT);
                 // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
                 adapter.notifyDataSetChanged();
+                // TODO: 04.06.2020 narazie tak to jest potem trzebabedzie dodac jakies ladne listenery albo bindingi
+                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
 
             @Override
             public void swipeTop() throws GameOverException {
                 game.move(Game.MOVE_UP);
                 adapter.notifyDataSetChanged();
+                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
 
             @Override
             public void swipeBottom() throws GameOverException {
                 game.move(Game.MOVE_DOWN);
                 adapter.notifyDataSetChanged();
+                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
 
             @Override
             public void swipeLeft() throws GameOverException {
                 game.move(Game.MOVE_LEFT);
                 adapter.notifyDataSetChanged();
+                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
         };
 
@@ -138,6 +146,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mTextSensorPitch = (TextView) findViewById(R.id.mTextSensorPitch);
         mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
         mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
+        score = (TextView) findViewById(R.id.score);
+        int scoreGame = game.getCurrentScore();
 
 //        mSpotTop = (ImageView) findViewById(R.id.spot_top);
 //        mSpotBottom = (ImageView) findViewById(R.id.spot_bottom);
@@ -219,40 +229,41 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 return;
         }
 
-            float[] rotationMatrix = new float[9];
-            boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
-                    null, mAccelerometerData, mMagnetometerData);
+        float[] rotationMatrix = new float[9];
+        boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
+                null, mAccelerometerData, mMagnetometerData);
 
-            float[] orientationValues = new float[3];
-            if (rotationOK) {
-                SensorManager.getOrientation(rotationMatrix, orientationValues);
-            }
-            float azimuth = orientationValues[0];
-            float pitch = orientationValues[1];
-            float roll = orientationValues[2];
+        float[] orientationValues = new float[3];
+        if (rotationOK) {
+            SensorManager.getOrientation(rotationMatrix, orientationValues);
+        }
+        float azimuth = orientationValues[0];
+        float pitch = orientationValues[1];
+        float roll = orientationValues[2];
 
-            float prevAzimuth = this.previousValuesAzimuthPitchRoll[0];
-            float prevPitch = this.previousValuesAzimuthPitchRoll[1];
-            float prevRoll = this.previousValuesAzimuthPitchRoll[2];
+        float prevAzimuth = this.previousValuesAzimuthPitchRoll[0];
+        float prevPitch = this.previousValuesAzimuthPitchRoll[1];
+        float prevRoll = this.previousValuesAzimuthPitchRoll[2];
 
-            // malutkie odchylenie -> zmiana na 0
-            if (Math.abs(pitch) < VALUE_DRIFT) {
-                pitch = 0;
-            }
-            if (Math.abs(roll) < VALUE_DRIFT) {
-                roll = 0;
-            }
+        // malutkie odchylenie -> zmiana na 0
+        if (Math.abs(pitch) < VALUE_DRIFT) {
+            pitch = 0;
+        }
+        if (Math.abs(roll) < VALUE_DRIFT) {
+            roll = 0;
+        }
 
-            mTextSensorAzimuth.setText(getResources().getString(
-                    R.string.value_format, azimuth));
-            mTextSensorPitch.setText(getResources().getString(
-                    R.string.value_format, pitch));
-            mTextSensorRoll.setText(getResources().getString(
-                    R.string.value_format, roll));
+        mTextSensorAzimuth.setText(getResources().getString(
+                R.string.value_format, azimuth));
+        mTextSensorPitch.setText(getResources().getString(
+                R.string.value_format, pitch));
+        mTextSensorRoll.setText(getResources().getString(
+                R.string.value_format, roll));
+        score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
 
-            // TODO: 03.06.2020 w zależności od rotacji wypełnia się alpha kulek
-            //  wizualizacja efektów obrotu
-            //  do usuniecia potem
+        // TODO: 03.06.2020 w zależności od rotacji wypełnia się alpha kulek
+        //  wizualizacja efektów obrotu
+        //  do usuniecia potem
 
 //        mSpotTop.setAlpha(0f);
 //        mSpotBottom.setAlpha(0f);
@@ -270,62 +281,61 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 //            mSpotRight.setAlpha((float) Math.abs(roll / Math.PI));
 //        }
 
-            // TODO: 03.06.2020 jesli dobrze rozumiem to wtedy znaczy że telefon lezy poziomo lub jest maks o 45 stopni wychylony
-            if (Math.abs(prevPitch) < 0.4 && Math.abs(prevRoll) < 0.7) {
-                if (!hasMoved && Math.abs(pitch) >= 0.4 || Math.abs(roll) >= 0.7) {
-                    try {
-                        if (pitch >= 0.4) {
-                            game.move(Game.MOVE_UP);
-                            adapter.notifyDataSetChanged();
-                        } else if (pitch <= -0.4) {
-                            game.move(Game.MOVE_DOWN);
-                            adapter.notifyDataSetChanged();
-                        } else if (roll >= 0.7) {
-                            game.move(Game.MOVE_RIGHT);
-                            adapter.notifyDataSetChanged();
-                        } else if (roll <= -0.7) {
-                            game.move(Game.MOVE_LEFT);
-                            adapter.notifyDataSetChanged();
-                        }
-                        hasMoved = true;
-                    } catch (GameOverException e) {
-                        // TODO: 03.06.2020 konczyc tu gre
-                        e.printStackTrace();
+        // TODO: 03.06.2020 jesli dobrze rozumiem to wtedy znaczy że telefon lezy poziomo lub jest maks o 45 stopni wychylony
+        if (Math.abs(prevPitch) < 0.4 && Math.abs(prevRoll) < 0.7) {
+            if (!hasMoved && Math.abs(pitch) >= 0.4 || Math.abs(roll) >= 0.7) {
+                try {
+                    if (pitch >= 0.4) {
+                        game.move(Game.MOVE_UP);
+                        adapter.notifyDataSetChanged();
+                    } else if (pitch <= -0.4) {
+                        game.move(Game.MOVE_DOWN);
+                        adapter.notifyDataSetChanged();
+                    } else if (roll >= 0.7) {
+                        game.move(Game.MOVE_RIGHT);
+                        adapter.notifyDataSetChanged();
+                    } else if (roll <= -0.7) {
+                        game.move(Game.MOVE_LEFT);
+                        adapter.notifyDataSetChanged();
                     }
+                    hasMoved = true;
+                } catch (GameOverException e) {
+                    // TODO: 03.06.2020 konczyc tu gre
+                    e.printStackTrace();
                 }
             }
+        }
 
-            // TODO: 04.06.2020 SPRAWDZ CZY JEST OK
-            if (Math.abs(pitch) < 0.2 && Math.abs(roll) < 0.2) {
-                hasMoved = false;
-            }
+        // TODO: 04.06.2020 SPRAWDZ CZY JEST OK
+        if (Math.abs(pitch) < 0.2 && Math.abs(roll) < 0.2) {
+            hasMoved = false;
+        }
 
         // TODO: 04.06.2020 Narazie sprawdzialm jakby dziala ta zmiana kolorow w tekstfieldach
-            if(azimuth >= 0.75 && azimuth < 2.25){
-                mTextSensorLux.setTextColor(Color.rgb(109,198,150));
-            } else if(azimuth >= 2.25 || azimuth < -2.25) {
-                mTextSensorLux.setTextColor(Color.rgb(112,175,212));
-            } else if(azimuth >= -0.75 && azimuth < 0.75) {
-                mTextSensorLux.setTextColor(Color.rgb(181,114,106));
-            } else {
-                mTextSensorLux.setTextColor(Color.rgb(153,105,181));
-            }
+        if (azimuth >= 0.75 && azimuth < 2.25) {
+            mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
+        } else if (azimuth >= 2.25 || azimuth < -2.25) {
+            mTextSensorLux.setTextColor(Color.rgb(112, 175, 212));
+        } else if (azimuth >= -0.75 && azimuth < 0.75) {
+            mTextSensorLux.setTextColor(Color.rgb(181, 114, 106));
+        } else {
+            mTextSensorLux.setTextColor(Color.rgb(153, 105, 181));
+        }
 
 
-            this.previousValuesAzimuthPitchRoll = orientationValues;
+        this.previousValuesAzimuthPitchRoll = orientationValues;
 
         // TODO: 04.06.2020 Tutaj jest czujnik swiatla - darkmode niby
-            mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
-            ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
-            ColorDrawable viewColor = (ColorDrawable) cl.getBackground();
-            int colorId = viewColor.getColor();
+        mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
+        ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
+        ColorDrawable viewColor = (ColorDrawable) cl.getBackground();
+        int colorId = viewColor.getColor();
         System.out.println(colorId);
-            if (mLightData < 30 && colorId != -5924712) {
-                cl.setBackgroundColor(Color.rgb(165,152,152));
-            }
-            else if (mLightData >= 30 && colorId != -10281){
-                cl.setBackgroundColor(Color.rgb(255,215,215));
-            }
+        if (mLightData < 30 && colorId != -5924712) {
+            cl.setBackgroundColor(Color.rgb(165, 152, 152));
+        } else if (mLightData >= 30 && colorId != -10281) {
+            cl.setBackgroundColor(Color.rgb(255, 215, 215));
+        }
     }
 
 

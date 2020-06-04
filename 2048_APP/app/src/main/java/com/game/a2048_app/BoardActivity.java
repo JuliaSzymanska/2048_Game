@@ -18,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,10 +48,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Sensor mSensorAccelerometer;
     private Sensor mSensorMagnetometer;
     private Sensor mSensorLight;
+    private Sensor mSensorProximity;
 
     private float[] mAccelerometerData = new float[3];
     private float[] mMagnetometerData = new float[3];
     private float mLightData;
+    private float mProximityData;
     private boolean hasMoved = false;
 
     // TextViews to display current sensor values.
@@ -60,6 +61,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView mTextSensorPitch;
     private TextView mTextSensorRoll;
     private TextView mTextSensorLux;
+    private TextView mTextSensorProximity;
 
     // Testing Rotation
     private ImageView mSpotTop;
@@ -298,8 +300,21 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 hasMoved = false;
             }
 
+        // TODO: 04.06.2020 Narazie sprawdzialm jakby dziala ta zmiana kolorow w tekstfieldach
+            if(azimuth >= 0.75 && azimuth < 2.25){
+                mTextSensorLux.setTextColor(Color.rgb(109,198,150));
+            } else if(azimuth >= 2.25 || azimuth < -2.25) {
+                mTextSensorLux.setTextColor(Color.rgb(112,175,212));
+            } else if(azimuth >= -0.75 && azimuth < 0.75) {
+                mTextSensorLux.setTextColor(Color.rgb(181,114,106));
+            } else {
+                mTextSensorLux.setTextColor(Color.rgb(153,105,181));
+            }
+
+
             this.previousValuesAzimuthPitchRoll = orientationValues;
 
+        // TODO: 04.06.2020 Tutaj jest czujnik swiatla - darkmode niby
             mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
             ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
             ColorDrawable viewColor = (ColorDrawable) cl.getBackground();

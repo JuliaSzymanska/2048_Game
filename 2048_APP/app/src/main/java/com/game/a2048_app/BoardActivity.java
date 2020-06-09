@@ -26,6 +26,9 @@ import android.widget.Toast;
 import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
+// TODO: 09.06.2020 wcale nie julaszym1212 oto animacja:
+//  https://stackoverflow.com/questions/46359987/which-layoutmanager-for-the-animations-of-a-2048-game
+
 // TODO: 09.06.2020 cos o bindingach:
 //  https://stackoverflow.com/questions/31915270/is-there-something-like-a-javafx-stringproperty-for-android
 

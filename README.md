@@ -27,3 +27,5 @@ The app uses the following sensors:
 - To run tests: gradlew.bat test
 
 ### License
+
+[Apache License 2.0](https://github.com/JuliaSzymanska/Mobile_App/blob/master/LICENSE)

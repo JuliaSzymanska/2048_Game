@@ -312,10 +312,10 @@ public class Board implements Serializable {
     }
 
     public List<Field> getCopyBoard() {
-        List<Field> cloneBoard = Arrays.asList(new Field[BOARD_SIZE]);
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            cloneBoard.set(i, new Field(this.board.get(i)));
-        }
+//        List<Field> cloneBoard = Arrays.asList(new Field[BOARD_SIZE]);
+//        for (int i = 0; i < BOARD_SIZE; i++) {
+//            cloneBoard.set(i, new Field(this.board.get(i)));
+//        }
         // TODO: 02.06.2020 FIX
         return this.board;
     }

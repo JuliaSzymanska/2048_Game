@@ -26,6 +26,8 @@ import android.widget.Toast;
 import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
+// TODO: 09.06.2020 cos o bindingach:
+//  https://stackoverflow.com/questions/31915270/is-there-something-like-a-javafx-stringproperty-for-android
 
 // TODO: 08.06.2020 coś nie halo jest w tym proximity, co ci pisałem, trzeba zobaczyc 
 
@@ -98,7 +100,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 // TODO: 01.06.2020 to jest po prostu to ze jak klikniesz to na dole sie pojawia co wybrales
                 //  dodalalm to zeby po prostu poprobowac cos trzeba to bedzie jakos madrze zrobic
-                Toast.makeText(getApplicationContext(), ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
+                // TODO: 09.06.2020 4 Julia S https://stackoverflow.com/questions/6687666/android-how-to-set-the-colour-of-a-toasts-text
+                Toast.makeText(getApplicationContext(), ((TextView)v).getText(), Toast.LENGTH_SHORT).show();
 
             }
         });

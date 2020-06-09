@@ -1,7 +1,10 @@
 # Mobile_App
 Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(video_game)) for Android in Java. 
 
-![Coverage-100%25-green](https://img.shields.io/badge/Coverage-100%25-green)
+<p href="https://github.com/JuliaSzymanska/Mobile_App/tree/master/2048_APP" alt="Coverage">
+   <img src="https://img.shields.io/badge/Coverage-100%25-green" /></a>
+<p href="#backers" alt="Coverage">
+
 
 ***
 

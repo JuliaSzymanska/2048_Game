@@ -1,7 +1,7 @@
 # Mobile_App
 Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(video_game)) for Android in Java. 
 
-[![Gem Version][gem-image]][gem-link]
+![Coverage-100%25-green](https://img.shields.io/badge/Coverage-100%25-green)
 
 ***
 

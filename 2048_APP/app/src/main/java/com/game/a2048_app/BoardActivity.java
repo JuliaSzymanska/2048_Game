@@ -27,6 +27,8 @@ import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
 
+// TODO: 08.06.2020 coś nie halo jest w tym proximity, co ci pisałem, trzeba zobaczyc 
+
 public class BoardActivity extends AppCompatActivity implements SensorEventListener {
     private static final float VALUE_DRIFT = 0.05f;
 // public class BoardActivity extends AppCompatActivity implements BoardActivity.OnSwipeTouchListener.onSwipeListener {

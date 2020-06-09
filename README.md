@@ -1,12 +1,19 @@
 # Mobile_App
 Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(video_game)) for Android in Java. 
 
+[![Gem Version][gem-image]][gem-link]
+
+***
+
+##### Project in development
+
+***
 
 ### Team Members
 * [Julia Szymańska](https://github.com/Julaszym1212)
 * [Przemysław Zdrzalik](https://github.com/zdrzalik-przemek)
 
-### Implementation details
+### Implementation Details
 The app uses the following sensors:
 * Accelerometer + Gyroscope + Magnetometer:
     * Alternative controls
@@ -19,7 +26,10 @@ The app uses the following sensors:
 * Fingerprint sensor:
     * Detects if user is the phone owner
 
-
+### Build With
+* [Gradle]()
+* [JUnit4](https://junit.org/junit4/)
+* []
 
 * * * 
 ### Tests

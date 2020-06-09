@@ -58,6 +58,7 @@ public class Game {
         this.watch.start();
     }
 
+    // TODO: 09.06.2020 jesli gra jest pauzowana to nie da sie ruszyc plansza
     public void pauseTimer() {
         watch.suspend();
     }

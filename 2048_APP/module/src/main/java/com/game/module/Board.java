@@ -10,13 +10,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Board implements Serializable {
 
     private List<Field> board;
     private int score = 0;
 
+    final static Map<String, Integer> moveDirections = new HashMap<>();
+    static{
+
+    }
     final static int MOVE_UP = 0;
     final static int MOVE_RIGHT = 1;
     final static int MOVE_DOWN = 2;

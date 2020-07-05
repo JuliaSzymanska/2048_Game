@@ -3,6 +3,7 @@
 # Edit at https://www.gitignore.io/?templates=java,android,androidstudio
 
 .idea
+2048_APP/.idea
 
 ### Android ###
 # Built application files

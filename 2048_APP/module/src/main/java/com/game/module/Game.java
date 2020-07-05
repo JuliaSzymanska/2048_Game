@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 // TODO: 29.05.2020 DAO
 //  https://www.youtube.com/watch?v=0cg09tlAAQ0
@@ -20,11 +21,12 @@ public class Game {
     private StopWatch watch = new StopWatch();
     private int highScore;
 
-    // TODO: 29.05.2020 nie podoba mi sie -- mi tez nie
-    public final static int MOVE_UP = Board.MOVE_UP;
-    public final static int MOVE_RIGHT = Board.MOVE_RIGHT;
-    public final static int MOVE_DOWN = Board.MOVE_DOWN;
-    public final static int MOVE_LEFT = Board.MOVE_LEFT;
+    public final static int MOVE_UP = 0;
+    public final static int MOVE_RIGHT = 1;
+    public final static int MOVE_DOWN = 2;
+    public final static int MOVE_LEFT = 3;
+    // TODO: 05.07.2020 bool do blokowania ruchu jak gra jest pauzowana
+    private boolean isMovable = true;
 
     private Game() {
         // TODO: 29.05.2020 Condition jak dodamy DAO, czy istnieje zapisana gra
@@ -40,10 +42,29 @@ public class Game {
         return gameBoard.getCopyBoard();
     }
 
+    // TODO: 05.07.2020 przenislam to wszystko tutaj, bo wedlug mnie gra odpowiada za
+    //  to ktory ruch ma byc wykonany, a board za wykonanie ruchu
     public void move(int direction) throws GameOverException {
-        this.gameBoard.move(direction);
-        // TODO: 29.05.2020 zapisac gre po kazdym ruchu gdy juz mamy dao
-        this.updateHighscore();
+        if (this.isMovable) {
+            switch (direction) {
+                case MOVE_UP:
+                    gameBoard.moveUp();
+                    break;
+                case MOVE_RIGHT:
+                    gameBoard.moveRight();
+                    break;
+                case MOVE_DOWN:
+                    gameBoard.moveDown();
+                    break;
+                case MOVE_LEFT:
+                    gameBoard.moveLeft();
+                    break;
+                default:
+                    throw new IllegalArgumentException("value can only be equal to 0, 1, 2 or 3");
+            }
+           // TODO: 29.05.2020 zapisac gre po kazdym ruchu gdy juz mamy dao
+            this.updateHighscore();
+        }
     }
 
     private void updateHighscore() {
@@ -56,20 +77,21 @@ public class Game {
         this.gameBoard.restartGame();
         this.watch.reset();
         this.watch.start();
+        this.isMovable = true;
     }
 
-    // TODO: 09.06.2020 jesli gra jest pauzowana to nie da sie ruszyc plansza
     public void pauseTimer() {
         watch.suspend();
+        this.isMovable = false;
     }
 
     public void unpauseTimer() {
         watch.resume();
+        this.isMovable = true;
     }
 
-    // TODO: 30.05.2020 przekonwertowac to na jakies madre wartosci
     public long getElapsedTime() {
-        return watch.getNanoTime();
+        return watch.getTime(TimeUnit.MILLISECONDS);
     }
 
     public int getCurrentScore() {

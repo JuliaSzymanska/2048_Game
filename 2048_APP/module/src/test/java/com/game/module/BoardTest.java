@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -83,7 +82,7 @@ public class BoardTest {
         System.out.println("BEFORE");
         System.out.println(board);
         try {
-            board.move(Board.MOVE_RIGHT);
+            board.moveRight();
         } catch (GameOverException e) {
             System.out.println(e.getMessage());
             Assert.fail();
@@ -127,7 +126,7 @@ public class BoardTest {
         System.out.println("BEFORE");
         System.out.println(board);
         try {
-            board.move(Board.MOVE_LEFT);
+            board.moveLeft();
         } catch (GameOverException e) {
             System.out.println(e.getMessage());
             Assert.fail();
@@ -171,7 +170,7 @@ public class BoardTest {
         System.out.println("BEFORE");
         System.out.println(board);
         try {
-            board.move(Board.MOVE_UP);
+            board.moveUp();
         } catch (GameOverException e) {
             System.out.println(e.getMessage());
             Assert.fail();
@@ -215,7 +214,7 @@ public class BoardTest {
         System.out.println("BEFORE");
         System.out.println(board);
         try {
-            board.move(Board.MOVE_DOWN);
+            board.moveDown();
         } catch (GameOverException e) {
             System.out.println(e.getMessage());
             Assert.fail();
@@ -234,7 +233,7 @@ public class BoardTest {
         Board board = new Board(this.integers);
         Assert.assertEquals(board.getScore(), 0);
         try {
-            board.move(Board.MOVE_RIGHT);
+            board.moveRight();
         } catch (GameOverException e) {
             System.out.println(e.getMessage());
             Assert.fail();
@@ -274,7 +273,7 @@ public class BoardTest {
         Board board = new Board(this.integers);
         Assert.assertEquals(board.getScore(), 0);
         try {
-            board.move(Board.MOVE_RIGHT);
+            board.moveRight();
         } catch (GameOverException e) {
             System.out.println(e.getMessage());
             Assert.fail();

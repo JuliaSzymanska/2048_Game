@@ -10,23 +10,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Board implements Serializable {
 
     private List<Field> board;
     private int score = 0;
 
-    final static Map<String, Integer> moveDirections = new HashMap<>();
-    static{
-
-    }
     final static int MOVE_UP = 0;
     final static int MOVE_RIGHT = 1;
     final static int MOVE_DOWN = 2;
     final static int MOVE_LEFT = 3;
+
     private final int BOARD_DIMENSIONS = 4;
     private final int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
 
@@ -109,9 +104,9 @@ public class Board implements Serializable {
     }
 
     /**
-     * @param x
-     * @param y
-     * @return
+     * @param x horizontal position.
+     * @param y vertical position.
+     * @return return field at x, y position.
      */
     private Field getFieldByPos(int x, int y) {
         if ((x < 0 || x > 3) || (y < 0 || y > 3)) {
@@ -121,8 +116,8 @@ public class Board implements Serializable {
     }
 
     /**
-     * @param row
-     * @return
+     * @param row row's number.
+     * @return row at row's number position.
      */
     private List<Field> getRow(int row) {
         return Arrays.asList(
@@ -133,8 +128,8 @@ public class Board implements Serializable {
     }
 
     /**
-     * @param col
-     * @return
+     * @param col column's number.
+     * @return column at column's position
      */
     private List<Field> getColumn(int col) {
         return Arrays.asList(
@@ -145,30 +140,25 @@ public class Board implements Serializable {
     }
 
 
-    // TODO: 29.05.2020 zrobic z tego enum moze?,
-    //  a moze nie? te inty są descriptive enough
-    //  moze przeniesc do innej klasy
-
-    // TODO: 31.05.2020 sprawdzic czy enum moze zwrocic funkcje po intcie
-    void move(int direction) throws GameOverException {
-        switch (direction) {
-            case MOVE_UP:
-                moveUp();
-                break;
-            case MOVE_RIGHT:
-                moveRight();
-                break;
-            case MOVE_DOWN:
-                moveDown();
-                break;
-            case MOVE_LEFT:
-                moveLeft();
-                break;
-            default:
-                throw new IllegalArgumentException("value can only be equal to 0, 1, 2 or 3");
-        }
-        this.addNewNonEmptyFieldAfterMove();
-    }
+//    void move(int direction) throws GameOverException {
+////        switch (direction) {
+////            case MOVE_UP:
+////                moveUp();
+////                break;
+////            case MOVE_RIGHT:
+////                moveRight();
+////                break;
+////            case MOVE_DOWN:
+////                moveDown();
+////                break;
+////            case MOVE_LEFT:
+////                moveLeft();
+////                break;
+////            default:
+////                throw new IllegalArgumentException("value can only be equal to 0, 1, 2 or 3");
+////        }
+////        this.addNewNonEmptyFieldAfterMove();
+////    }
 
     private List<List<Field>> get2dList() {
         return Arrays.asList(
@@ -179,7 +169,7 @@ public class Board implements Serializable {
     }
 
     // TODO: 31.05.2020 Przemek skroc to tak jak sb wymarzyles
-    private void moveRight() {
+    void moveRight() throws GameOverException {
         List<List<Field>> rows = get2dList();
         List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
@@ -187,9 +177,10 @@ public class Board implements Serializable {
             moveFieldsInRowOrColumn(row);
             rows.set(i, row);
         }
+        this.addNewNonEmptyFieldAfterMove();
     }
 
-    private void moveLeft() {
+    void moveLeft() throws GameOverException {
         List<List<Field>> rows = get2dList();
         List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
@@ -199,9 +190,10 @@ public class Board implements Serializable {
             Collections.reverse(row);
             rows.set(i, row);
         }
+        this.addNewNonEmptyFieldAfterMove();
     }
 
-    private void moveDown() {
+    void moveDown() throws GameOverException {
         List<List<Field>> cols = get2dList();
         List<Field> col;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
@@ -209,9 +201,10 @@ public class Board implements Serializable {
             moveFieldsInRowOrColumn(col);
             cols.set(i, col);
         }
+        this.addNewNonEmptyFieldAfterMove();
     }
 
-    private void moveUp() {
+    void moveUp() throws GameOverException {
         List<List<Field>> cols = get2dList();
         List<Field> col;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
@@ -221,6 +214,7 @@ public class Board implements Serializable {
             Collections.reverse(col);
             cols.set(i, col);
         }
+        this.addNewNonEmptyFieldAfterMove();
     }
 
     /**
@@ -311,18 +305,13 @@ public class Board implements Serializable {
         removeZerosInMove(fieldsList);
     }
 
-    // TODO: 18.05.2020 myslalem że mogę potrzebować narazie do testów
-    //  ale póki co nie używam
-    public void setFieldValue(int x, int y, int value) {
-        this.getFieldByPos(x, y).setValue(value);
-    }
 
     public List<Field> getCopyBoard() {
-//        List<Field> cloneBoard = Arrays.asList(new Field[BOARD_SIZE]);
+//        List<Field> cloneBoard = newFieldsList();
 //        for (int i = 0; i < BOARD_SIZE; i++) {
-//            cloneBoard.set(i, new Field(this.board.get(i)));
+//            cloneBoard.get(i).setValue(this.board.get(i).getValue());
 //        }
-        // TODO: 02.06.2020 FIX
+        // TODO: 02.06.2020 sprawdzić czy działa poprawnie
         return this.board;
     }
 

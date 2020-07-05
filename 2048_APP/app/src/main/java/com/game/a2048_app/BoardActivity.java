@@ -2,8 +2,6 @@ package com.game.a2048_app;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

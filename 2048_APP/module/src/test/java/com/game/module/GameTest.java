@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.concurrent.TimeUnit;
+
 public class GameTest {
 
     @Before
@@ -24,11 +26,13 @@ public class GameTest {
     @Test
     public void pauseAndUnpauseTimer() throws InterruptedException {
         Game game = Game.getInstance();
+        TimeUnit.MILLISECONDS.sleep(10);
         game.pauseTimer();
         long time_passed = game.getElapsedTime();
-        Thread.sleep(100);
+        TimeUnit.MILLISECONDS.sleep(10);
         Assert.assertEquals(time_passed, game.getElapsedTime());
         game.unpauseTimer();
+        TimeUnit.MILLISECONDS.sleep(10);
         Assert.assertTrue(game.getElapsedTime() > time_passed);
     }
 

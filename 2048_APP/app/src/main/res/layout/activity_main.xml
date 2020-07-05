@@ -28,10 +28,13 @@
 
     <Button
         android:id="@+id/startGameButton"
+        style="@android:style/Widget.Material.Light.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="199dp"
         android:background="#875F5F"
+        android:fadingEdge="horizontal"
+        android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/start_game"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"

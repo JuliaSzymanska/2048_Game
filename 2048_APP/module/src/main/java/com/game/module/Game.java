@@ -91,7 +91,7 @@ public class Game {
     }
 
     public long getElapsedTime() {
-        return watch.getTime(TimeUnit.MILLISECONDS);
+        return watch.getTime(TimeUnit.SECONDS);
     }
 
     public int getCurrentScore() {

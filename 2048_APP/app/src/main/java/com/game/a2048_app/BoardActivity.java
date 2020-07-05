@@ -5,6 +5,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
+
 // TODO: 09.06.2020 wcale nie julaszym1212 oto animacja:
 //  https://stackoverflow.com/questions/46359987/which-layoutmanager-for-the-animations-of-a-2048-game
 
@@ -34,7 +36,6 @@ import com.game.module.GameOverException;
 
 public class BoardActivity extends AppCompatActivity implements SensorEventListener {
     private static final float VALUE_DRIFT = 0.05f;
-// public class BoardActivity extends AppCompatActivity implements BoardActivity.OnSwipeTouchListener.onSwipeListener {
 
     // TODO: 04.06.2020 możesz dodać żeby było widac jaki ruch wykonalismy i kiedy
     //  żebyśmy wiedzieli czy się zgadza
@@ -70,7 +71,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView mTextSensorPitch;
     private TextView mTextSensorRoll;
     private TextView mTextSensorLux;
-    private TextView mTextSensorProximity;
     private TextView score;
     private TextView time;
 
@@ -93,17 +93,17 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
         gridView = (GridView) findViewById(R.id.gridView);
-        // TODO: 01.06.2020 cos mi sie obilo o uszy ze to moze byc listener ale i'm not sure to trzeba bedzie sprawdzic
         adapter = new ArrayAdapter<Field>(this,
                 android.R.layout.simple_list_item_1, fields);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                // TODO: 01.06.2020 to jest po prostu to ze jak klikniesz to na dole sie pojawia co wybrales
-                //  dodalalm to zeby po prostu poprobowac cos trzeba to bedzie jakos madrze zrobic
                 // TODO: 09.06.2020 4 Julia S https://stackoverflow.com/questions/6687666/android-how-to-set-the-colour-of-a-toasts-text
-                Toast.makeText(getApplicationContext(), ((TextView)v).getText(), Toast.LENGTH_SHORT).show();
-
+                Toast toast = Toast.makeText(getApplicationContext(), ((TextView)v).getText(), Toast.LENGTH_SHORT);
+                // TODO: 05.07.2020 jakos narazie mi to nie pomoglo bo nadal sie nic nie zmienia
+//                TextView w = (TextView)toast.getView().findViewById(R.id.field);
+//                w.setBackgroundColor(Color.RED);
+                toast.show();
             }
         });
         this.onSwipeTouchListener = new OnSwipeTouchListener(this, gridView);
@@ -150,6 +150,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 Sensor.TYPE_MAGNETIC_FIELD);
         mSensorLight = mSensorManager.getDefaultSensor(
                 Sensor.TYPE_LIGHT);
+        mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 
         mTextSensorAzimuth = (TextView) findViewById(R.id.mTextSensorAzimuth);
         mTextSensorPitch = (TextView) findViewById(R.id.mTextSensorPitch);
@@ -157,12 +158,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
         score = (TextView) findViewById(R.id.score);
         time = (TextView) findViewById(R.id.time);
-
-
-//        mSpotTop = (ImageView) findViewById(R.id.spot_top);
-//        mSpotBottom = (ImageView) findViewById(R.id.spot_bottom);
-//        mSpotLeft = (ImageView) findViewById(R.id.spot_left);
-//        mSpotRight = (ImageView) findViewById(R.id.spot_right);
     }
 
 
@@ -276,31 +271,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mTextSensorRoll.setText(getResources().getString(
                 R.string.value_format, roll));
         score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
-        long milisec = game.getElapsedTime() / 1000000;
-        int sec = (int)Math.floor((double)(milisec / 1000));
-        milisec = milisec - (sec * 1000);
-        time.setText(String.format("Czas: %s:%s", sec, milisec));
-//        time.setText("Czas:");
+        long seconds = game.getElapsedTime();
+        int minutes = (int)Math.floor((double)(seconds / 60));
+        seconds = seconds - (minutes * 60);
+        time.setText(String.format("Czas: %s:%s", minutes, seconds));
 
-        // TODO: 03.06.2020 w zależności od rotacji wypełnia się alpha kulek
-        //  wizualizacja efektów obrotu
-        //  do usuniecia potem
-
-//        mSpotTop.setAlpha(0f);
-//        mSpotBottom.setAlpha(0f);
-//        mSpotLeft.setAlpha(0f);
-//        mSpotRight.setAlpha(0f);
-
-//        if (pitch > 0) {
-//            mSpotBottom.setAlpha((float) (pitch / Math.PI));
-//        } else {
-//            mSpotTop.setAlpha((float) Math.abs(pitch / Math.PI));
-//        }
-//        if (roll > 0) {
-//            mSpotLeft.setAlpha((float) (roll / Math.PI));
-//        } else {
-//            mSpotRight.setAlpha((float) Math.abs(roll / Math.PI));
-//        }
 
         // TODO: 03.06.2020 jesli dobrze rozumiem to wtedy znaczy że telefon lezy poziomo lub jest maks o 45 stopni wychylony
         if (Math.abs(prevPitch) < 0.4 && Math.abs(prevRoll) < 0.7) {
@@ -323,6 +298,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 } catch (GameOverException e) {
                     // TODO: 03.06.2020 konczyc tu gre
                     e.printStackTrace();
+                    startActivity(new Intent(BoardActivity.this, EndGame.class));
                 }
             }
         }
@@ -332,7 +308,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             hasMoved = false;
         }
 
-        // TODO: 04.06.2020 Proximity sensor zatrzymuje sie czas po zblizeniu
+        // TODO: 04.06.2020 Proximity sensor - zatrzymuje sie czas po zblizeniu
         if (mProximityData < 10) {
             if (isRunning == true) {
                 game.pauseTimer();
@@ -343,7 +319,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             isRunning = true;
         }
 
-        // TODO: 04.06.2020 Narazie sprawdzialm jakby dziala ta zmiana kolorow w tekstfieldach
+        // TODO: 04.06.2020 Narazie sprawdzilam jakby dziala ta zmiana kolorow w tekstfieldach w zależności od str świata
         if (azimuth >= 0.75 && azimuth < 2.25) {
             mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
         } else if (azimuth >= 2.25 || azimuth < -2.25) {
@@ -362,7 +338,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
         ColorDrawable viewColor = (ColorDrawable) cl.getBackground();
         int colorId = viewColor.getColor();
-        System.out.println(colorId);
         if (mLightData < 30 && colorId != -5924712) {
             cl.setBackgroundColor(Color.rgb(165, 152, 152));
         } else if (mLightData >= 30 && colorId != -10281) {

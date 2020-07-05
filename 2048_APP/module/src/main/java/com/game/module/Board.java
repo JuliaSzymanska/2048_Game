@@ -16,12 +16,6 @@ public class Board implements Serializable {
 
     private List<Field> board;
     private int score = 0;
-
-    final static int MOVE_UP = 0;
-    final static int MOVE_RIGHT = 1;
-    final static int MOVE_DOWN = 2;
-    final static int MOVE_LEFT = 3;
-
     private final int BOARD_DIMENSIONS = 4;
     private final int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
 
@@ -70,6 +64,7 @@ public class Board implements Serializable {
             this.addNewNonEmptyFieldAfterMove();
         } catch (GameOverException e) {
             // TODO: 31.05.2020 narazie tu nie rzucam teog wyajtku bo sie robi straszny balagan
+            // TODO: 05.07.2020 tak sobie mysle zeby rzucac ten wyjatek az do boardActivity i tam lapac go i skonczyc gre
             e.printStackTrace();
         }
     }
@@ -138,27 +133,6 @@ public class Board implements Serializable {
                 this.getFieldByPos(col, 2),
                 this.getFieldByPos(col, 3));
     }
-
-
-//    void move(int direction) throws GameOverException {
-////        switch (direction) {
-////            case MOVE_UP:
-////                moveUp();
-////                break;
-////            case MOVE_RIGHT:
-////                moveRight();
-////                break;
-////            case MOVE_DOWN:
-////                moveDown();
-////                break;
-////            case MOVE_LEFT:
-////                moveLeft();
-////                break;
-////            default:
-////                throw new IllegalArgumentException("value can only be equal to 0, 1, 2 or 3");
-////        }
-////        this.addNewNonEmptyFieldAfterMove();
-////    }
 
     private List<List<Field>> get2dList() {
         return Arrays.asList(
@@ -311,7 +285,7 @@ public class Board implements Serializable {
 //        for (int i = 0; i < BOARD_SIZE; i++) {
 //            cloneBoard.get(i).setValue(this.board.get(i).getValue());
 //        }
-        // TODO: 02.06.2020 sprawdzić czy działa poprawnie
+        // TODO: 02.06.2020 poprawic kopiowanie
         return this.board;
     }
 

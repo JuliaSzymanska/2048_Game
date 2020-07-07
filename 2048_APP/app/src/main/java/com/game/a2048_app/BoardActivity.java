@@ -83,28 +83,32 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
+    // https://developer.android.com/guide/components/activities/activity-lifecycle
     protected void onCreate(Bundle savedInstanceState) {
+        this.prepareViews();
+        this.prepareSensors();
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
-        gridView = (GridView) findViewById(R.id.gridView);
+
         adapter = new ArrayAdapter<Field>(this,
                 android.R.layout.simple_list_item_1, fields);
         gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                // TODO: 09.06.2020 4 Julia S https://stackoverflow.com/questions/6687666/android-how-to-set-the-colour-of-a-toasts-text
-                Toast toast = Toast.makeText(getApplicationContext(), ((TextView) v).getText(), Toast.LENGTH_SHORT);
-                // TODO: 05.07.2020 jakos narazie mi to nie pomoglo bo nadal sie nic nie zmienia
-//                TextView w = (TextView)toast.getView().findViewById(R.id.field);
-//                w.setBackgroundColor(Color.RED);
-                toast.show();
-            }
-        });
-
         OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView, this, this.game, this.adapter, this.score);
+    }
 
+    private void prepareViews() {
+        gridView = (GridView) findViewById(R.id.gridView);
+        mTextSensorAzimuth = (TextView) findViewById(R.id.mTextSensorAzimuth);
+        mTextSensorPitch = (TextView) findViewById(R.id.mTextSensorPitch);
+        mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
+        mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
+        score = (TextView) findViewById(R.id.score);
+        time = (TextView) findViewById(R.id.time);
+    }
 
+    private void prepareSensors() {
         // Get accelerometer and magnetometer sensors from the sensor manager.
         // The getDefaultSensor() method returns null if the sensor
         // is not available on the device.
@@ -117,25 +121,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mSensorLight = mSensorManager.getDefaultSensor(
                 Sensor.TYPE_LIGHT);
         mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-
-        mTextSensorAzimuth = (TextView) findViewById(R.id.mTextSensorAzimuth);
-        mTextSensorPitch = (TextView) findViewById(R.id.mTextSensorPitch);
-        mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
-        mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
-        score = (TextView) findViewById(R.id.score);
-        time = (TextView) findViewById(R.id.time);
-    }
-
-
-    private void setListOfFields() {
-
     }
 
     /**
      * Listeners for the sensors are registered in this callback so that
      * they can be unregistered in onStop().
      */
-
     // TODO: 03.06.2020
     //  https://codelabs.developers.google.com/codelabs/advanced-android-training-sensor-orientation/#0
     //  https://androidkennel.org/android-sensors-game-tutorial/

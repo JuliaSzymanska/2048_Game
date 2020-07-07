@@ -27,7 +27,7 @@ public class Game {
     public final static int MOVE_LEFT = 3;
     // TODO: 05.07.2020 bool do blokowania ruchu jak gra jest pauzowana
     //  to może nazywajmy to po imieniu
-    private boolean isPaused = true;
+    private boolean isPaused = false;
 
     private Game() {
         // TODO: 29.05.2020 Condition jak dodamy DAO, czy istnieje zapisana gra
@@ -78,17 +78,17 @@ public class Game {
         this.gameBoard.restartGame();
         this.watch.reset();
         this.watch.start();
-        this.isPaused = true;
+        this.isPaused = false;
     }
 
     public void pauseTimer() {
         watch.suspend();
-        this.isPaused = false;
+        this.isPaused = true;
     }
 
     public void unpauseTimer() {
         watch.resume();
-        this.isPaused = true;
+        this.isPaused = false;
     }
 
     public long getElapsedTime() {

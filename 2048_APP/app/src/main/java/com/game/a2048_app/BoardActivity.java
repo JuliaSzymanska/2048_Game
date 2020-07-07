@@ -14,6 +14,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -41,7 +43,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Game game = Game.getInstance();
     private ArrayAdapter<Field> adapter;
     private GridView gridView;
-    // TODO: 01.06.2020 narazie mamy zwykla tablice fieldow
     private Field[] fields = game.getCopyOfTheBoard().toArray(new Field[0]);
 
     // System sensor manager instance.
@@ -90,7 +91,21 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.prepareSensors();
 
         adapter = new ArrayAdapter<Field>(this,
-                android.R.layout.simple_list_item_1, fields);
+                android.R.layout.simple_list_item_1, fields) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+
+                int color = 0x00FFFFFF; // Transparent
+                if (hasMoved) {
+                    color = 0xFF0000FF; // Opaque Blue
+                }
+
+                view.setBackgroundColor(color);
+
+                return view;
+            }
+        };
         gridView.setAdapter(adapter);
         OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView, this, this.game, this.adapter, this.textScore);
     }

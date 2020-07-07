@@ -25,9 +25,6 @@ public class Game {
     public final static int MOVE_RIGHT = 1;
     public final static int MOVE_DOWN = 2;
     public final static int MOVE_LEFT = 3;
-    // TODO: 05.07.2020 bool do blokowania ruchu jak gra jest pauzowana
-    //  to może nazywajmy to po imieniu
-    private boolean isPaused = false;
 
     private Game() {
         // TODO: 29.05.2020 Condition jak dodamy DAO, czy istnieje zapisana gra
@@ -46,7 +43,8 @@ public class Game {
     // TODO: 05.07.2020 przenislam to wszystko tutaj, bo wedlug mnie gra odpowiada za
     //  to ktory ruch ma byc wykonany, a board za wykonanie ruchu
     public void move(int direction) throws GameOverException {
-        if (this.isPaused) {
+        // aż mi przykro ile czasu mi zajeło zauważenie że ten variable jest bez sensu
+        if (this.watch.isSuspended()) {
             switch (direction) {
                 case MOVE_UP:
                     gameBoard.moveUp();
@@ -78,17 +76,14 @@ public class Game {
         this.gameBoard.restartGame();
         this.watch.reset();
         this.watch.start();
-        this.isPaused = false;
     }
 
     public void pauseTimer() {
         watch.suspend();
-        this.isPaused = true;
     }
 
     public void unpauseTimer() {
         watch.resume();
-        this.isPaused = false;
     }
 
     public long getElapsedTime() {

@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,12 +72,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView mTextSensorLux;
     private TextView score;
     private TextView time;
-
-    // Testing Rotation
-    private ImageView mSpotTop;
-    private ImageView mSpotBottom;
-    private ImageView mSpotLeft;
-    private ImageView mSpotRight;
 
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
     // Pitch: The top-to-bottom tilt of the device. 0 is flat.
@@ -140,8 +133,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         };
 
         // Get accelerometer and magnetometer sensors from the sensor manager.
-        //        // The getDefaultSensor() method returns null if the sensor
-        //        // is not available on the device.
+        // The getDefaultSensor() method returns null if the sensor
+        // is not available on the device.
         mSensorManager = (SensorManager) getSystemService(
                 Context.SENSOR_SERVICE);
         mSensorAccelerometer = mSensorManager.getDefaultSensor(

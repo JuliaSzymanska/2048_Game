@@ -102,8 +102,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 TextView textView = (TextView) super.getView(position, convertView, parent);
                 view.setBackgroundResource(mThumbIds);
                 textView.setGravity(Gravity.CENTER);
-                // TODO: 07.07.2020 poki co przed pierwszym ruchem size i color jest ustawia sie tylko dla pierwszego,
-                //  po 1. ruchu ustawia sie dla wszystkich
                 textView.setTextSize(30);
                 textView.setTextColor(Color.WHITE);
                 return view;
@@ -217,8 +215,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             SensorManager.getOrientation(rotationMatrix, orientationValues);
         }
 
-        // TODO: 07.07.2020 aktualnie zmienia sie kolor w zaleznosci od str swiata, ale jesli zmieniles strone a nie zrobiles ruchu,
-        //  to sie zmieni dopiero jak go wykonasz
         changeColorMagnetometer(orientationValues[0]);
         positionGyroscope(orientationValues);
     }
@@ -335,6 +331,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             mTextSensorLux.setTextColor(Color.rgb(228, 63, 222));
             mThumbIds = R.drawable.button_pink;
         }
+        adapter.notifyDataSetChanged();
     }
 
 

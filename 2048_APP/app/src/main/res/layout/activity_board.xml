@@ -168,13 +168,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/field"
-        android:layout_width="68dp"
-        android:layout_height="18dp"
-        android:text="@string/_2048_game"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="173dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

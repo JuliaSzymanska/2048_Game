@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.game.module.Field;
@@ -66,7 +65,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private float mProximityData;
     private boolean hasMoved = false;
     private boolean isRunning = true;
-    int scoreGame = game.getCurrentScore();
 
     // TextViews to display current sensor values.
     private TextView mTextSensorAzimuth;

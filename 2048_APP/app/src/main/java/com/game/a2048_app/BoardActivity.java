@@ -1,5 +1,7 @@
 package com.game.a2048_app;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -14,10 +16,12 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.game.module.Field;
@@ -44,6 +48,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private ArrayAdapter<Field> adapter;
     private GridView gridView;
     private Field[] fields = game.getCopyOfTheBoard().toArray(new Field[0]);
+    private Integer mThumbIds = R.drawable.button_green;
 
     // System sensor manager instance.
     private SensorManager mSensorManager;
@@ -92,21 +97,19 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         adapter = new ArrayAdapter<Field>(this,
                 android.R.layout.simple_list_item_1, fields) {
+            @NonNull
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-
-                int color = 0x00FFFFFF; // Transparent
-                if (hasMoved) {
-                    color = 0xFF0000FF; // Opaque Blue
-                }
-
+                int color = 0xFF0000FF; // Opaque Blue
                 view.setBackgroundColor(color);
-
+                view.setBackgroundResource(mThumbIds);
+//                view.setForegroundGravity(Gravity.CENTER);
                 return view;
             }
         };
         gridView.setAdapter(adapter);
+
         OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView, this, this.game, this.adapter, this.textScore);
     }
 
@@ -319,12 +322,16 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         // TODO: 04.06.2020 Narazie sprawdzilam jakby dziala ta zmiana kolorow w tekstfieldach w zależności od str świata
         if (azimuth >= 0.75 && azimuth < 2.25) {
             mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
+            mThumbIds = R.drawable.button_green;
         } else if (azimuth >= 2.25 || azimuth < -2.25) {
             mTextSensorLux.setTextColor(Color.rgb(112, 175, 212));
+            mThumbIds = R.drawable.button_blue;
         } else if (azimuth >= -0.75 && azimuth < 0.75) {
             mTextSensorLux.setTextColor(Color.rgb(181, 114, 106));
+            mThumbIds = R.drawable.button_red;
         } else {
-            mTextSensorLux.setTextColor(Color.rgb(153, 105, 181));
+            mTextSensorLux.setTextColor(Color.rgb(228, 63, 222));
+            mThumbIds = R.drawable.button_pink;
         }
     }
 

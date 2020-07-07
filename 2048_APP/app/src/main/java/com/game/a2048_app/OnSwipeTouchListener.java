@@ -68,8 +68,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                 }
             } catch (GameOverException ignored) {
                 // FIXME: 07.07.2020 GameOver
-            }
-            catch (Exception exception) {
+            } catch (Exception exception) {
                 exception.printStackTrace();
             }
             return result;
@@ -108,35 +107,37 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
             @Override
             public void swipeRight() throws GameOverException {
                 game.move(Game.MOVE_RIGHT);
-                // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
-                adapter.notifyDataSetChanged();
-                // TODO: 04.06.2020 narazie tak to jest potem trzebabedzie dodac jakies ladne listenery albo bindingi
-                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+                setScoreAndUpdate();
             }
 
             @Override
             public void swipeTop() throws GameOverException {
                 game.move(Game.MOVE_UP);
-                adapter.notifyDataSetChanged();
-                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+                setScoreAndUpdate();
             }
 
             @Override
             public void swipeBottom() throws GameOverException {
                 game.move(Game.MOVE_DOWN);
-                adapter.notifyDataSetChanged();
-                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+                setScoreAndUpdate();
             }
 
             @Override
             public void swipeLeft() throws GameOverException {
                 game.move(Game.MOVE_LEFT);
+                setScoreAndUpdate();
+            }
+
+            private void setScoreAndUpdate() {
+                // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
                 adapter.notifyDataSetChanged();
+                // TODO: 04.06.2020 narazie tak to jest potem trzebabedzie dodac jakies ladne listenery albo bindingi
                 score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
         };
 
     }
+
 
     onSwipeListener onSwipe;
 }

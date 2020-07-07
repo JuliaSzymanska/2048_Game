@@ -99,7 +99,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 // TODO: 09.06.2020 4 Julia S https://stackoverflow.com/questions/6687666/android-how-to-set-the-colour-of-a-toasts-text
-                Toast toast = Toast.makeText(getApplicationContext(), ((TextView)v).getText(), Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), ((TextView) v).getText(), Toast.LENGTH_SHORT);
                 // TODO: 05.07.2020 jakos narazie mi to nie pomoglo bo nadal sie nic nie zmienia
 //                TextView w = (TextView)toast.getView().findViewById(R.id.field);
 //                w.setBackgroundColor(Color.RED);
@@ -231,15 +231,18 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
                 mMagnetometerData = event.values.clone();
+                positionGyroscope();
                 break;
             case Sensor.TYPE_LIGHT:
                 mLightData = event.values[0];
+                darkMode();
             case Sensor.TYPE_PROXIMITY:
                 mProximityData = event.values[0];
-            default:
-                return;
+                stopGameProximity();
         }
+    }
 
+    private void positionGyroscope() {
         float[] rotationMatrix = new float[9];
         boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
                 null, mAccelerometerData, mMagnetometerData);
@@ -251,6 +254,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         float azimuth = orientationValues[0];
         float pitch = orientationValues[1];
         float roll = orientationValues[2];
+
+        changeColorMagnetometer(azimuth);
 
         float prevAzimuth = this.previousValuesAzimuthPitchRoll[0];
         float prevPitch = this.previousValuesAzimuthPitchRoll[1];
@@ -272,10 +277,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 R.string.value_format, roll));
         score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
         long seconds = game.getElapsedTime();
-        int minutes = (int)Math.floor((double)(seconds / 60));
+        int minutes = (int) Math.floor((double) (seconds / 60));
         seconds = seconds - (minutes * 60);
         time.setText(String.format("Czas: %s:%s", minutes, seconds));
-
 
         // TODO: 03.06.2020 jesli dobrze rozumiem to wtedy znaczy że telefon lezy poziomo lub jest maks o 45 stopni wychylony
         if (Math.abs(prevPitch) < 0.4 && Math.abs(prevRoll) < 0.7) {
@@ -307,18 +311,36 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         if (Math.abs(pitch) < 0.2 && Math.abs(roll) < 0.2) {
             hasMoved = false;
         }
+        this.previousValuesAzimuthPitchRoll = orientationValues;
+    }
 
-        // TODO: 04.06.2020 Proximity sensor - zatrzymuje sie czas po zblizeniu
+    private void darkMode() {
+        // Light Sensor - gdy jest ciemno włącza się dark mode
+        mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
+        ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
+        ColorDrawable viewColor = (ColorDrawable) cl.getBackground();
+        int colorId = viewColor.getColor();
+        if (mLightData < 30 && colorId != -5924712) {
+            cl.setBackgroundColor(Color.rgb(165, 152, 152));
+        } else if (mLightData >= 30 && colorId != -10281) {
+            cl.setBackgroundColor(Color.rgb(255, 215, 215));
+        }
+    }
+
+    private void stopGameProximity() {
+        // Proximity sensor - zatrzymuje sie czas po zblizeniu
         if (mProximityData < 10) {
-            if (isRunning == true) {
+            if (isRunning) {
                 game.pauseTimer();
                 isRunning = false;
             }
-        } else if (isRunning == false) {
+        } else if (!isRunning) {
             game.unpauseTimer();
             isRunning = true;
         }
+    }
 
+    private void changeColorMagnetometer(float azimuth) {
         // TODO: 04.06.2020 Narazie sprawdzilam jakby dziala ta zmiana kolorow w tekstfieldach w zależności od str świata
         if (azimuth >= 0.75 && azimuth < 2.25) {
             mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
@@ -328,20 +350,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             mTextSensorLux.setTextColor(Color.rgb(181, 114, 106));
         } else {
             mTextSensorLux.setTextColor(Color.rgb(153, 105, 181));
-        }
-
-
-        this.previousValuesAzimuthPitchRoll = orientationValues;
-
-        // TODO: 04.06.2020 Tutaj jest czujnik swiatla - darkmode niby
-        mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
-        ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
-        ColorDrawable viewColor = (ColorDrawable) cl.getBackground();
-        int colorId = viewColor.getColor();
-        if (mLightData < 30 && colorId != -5924712) {
-            cl.setBackgroundColor(Color.rgb(165, 152, 152));
-        } else if (mLightData >= 30 && colorId != -10281) {
-            cl.setBackgroundColor(Color.rgb(255, 215, 215));
         }
     }
 

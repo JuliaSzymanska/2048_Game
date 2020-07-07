@@ -266,7 +266,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     }
                     hasMoved = true;
                 } catch (GameOverException e) {
-                    // TODO: 03.06.2020 konczyc tu gre
                     e.printStackTrace();
                     startActivity(new Intent(BoardActivity.this, EndGame.class));
                 }

@@ -66,7 +66,10 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                     }
                     result = true;
                 }
-            } catch (Exception exception) {
+            } catch (GameOverException ignored) {
+                // FIXME: 07.07.2020 GameOver
+            }
+            catch (Exception exception) {
                 exception.printStackTrace();
             }
             return result;

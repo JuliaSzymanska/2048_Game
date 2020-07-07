@@ -101,10 +101,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                int color = 0xFF0000FF; // Opaque Blue
-                view.setBackgroundColor(color);
+                TextView textView = (TextView) super.getView(position, convertView, parent);
                 view.setBackgroundResource(mThumbIds);
-//                view.setForegroundGravity(Gravity.CENTER);
+                textView.setGravity(Gravity.CENTER);
+                // TODO: 07.07.2020 poki co przed pierwszym ruchem size i color jest ustawia sie tylko dla pierwszego,
+                //  po 1. ruchu ustawia sie dla wszystkich
+                textView.setTextSize(30);
+                textView.setTextColor(Color.WHITE);
                 return view;
             }
         };
@@ -189,11 +192,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         switch (sensorType) {
             case Sensor.TYPE_ACCELEROMETER:
                 mAccelerometerData = event.values.clone();
-                positionGyroscope();
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
                 mMagnetometerData = event.values.clone();
-                positionGyroscope();
                 break;
             case Sensor.TYPE_LIGHT:
                 mLightData = event.values[0];
@@ -206,11 +207,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             default:
                 // FIXME: 07.07.2020 logger albo exception
                 System.out.println("Unexpected sensor event");
-
+                return;
         }
-    }
 
-    private void positionGyroscope() {
         float[] rotationMatrix = new float[9];
         boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
                 null, mAccelerometerData, mMagnetometerData);
@@ -219,11 +218,17 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         if (rotationOK) {
             SensorManager.getOrientation(rotationMatrix, orientationValues);
         }
+
+        // TODO: 07.07.2020 aktualnie zmienia sie kolor w zaleznosci od str swiata, ale jesli zmieniles strone a nie zrobiles ruchu,
+        //  to sie zmieni dopiero jak go wykonasz
+        changeColorMagnetometer(orientationValues[0]);
+        positionGyroscope(orientationValues);
+    }
+
+    private void positionGyroscope(float[] orientationValues) {
         float azimuth = orientationValues[0];
         float pitch = orientationValues[1];
         float roll = orientationValues[2];
-
-        changeColorMagnetometer(azimuth);
 
         float prevAzimuth = this.previousValuesAzimuthPitchRoll[0];
         float prevPitch = this.previousValuesAzimuthPitchRoll[1];
@@ -319,7 +324,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private void changeColorMagnetometer(float azimuth) {
-        // TODO: 04.06.2020 Narazie sprawdzilam jakby dziala ta zmiana kolorow w tekstfieldach w zależności od str świata
         if (azimuth >= 0.75 && azimuth < 2.25) {
             mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
             mThumbIds = R.drawable.button_green;

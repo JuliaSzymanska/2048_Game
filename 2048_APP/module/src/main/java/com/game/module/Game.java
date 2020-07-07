@@ -87,6 +87,10 @@ public class Game {
     }
 
     public long getElapsedTime() {
+        return watch.getNanoTime();
+    }
+
+    public long getElapsedTimeSeconds() {
         return watch.getTime(TimeUnit.SECONDS);
     }
 

@@ -14,13 +14,9 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.game.module.Field;
 import com.game.module.Game;
@@ -71,8 +67,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView mTextSensorPitch;
     private TextView mTextSensorRoll;
     private TextView mTextSensorLux;
-    private TextView score;
-    private TextView time;
+    private TextView textScore;
+    private TextView textTime;
 
 
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
@@ -85,17 +81,18 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     @Override
     // https://developer.android.com/guide/components/activities/activity-lifecycle
     protected void onCreate(Bundle savedInstanceState) {
-        this.prepareViews();
-        this.prepareSensors();
+        super.onCreate(savedInstanceState);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
+
+        this.prepareViews();
+        this.prepareSensors();
 
         adapter = new ArrayAdapter<Field>(this,
                 android.R.layout.simple_list_item_1, fields);
         gridView.setAdapter(adapter);
-        OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView, this, this.game, this.adapter, this.score);
+        OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView, this, this.game, this.adapter, this.textScore);
     }
 
     private void prepareViews() {
@@ -104,8 +101,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mTextSensorPitch = (TextView) findViewById(R.id.mTextSensorPitch);
         mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
         mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
-        score = (TextView) findViewById(R.id.score);
-        time = (TextView) findViewById(R.id.time);
+        textScore = (TextView) findViewById(R.id.score);
+        textTime = (TextView) findViewById(R.id.time);
     }
 
     private void prepareSensors() {
@@ -168,23 +165,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mSensorManager.unregisterListener(this);
     }
 
-    // TODO: 03.06.2020 myślę że trzeba jakoś założyć że telefon leży na 'plecach'
-    //  i sprawdzać czy na tych plecach faktycznie leży, bo to ułatwi bardzo operowanie na tym czyms
-    //  i teraz nie wiem czy po prostu sprawdzać czy pochlenie w danym kierunku zmieniło się ponad ileś
-    //  np ponad 30 stopni albo 45, i czy poprzednio pochylenie było mniejsze od tej wartości
-    //  czy moze jakos predkosc tej zmiany sprawdzac?
-
-    // TODO: 03.06.2020 Aktualnie chyba działa, ale nie ładowałem na telefon.
-    //  Działa w ten sposób że jeżeli po prostu przekroczymy wychylenie o ponad 45 stopni(leżąc na plecach)
-    //  to sie odpowiednio rusza.
-    //  obejrzyj sobie
-
     @Override
     public void onSensorChanged(SensorEvent event) {
         int sensorType = event.sensor.getType();
         switch (sensorType) {
             case Sensor.TYPE_ACCELEROMETER:
                 mAccelerometerData = event.values.clone();
+                positionGyroscope();
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
                 mMagnetometerData = event.values.clone();
@@ -225,6 +212,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         float prevRoll = this.previousValuesAzimuthPitchRoll[2];
 
         // malutkie odchylenie -> zmiana na 0
+        // nam to raczej nie potrzebne
         if (Math.abs(pitch) < VALUE_DRIFT) {
             pitch = 0;
         }
@@ -238,11 +226,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 R.string.value_format, pitch));
         mTextSensorRoll.setText(getResources().getString(
                 R.string.value_format, roll));
-        score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
-        long seconds = game.getElapsedTime();
-        int minutes = (int) Math.floor((double) (seconds / 60));
-        seconds = seconds - (minutes * 60);
-        time.setText(String.format("Czas: %s:%s", minutes, seconds));
+
+        this.updateTime();
+        this.updateScore();
 
         // TODO: 03.06.2020 jesli dobrze rozumiem to wtedy znaczy że telefon lezy poziomo lub jest maks o 45 stopni wychylony
         if (Math.abs(prevPitch) < 0.4 && Math.abs(prevRoll) < 0.7) {
@@ -275,6 +261,17 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             hasMoved = false;
         }
         this.previousValuesAzimuthPitchRoll = orientationValues;
+    }
+
+    private void updateTime() {
+        long elapsedTime = game.getElapsedTimeSeconds();
+        int minutes = (int) elapsedTime / 60;
+        long seconds = elapsedTime % 60;
+        textTime.setText(String.format("Czas: %s:%s", minutes, seconds));
+    }
+
+    private void updateScore() {
+        textScore.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
     }
 
     private void darkMode() {

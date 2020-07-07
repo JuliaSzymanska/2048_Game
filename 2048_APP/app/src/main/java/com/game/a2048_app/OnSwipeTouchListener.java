@@ -135,9 +135,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                 score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
         };
-
     }
-
 
     onSwipeListener onSwipe;
 }

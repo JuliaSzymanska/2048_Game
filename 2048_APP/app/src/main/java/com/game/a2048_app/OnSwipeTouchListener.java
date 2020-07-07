@@ -1,10 +1,15 @@
 package com.game.a2048_app;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
+import com.game.module.Field;
+import com.game.module.Game;
 import com.game.module.GameOverException;
 
 // TODO: 02.06.2020 Aktualnie bardzo mocno polegam na staticach (game oraz adapter) EDIT: JUZ NIE ale zostawiam narazie historycznie xD
@@ -92,6 +97,42 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         void swipeBottom() throws GameOverException;
 
         void swipeLeft() throws GameOverException;
+    }
+
+    static void setupListener(OnSwipeTouchListener onSwipeTouchListener, View view, Activity activity, final Game game, final ArrayAdapter<Field> adapter, final TextView score) {
+        onSwipeTouchListener = new OnSwipeTouchListener(activity, view);
+        onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
+            @Override
+            public void swipeRight() throws GameOverException {
+                game.move(Game.MOVE_RIGHT);
+                // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
+                adapter.notifyDataSetChanged();
+                // TODO: 04.06.2020 narazie tak to jest potem trzebabedzie dodac jakies ladne listenery albo bindingi
+                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+            }
+
+            @Override
+            public void swipeTop() throws GameOverException {
+                game.move(Game.MOVE_UP);
+                adapter.notifyDataSetChanged();
+                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+            }
+
+            @Override
+            public void swipeBottom() throws GameOverException {
+                game.move(Game.MOVE_DOWN);
+                adapter.notifyDataSetChanged();
+                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+            }
+
+            @Override
+            public void swipeLeft() throws GameOverException {
+                game.move(Game.MOVE_LEFT);
+                adapter.notifyDataSetChanged();
+                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+            }
+        };
+
     }
 
     onSwipeListener onSwipe;

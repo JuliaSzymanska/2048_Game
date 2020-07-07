@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,6 +74,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView score;
     private TextView time;
 
+
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
     // Pitch: The top-to-bottom tilt of the device. 0 is flat.
     // Roll: The left-to-right tilt of the device. 0 is flat.
@@ -99,38 +101,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 toast.show();
             }
         });
-        this.onSwipeTouchListener = new OnSwipeTouchListener(this, gridView);
-        this.onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
-            @Override
-            public void swipeRight() throws GameOverException {
-                game.move(Game.MOVE_RIGHT);
-                // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
-                adapter.notifyDataSetChanged();
-                // TODO: 04.06.2020 narazie tak to jest potem trzebabedzie dodac jakies ladne listenery albo bindingi
-                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
-            }
 
-            @Override
-            public void swipeTop() throws GameOverException {
-                game.move(Game.MOVE_UP);
-                adapter.notifyDataSetChanged();
-                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
-            }
+        OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView, this, this.game, this.adapter, this.score);
 
-            @Override
-            public void swipeBottom() throws GameOverException {
-                game.move(Game.MOVE_DOWN);
-                adapter.notifyDataSetChanged();
-                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
-            }
-
-            @Override
-            public void swipeLeft() throws GameOverException {
-                game.move(Game.MOVE_LEFT);
-                adapter.notifyDataSetChanged();
-                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
-            }
-        };
 
         // Get accelerometer and magnetometer sensors from the sensor manager.
         // The getDefaultSensor() method returns null if the sensor
@@ -229,9 +202,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             case Sensor.TYPE_LIGHT:
                 mLightData = event.values[0];
                 darkMode();
+                break;
             case Sensor.TYPE_PROXIMITY:
                 mProximityData = event.values[0];
                 stopGameProximity();
+                break;
+            default:
+                // FIXME: 07.07.2020 logger albo exception
+                System.out.println("Unexpected sensor event");
+
         }
     }
 

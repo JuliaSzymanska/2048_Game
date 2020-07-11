@@ -14,12 +14,13 @@ import java.util.concurrent.TimeUnit;
 //  ^ wygląda legitnie
 
 public class Game {
-    // TODO: 29.05.2020 Myslę że gra powina być singletonem
     private static final Game INSTANCE = new Game();
 
     private Board gameBoard = new Board();
     private StopWatch watch = new StopWatch();
     private int highScore;
+
+    private boolean isUserAuthenticated = false;
 
     public final static int MOVE_UP = 0;
     public final static int MOVE_RIGHT = 1;
@@ -27,8 +28,6 @@ public class Game {
     public final static int MOVE_LEFT = 3;
 
     private Game() {
-        // TODO: 29.05.2020 Condition jak dodamy DAO, czy istnieje zapisana gra
-        //  jezeli istnieje - przypisujemy ja do planszy, jesli nie - tworzymy nową.
         startNewGame();
     }
 
@@ -41,8 +40,6 @@ public class Game {
     }
 
     public void move(int direction) throws GameOverException {
-        // aż mi przykro ile czasu mi zajeło zauważenie że ten variable jest bez sensu - ja kiedys to robilam i mi to jakos
-        // zle dzialalo pamietam, dlatego byl bool
         if (!this.watch.isSuspended()) {
             switch (direction) {
                 case MOVE_UP:
@@ -62,7 +59,14 @@ public class Game {
             }
            // TODO: 29.05.2020 zapisac gre po kazdym ruchu gdy juz mamy dao
             this.updateHighscore();
+            if(isUserAuthenticated) {
+                this.saveGame();
+            }
         }
+    }
+
+    private void saveGame() {
+        // FIXME: 11.07.2020
     }
 
     private void updateHighscore() {
@@ -75,6 +79,11 @@ public class Game {
         this.gameBoard.restartGame();
         this.watch.reset();
         this.watch.start();
+    }
+
+    public boolean loadGame() {
+        // FIXME: 11.07.2020
+        return false;
     }
 
     public void pauseTimer() {

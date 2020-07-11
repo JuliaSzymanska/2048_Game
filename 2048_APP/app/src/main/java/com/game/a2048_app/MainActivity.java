@@ -103,12 +103,14 @@ public class MainActivity extends AppCompatActivity {
         //so to provide the user with as much feedback as possible I’m incorporating this information into my toast//
         public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
             Toast.makeText(context, "Authentication help\n" + helpString, Toast.LENGTH_LONG).show();
-        }@Override
+        }
+
+        @Override
 
         //onAuthenticationSucceeded is called when a fingerprint has been successfully matched to one of the fingerprints stored on the user’s device//
         public void onAuthenticationSucceeded(
                 FingerprintManager.AuthenticationResult result) {
-            startGame.setEnabled(true);
+            Variables.isAuthenticated = true;
             Toast.makeText(context, "Success!", Toast.LENGTH_LONG).show();
         }
 
@@ -122,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         configureStartGameButton();
-        startGame.setEnabled(false);
 
         keyguardManager =
                 (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
@@ -169,11 +170,6 @@ public class MainActivity extends AppCompatActivity {
                 helper.startAuth(fingerprintManager, cryptoObject);
             }
         }
-    }
-
-
-    public void enableStartButton(){
-        startGame.setEnabled(true);
     }
 
 //Create the generateKey method that we’ll use to gain access to the Android keystore and generate the encryption key//

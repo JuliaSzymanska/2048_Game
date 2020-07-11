@@ -59,12 +59,12 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     @Override
     public void onAuthenticationSucceeded() {
-
+// FIXME: 11.07.2020 
     }
 
     @Override
     public void onAuthenticationCancel() {
-
+// FIXME: 11.07.2020 
     }
 }
 

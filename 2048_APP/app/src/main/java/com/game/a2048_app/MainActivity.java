@@ -40,6 +40,9 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
+
+// TODO: 11.07.2020 change to https://github.com/OmarAflak/Fingerprint
+
 public class MainActivity extends AppCompatActivity {
 
     private Button startGame;
@@ -242,6 +245,10 @@ public class MainActivity extends AppCompatActivity {
         public FingerprintException(Exception e) {
             super(e);
         }
+
+    }
+
+    private void configureAuthenticateButton() {
 
     }
 

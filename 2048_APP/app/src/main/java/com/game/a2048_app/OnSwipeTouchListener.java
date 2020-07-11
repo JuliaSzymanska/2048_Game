@@ -32,6 +32,8 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         private static final int SWIPE_THRESHOLD = 10;
         private static final int SWIPE_VELOCITY_THRESHOLD = 10;
 
+
+
         @Override
         public boolean onDown(MotionEvent e) {
             return true;
@@ -95,6 +97,8 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         void swipeLeft() throws GameOverException;
     }
 
+    onSwipeListener onSwipe;
+
     static void setupListener(OnSwipeTouchListener onSwipeTouchListener, final View view, final Activity activity,
                               final Game game, final ArrayAdapter<Field> adapter,
                               final TextView score, final TextView highScore) {
@@ -125,7 +129,6 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
             }
 
             private void setScoreAndUpdate() {
-                //Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
                 adapter.notifyDataSetChanged();
                 // FIXME: 11.07.2020 ugly
                 if (activity instanceof  BoardActivity) {
@@ -136,6 +139,4 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
             }
         };
     }
-
-    onSwipeListener onSwipe;
 }

@@ -268,7 +268,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             default:
                 // FIXME: 07.07.2020 logger albo exception
                 System.out.println("Unexpected sensor event");
-                return;
         }
     }
 

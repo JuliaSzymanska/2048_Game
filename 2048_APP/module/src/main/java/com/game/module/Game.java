@@ -40,8 +40,6 @@ public class Game {
         return gameBoard.getCopyBoard();
     }
 
-    // TODO: 05.07.2020 przenislam to wszystko tutaj, bo wedlug mnie gra odpowiada za
-    //  to ktory ruch ma byc wykonany, a board za wykonanie ruchu
     public void move(int direction) throws GameOverException {
         // aż mi przykro ile czasu mi zajeło zauważenie że ten variable jest bez sensu - ja kiedys to robilam i mi to jakos
         // zle dzialalo pamietam, dlatego byl bool

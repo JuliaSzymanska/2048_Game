@@ -29,9 +29,8 @@ import com.game.module.GameOverException;
 
 // TODO: 09.06.2020 wcale nie julaszym1212 oto animacja:
 //  https://stackoverflow.com/questions/46359987/which-layoutmanager-for-the-animations-of-a-2048-game
-
-// TODO: 09.06.2020 cos o bindingach:
-//  https://stackoverflow.com/questions/31915270/is-there-something-like-a-javafx-stringproperty-for-android
+//  https://github.com/wasabeef/recyclerview-animators - to chyba najlepsze
+//  https://stackoverflow.com/questions/30997624/how-to-apply-animation-to-add-item-in-gridview-one-by-one
 
 // TODO: 08.06.2020 coś nie halo jest w tym proximity, co ci pisałem, trzeba zobaczyc 
 
@@ -107,7 +106,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             }
         };
         gridView.setAdapter(adapter);
-
+        textScore.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
         OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView, this, this.game, this.adapter, this.textScore);
         // Czas się updateuje co 0.5 sekundy
         Thread t = new Thread(){
@@ -147,13 +146,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         textScore = (TextView) findViewById(R.id.score);
         textTime = (TextView) findViewById(R.id.time);
     }
-
-//    private void updateTime() {
-//        long elapsedTime = game.getElapsedTimeSeconds();
-//        int minutes = (int) elapsedTime / 60;
-//        long seconds = elapsedTime % 60;
-//        textTime.setText(String.format("Czas: %s:%s", minutes, seconds));
-//    }
 
     private void prepareSensors() {
         // Get accelerometer and magnetometer sensors from the sensor manager.

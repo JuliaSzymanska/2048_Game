@@ -81,7 +81,14 @@ public class Game {
         this.watch.start();
     }
 
-    public boolean loadGame() {
+    public void restartGame() {
+        this.startNewGame();
+        if(isUserAuthenticated) {
+            this.saveGame();
+        }
+    }
+
+    private boolean loadGame() {
         // FIXME: 11.07.2020
         return false;
     }

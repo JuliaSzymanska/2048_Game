@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -72,6 +73,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView mTextSensorLux;
     private TextView textScore;
     private TextView textTime;
+
+    private Button restartGameButton;
 
 
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
@@ -146,6 +149,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
         textScore = (TextView) findViewById(R.id.score);
         textTime = (TextView) findViewById(R.id.time);
+
+        restartGameButton = (Button) findViewById(R.id.restartGameButton);
+        this.restartGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                restartGame();
+            }
+        });
     }
 
     private void prepareSensors() {
@@ -340,6 +351,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             mThumbIds = R.drawable.button_pink;
         }
         adapter.notifyDataSetChanged();
+    }
+
+    private void restartGame() {
+        this.game.restartGame();
     }
 
 

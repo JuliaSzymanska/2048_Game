@@ -64,7 +64,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private float mLightData;
     private float mProximityData;
     private boolean hasMoved = false;
-    private boolean isRunning = true;
 
     // TextViews to display current sensor values.
     private TextView mTextSensorAzimuth;
@@ -110,6 +109,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         gridView.setAdapter(adapter);
 
         OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView, this, this.game, this.adapter, this.textScore);
+
+
     }
 
     private void prepareViews() {
@@ -205,7 +206,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 System.out.println("Unexpected sensor event");
                 return;
         }
-
+        this.updateTime();
         float[] rotationMatrix = new float[9];
         boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
                 null, mAccelerometerData, mMagnetometerData);
@@ -243,9 +244,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 R.string.value_format, pitch));
         mTextSensorRoll.setText(getResources().getString(
                 R.string.value_format, roll));
-
-        this.updateTime();
-        this.updateScore();
 
         // TODO: 03.06.2020 jesli dobrze rozumiem to wtedy znaczy że telefon lezy poziomo lub jest maks o 45 stopni wychylony
         if (Math.abs(prevPitch) < 0.4 && Math.abs(prevRoll) < 0.7) {
@@ -286,10 +284,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         textTime.setText(String.format("Czas: %s:%s", minutes, seconds));
     }
 
-    private void updateScore() {
-        textScore.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
-    }
-
     private void darkMode() {
         // Light Sensor - gdy jest ciemno włącza się dark mode
         mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
@@ -305,14 +299,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private void stopGameProximity() {
         // Proximity sensor - zatrzymuje sie czas po zblizeniu
-        if (mProximityData < 10) {
-            if (isRunning) {
+        if (mProximityData < 5) {
+            if (!game.isSuspended()) {
                 game.pauseTimer();
-                isRunning = false;
             }
-        } else if (!isRunning) {
+        } else if (game.isSuspended()) {
             game.unpauseTimer();
-            isRunning = true;
         }
     }
 

@@ -43,8 +43,9 @@ public class Game {
     // TODO: 05.07.2020 przenislam to wszystko tutaj, bo wedlug mnie gra odpowiada za
     //  to ktory ruch ma byc wykonany, a board za wykonanie ruchu
     public void move(int direction) throws GameOverException {
-        // aż mi przykro ile czasu mi zajeło zauważenie że ten variable jest bez sensu
-        if (this.watch.isSuspended()) {
+        // aż mi przykro ile czasu mi zajeło zauważenie że ten variable jest bez sensu - ja kiedys to robilam i mi to jakos
+        // zle dzialalo pamietam, dlatego byl bool
+        if (!this.watch.isSuspended()) {
             switch (direction) {
                 case MOVE_UP:
                     gameBoard.moveUp();
@@ -86,7 +87,13 @@ public class Game {
         watch.resume();
     }
 
+    public boolean isSuspended(){
+        return watch.isSuspended();
+    }
+
     public long getElapsedTime() {
+        System.out.println("Czas elapsed: " + watch.getNanoTime());
+        System.out.println("Is suspended: " + watch.isSuspended());
         return watch.getNanoTime();
     }
 

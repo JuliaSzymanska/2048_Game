@@ -129,7 +129,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
             }
 
             private void setScoreAndUpdate() {
-                // TODO: 02.06.2020 Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
+                //Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
                 adapter.notifyDataSetChanged();
                 // TODO: 04.06.2020 narazie tak to jest potem trzebabedzie dodac jakies ladne listenery albo bindingi
                 score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));

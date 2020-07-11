@@ -109,8 +109,33 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         gridView.setAdapter(adapter);
 
         OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView, this, this.game, this.adapter, this.textScore);
+        // Czas się updateuje co 0.5 sekundy
+        Thread t = new Thread(){
+            @Override
+            public void run() {
+                while(!isInterrupted()){
+                    try {
+                        Thread.sleep(500);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                System.out.println("update time!!!!");
+                                long elapsedTime = game.getElapsedTimeSeconds();
+                                int minutes = (int) elapsedTime / 60;
+                                long seconds = elapsedTime % 60;
+                                textTime.setText(String.format("Czas: %s:%s", minutes, seconds));
+                            }
+                        });
 
 
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        };
+        t.start();
     }
 
     private void prepareViews() {
@@ -122,6 +147,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         textScore = (TextView) findViewById(R.id.score);
         textTime = (TextView) findViewById(R.id.time);
     }
+
+//    private void updateTime() {
+//        long elapsedTime = game.getElapsedTimeSeconds();
+//        int minutes = (int) elapsedTime / 60;
+//        long seconds = elapsedTime % 60;
+//        textTime.setText(String.format("Czas: %s:%s", minutes, seconds));
+//    }
 
     private void prepareSensors() {
         // Get accelerometer and magnetometer sensors from the sensor manager.
@@ -206,7 +238,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 System.out.println("Unexpected sensor event");
                 return;
         }
-        this.updateTime();
         float[] rotationMatrix = new float[9];
         boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
                 null, mAccelerometerData, mMagnetometerData);
@@ -275,13 +306,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             hasMoved = false;
         }
         this.previousValuesAzimuthPitchRoll = orientationValues;
-    }
-
-    private void updateTime() {
-        long elapsedTime = game.getElapsedTimeSeconds();
-        int minutes = (int) elapsedTime / 60;
-        long seconds = elapsedTime % 60;
-        textTime.setText(String.format("Czas: %s:%s", minutes, seconds));
     }
 
     private void darkMode() {

@@ -28,8 +28,8 @@ public class Game {
     public final static int MOVE_LEFT = 3;
 
     private Game() {
-        if(this.isUserAuthenticated) {
-            if(this.loadGame()){
+        if (this.isUserAuthenticated) {
+            if (this.loadGame()) {
                 return;
             }
         }
@@ -65,8 +65,8 @@ public class Game {
                     throw new IllegalArgumentException("value can only be equal to 0, 1, 2 or 3");
             }
             this.updateHighscore();
-            if(this.isUserAuthenticated) {
-                Thread t = new Thread(){
+            if (this.isUserAuthenticated) {
+                Thread t = new Thread() {
                     @Override
                     public void run() {
                         super.run();
@@ -86,6 +86,7 @@ public class Game {
         if (this.gameBoard.getScore() > this.highScore) {
             this.highScore = this.gameBoard.getScore();
         }
+        System.out.println(this.highScore);
     }
 
     public void startNewGame() {
@@ -96,7 +97,7 @@ public class Game {
 
     public void restartGame() {
         this.startNewGame();
-        if(isUserAuthenticated) {
+        if (isUserAuthenticated) {
             this.saveGame();
         }
     }
@@ -107,14 +108,18 @@ public class Game {
     }
 
     public void pauseTimer() {
-        watch.suspend();
+        if (!watch.isSuspended()) {
+            watch.suspend();
+        }
     }
 
     public void unpauseTimer() {
-        watch.resume();
+        if (watch.isSuspended()) {
+            watch.resume();
+        }
     }
 
-    public boolean isSuspended(){
+    public boolean isSuspended() {
         return watch.isSuspended();
     }
 

@@ -69,7 +69,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView mTextSensorPitch;
     private TextView mTextSensorRoll;
     private TextView mTextSensorLux;
+
     private TextView textScore;
+    private TextView textHighScore;
     private TextView textTime;
 
     private Button restartGameButton;
@@ -95,7 +97,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.prepareViews();
         this.prepareSensors();
 
-        OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView, this, this.game, this.adapter, this.textScore);
+        OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView,
+                this, this.game, this.adapter, this.textScore, this.textHighScore);
     }
 
     private void prepareViews() {
@@ -107,7 +110,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
         textTime = (TextView) findViewById(R.id.time);
         textScore = (TextView) findViewById(R.id.score);
-        textScore.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+        this.setTextScoreText();
+        textHighScore = (TextView) findViewById(R.id.highScore);
+        this.setTextHighScoreText();
 
         restartGameButton = (Button) findViewById(R.id.restartGameButton);
         this.restartGameButton.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +121,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 restartGame();
             }
         });
+    }
+
+    void setTextScoreText() {
+        textScore.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+    }
+
+    void setTextHighScoreText() {
+        textHighScore.setText(String.format("%s%s", "Highscore: ", game.getHighScore()));
     }
 
     private void prepareSensors() {
@@ -367,8 +380,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         adapter.notifyDataSetChanged();
     }
 
+
     private void restartGame() {
         this.game.restartGame();
+        this.setTextScoreText();
     }
 
 

@@ -39,8 +39,6 @@ import com.game.module.GameOverException;
 public class BoardActivity extends AppCompatActivity implements SensorEventListener {
     private static final float VALUE_DRIFT = 0.05f;
 
-    // TODO: 04.06.2020 możesz dodać żeby było widac jaki ruch wykonalismy i kiedy
-    //  żebyśmy wiedzieli czy się zgadza
 
     OnSwipeTouchListener onSwipeTouchListener;
 

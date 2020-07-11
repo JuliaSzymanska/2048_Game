@@ -12,12 +12,6 @@ import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
 
-// TODO: 02.06.2020 Aktualnie bardzo mocno polegam na staticach (game oraz adapter) EDIT: JUZ NIE ale zostawiam narazie historycznie xD
-//  oraz no uzywam oryginalnego boarda a nie chce
-//  jestem pewien że da się lepiej ale dopiero zaczyma to ogarniac
-//  https://stackoverflow.com/questions/4139288/android-how-to-handle-right-to-left-swipe-gestures
-//  https://www.tutorialspoint.com/how-to-detect-swipe-direction-between-left-right-and-up-down-in-android
-
 public class OnSwipeTouchListener implements View.OnTouchListener {
     private final GestureDetector gestureDetector;
     private Context context;
@@ -131,7 +125,6 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
             private void setScoreAndUpdate() {
                 //Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
                 adapter.notifyDataSetChanged();
-                // TODO: 04.06.2020 narazie tak to jest potem trzebabedzie dodac jakies ladne listenery albo bindingi
                 score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
             }
         };

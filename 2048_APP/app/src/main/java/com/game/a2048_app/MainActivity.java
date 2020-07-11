@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private FingerprintManager.CryptoObject cryptoObject;
     private KeyguardManager keyguardManager;
 
-// // TODO: 11.07.2020 Narazie jesli twoj odcisk palca jest w bazie, możesz rozpocząć grę
+// TODO: 11.07.2020 Narazie jesli twoj odcisk palca jest w bazie, możesz rozpocząć grę
+//  https://www.androidauthority.com/how-to-add-fingerprint-authentication-to-your-android-app-747304/
 
     @TargetApi(Build.VERSION_CODES.M)
     private class FingerprintHandler extends FingerprintManager.AuthenticationCallback {

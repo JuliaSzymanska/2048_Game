@@ -31,7 +31,7 @@
         style="@android:style/Widget.Material.Light.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="199dp"
+        android:layout_marginTop="350dp"
         android:background="#875F5F"
         android:fadingEdge="horizontal"
         android:fontFamily="sans-serif-condensed-medium"
@@ -41,5 +41,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/informationOfFingerPrint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/startGameButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleLabel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

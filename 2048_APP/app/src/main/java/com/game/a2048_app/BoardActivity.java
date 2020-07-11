@@ -30,6 +30,7 @@ import com.game.module.GameOverException;
 // TODO: 09.06.2020 wcale nie julaszym1212 oto animacja:
 //  https://stackoverflow.com/questions/46359987/which-layoutmanager-for-the-animations-of-a-2048-game
 //  https://github.com/wasabeef/recyclerview-animators - to chyba najlepsze
+//  https://www.youtube.com/watch?v=33wOlQ2y0hQ - tez git
 //  https://stackoverflow.com/questions/30997624/how-to-apply-animation-to-add-item-in-gridview-one-by-one
 
 // TODO: 08.06.2020 coś nie halo jest w tym proximity, co ci pisałem, trzeba zobaczyc 

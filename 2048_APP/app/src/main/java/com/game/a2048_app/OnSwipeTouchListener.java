@@ -95,7 +95,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         void swipeLeft() throws GameOverException;
     }
 
-    static void setupListener(OnSwipeTouchListener onSwipeTouchListener, final View view, Activity activity,
+    static void setupListener(OnSwipeTouchListener onSwipeTouchListener, final View view, final Activity activity,
                               final Game game, final ArrayAdapter<Field> adapter,
                               final TextView score, final TextView highScore) {
         onSwipeTouchListener = new OnSwipeTouchListener(activity, view);
@@ -127,9 +127,12 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
             private void setScoreAndUpdate() {
                 //Po callnieciu adapter.notifyDataSetChanged() aktualizuje sie gridview.
                 adapter.notifyDataSetChanged();
-                // FIXME: 11.07.2020 funtion doing same in BoardActivity, ugly, must fix
-                score.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
-                highScore.setText(String.format("%s%s", "HighScore: ", game.getHighScore()));
+                // FIXME: 11.07.2020 ugly
+                if (activity instanceof  BoardActivity) {
+                    BoardActivity boardActivity = (BoardActivity) activity;
+                    boardActivity.setTextScoreText();
+                    boardActivity.setTextHighScoreText();
+                }
             }
         };
     }

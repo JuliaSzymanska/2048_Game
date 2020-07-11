@@ -7,6 +7,27 @@
     android:background="#C6BBBB"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/authenticateButton"
+        style="@android:style/Widget.Material.Light.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="126dp"
+        android:layout_marginTop="496dp"
+        android:layout_marginEnd="62dp"
+        android:layout_marginBottom="51dp"
+        android:background="#875F5F"
+        android:fadingEdge="horizontal"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/authenticate"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.816" />
+
     <TextView
         android:id="@+id/titleLabel"
         android:layout_width="wrap_content"
@@ -18,12 +39,12 @@
         android:textSize="70sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.215"
+        app:layout_constraintVertical_bias="0.095"
         tools:targetApi="jelly_bean" />
 
     <Button
@@ -39,8 +60,10 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.183" />
 
     <TextView
         android:id="@+id/informationOfFingerPrint"

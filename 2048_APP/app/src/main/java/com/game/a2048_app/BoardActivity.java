@@ -97,9 +97,25 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.prepareViews();
         this.prepareSensors();
 
+        // TODO: 12.07.2020 should probably not be in a different file in such a convoluted function
         OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView,
                 this, this.game, this.adapter, this.textScore, this.textHighScore);
     }
+
+    void setTextScoreText() {
+        textScore.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+    }
+
+    void setTextHighScoreText() {
+        textHighScore.setText(String.format("%s%s", "Highscore: ", game.getHighScore()));
+    }
+
+    private View.OnClickListener restartGameListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            restartGame();
+        }
+    };
 
     private void prepareViews() {
         gridView = (GridView) findViewById(R.id.gridView);
@@ -115,20 +131,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.setTextHighScoreText();
 
         restartGameButton = (Button) findViewById(R.id.restartGameButton);
-        this.restartGameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                restartGame();
-            }
-        });
-    }
-
-    void setTextScoreText() {
-        textScore.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
-    }
-
-    void setTextHighScoreText() {
-        textHighScore.setText(String.format("%s%s", "Highscore: ", game.getHighScore()));
+        this.restartGameButton.setOnClickListener(restartGameListener);
     }
 
     private void prepareSensors() {

@@ -26,34 +26,42 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initButtons();
+    }
+
+    private void initButtons() {
         configureStartGameButton();
         configureAuthenticateButton();
     }
 
+    private View.OnClickListener authentication = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (FingerprintDialog.isAvailable(mainActivity)) {
+                FingerprintDialog.initialize(mainActivity)
+                        .title(R.string.fingerprint_title)
+                        .message(R.string.fingerprint_message)
+                        .callback(mainActivity)
+                        .show();
+            }
+        }
+    };
+
+    private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(MainActivity.this, BoardActivity.class));
+        }
+    };
+
     private void configureStartGameButton(){
         Button startGame = (Button) findViewById(R.id.startGameButton);
-        startGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, BoardActivity.class));
-            }
-        });
+        startGame.setOnClickListener(initializeBoardActivity);
     }
 
     private void configureAuthenticateButton() {
         Button startGame = (Button) findViewById(R.id.authenticateButton);
-        startGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(FingerprintDialog.isAvailable(mainActivity)){
-                    FingerprintDialog.initialize(mainActivity)
-                            .title(R.string.fingerprint_title)
-                            .message(R.string.fingerprint_message)
-                            .callback(mainActivity)
-                            .show();
-                }
-            }
-        });
+        startGame.setOnClickListener(authentication);
     }
 
 

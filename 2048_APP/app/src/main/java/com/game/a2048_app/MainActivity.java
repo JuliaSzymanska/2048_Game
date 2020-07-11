@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.os.Bundle;
 
+import com.game.module.Game;
+
 import me.aflak.libraries.callback.FingerprintCallback;
 import me.aflak.libraries.callback.FingerprintDialogCallback;
 import me.aflak.libraries.dialog.FingerprintDialog;
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     @Override
     public void onAuthenticationSucceeded() {
-    // FIXME: 11.07.2020
+        Game.getInstance().setUserAuthenticated(true);
     }
 
     @Override

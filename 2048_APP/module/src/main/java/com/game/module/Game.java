@@ -45,6 +45,8 @@ public class Game {
     }
 
     public void move(int direction) throws GameOverException {
+        // to w takim razie to było zepsute już wcześniej bo ja tylko zmieniałem nazwy :v
+        // a działało u mnie przez zepsuty proximity sensor ( :
         if (!this.watch.isSuspended()) {
             switch (direction) {
                 case MOVE_UP:

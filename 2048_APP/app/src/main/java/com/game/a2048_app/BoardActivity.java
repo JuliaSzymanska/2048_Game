@@ -280,7 +280,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mTextSensorRoll.setText(getResources().getString(
                 R.string.value_format, roll));
 
-        // TODO: 03.06.2020 jesli dobrze rozumiem to wtedy znaczy że telefon lezy poziomo lub jest maks o 45 stopni wychylony
         if (Math.abs(prevPitch) < 0.4 && Math.abs(prevRoll) < 0.7) {
             if (!hasMoved && Math.abs(pitch) >= 0.4 || Math.abs(roll) >= 0.7) {
                 try {
@@ -305,7 +304,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             }
         }
 
-        // TODO: 04.06.2020 SPRAWDZ CZY JEST OK
         if (Math.abs(pitch) < 0.2 && Math.abs(roll) < 0.2) {
             hasMoved = false;
         }

@@ -62,10 +62,16 @@ public class Game {
                 default:
                     throw new IllegalArgumentException("value can only be equal to 0, 1, 2 or 3");
             }
-           // TODO: 29.05.2020 zapisac gre po kazdym ruchu gdy juz mamy dao
             this.updateHighscore();
             if(isUserAuthenticated) {
-                this.saveGame();
+                Thread t = new Thread(){
+                    @Override
+                    public void run() {
+                        super.run();
+                        saveGame();
+                    }
+                };
+                t.start();
             }
         }
     }

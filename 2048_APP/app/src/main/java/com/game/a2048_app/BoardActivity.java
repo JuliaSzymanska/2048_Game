@@ -76,7 +76,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private Button restartGameButton;
 
-    Thread updateTimeThread;
+    private Thread updateTimeThread;
 
 
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
@@ -97,34 +97,19 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.prepareViews();
         this.prepareSensors();
 
-        adapter = new ArrayAdapter<Field>(this,
-                android.R.layout.simple_list_item_1, fields) {
-            @NonNull
-            @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) super.getView(position, convertView, parent);
-                view.setBackgroundResource(mThumbIds);
-                textView.setGravity(Gravity.CENTER);
-                textView.setTextSize(30);
-                textView.setTextColor(Color.WHITE);
-                return view;
-            }
-        };
-        gridView.setAdapter(adapter);
-        textScore.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
         OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView, this, this.game, this.adapter, this.textScore);
-        // Czas się updateuje co 0.5 sekundy
     }
 
     private void prepareViews() {
         gridView = (GridView) findViewById(R.id.gridView);
+        this.prepareGrid();
         mTextSensorAzimuth = (TextView) findViewById(R.id.mTextSensorAzimuth);
         mTextSensorPitch = (TextView) findViewById(R.id.mTextSensorPitch);
         mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
         mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
-        textScore = (TextView) findViewById(R.id.score);
         textTime = (TextView) findViewById(R.id.time);
+        textScore = (TextView) findViewById(R.id.score);
+        textScore.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
 
         restartGameButton = (Button) findViewById(R.id.restartGameButton);
         this.restartGameButton.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +135,24 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
     }
 
+    private void prepareGrid() {
+        this.adapter = new ArrayAdapter<Field>(this,
+                android.R.layout.simple_list_item_1, fields) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView textView = (TextView) super.getView(position, convertView, parent);
+                view.setBackgroundResource(mThumbIds);
+                textView.setGravity(Gravity.CENTER);
+                textView.setTextSize(30);
+                textView.setTextColor(Color.WHITE);
+                return view;
+            }
+        };
+        gridView.setAdapter(adapter);
+    }
+
     /**
      * Listeners for the sensors are registered in this callback so that
      * they can be unregistered in onStop().
@@ -162,7 +165,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     protected void onStart() {
         super.onStart();
 
-        this.game.unpauseTimer();
 
         // Listeners for the sensors are registered in this callback and
         // can be unregistered in onStop().
@@ -187,7 +189,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     SensorManager.SENSOR_DELAY_GAME);
         }
 
-        this.updateTimeThread = new Thread(){
+        this.game.unpauseTimer();
+        this.beingUpdateTime();
+    }
+
+    private void beingUpdateTime() {
+        Thread updateTimeThread = new Thread(){
             @Override
             public void run() {
                 while(!isInterrupted()){
@@ -211,7 +218,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 }
             }
         };
-        this.updateTimeThread.start();
+        updateTimeThread.start();
+    }
+
+    private void stopUpdateTime(){
+        this.updateTimeThread.interrupt();
     }
 
     @Override
@@ -223,7 +234,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mSensorManager.unregisterListener(this);
 
         this.game.pauseTimer();
-        this.updateTimeThread.interrupt();
+        this.stopUpdateTime();
     }
 
     @Override

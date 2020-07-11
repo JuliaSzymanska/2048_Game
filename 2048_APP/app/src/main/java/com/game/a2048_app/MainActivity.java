@@ -1,7 +1,6 @@
 
 package com.game.a2048_app;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -13,10 +12,9 @@ import android.os.Bundle;
 
 import com.game.module.Game;
 
-import me.aflak.libraries.callback.FingerprintCallback;
 import me.aflak.libraries.callback.FingerprintDialogCallback;
 import me.aflak.libraries.dialog.FingerprintDialog;
-import me.aflak.libraries.view.Fingerprint;
+
 
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback{
 

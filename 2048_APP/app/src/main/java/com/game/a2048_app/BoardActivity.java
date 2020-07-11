@@ -232,9 +232,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         updateTimeThread.start();
     }
 
-    private void stopUpdateTime(){
-        this.updateTimeThread.interrupt();
-    }
 
     @Override
     protected void onStop() {
@@ -245,7 +242,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mSensorManager.unregisterListener(this);
 
         this.game.pauseTimer();
-        this.stopUpdateTime();
     }
 
     @Override

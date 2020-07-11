@@ -23,6 +23,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.game.module.Board;
+import com.game.module.Game;
+
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         //onAuthenticationSucceeded is called when a fingerprint has been successfully matched to one of the fingerprints stored on the user’s device//
         public void onAuthenticationSucceeded(
                 FingerprintManager.AuthenticationResult result) {
-            Variables.isAuthenticated = true;
+            Game.getInstance().setUserAuthenticated(true);
             Toast.makeText(context, "Success!", Toast.LENGTH_LONG).show();
         }
 

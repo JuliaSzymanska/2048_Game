@@ -28,7 +28,12 @@ public class Game {
     public final static int MOVE_LEFT = 3;
 
     private Game() {
-        startNewGame();
+        if(this.isUserAuthenticated) {
+            if(this.loadGame()){
+                return;
+            }
+        }
+        this.startNewGame();
     }
 
     public static Game getInstance() {
@@ -121,6 +126,14 @@ public class Game {
 
     public int getHighScore() {
         return highScore;
+    }
+
+    public boolean isUserAuthenticated() {
+        return isUserAuthenticated;
+    }
+
+    public void setUserAuthenticated(boolean userAuthenticated) {
+        this.isUserAuthenticated = userAuthenticated;
     }
 
     @Override

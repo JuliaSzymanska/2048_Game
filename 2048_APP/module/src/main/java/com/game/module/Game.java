@@ -63,7 +63,7 @@ public class Game {
                     throw new IllegalArgumentException("value can only be equal to 0, 1, 2 or 3");
             }
             this.updateHighscore();
-            if(isUserAuthenticated) {
+            if(this.isUserAuthenticated) {
                 Thread t = new Thread(){
                     @Override
                     public void run() {

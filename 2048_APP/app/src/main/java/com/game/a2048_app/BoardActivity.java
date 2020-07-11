@@ -76,6 +76,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private Button restartGameButton;
 
+    Thread updateTimeThread;
+
 
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
     // Pitch: The top-to-bottom tilt of the device. 0 is flat.
@@ -113,32 +115,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         textScore.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
         OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView, this, this.game, this.adapter, this.textScore);
         // Czas się updateuje co 0.5 sekundy
-        Thread t = new Thread(){
-            @Override
-            public void run() {
-                while(!isInterrupted()){
-                    try {
-                        Thread.sleep(500);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                System.out.println("update time!!!!");
-                                long elapsedTime = game.getElapsedTimeSeconds();
-                                int minutes = (int) elapsedTime / 60;
-                                long seconds = elapsedTime % 60;
-                                textTime.setText(String.format("Czas: %s:%s", minutes, seconds));
-                            }
-                        });
-
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        };
-        t.start();
     }
 
     private void prepareViews() {
@@ -186,6 +162,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     protected void onStart() {
         super.onStart();
 
+        this.game.unpauseTimer();
+
         // Listeners for the sensors are registered in this callback and
         // can be unregistered in onStop().
         //
@@ -208,6 +186,32 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             mSensorManager.registerListener(this, mSensorProximity,
                     SensorManager.SENSOR_DELAY_GAME);
         }
+
+        this.updateTimeThread = new Thread(){
+            @Override
+            public void run() {
+                while(!isInterrupted()){
+                    try {
+                        Thread.sleep(500);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                long elapsedTime = game.getElapsedTimeSeconds();
+                                int minutes = (int) elapsedTime / 60;
+                                long seconds = elapsedTime % 60;
+                                textTime.setText(String.format("Czas: %s:%s", minutes, seconds));
+                            }
+                        });
+
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        };
+        this.updateTimeThread.start();
     }
 
     @Override
@@ -217,6 +221,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         // Unregister all sensor listeners in this callback so they don't
         // continue to use resources when the app is stopped.
         mSensorManager.unregisterListener(this);
+
+        this.game.pauseTimer();
+        this.updateTimeThread.interrupt();
     }
 
     @Override

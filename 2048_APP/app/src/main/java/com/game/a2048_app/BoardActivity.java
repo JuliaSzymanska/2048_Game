@@ -244,15 +244,18 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.game.pauseTimer();
     }
 
+    // TODO: 12.07.2020 wszystko to powinno być asynchroniczne
     @Override
     public void onSensorChanged(SensorEvent event) {
         int sensorType = event.sensor.getType();
         switch (sensorType) {
             case Sensor.TYPE_ACCELEROMETER:
                 mAccelerometerData = event.values.clone();
+                positionGyroscope();
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
                 mMagnetometerData = event.values.clone();
+                changeColourMagnetometer();
                 break;
             case Sensor.TYPE_LIGHT:
                 mLightData = event.values[0];
@@ -267,20 +270,21 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 System.out.println("Unexpected sensor event");
                 return;
         }
+    }
+
+    private float[] magnetometerSetup() {
         float[] rotationMatrix = new float[9];
         boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
                 null, mAccelerometerData, mMagnetometerData);
-
         float[] orientationValues = new float[3];
         if (rotationOK) {
             SensorManager.getOrientation(rotationMatrix, orientationValues);
         }
-
-        changeColorMagnetometer(orientationValues[0]);
-        positionGyroscope(orientationValues);
+        return orientationValues;
     }
 
-    private void positionGyroscope(float[] orientationValues) {
+    private void positionGyroscope() {
+        float[] orientationValues = magnetometerSetup();
         float azimuth = orientationValues[0];
         float pitch = orientationValues[1];
         float roll = orientationValues[2];
@@ -359,7 +363,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-    private void changeColorMagnetometer(float azimuth) {
+    private void changeColourMagnetometer() {
+        float azimuth = magnetometerSetup()[0];
         if (azimuth >= 0.75 && azimuth < 2.25) {
             mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
             mThumbIds = R.drawable.button_green;

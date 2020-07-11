@@ -124,8 +124,6 @@ public class Game {
     }
 
     public long getElapsedTime() {
-        System.out.println("Czas elapsed: " + watch.getNanoTime());
-        System.out.println("Is suspended: " + watch.isSuspended());
         return watch.getNanoTime();
     }
 

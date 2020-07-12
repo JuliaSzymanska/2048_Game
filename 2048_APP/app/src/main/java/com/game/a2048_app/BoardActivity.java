@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.game.module.Field;
 import com.game.module.Game;
@@ -77,6 +78,21 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Button restartGameButton;
 
     private Thread updateTimeThread;
+
+    private final static int PROXIMITY_DISTANCE = 5;
+
+    // FIXME: 12.07.2020 bad naming
+    private final static float RESET_PITCH = 0.2f;
+    private final static float RESET_ROLL = 0.2f;
+
+    private final static float DETECT_MOVE_PITCH = 0.7f;
+    private final static float DETECT_MOVE_ROLL = 0.7f;
+
+    // FIXME: 12.07.2020 bad naming
+    private final static double changeColourAzimunthBreakpoint1 = 0.5;
+    private final static double changeColourAzimunthBreakpoint2 = 1;
+    private final static double changeColourAzimunthBreakpoint3 = 2;
+    private final static double changeColourAzimunthBreakpoint4 = 2.5;
 
 
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
@@ -208,10 +224,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private void beingUpdateTime() {
-        Thread updateTimeThread = new Thread(){
+        Thread updateTimeThread = new Thread() {
             @Override
             public void run() {
-                while(!isInterrupted()){
+                while (!isInterrupted()) {
                     try {
                         Thread.sleep(500);
                         runOnUiThread(new Runnable() {
@@ -226,6 +242,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
 
                     } catch (InterruptedException e) {
+                        // FIXME: 12.07.2020 logger
                         e.printStackTrace();
                     }
 
@@ -291,10 +308,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         float pitch = orientationValues[1];
         float roll = orientationValues[2];
 
-        float prevAzimuth = this.previousValuesAzimuthPitchRoll[0];
-        float prevPitch = this.previousValuesAzimuthPitchRoll[1];
-        float prevRoll = this.previousValuesAzimuthPitchRoll[2];
-
         // malutkie odchylenie -> zmiana na 0
         // nam to raczej nie potrzebne
         if (Math.abs(pitch) < VALUE_DRIFT) {
@@ -311,34 +324,35 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mTextSensorRoll.setText(getResources().getString(
                 R.string.value_format, roll));
 
-        if (Math.abs(prevPitch) < 0.4 && Math.abs(prevRoll) < 0.7) {
-            if (!hasMoved && Math.abs(pitch) >= 0.4 || Math.abs(roll) >= 0.7) {
-                try {
-                    if (pitch >= 0.4) {
-                        game.move(Game.MOVE_UP);
-                        adapter.notifyDataSetChanged();
-                    } else if (pitch <= -0.4) {
-                        game.move(Game.MOVE_DOWN);
-                        adapter.notifyDataSetChanged();
-                    } else if (roll >= 0.7) {
-                        game.move(Game.MOVE_RIGHT);
-                        adapter.notifyDataSetChanged();
-                    } else if (roll <= -0.7) {
-                        game.move(Game.MOVE_LEFT);
-                        adapter.notifyDataSetChanged();
-                    }
-                    hasMoved = true;
-                } catch (GameOverException e) {
-                    e.printStackTrace();
-                    startActivity(new Intent(BoardActivity.this, EndGame.class));
+        if (!hasMoved && (Math.abs(pitch) >= DETECT_MOVE_PITCH || Math.abs(roll) >= DETECT_MOVE_ROLL)) {
+            try {
+                // FIXME: 12.07.2020 Remove Toast
+                if (pitch >= DETECT_MOVE_PITCH) {
+                    game.move(Game.MOVE_UP);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(this, "MOVE UP", Toast.LENGTH_LONG).show();
+                } else if (pitch <= -DETECT_MOVE_PITCH) {
+                    game.move(Game.MOVE_DOWN);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(this, "MOVE DOWN", Toast.LENGTH_LONG).show();
+                } else if (roll >= DETECT_MOVE_ROLL) {
+                    game.move(Game.MOVE_RIGHT);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(this, "MOVE RIGHT", Toast.LENGTH_LONG).show();
+                } else if (roll <= -DETECT_MOVE_ROLL) {
+                    game.move(Game.MOVE_LEFT);
+                    Toast.makeText(this, "MOVE LEFT", Toast.LENGTH_LONG).show();
+                    adapter.notifyDataSetChanged();
                 }
+                hasMoved = true;
+            } catch (GameOverException e) {
+                e.printStackTrace();
+                startActivity(new Intent(BoardActivity.this, EndGame.class));
             }
         }
-
-        if (Math.abs(pitch) < 0.2 && Math.abs(roll) < 0.2) {
+        if (Math.abs(pitch) < RESET_PITCH && Math.abs(roll) < RESET_ROLL) {
             hasMoved = false;
         }
-        this.previousValuesAzimuthPitchRoll = orientationValues;
     }
 
     private void darkMode() {
@@ -348,6 +362,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         ColorDrawable viewColor = (ColorDrawable) cl.getBackground();
         int colorId = viewColor.getColor();
         if (mLightData < 30 && colorId != -5924712) {
+            // TODO: 12.07.2020 toConstant
             cl.setBackgroundColor(Color.rgb(165, 152, 152));
         } else if (mLightData >= 30 && colorId != -10281) {
             cl.setBackgroundColor(Color.rgb(255, 215, 215));
@@ -356,7 +371,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private void stopGameProximity() {
         // Proximity sensor - zatrzymuje sie czas po zblizeniu
-        if (mProximityData < 5) {
+        if (mProximityData < PROXIMITY_DISTANCE) {
             if (!game.isSuspended()) {
                 game.pauseTimer();
             }
@@ -367,16 +382,17 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private void changeColourMagnetometer() {
         float azimuth = magnetometerSetup()[0];
-        if (azimuth >= 0.75 && azimuth < 2.25) {
+        // zmiana żeby uniknąć 'migotania' kolorów
+        if (azimuth >= changeColourAzimunthBreakpoint2 && azimuth < changeColourAzimunthBreakpoint3) {
             mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
             mThumbIds = R.drawable.button_green;
-        } else if (azimuth >= 2.25 || azimuth < -2.25) {
+        } else if (azimuth >= changeColourAzimunthBreakpoint4 || azimuth < -changeColourAzimunthBreakpoint4) {
             mTextSensorLux.setTextColor(Color.rgb(112, 175, 212));
             mThumbIds = R.drawable.button_blue;
-        } else if (azimuth >= -0.75 && azimuth < 0.75) {
+        } else if (azimuth >= -changeColourAzimunthBreakpoint1 && azimuth < changeColourAzimunthBreakpoint1) {
             mTextSensorLux.setTextColor(Color.rgb(181, 114, 106));
             mThumbIds = R.drawable.button_red;
-        } else {
+        } else if (azimuth > -changeColourAzimunthBreakpoint3 && azimuth < -changeColourAzimunthBreakpoint2) {
             mTextSensorLux.setTextColor(Color.rgb(228, 63, 222));
             mThumbIds = R.drawable.button_pink;
         }

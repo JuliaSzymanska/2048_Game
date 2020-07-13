@@ -19,7 +19,6 @@
         android:background="#875F5F"
         android:fadingEdge="horizontal"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="@string/authenticate"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

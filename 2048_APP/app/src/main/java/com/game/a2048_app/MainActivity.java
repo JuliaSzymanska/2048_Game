@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private void configureAuthenticateButton() {
         Button authenticationButton = (Button) findViewById(R.id.authenticateButton);
         authenticationButton.setOnClickListener(authentication);
+        authenticationButton.setBackgroundResource(R.drawable.fingerprint_without_background);
     }
 
 

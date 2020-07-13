@@ -41,6 +41,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private static final float VALUE_DRIFT = 0.05f;
 
 
+    // TODO: 13.07.2020 https://developer.android.com/guide/topics/ui/dialogs.html
+    // ^ settings
+
     OnSwipeTouchListener onSwipeTouchListener;
 
     private Game game = Game.getInstance();

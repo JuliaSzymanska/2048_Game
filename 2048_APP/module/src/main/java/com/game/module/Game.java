@@ -21,7 +21,6 @@ public class Game {
     private int highScore;
 
     private boolean isUserAuthenticated = false;
-    private boolean createNewGame = true;
 
     public final static int MOVE_UP = 0;
     public final static int MOVE_RIGHT = 1;
@@ -29,7 +28,7 @@ public class Game {
     public final static int MOVE_LEFT = 3;
 
     private Game() {
-        if (!createNewGame && isUserAuthenticated) {
+        if (this.isUserAuthenticated) {
             if (this.loadGame()) {
                 return;
             }
@@ -146,10 +145,6 @@ public class Game {
 
     public void setUserAuthenticated(boolean userAuthenticated) {
         this.isUserAuthenticated = userAuthenticated;
-    }
-
-    public void setCreateNewGame(boolean createNewGame) {
-        this.createNewGame = createNewGame;
     }
 
     @Override

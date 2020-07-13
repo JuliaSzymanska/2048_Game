@@ -107,6 +107,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
             @Override
             public void swipeRight() throws GameOverException {
                 game.move(Game.MOVE_RIGHT);
+
                 setScoreAndUpdate();
             }
 
@@ -133,6 +134,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                 // FIXME: 11.07.2020 ugly
                 if (activity instanceof  BoardActivity) {
                     BoardActivity boardActivity = (BoardActivity) activity;
+                    boardActivity.updateHighScore();
                     boardActivity.setTextScoreText();
                     boardActivity.setTextHighScoreText();
                 }

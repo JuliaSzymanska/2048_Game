@@ -139,12 +139,22 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
         mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
         textTime = (TextView) findViewById(R.id.time);
-        textScore = (TextView) findViewById(R.id.score);
-        this.setTextScoreText();
-        textHighScore = (TextView) findViewById(R.id.highScore);
-        this.setTextHighScoreText();
+        prepareScoreText();
+        prepareHighscoreText();
         restartGameButton = (Button) findViewById(R.id.restartGameButton);
         this.restartGameButton.setOnClickListener(restartGameListener);
+    }
+
+    private void prepareScoreText() {
+        textScore = (TextView) findViewById(R.id.score);
+        this.setTextScoreText();
+    }
+
+    private void prepareHighscoreText() {
+        if (game.isUserAuthenticated()) {
+            textHighScore = (TextView) findViewById(R.id.highScore);
+            this.setTextHighScoreText();
+        }
     }
 
     private void prepareSensors() {
@@ -385,8 +395,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         float[] orientationValues = magnetometerSetup();
         float azimuth = orientationValues[0];
         float pitch = orientationValues[1];
-        if (pitch > -1 && pitch < 0) {
+        // FIXME: 13.07.2020 to constant
+        if (pitch > -0.5 && pitch < 0.5) {
             if (azimuth >= changeColourAzimunthBreakpoint2 && azimuth < changeColourAzimunthBreakpoint3) {
+                // FIXME: 13.07.2020 to constant
                 mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
                 mThumbIds = R.drawable.button_green;
             } else if (azimuth >= changeColourAzimunthBreakpoint4 || azimuth < -changeColourAzimunthBreakpoint4) {

@@ -48,7 +48,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Field[] fields = game.getCopyOfTheBoard().toArray(new Field[0]);
     private Integer mThumbIds = R.drawable.button_green;
     private HighScoreDao db;
-    private int highScore = 0;
 
     // System sensor manager instance.
     private SensorManager mSensorManager;
@@ -93,9 +92,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     // https://developer.android.com/guide/components/activities/activity-lifecycle
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
         db = new HighScoreDao(this);
+
         this.prepareViews();
         this.prepareSensors();
 
@@ -109,8 +110,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     void setTextHighScoreText() {
-        highScore = db.getHighScore();
-        textHighScore.setText(String.format("%s%s", "Highscore: ", highScore));
+        textHighScore.setText(String.format("%s%s", "Highscore: ", db.getHighScore()));
     }
 
     private View.OnClickListener restartGameListener = new View.OnClickListener() {
@@ -123,7 +123,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener endGameListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            updateHighScore();
+            db.addHighScore(game.getCurrentScore());
             startActivity(new Intent(BoardActivity.this, EndGame.class));
         }
     };
@@ -143,6 +143,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         restartGameButton = (Button) findViewById(R.id.restartGameButton);
         this.restartGameButton.setOnClickListener(restartGameListener);
     }
+
 
 
     private void prepareSensors() {
@@ -350,14 +351,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             hasMoved = false;
         }
         this.previousValuesAzimuthPitchRoll = orientationValues;
-    }
-
-    void updateHighScore() {
-        int score = game.getCurrentScore();
-        if (score > highScore && game.isUserAuthenticated()) {
-            db.addHighScore(score);
-            highScore = score;
-        }
     }
 
     private void darkMode() {

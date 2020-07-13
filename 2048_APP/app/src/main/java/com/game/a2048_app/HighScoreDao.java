@@ -64,9 +64,4 @@ public class HighScoreDao extends SQLiteOpenHelper {
         return actualHighScore <= newHighScore;
     }
 
-    public void deleteHighScore(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+ TABLE_NAME);
-    }
-
 }

@@ -99,44 +99,30 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
 
     onSwipeListener onSwipe;
 
-    static void setupListener(OnSwipeTouchListener onSwipeTouchListener, final View view, final Activity activity,
+    // FIXME: 13.07.2020 wrócić do BoardActivity
+    static void setupListener(OnSwipeTouchListener onSwipeTouchListener, final View view, final BoardActivity boardActivity,
                               final Game game, final ArrayAdapter<Field> adapter,
                               final TextView score, final TextView highScore) {
-        onSwipeTouchListener = new OnSwipeTouchListener(activity, view);
+        onSwipeTouchListener = new OnSwipeTouchListener(boardActivity, view);
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
             @Override
             public void swipeRight() throws GameOverException {
-                game.move(Game.MOVE_RIGHT);
-
-                setScoreAndUpdate();
+               boardActivity.moveRight();
             }
 
             @Override
             public void swipeTop() throws GameOverException {
-                game.move(Game.MOVE_UP);
-                setScoreAndUpdate();
+                boardActivity.moveUp();
             }
 
             @Override
             public void swipeBottom() throws GameOverException {
-                game.move(Game.MOVE_DOWN);
-                setScoreAndUpdate();
+                boardActivity.moveDown();
             }
 
             @Override
             public void swipeLeft() throws GameOverException {
-                game.move(Game.MOVE_LEFT);
-                setScoreAndUpdate();
-            }
-
-            private void setScoreAndUpdate() {
-                adapter.notifyDataSetChanged();
-                // FIXME: 11.07.2020 ugly
-                if (activity instanceof  BoardActivity) {
-                    BoardActivity boardActivity = (BoardActivity) activity;
-                    boardActivity.setTextScoreText();
-                    boardActivity.setTextHighScoreText();
-                }
+                boardActivity.moveLeft();
             }
         };
     }

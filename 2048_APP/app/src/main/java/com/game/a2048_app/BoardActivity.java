@@ -121,7 +121,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     void setTextHighScoreText() {
-        textHighScore.setText(String.format("%s%s", "Highscore: ", game.getHighScore()));
+        if (game.isUserAuthenticated()) {
+            textHighScore.setText(String.format("%s%s", "Highscore: ", game.getHighScore()));
+        }
     }
 
     private View.OnClickListener restartGameListener = new View.OnClickListener() {
@@ -151,10 +153,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private void prepareHighscoreText() {
-        if (game.isUserAuthenticated()) {
-            textHighScore = (TextView) findViewById(R.id.highScore);
-            this.setTextHighScoreText();
-        }
+        textHighScore = (TextView) findViewById(R.id.highScore);
+        this.setTextHighScoreText();
     }
 
     private void prepareSensors() {
@@ -335,21 +335,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             try {
                 // FIXME: 12.07.2020 Remove Toast
                 if (pitch >= DETECT_MOVE_PITCH) {
-                    game.move(Game.MOVE_UP);
-                    adapter.notifyDataSetChanged();
-                    Toast.makeText(this, "MOVE UP", Toast.LENGTH_LONG).show();
+                    this.moveUp();
                 } else if (pitch <= -DETECT_MOVE_PITCH) {
-                    game.move(Game.MOVE_DOWN);
-                    adapter.notifyDataSetChanged();
-                    Toast.makeText(this, "MOVE DOWN", Toast.LENGTH_LONG).show();
+                    this.moveDown();
                 } else if (roll >= DETECT_MOVE_ROLL) {
-                    game.move(Game.MOVE_RIGHT);
-                    adapter.notifyDataSetChanged();
-                    Toast.makeText(this, "MOVE RIGHT", Toast.LENGTH_LONG).show();
+                    this.moveRight();
                 } else if (roll <= -DETECT_MOVE_ROLL) {
-                    game.move(Game.MOVE_LEFT);
-                    Toast.makeText(this, "MOVE LEFT", Toast.LENGTH_LONG).show();
-                    adapter.notifyDataSetChanged();
+                    this.moveLeft();
                 }
                 hasMoved = true;
             } catch (GameOverException e) {
@@ -362,6 +354,41 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             hasMoved = false;
         }
 
+    }
+
+    // FIXME: 13.07.2020 to się robi straszne, jest metoda która sprawdza czy został wykonany ruch,
+    //  wywołująca ruch, która wywołuje to, co wywołuje metody zmieniające text brrr straszne
+    void setScoreTexts() {
+        this.setTextScoreText();
+        this.setTextHighScoreText();
+    }
+
+    void moveUp() throws GameOverException {
+        game.move(Game.MOVE_UP);
+        adapter.notifyDataSetChanged();
+        Toast.makeText(this, "MOVE UP", Toast.LENGTH_LONG).show();
+        this.setScoreTexts();
+    }
+
+    void moveDown() throws GameOverException {
+        game.move(Game.MOVE_DOWN);
+        adapter.notifyDataSetChanged();
+        Toast.makeText(this, "MOVE DOWN", Toast.LENGTH_LONG).show();
+        this.setScoreTexts();
+    }
+
+    void moveRight() throws GameOverException {
+        game.move(Game.MOVE_RIGHT);
+        adapter.notifyDataSetChanged();
+        Toast.makeText(this, "MOVE RIGHT", Toast.LENGTH_LONG).show();
+        this.setScoreTexts();
+    }
+
+    void moveLeft() throws GameOverException {
+        game.move(Game.MOVE_LEFT);
+        Toast.makeText(this, "MOVE LEFT", Toast.LENGTH_LONG).show();
+        adapter.notifyDataSetChanged();
+        this.setScoreTexts();
     }
 
 

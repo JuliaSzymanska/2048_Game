@@ -1,14 +1,14 @@
 
 package com.game.a2048_app;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.module.Game;
 
@@ -19,6 +19,7 @@ import me.aflak.libraries.dialog.FingerprintDialog;
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback{
 
     MainActivity mainActivity = this;
+    Button loadGame;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -27,25 +28,19 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initButtons();
+        if (FingerprintDialog.isAvailable(mainActivity)) {
+            FingerprintDialog.initialize(mainActivity)
+                    .title(R.string.fingerprint_title)
+                    .message(R.string.fingerprint_message)
+                    .callback(mainActivity)
+                    .show();
+        }
     }
 
     private void initButtons() {
         configureStartGameButton();
-        configureAuthenticateButton();
+        configureLoadGameButton();
     }
-
-    private View.OnClickListener authentication = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (FingerprintDialog.isAvailable(mainActivity)) {
-                FingerprintDialog.initialize(mainActivity)
-                        .title(R.string.fingerprint_title)
-                        .message(R.string.fingerprint_message)
-                        .callback(mainActivity)
-                        .show();
-            }
-        }
-    };
 
     private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
         @Override
@@ -59,15 +54,16 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         startGame.setOnClickListener(initializeBoardActivity);
     }
 
-    private void configureAuthenticateButton() {
-        Button startGame = (Button) findViewById(R.id.authenticateButton);
-        startGame.setOnClickListener(authentication);
+    private void configureLoadGameButton(){
+        loadGame = (Button) findViewById(R.id.loadGameButton);
+        loadGame.setOnClickListener(initializeBoardActivity);
+        loadGame.setEnabled(false);
     }
-
 
     @Override
     public void onAuthenticationSucceeded() {
         Game.getInstance().setUserAuthenticated(true);
+        loadGame.setEnabled(true);
     }
 
     @Override

@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">2048_APP</string>
     <string name="_2048_game">2048 GAME</string>
-    <string name="start_game">START GAME</string>
+    <string name="start_new_game">START NEW GAME</string>
+    <string name="load_game">LOAD GAME</string>
     <string name="authenticate">AUTHENTICATE</string>
     <string name="value_format">%1$.2f</string>
     <string name="restart_game">Restart Game</string>
-    <string name="fingerprint_title">FIXME FINGERPRINT TITLE</string>
-    <string name="fingerprint_message">FIXME FINGERPRINT MESSAGE</string>
+    <string name="fingerprint_title">Fingerprint authentication</string>
+    <string name="fingerprint_message">Being a phone user allows you to save a high score</string>
 </resources>

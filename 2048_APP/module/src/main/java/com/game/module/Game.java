@@ -19,7 +19,6 @@ public class Game {
 
     private Board gameBoard = new Board();
     private StopWatch watch = new StopWatch();
-    private int highScore;
 
     private boolean isUserAuthenticated = false;
     private boolean createNewGame = true;
@@ -66,7 +65,6 @@ public class Game {
                 default:
                     throw new IllegalArgumentException("value can only be equal to 0, 1, 2 or 3");
             }
-            this.updateHighscore();
             if (this.isUserAuthenticated) {
                 Thread t = new Thread() {
                     @Override
@@ -82,13 +80,6 @@ public class Game {
 
     private void saveGame() {
         // FIXME: 11.07.2020
-    }
-
-    private void updateHighscore() {
-        if (this.gameBoard.getScore() > this.highScore) {
-            this.highScore = this.gameBoard.getScore();
-        }
-        System.out.println(this.highScore);
     }
 
     public void startNewGame() {
@@ -137,10 +128,6 @@ public class Game {
         return this.gameBoard.getScore();
     }
 
-    public int getHighScore() {
-        return highScore;
-    }
-
     public boolean isUserAuthenticated() {
         return isUserAuthenticated;
     }
@@ -162,7 +149,6 @@ public class Game {
         Game game = (Game) o;
 
         return new EqualsBuilder()
-                .append(highScore, game.highScore)
                 .append(gameBoard, game.gameBoard)
                 .append(watch, game.watch)
                 .isEquals();
@@ -173,7 +159,6 @@ public class Game {
         return new HashCodeBuilder(17, 37)
                 .append(gameBoard)
                 .append(watch)
-                .append(highScore)
                 .toHashCode();
     }
 
@@ -182,7 +167,6 @@ public class Game {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("gameBoard", gameBoard)
                 .append("watch", watch)
-                .append("highScore", highScore)
                 .toString();
     }
 }

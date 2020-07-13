@@ -82,11 +82,15 @@ public class Game {
         // FIXME: 11.07.2020
     }
 
+    private boolean loadGame() {
+        // FIXME: 11.07.2020
+        return false;
+    }
+
     private void updateHighscore() {
-        if (this.gameBoard.getScore() > this.highScore) {
+        if (this.gameBoard.getScore() > this.highScore && this.isUserAuthenticated) {
             this.highScore = this.gameBoard.getScore();
         }
-        System.out.println(this.highScore);
     }
 
     public void startNewGame() {
@@ -100,11 +104,6 @@ public class Game {
         if (isUserAuthenticated) {
             this.saveGame();
         }
-    }
-
-    private boolean loadGame() {
-        // FIXME: 11.07.2020
-        return false;
     }
 
     public void pauseTimer() {

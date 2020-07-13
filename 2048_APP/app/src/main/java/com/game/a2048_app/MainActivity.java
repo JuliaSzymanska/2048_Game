@@ -42,21 +42,29 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         configureLoadGameButton();
     }
 
-    private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
+    private View.OnClickListener initializeBoardActivityForNewGame = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             startActivity(new Intent(MainActivity.this, BoardActivity.class));
         }
     };
 
+    private View.OnClickListener initializeBoardActivityForLoadedGame = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Game.getInstance().setCreateNewGame(false);
+            startActivity(new Intent(MainActivity.this, BoardActivity.class));
+        }
+    };
+
     private void configureStartGameButton(){
-        Button startGame = (Button) findViewById(R.id.startGameButton);
-        startGame.setOnClickListener(initializeBoardActivity);
+        Button startNewGame = (Button) findViewById(R.id.startNewGameButton);
+        startNewGame.setOnClickListener(initializeBoardActivityForNewGame);
     }
 
     private void configureLoadGameButton(){
         loadGame = (Button) findViewById(R.id.loadGameButton);
-        loadGame.setOnClickListener(initializeBoardActivity);
+        loadGame.setOnClickListener(initializeBoardActivityForLoadedGame);
         loadGame.setEnabled(false);
     }
 

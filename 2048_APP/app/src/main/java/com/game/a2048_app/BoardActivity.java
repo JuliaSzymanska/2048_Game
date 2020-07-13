@@ -1,5 +1,10 @@
 package com.game.a2048_app;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -18,11 +23,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.game.module.Field;
 import com.game.module.Game;
@@ -47,8 +47,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private GridView gridView;
     private Field[] fields = game.getCopyOfTheBoard().toArray(new Field[0]);
     private Integer mThumbIds = R.drawable.button_green;
-    private HighScoreDao db;
-    private int highScore = 0;
 
     // System sensor manager instance.
     private SensorManager mSensorManager;
@@ -94,7 +92,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
-        db = new HighScoreDao(this);
         this.prepareViews();
         this.prepareSensors();
 
@@ -108,8 +105,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     void setTextHighScoreText() {
-        highScore = db.getHighScore();
-        textHighScore.setText(String.format("%s%s", "Highscore: ", highScore));
+        textHighScore.setText(String.format("%s%s", "Highscore: ", game.getHighScore()));
     }
 
     private View.OnClickListener restartGameListener = new View.OnClickListener() {
@@ -342,13 +338,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-    void updateHighScore() {
-        int score = game.getCurrentScore();
-        if (score > highScore && game.isUserAuthenticated()) {
-            db.addHighScore(score);
-            highScore = score;
-        }
-    }
 
     private void darkMode() {
         // Light Sensor - gdy jest ciemno włącza się dark mode

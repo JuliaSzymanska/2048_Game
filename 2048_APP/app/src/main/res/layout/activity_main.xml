@@ -12,20 +12,14 @@
         style="@android:style/Widget.Material.Light.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="126dp"
-        android:layout_marginTop="496dp"
-        android:layout_marginEnd="62dp"
-        android:layout_marginBottom="51dp"
         android:background="#875F5F"
         android:fadingEdge="horizontal"
         android:fontFamily="sans-serif-condensed-medium"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.816" />
+        app:layout_constraintTop_toBottomOf="@+id/startGameButton" />
 
     <TextView
         android:id="@+id/titleLabel"
@@ -51,7 +45,7 @@
         style="@android:style/Widget.Material.Light.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="115dp"
         android:background="#875F5F"
         android:fadingEdge="horizontal"
         android:fontFamily="sans-serif-condensed-medium"
@@ -61,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleLabel"
         app:layout_constraintVertical_bias="0.183" />
 
     <TextView

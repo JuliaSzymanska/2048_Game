@@ -117,7 +117,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     void setTextScoreText() {
-        textScore.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
+        textScore.setText(String.format("%s%s", "Score: ", game.getCurrentScore()));
     }
 
     void setTextHighScoreText() {
@@ -233,7 +233,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                                 long elapsedTime = game.getElapsedTimeSeconds();
                                 int minutes = (int) elapsedTime / 60;
                                 long seconds = elapsedTime % 60;
-                                textTime.setText(String.format("Czas: %s:%s", minutes, seconds));
+                                textTime.setText(String.format("Time: %s:%s", minutes, seconds));
                             }
                         });
 
@@ -382,8 +382,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private void changeColourMagnetometer() {
         // Magnetometer - zmiana kolorów klocków w zależności od strony świata
-        float azimuth = magnetometerSetup()[0];
-        float pitch = magnetometerSetup()[1];
+        float[] orientationValues = magnetometerSetup();
+        float azimuth = orientationValues[0];
+        float pitch = orientationValues[1];
         if (pitch > -1 && pitch < 0) {
             if (azimuth >= changeColourAzimunthBreakpoint2 && azimuth < changeColourAzimunthBreakpoint3) {
                 mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));

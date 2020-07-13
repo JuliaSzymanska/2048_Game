@@ -1,10 +1,5 @@
 package com.game.a2048_app;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +19,11 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.game.module.Field;
 import com.game.module.Game;
@@ -123,7 +123,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     void setTextHighScoreText() {
-        textHighScore.setText(String.format("%s%s", "Highscore: ", game.getHighScore()));
+        textHighScore.setText(String.format("%s%s", "Highscore: ", game.getHighScore()) );
     }
 
     private View.OnClickListener restartGameListener = new View.OnClickListener() {

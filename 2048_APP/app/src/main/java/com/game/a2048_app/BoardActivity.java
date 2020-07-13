@@ -140,8 +140,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.setTextScoreText();
         textHighScore = (TextView) findViewById(R.id.highScore);
         this.setTextHighScoreText();
-        endGame = (Button) findViewById(R.id.endGame);
-        endGame.setOnClickListener(endGameListener);
         restartGameButton = (Button) findViewById(R.id.restartGameButton);
         this.restartGameButton.setOnClickListener(restartGameListener);
     }

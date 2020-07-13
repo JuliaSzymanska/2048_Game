@@ -1,10 +1,5 @@
 package com.game.a2048_app;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +18,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.game.module.Field;
 import com.game.module.Game;
@@ -365,20 +365,23 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private void changeColourMagnetometer() {
         float azimuth = magnetometerSetup()[0];
-        if (azimuth >= 0.75 && azimuth < 2.25) {
-            mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
-            mThumbIds = R.drawable.button_green;
-        } else if (azimuth >= 2.25 || azimuth < -2.25) {
-            mTextSensorLux.setTextColor(Color.rgb(112, 175, 212));
-            mThumbIds = R.drawable.button_blue;
-        } else if (azimuth >= -0.75 && azimuth < 0.75) {
-            mTextSensorLux.setTextColor(Color.rgb(181, 114, 106));
-            mThumbIds = R.drawable.button_red;
-        } else {
-            mTextSensorLux.setTextColor(Color.rgb(228, 63, 222));
-            mThumbIds = R.drawable.button_pink;
+        float pitch = magnetometerSetup()[1];
+        if(pitch > -1) {
+            if (azimuth >= 0.75 && azimuth < 2.25) {
+                mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
+                mThumbIds = R.drawable.button_green;
+            } else if (azimuth >= 2.25 || azimuth < -2.25) {
+                mTextSensorLux.setTextColor(Color.rgb(112, 175, 212));
+                mThumbIds = R.drawable.button_blue;
+            } else if (azimuth >= -0.75 && azimuth < 0.75) {
+                mTextSensorLux.setTextColor(Color.rgb(181, 114, 106));
+                mThumbIds = R.drawable.button_red;
+            } else {
+                mTextSensorLux.setTextColor(Color.rgb(228, 63, 222));
+                mThumbIds = R.drawable.button_pink;
+            }
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
     }
 
 

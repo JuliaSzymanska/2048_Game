@@ -134,7 +134,6 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                 // FIXME: 11.07.2020 ugly
                 if (activity instanceof  BoardActivity) {
                     BoardActivity boardActivity = (BoardActivity) activity;
-                    boardActivity.updateHighScore();
                     boardActivity.setTextScoreText();
                     boardActivity.setTextHighScoreText();
                 }

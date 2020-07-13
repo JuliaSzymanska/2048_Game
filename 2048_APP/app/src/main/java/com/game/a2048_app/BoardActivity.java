@@ -381,10 +381,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private void changeColourMagnetometer() {
+        // Magnetometer - zmiana kolorów klocków w zależności od strony świata
         float azimuth = magnetometerSetup()[0];
         float pitch = magnetometerSetup()[1];
         if (pitch > -1 && pitch < 0) {
-            // zmiana żeby uniknąć 'migotania' kolorów
             if (azimuth >= changeColourAzimunthBreakpoint2 && azimuth < changeColourAzimunthBreakpoint3) {
                 mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
                 mThumbIds = R.drawable.button_green;

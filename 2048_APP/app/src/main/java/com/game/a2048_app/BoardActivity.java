@@ -52,7 +52,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     // System sensor manager instance.
     private SensorManager mSensorManager;
-
+//
     // Accelerometer and magnetometer sensors, as retrieved from the
     // sensor manager.
     private Sensor mSensorAccelerometer;

@@ -34,7 +34,7 @@ import com.game.module.GameOverException;
 //  https://www.youtube.com/watch?v=33wOlQ2y0hQ - tez git
 //  https://stackoverflow.com/questions/30997624/how-to-apply-animation-to-add-item-in-gridview-one-by-one
 
-// TODO: 08.06.2020 coś nie halo jest w tym proximity, co ci pisałem, trzeba zobaczyc 
+// TODO: 08.06.2020 coś nie halo jest w tym proximity, co ci pisałem, trzeba zobaczyc
 
 public class BoardActivity extends AppCompatActivity implements SensorEventListener {
     private static final float VALUE_DRIFT = 0.05f;

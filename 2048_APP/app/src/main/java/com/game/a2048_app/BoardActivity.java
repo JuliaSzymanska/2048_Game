@@ -77,7 +77,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView textTime;
 
     private Button restartGameButton;
-    private Button endGame;
 
     private Thread updateTimeThread;
 
@@ -105,7 +104,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     void setTextScoreText() {
-        textScore.setText(String.format("%s%s", "Score: ", game.getCurrentScore()));
+        textScore.setText(String.format("%s%s", "Wynik: ", game.getCurrentScore()));
     }
 
     void setTextHighScoreText() {
@@ -117,14 +116,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             restartGame();
-        }
-    };
-
-    private View.OnClickListener endGameListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            updateHighScore();
-            startActivity(new Intent(BoardActivity.this, EndGame.class));
         }
     };
 
@@ -143,7 +134,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         restartGameButton = (Button) findViewById(R.id.restartGameButton);
         this.restartGameButton.setOnClickListener(restartGameListener);
     }
-
 
     private void prepareSensors() {
         // Get accelerometer and magnetometer sensors from the sensor manager.
@@ -231,7 +221,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                                 long elapsedTime = game.getElapsedTimeSeconds();
                                 int minutes = (int) elapsedTime / 60;
                                 long seconds = elapsedTime % 60;
-                                textTime.setText(String.format("Time: %s:%s", minutes, seconds));
+                                textTime.setText(String.format("Czas: %s:%s", minutes, seconds));
                             }
                         });
 
@@ -344,12 +334,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     startActivity(new Intent(BoardActivity.this, EndGame.class));
                 }
             }
-        }
 
-        if (Math.abs(pitch) < 0.2 && Math.abs(roll) < 0.2) {
-            hasMoved = false;
+            if (Math.abs(pitch) < 0.2 && Math.abs(roll) < 0.2) {
+                hasMoved = false;
+            }
+            this.previousValuesAzimuthPitchRoll = orientationValues;
         }
-        this.previousValuesAzimuthPitchRoll = orientationValues;
     }
 
     void updateHighScore() {

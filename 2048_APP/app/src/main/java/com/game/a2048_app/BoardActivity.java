@@ -312,26 +312,26 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         int sensorType = event.sensor.getType();
         switch (sensorType) {
             case Sensor.TYPE_ACCELEROMETER:
+                mAccelerometerData = event.values.clone();
                 if (chosenSensors[0]) {
-                    mAccelerometerData = event.values.clone();
                     positionGyroscope();
                 }
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
+                mMagnetometerData = event.values.clone();
                 if (chosenSensors[1]) {
-                    mMagnetometerData = event.values.clone();
                     changeColourMagnetometer();
                 }
                 break;
             case Sensor.TYPE_LIGHT:
+                mLightData = event.values[0];
                 if (chosenSensors[2]) {
-                    mLightData = event.values[0];
                     darkMode();
                 }
                 break;
             case Sensor.TYPE_PROXIMITY:
+                mProximityData = event.values[0];
                 if (chosenSensors[3]) {
-                    mProximityData = event.values[0];
                     stopGameProximity();
                 }
                 break;

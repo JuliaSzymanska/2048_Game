@@ -1,7 +1,9 @@
 package com.game.a2048_app;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -136,6 +138,30 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
+    private View.OnClickListener settingsListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
+            final boolean[] chosenSensors = new boolean[]{false, false, false, false};
+
+            builder.setMultiChoiceItems(R.array.sensors, chosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                    chosenSensors[which] = isChecked;
+                }
+            });
+            builder.setCancelable(false);
+            builder.setTitle("Which sensors to enable?");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+    };
+
     private void prepareViews() {
         gridView = (GridView) findViewById(R.id.gridView);
         this.prepareGrid();
@@ -148,7 +174,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         prepareHighscoreText();
         restartGameButton = (Button) findViewById(R.id.restartGameButton);
         this.restartGameButton.setOnClickListener(restartGameListener);
+        Button settingsButton = (Button) findViewById(R.id.settingsButton);
+        settingsButton.setBackgroundResource(R.drawable.settings);
+        settingsButton.setOnClickListener(settingsListener);
     }
+
+
 
     private void prepareScoreText() {
         textScore = (TextView) findViewById(R.id.score);

@@ -1,6 +1,5 @@
 package com.game.a2048_app;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;

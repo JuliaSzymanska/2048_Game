@@ -99,6 +99,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static double changeColourAzimunthBreakpoint3 = 2;
     private final static double changeColourAzimunthBreakpoint4 = 2.5;
 
+    // to glupie zeby miec tablice 4bool i pamietac ktory, do ktorego sensora, ale narazie tak zostawiam
+    private final boolean[] chosenSensors = new boolean[]{false, false, false, false};
 
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
     // Pitch: The top-to-bottom tilt of the device. 0 is flat.
@@ -138,12 +140,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
+    // dałam to w tym activity, żeby nie robić problemów z lista dostepna dla paru activity, a w trakcie gry możesz sobie zawsze zmienić i
+    // nie będzie problemu
     private View.OnClickListener settingsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
-            final boolean[] chosenSensors = new boolean[]{false, false, false, false};
-
             builder.setMultiChoiceItems(R.array.sensors, chosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -178,7 +180,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         settingsButton.setBackgroundResource(R.drawable.settings);
         settingsButton.setOnClickListener(settingsListener);
     }
-
 
 
     private void prepareScoreText() {
@@ -311,20 +312,28 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         int sensorType = event.sensor.getType();
         switch (sensorType) {
             case Sensor.TYPE_ACCELEROMETER:
-                mAccelerometerData = event.values.clone();
-                positionGyroscope();
+                if (chosenSensors[0]) {
+                    mAccelerometerData = event.values.clone();
+                    positionGyroscope();
+                }
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
-                mMagnetometerData = event.values.clone();
-                changeColourMagnetometer();
+                if (chosenSensors[1]) {
+                    mMagnetometerData = event.values.clone();
+                    changeColourMagnetometer();
+                }
                 break;
             case Sensor.TYPE_LIGHT:
-                mLightData = event.values[0];
-                darkMode();
+                if (chosenSensors[2]) {
+                    mLightData = event.values[0];
+                    darkMode();
+                }
                 break;
             case Sensor.TYPE_PROXIMITY:
-                mProximityData = event.values[0];
-                stopGameProximity();
+                if (chosenSensors[3]) {
+                    mProximityData = event.values[0];
+                    stopGameProximity();
+                }
                 break;
             default:
                 // FIXME: 07.07.2020 logger albo exception

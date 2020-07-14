@@ -20,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -376,7 +375,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         if (!hasMoved && (Math.abs(pitch) >= DETECT_MOVE_PITCH || Math.abs(roll) >= DETECT_MOVE_ROLL)) {
             try {
-                // FIXME: 12.07.2020 Remove Toast
                 if (pitch >= DETECT_MOVE_PITCH) {
                     this.moveUp();
                 } else if (pitch <= -DETECT_MOVE_PITCH) {
@@ -409,27 +407,23 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     void moveUp() throws GameOverException {
         game.move(Game.MOVE_UP);
         adapter.notifyDataSetChanged();
-        Toast.makeText(this, "MOVE UP", Toast.LENGTH_LONG).show();
         this.setScoreTexts();
     }
 
     void moveDown() throws GameOverException {
         game.move(Game.MOVE_DOWN);
         adapter.notifyDataSetChanged();
-        Toast.makeText(this, "MOVE DOWN", Toast.LENGTH_LONG).show();
         this.setScoreTexts();
     }
 
     void moveRight() throws GameOverException {
         game.move(Game.MOVE_RIGHT);
         adapter.notifyDataSetChanged();
-        Toast.makeText(this, "MOVE RIGHT", Toast.LENGTH_LONG).show();
         this.setScoreTexts();
     }
 
     void moveLeft() throws GameOverException {
         game.move(Game.MOVE_LEFT);
-        Toast.makeText(this, "MOVE LEFT", Toast.LENGTH_LONG).show();
         adapter.notifyDataSetChanged();
         this.setScoreTexts();
     }

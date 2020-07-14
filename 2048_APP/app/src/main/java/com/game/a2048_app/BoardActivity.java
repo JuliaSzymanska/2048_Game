@@ -21,8 +21,6 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -99,7 +97,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static double changeColourAzimunthBreakpoint4 = 2.5;
 
     // to glupie zeby miec tablice 4bool i pamietac ktory, do ktorego sensora, ale narazie tak zostawiam
-    private final boolean[] chosenSensors = new boolean[]{false, false, false, false};
+    private final boolean[] chosenSensors = new boolean[]{true, true, true, true};
 
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
     // Pitch: The top-to-bottom tilt of the device. 0 is flat.
@@ -207,13 +205,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private void prepareGrid() {
-        // FIXME: 14.07.2020 tak się czasem buguje:
+        // FIXME: 14.07.2020 tak się czasem buguje - i tak chciałeś zmienić tego grida, ale chwilowo nie mam pomysłu co z tym zrobić
         //https://imgur.com/n6mEW2n
         this.adapter = new ArrayAdapter<Field>(this,
                 android.R.layout.simple_list_item_1, fields) {
-            @NonNull
             @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView textView = (TextView) super.getView(position, convertView, parent);
                 view.setBackgroundResource(mThumbIds);

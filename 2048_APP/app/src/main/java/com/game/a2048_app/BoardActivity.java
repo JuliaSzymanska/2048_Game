@@ -207,6 +207,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private void prepareGrid() {
+        // FIXME: 14.07.2020 tak się czasem buguje:
+        //https://imgur.com/n6mEW2n
         this.adapter = new ArrayAdapter<Field>(this,
                 android.R.layout.simple_list_item_1, fields) {
             @NonNull

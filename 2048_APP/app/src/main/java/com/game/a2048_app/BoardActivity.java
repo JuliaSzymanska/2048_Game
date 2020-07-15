@@ -394,23 +394,29 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             });
 
             if (!hasMoved && (Math.abs(pitch) >= DETECT_MOVE_PITCH || Math.abs(roll) >= DETECT_MOVE_ROLL)) {
-                try {
-                    if (pitch >= DETECT_MOVE_PITCH) {
-                        moveUp();
-                    } else if (pitch <= -DETECT_MOVE_PITCH) {
-                        moveDown();
-                    } else if (roll >= DETECT_MOVE_ROLL) {
-                        moveRight();
-                    } else if (roll <= -DETECT_MOVE_ROLL) {
-                        moveLeft();
+                final float finalPitch1 = pitch;
+                final float finalRoll1 = roll;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            if (finalPitch1 >= DETECT_MOVE_PITCH) {
+                                moveUp();
+                            } else if (finalPitch1 <= -DETECT_MOVE_PITCH) {
+                                moveDown();
+                            } else if (finalRoll1 >= DETECT_MOVE_ROLL) {
+                                moveRight();
+                            } else if (finalRoll1 <= -DETECT_MOVE_ROLL) {
+                                moveLeft();
+                            }
+                            hasMoved = true;
+                        } catch (GameOverException e) {
+                            e.printStackTrace();
+                            startActivity(new Intent(BoardActivity.this, EndGame.class));
+                        }
                     }
-                    hasMoved = true;
-                } catch (GameOverException e) {
-                    e.printStackTrace();
-                    startActivity(new Intent(BoardActivity.this, EndGame.class));
-                }
+                });
             }
-
             if (Math.abs(pitch) < RESET_PITCH && Math.abs(roll) < RESET_ROLL) {
                 hasMoved = false;
             }
@@ -493,6 +499,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    private final static double horizontalPitchMax = 0.5;
+    private final static double horizontalPitchMin = -0.5;
+
     private class ChangeColourMagnetometer implements Runnable {
         @Override
         public void run() {
@@ -503,7 +512,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (pitch > -0.5 && pitch < 0.5) {
+                    // TODO: 15.07.2020 mój telefon zauważyłem że ma problem z azymuntem tzn praktycznie nie wychodzi poza 2-3 i -3 - -2
+                    if (pitch > horizontalPitchMin && pitch < horizontalPitchMax) {
                         if (azimuth >= changeColourAzimunthBreakpoint2 && azimuth < changeColourAzimunthBreakpoint3) {
                             // FIXME: 13.07.2020 to constant
                             mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));

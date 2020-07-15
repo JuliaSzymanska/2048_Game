@@ -312,7 +312,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             case Sensor.TYPE_ACCELEROMETER:
                 mAccelerometerData = event.values.clone();
                 if (chosenSensors[0]) {
-                    positionGyroscope();
+                    Thread thread = new Thread(new PositionGyroscope());
+                    thread.start();
                 }
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
@@ -350,51 +351,56 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         return orientationValues;
     }
 
-    private void positionGyroscope() {
-        float[] orientationValues = magnetometerSetup();
-        float azimuth = orientationValues[0];
-        float pitch = orientationValues[1];
-        float roll = orientationValues[2];
+    private class PositionGyroscope implements Runnable {
 
-        // malutkie odchylenie -> zmiana na 0
-        // nam to raczej nie potrzebne
-        if (Math.abs(pitch) < VALUE_DRIFT) {
-            pitch = 0;
-        }
-        if (Math.abs(roll) < VALUE_DRIFT) {
-            roll = 0;
-        }
+        @Override
+        public void run() {
+            float[] orientationValues = magnetometerSetup();
+            float azimuth = orientationValues[0];
+            float pitch = orientationValues[1];
+            float roll = orientationValues[2];
 
-        mTextSensorAzimuth.setText(getResources().getString(
-                R.string.value_format, azimuth));
-        mTextSensorPitch.setText(getResources().getString(
-                R.string.value_format, pitch));
-        mTextSensorRoll.setText(getResources().getString(
-                R.string.value_format, roll));
+            // malutkie odchylenie -> zmiana na 0
+            // nam to raczej nie potrzebne
+            if (Math.abs(pitch) < VALUE_DRIFT) {
+                pitch = 0;
+            }
+            if (Math.abs(roll) < VALUE_DRIFT) {
+                roll = 0;
+            }
 
-        if (!hasMoved && (Math.abs(pitch) >= DETECT_MOVE_PITCH || Math.abs(roll) >= DETECT_MOVE_ROLL)) {
-            try {
-                if (pitch >= DETECT_MOVE_PITCH) {
-                    this.moveUp();
-                } else if (pitch <= -DETECT_MOVE_PITCH) {
-                    this.moveDown();
-                } else if (roll >= DETECT_MOVE_ROLL) {
-                    this.moveRight();
-                } else if (roll <= -DETECT_MOVE_ROLL) {
-                    this.moveLeft();
+            mTextSensorAzimuth.setText(getResources().getString(
+                    R.string.value_format, azimuth));
+            mTextSensorPitch.setText(getResources().getString(
+                    R.string.value_format, pitch));
+            mTextSensorRoll.setText(getResources().getString(
+                    R.string.value_format, roll));
+
+            if (!hasMoved && (Math.abs(pitch) >= DETECT_MOVE_PITCH || Math.abs(roll) >= DETECT_MOVE_ROLL)) {
+                try {
+                    if (pitch >= DETECT_MOVE_PITCH) {
+                        moveUp();
+                    } else if (pitch <= -DETECT_MOVE_PITCH) {
+                        moveDown();
+                    } else if (roll >= DETECT_MOVE_ROLL) {
+                        moveRight();
+                    } else if (roll <= -DETECT_MOVE_ROLL) {
+                        moveLeft();
+                    }
+                    hasMoved = true;
+                } catch (GameOverException e) {
+                    e.printStackTrace();
+                    startActivity(new Intent(BoardActivity.this, EndGame.class));
                 }
-                hasMoved = true;
-            } catch (GameOverException e) {
-                e.printStackTrace();
-                startActivity(new Intent(BoardActivity.this, EndGame.class));
+            }
+
+            if (Math.abs(pitch) < RESET_PITCH && Math.abs(roll) < RESET_ROLL) {
+                hasMoved = false;
             }
         }
-
-        if (Math.abs(pitch) < RESET_PITCH && Math.abs(roll) < RESET_ROLL) {
-            hasMoved = false;
-        }
-
     }
+
+
 
     // FIXME: 13.07.2020 to się robi straszne, jest metoda która sprawdza czy został wykonany ruch,
     //  wywołująca ruch, która wywołuje to, co wywołuje metody zmieniające text brrr straszne

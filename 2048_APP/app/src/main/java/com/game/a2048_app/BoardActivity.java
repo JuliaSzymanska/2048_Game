@@ -130,7 +130,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
         fieldsImages = new Integer[fields.length];
-        Arrays.fill(fieldsImages, R.drawable.one);
+        Arrays.fill(fieldsImages, R.drawable.zero);
         this.prepareViews();
         this.prepareSensors();
 

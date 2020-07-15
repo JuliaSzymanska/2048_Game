@@ -34,6 +34,7 @@
         android:layout_marginBottom="30dp"
         android:gravity="center"
         android:numColumns="4"
+        android:clickable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

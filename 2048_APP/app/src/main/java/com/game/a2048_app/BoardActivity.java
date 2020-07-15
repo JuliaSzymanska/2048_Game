@@ -480,7 +480,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
                             if (finalPitch1 >= DETECT_MOVE_PITCH) {
                                 moveUp();
                             } else if (finalPitch1 <= -DETECT_MOVE_PITCH) {
@@ -491,10 +490,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                                 moveLeft();
                             }
                             hasMoved = true;
-                        } catch (GameOverException e) {
-                            e.printStackTrace();
-                            startActivity(new Intent(BoardActivity.this, EndGame.class));
-                        }
                     }
                 });
             }
@@ -512,26 +507,42 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.setTextHighScoreText();
     }
 
-    void moveUp() throws GameOverException {
-        game.move(Game.MOVE_UP);
+    void moveUp() {
+        try {
+            game.move(Game.MOVE_UP);
+        } catch (GameOverException e) {
+            startActivity(new Intent(BoardActivity.this, EndGame.class));
+        }
         adapter.notifyDataSetChanged();
         this.setScoreTexts();
     }
 
-    void moveDown() throws GameOverException {
-        game.move(Game.MOVE_DOWN);
+    void moveDown() {
+        try {
+            game.move(Game.MOVE_DOWN);
+        } catch (GameOverException e) {
+            startActivity(new Intent(BoardActivity.this, EndGame.class));
+        }
         adapter.notifyDataSetChanged();
         this.setScoreTexts();
     }
 
-    void moveRight() throws GameOverException {
-        game.move(Game.MOVE_RIGHT);
+    void moveRight() {
+        try {
+            game.move(Game.MOVE_RIGHT);
+        } catch (GameOverException e) {
+            startActivity(new Intent(BoardActivity.this, EndGame.class));
+        }
         adapter.notifyDataSetChanged();
         this.setScoreTexts();
     }
 
-    void moveLeft() throws GameOverException {
-        game.move(Game.MOVE_LEFT);
+    void moveLeft() {
+        try {
+            game.move(Game.MOVE_LEFT);
+        } catch (GameOverException e) {
+            startActivity(new Intent(BoardActivity.this, EndGame.class));
+        }
         adapter.notifyDataSetChanged();
         this.setScoreTexts();
     }

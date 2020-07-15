@@ -60,8 +60,6 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                     }
                     result = true;
                 }
-            } catch (GameOverException ignored) {
-                // FIXME: 07.07.2020 GameOver
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
@@ -69,30 +67,30 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         }
     }
 
-    void onSwipeRight() throws GameOverException {
+    void onSwipeRight() {
         this.onSwipe.swipeRight();
     }
 
-    void onSwipeLeft() throws GameOverException {
+    void onSwipeLeft() {
         this.onSwipe.swipeLeft();
     }
 
-    void onSwipeTop() throws GameOverException {
+    void onSwipeTop() {
         this.onSwipe.swipeTop();
     }
 
-    void onSwipeBottom() throws GameOverException {
+    void onSwipeBottom() {
         this.onSwipe.swipeBottom();
     }
 
     interface onSwipeListener {
-        void swipeRight() throws GameOverException;
+        void swipeRight();
 
-        void swipeTop() throws GameOverException;
+        void swipeTop();
 
-        void swipeBottom() throws GameOverException;
+        void swipeBottom();
 
-        void swipeLeft() throws GameOverException;
+        void swipeLeft();
     }
 
     onSwipeListener onSwipe;
@@ -104,22 +102,22 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         onSwipeTouchListener = new OnSwipeTouchListener(boardActivity, view);
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
             @Override
-            public void swipeRight() throws GameOverException {
+            public void swipeRight() {
                boardActivity.moveRight();
             }
 
             @Override
-            public void swipeTop() throws GameOverException {
+            public void swipeTop() {
                 boardActivity.moveUp();
             }
 
             @Override
-            public void swipeBottom() throws GameOverException {
+            public void swipeBottom() {
                 boardActivity.moveDown();
             }
 
             @Override
-            public void swipeLeft() throws GameOverException {
+            public void swipeLeft() {
                 boardActivity.moveLeft();
             }
         };

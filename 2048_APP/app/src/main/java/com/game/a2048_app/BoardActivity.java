@@ -605,6 +605,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void restartGame() {
         this.game.restartGame();
         this.setTextScoreText();
+        adapter.notifyDataSetChanged();
     }
 
 

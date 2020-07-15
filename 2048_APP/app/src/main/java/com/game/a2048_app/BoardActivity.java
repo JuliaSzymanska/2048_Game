@@ -334,8 +334,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 }
                 break;
             default:
-                // FIXME: 07.07.2020 logger albo exception
-                System.out.println("Unexpected sensor event");
+                // FIXME: 15.07.2020, nie powinno być runtime ale nie chce dodawać throws wszędzie dla placeholdera
+                throw new RuntimeException("PLACEHOLDER, onSensorChanged");
         }
     }
 

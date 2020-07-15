@@ -75,6 +75,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private float mLightData;
     private float mProximityData;
     private boolean hasMoved = false;
+    // TODO: 16.07.2020 jak sie zobaczy ten twoj dark mode to moze nie bedzie to potrzbene
+    private boolean isDarkModeEnabled = false;
 
     // TextViews to display current sensor values.
     private TextView mTextSensorAzimuth;
@@ -109,9 +111,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
-
-    private final static int DARKMODE_COLOUR = Color.rgb(165, 152, 152);
-    private final static int LIGHTMODE_COLOUR = Color.rgb(255, 215, 215);
 
     // to glupie zeby miec tablice 4bool i pamietac ktory, do ktorego sensora, ale narazie tak zostawiam
     private final boolean[] chosenSensors = new boolean[]{true, true, true, true};
@@ -548,16 +547,21 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void run() {
                     mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
-                    // TODO: 15.07.2020 trzeba tutaj dorobic ten kawalek ifa colorId != DARKMODE_COLOUR dla image
-                    if (mLightData <= DARKMODE_ENABLE_LIGHT) {
+                    if (mLightData <= DARKMODE_ENABLE_LIGHT && isDarkModeEnabled == false) {
                         // TODO: 13.07.2020 toConstant
                         // TODO: 15.07.2020 chciałbym to tak
 //                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                         //https://developer.android.com/guide/topics/ui/look-and-feel/darktheme
                         cl.setBackgroundResource(R.drawable.background_dark);
-                    } else if (mLightData >= DARKMODE_DISABLE_LIGHT) {
+                        mThumbIds = R.drawable.button_dark;
+                        adapter.notifyDataSetChanged();
+                        isDarkModeEnabled = true;
+                    } else if (mLightData >= DARKMODE_DISABLE_LIGHT && isDarkModeEnabled == true) {
 //                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                         cl.setBackgroundResource(R.drawable.background);
+                        mThumbIds = R.drawable.button_blue;
+                        adapter.notifyDataSetChanged();
+                        isDarkModeEnabled = false;
                     }
                 }
             });
@@ -594,7 +598,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void run() {
                     // TODO: 15.07.2020 mój telefon zauważyłem że ma problem z azymuntem tzn praktycznie nie wychodzi poza 2-3 i -3 - -2
-                    if (pitch > horizontalPitchMin && pitch < horizontalPitchMax) {
+                    if (pitch > horizontalPitchMin && pitch < horizontalPitchMax && isDarkModeEnabled == false) {
                         if (azimuth >= changeColourAzimunthBreakpoint2 && azimuth < changeColourAzimunthBreakpoint3) {
                             // FIXME: 13.07.2020 to constant
                             mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));

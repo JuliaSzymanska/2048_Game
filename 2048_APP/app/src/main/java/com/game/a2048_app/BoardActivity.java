@@ -304,6 +304,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     break;
                 case 128:
                     fieldsImages[i] = R.drawable.one_hundred_twenty_eight;
+                    break;
                 case 256:
                     fieldsImages[i] = R.drawable.two_hundred_fifty_six;
                     break;
@@ -315,6 +316,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     break;
                 case 2048:
                     fieldsImages[i] = R.drawable.two_thousands;
+                    break;
             }
 
         }

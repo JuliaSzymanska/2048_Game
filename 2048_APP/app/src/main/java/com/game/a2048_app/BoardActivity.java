@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -194,6 +193,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         prepareScoreText();
         prepareHighscoreText();
         restartGameButton = (Button) findViewById(R.id.restartGameButton);
+        this.restartGameButton.setBackgroundResource(R.drawable.main_activity_button);
         this.restartGameButton.setOnClickListener(restartGameListener);
         Button settingsButton = (Button) findViewById(R.id.settingsButton);
         settingsButton.setBackgroundResource(R.drawable.settings);
@@ -552,21 +552,20 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         public void run() {
             // Light Sensor - gdy jest ciemno włącza się dark mode
             final ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
-            ColorDrawable viewColor = (ColorDrawable) cl.getBackground();
-            final int colorId = viewColor.getColor();
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
-                    if (mLightData <= DARKMODE_ENABLE_LIGHT && colorId != DARKMODE_COLOUR) {
+                    // TODO: 15.07.2020 trzeba tutaj dorobic ten kawalek ifa colorId != DARKMODE_COLOUR dla image
+                    if (mLightData <= DARKMODE_ENABLE_LIGHT) {
                         // TODO: 13.07.2020 toConstant
                         // TODO: 15.07.2020 chciałbym to tak
 //                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                         //https://developer.android.com/guide/topics/ui/look-and-feel/darktheme
-                        cl.setBackgroundColor(DARKMODE_COLOUR);
-                    } else if (mLightData >= DARKMODE_DISABLE_LIGHT && colorId != LIGHTMODE_COLOUR) {
+                        cl.setBackgroundResource(R.drawable.background_dark);
+                    } else if (mLightData >= DARKMODE_DISABLE_LIGHT) {
 //                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        cl.setBackgroundColor(LIGHTMODE_COLOUR);
+                        cl.setBackgroundResource(R.drawable.background);
                     }
                 }
             });

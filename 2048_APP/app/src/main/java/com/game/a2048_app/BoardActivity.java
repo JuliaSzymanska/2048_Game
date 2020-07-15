@@ -1,6 +1,7 @@
 package com.game.a2048_app;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,22 +14,25 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
+
+import java.util.Arrays;
 
 // TODO: 09.06.2020 wcale nie julaszym1212 oto animacja:
 //  https://stackoverflow.com/questions/46359987/which-layoutmanager-for-the-animations-of-a-2048-game
@@ -48,10 +52,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     OnSwipeTouchListener onSwipeTouchListener;
 
     private Game game = Game.getInstance();
-    private ArrayAdapter<Field> adapter;
+    private ArrayAdapter<Integer> adapter;
     private GridView gridView;
     private Field[] fields = game.getCopyOfTheBoard().toArray(new Field[0]);
+    private Integer[] fieldsImages;
+
     private Integer mThumbIds = R.drawable.button_green;
+
+
 
     // System sensor manager instance.
     private SensorManager mSensorManager;
@@ -75,6 +83,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView mTextSensorRoll;
     private TextView mTextSensorLux;
 
+    // TODO: 15.07.2020  https://developer.android.com/topic/libraries/data-binding/two-way?fbclid=IwAR3nCMsvlFlrsTQVVEvW-Sk9wxKMeOh2HJm_XUM9BJNlJW9ZFFeH-26kXFM
     private TextView textScore;
     private TextView textHighScore;
     private TextView textTime;
@@ -120,8 +129,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
+        fieldsImages = new Integer[fields.length];
+        Arrays.fill(fieldsImages, R.drawable.one);
         this.prepareViews();
         this.prepareSensors();
+
 
         // TODO: 12.07.2020 should probably not be in a different file in such a convoluted function
         OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView,
@@ -130,6 +142,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     void setTextScoreText() {
         textScore.setText(String.format("%s%s", "Score: ", game.getCurrentScore()));
+
     }
 
     void setTextHighScoreText() {
@@ -137,6 +150,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             textHighScore.setText(String.format("%s%s", "Highscore: ", game.getHighScore()));
         }
     }
+
 
     private View.OnClickListener restartGameListener = new View.OnClickListener() {
         @Override
@@ -212,21 +226,45 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
     }
 
+
     private void prepareGrid() {
-        // FIXME: 14.07.2020 tak się czasem buguje - i tak chciałeś zmienić tego grida, ale chwilowo nie mam pomysłu co z tym zrobić
-        //https://imgur.com/n6mEW2n
-        this.adapter = new ArrayAdapter<Field>(this,
-                android.R.layout.simple_list_item_1, fields) {
+        this.adapter = new ArrayAdapter<Integer>(this,
+                android.R.layout.simple_list_item_1, fieldsImages) {
+//            private Context context;
+//            public void CustomGridViewAdapter(Context c) {
+//                context = c;
+//            }
+            @NonNull
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) super.getView(position, convertView, parent);
-                view.setBackgroundResource(mThumbIds);
-                textView.setGravity(Gravity.CENTER);
-                textView.setTextSize(30);
-                textView.setTextColor(Color.WHITE);
-                return view;
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+//                View view = super.getView(position, convertView, parent);
+//                TextView textView = (TextView) super.getView(position, convertView, parent);
+//                view.setBackgroundResource(mThumbIds);
+//                textView.setGravity(Gravity.CENTER);
+//                textView.setTextSize(0);
+//                textView.setTextColor(Color.WHITE);
+                ImageView imageView;
+                if (convertView == null) {
+                    LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
+                    convertView = inflater.inflate(R.layout.item, parent, false);
+                    imageView = (ImageView) convertView.findViewById(R.id.imageView);
+                    convertView.setTag(imageView);
+                } else {
+                    imageView = (ImageView) convertView.getTag();
+                }
+
+                imageView.setTag(position);
+                imageView.setImageResource(fieldsImages[position]);
+
+                    return convertView;
             }
+//
+//            @Override
+//            public void notifyDataSetChanged() {
+//                super.notifyDataSetChanged();
+//                System.out.println("HAAAALOOOOOO");
+//                display = fields.clone();
+//            }
         };
         gridView.setAdapter(adapter);
     }

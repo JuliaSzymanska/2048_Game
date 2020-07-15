@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
 
@@ -100,7 +99,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
 
     // FIXME: 13.07.2020 wrócić do BoardActivity
     static void setupListener(OnSwipeTouchListener onSwipeTouchListener, final View view, final BoardActivity boardActivity,
-                              final Game game, final ArrayAdapter<Field> adapter,
+                              final Game game, final ArrayAdapter<Integer> adapter,
                               final TextView score, final TextView highScore) {
         onSwipeTouchListener = new OnSwipeTouchListener(boardActivity, view);
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {

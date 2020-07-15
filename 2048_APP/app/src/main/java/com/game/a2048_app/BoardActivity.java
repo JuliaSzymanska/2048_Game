@@ -198,6 +198,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         Button settingsButton = (Button) findViewById(R.id.settingsButton);
         settingsButton.setBackgroundResource(R.drawable.settings);
         settingsButton.setOnClickListener(settingsListener);
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -243,20 +244,28 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 //                textView.setGravity(Gravity.CENTER);
 //                textView.setTextSize(0);
 //                textView.setTextColor(Color.WHITE);
-                ImageView imageView;
+//                ImageView imageView;
+                ViewHolderItem viewHolder;
                 if (convertView == null) {
                     LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
                     convertView = inflater.inflate(R.layout.item, parent, false);
-                    imageView = (ImageView) convertView.findViewById(R.id.imageView);
-                    convertView.setTag(imageView);
+                    viewHolder = new ViewHolderItem();
+                    viewHolder.imageViewItem = (ImageView) convertView.findViewById(R.id.imageView);
+                    viewHolder.textViewItem = (TextView) convertView.findViewById(R.id.textView);
+                    convertView.setTag(viewHolder);
                 } else {
-                    imageView = (ImageView) convertView.getTag();
+                    viewHolder = (ViewHolderItem) convertView.getTag();
                 }
-
-                imageView.setTag(position);
-                imageView.setImageResource(fieldsImages[position]);
+                viewHolder.textViewItem.setBackgroundResource(mThumbIds);
+                viewHolder.imageViewItem.setTag(position);
+                viewHolder.imageViewItem.setImageResource(fieldsImages[position]);
 
                     return convertView;
+            }
+
+            class ViewHolderItem {
+                TextView textViewItem;
+                ImageView imageViewItem;
             }
 
             @Override
@@ -601,13 +610,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                             mThumbIds = R.drawable.button_green;
                         } else if (azimuth >= changeColourAzimunthBreakpoint4 || azimuth < -changeColourAzimunthBreakpoint4) {
                             mTextSensorLux.setTextColor(Color.rgb(112, 175, 212));
-                            mThumbIds = R.drawable.button_blue;
+                            mThumbIds = R.drawable.button_green_light;
                         } else if (azimuth >= -changeColourAzimunthBreakpoint1 && azimuth < changeColourAzimunthBreakpoint1) {
                             mTextSensorLux.setTextColor(Color.rgb(181, 114, 106));
-                            mThumbIds = R.drawable.button_red;
+                            mThumbIds = R.drawable.button_blue;
                         } else if (azimuth > -changeColourAzimunthBreakpoint3 && azimuth < -changeColourAzimunthBreakpoint2) {
                             mTextSensorLux.setTextColor(Color.rgb(228, 63, 222));
-                            mThumbIds = R.drawable.button_pink;
+                            mThumbIds = R.drawable.button_blue_light;
                         }
                         adapter.notifyDataSetChanged();
                     }

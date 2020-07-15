@@ -9,7 +9,7 @@
         android:id="@+id/textView"
         android:layout_width="92dp"
         android:layout_height="100dp"
-        android:textSize="15sp"
+        android:textSize="0sp"
         tools:ignore="MissingConstraints">
     </TextView>
 
@@ -17,7 +17,8 @@
         android:id="@+id/imageView"
         android:layout_width="92dp"
         android:layout_height="100dp"
-        android:layout_margin="10dp"
+        android:layout_marginTop="50dp"
+        android:padding="15dp"
         android:clickable="false"
         tools:ignore="ContentDescription,MissingConstraints">
     </ImageView>

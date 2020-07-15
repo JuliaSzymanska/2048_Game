@@ -82,7 +82,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView mTextSensorRoll;
     private TextView mTextSensorLux;
 
-    // TODO: 15.07.2020  https://developer.android.com/topic/libraries/data-binding/two-way?fbclid=IwAR3nCMsvlFlrsTQVVEvW-Sk9wxKMeOh2HJm_XUM9BJNlJW9ZFFeH-26kXFM
+    // TODO: 15.07.2020 binding podwojny
+    //  https://developer.android.com/topic/libraries/data-binding/two-way?fbclid=IwAR3nCMsvlFlrsTQVVEvW-Sk9wxKMeOh2HJm_XUM9BJNlJW9ZFFeH-26kXFM
     private TextView textScore;
     private TextView textHighScore;
     private TextView textTime;
@@ -231,20 +232,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void prepareGrid() {
         this.adapter = new ArrayAdapter<Integer>(this,
                 android.R.layout.simple_list_item_1, fieldsImages) {
-//            private Context context;
-//            public void CustomGridViewAdapter(Context c) {
-//                context = c;
-//            }
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//                View view = super.getView(position, convertView, parent);
-//                TextView textView = (TextView) super.getView(position, convertView, parent);
-//                view.setBackgroundResource(mThumbIds);
-//                textView.setGravity(Gravity.CENTER);
-//                textView.setTextSize(0);
-//                textView.setTextColor(Color.WHITE);
-//                ImageView imageView;
                 ViewHolderItem viewHolder;
                 if (convertView == null) {
                     LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();

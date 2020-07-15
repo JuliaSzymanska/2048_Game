@@ -5,6 +5,7 @@
     <string name="authenticate">AUTHENTICATE</string>
     <string name="value_format">%1$.2f</string>
     <string name="restart_game">Restart Game</string>
+    <string name="home_page">Home Page</string>
     <string name="fingerprint_title">Fingerprint authentication</string>
     <string name="fingerprint_message">Being a phone user allows you to save a high score</string>
 </resources>

@@ -258,15 +258,56 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
                     return convertView;
             }
-//
-//            @Override
-//            public void notifyDataSetChanged() {
-//                super.notifyDataSetChanged();
-//                System.out.println("HAAAALOOOOOO");
-//                display = fields.clone();
-//            }
+
+            @Override
+            public void notifyDataSetChanged() {
+                setFieldsImages();
+                super.notifyDataSetChanged();
+            }
         };
         gridView.setAdapter(adapter);
+    }
+
+    // TODO: 15.07.2020 bardzo mi się to nie podoba, ale chwilowo nic innego nie przychodzi mi do głowy
+    private void setFieldsImages(){
+        for(int i = 0; i < fields.length; i++){
+            switch (fields[i].getValue()){
+                case 0:
+                    fieldsImages[i] = R.drawable.zero;
+                    break;
+                case 2:
+                    fieldsImages[i] = R.drawable.two;
+                    break;
+                case 4:
+                    fieldsImages[i] = R.drawable.four;
+                    break;
+                case 8:
+                    fieldsImages[i] = R.drawable.eight;
+                case 16:
+                    fieldsImages[i] = R.drawable.sixteen;
+                    break;
+                case 32:
+                    fieldsImages[i] = R.drawable.thirty_two;
+                    break;
+                case 64:
+                    fieldsImages[i] = R.drawable.sixty_four;
+                    break;
+                case 128:
+                    fieldsImages[i] = R.drawable.one_hundred_twenty_eight;
+                case 256:
+                    fieldsImages[i] = R.drawable.two_hundred_fifty_six;
+                    break;
+                case 512:
+                    fieldsImages[i] = R.drawable.five_hundred_twelve;
+                    break;
+                case 1024:
+                    fieldsImages[i] = R.drawable.thousand;
+                    break;
+                case 2048:
+                    fieldsImages[i] = R.drawable.two_thousands;
+            }
+
+        }
     }
 
     /**

@@ -50,7 +50,7 @@ public class Field implements Serializable, Comparable<Field> {
         this.value = this.value * 2;
     }
 
-    int getValue() {
+    public int getValue() {
         return value;
     }
 

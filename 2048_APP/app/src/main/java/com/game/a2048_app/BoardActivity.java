@@ -515,47 +515,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     void move(int direction) {
         try {
-            // TODO: 16.07.2020 JAK SIĘ WYśPISZ PRZEMKU TO USUń TEN SWITCH I NIE RÓB Z SB DEBILA
-            switch (direction) {
-                case MOVE_UP:
-                    moveUp();
-                    break;
-                case MOVE_DOWN:
-                    moveDown();
-                    break;
-                case MOVE_LEFT:
-                    moveLeft();
-                    break;
-                case MOVE_RIGHT:
-                    moveRight();
-                    break;
-                default:
-                    // TODO: 16.07.2020 Exception czy cos
-                    System.out.println("UNEXPECTED : O");
-            }
+            game.move(direction);
         } catch (GameOverException e) {
             startActivity(new Intent(BoardActivity.this, EndGame.class));
         }
         adapter.notifyDataSetChanged();
         this.setScoreTexts();
-    }
-
-    void moveUp() throws GameOverException {
-        game.move(Game.MOVE_UP);
-    }
-
-    void moveDown() throws GameOverException {
-        game.move(Game.MOVE_DOWN);
-
-    }
-
-    void moveRight() throws GameOverException {
-        game.move(Game.MOVE_RIGHT);
-
-    }
-
-    void moveLeft() throws GameOverException {
-        game.move(Game.MOVE_LEFT);
     }
 
     // TODO: 15.07.2020 mało daje multi threading

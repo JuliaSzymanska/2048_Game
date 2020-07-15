@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.game.module.Game;
-import com.game.module.GameOverException;
 
 public class OnSwipeTouchListener implements View.OnTouchListener {
     private final GestureDetector gestureDetector;
@@ -29,7 +28,6 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
             GestureDetector.SimpleOnGestureListener {
         private static final int SWIPE_THRESHOLD = 10;
         private static final int SWIPE_VELOCITY_THRESHOLD = 10;
-
 
 
         @Override
@@ -103,7 +101,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
             @Override
             public void swipeRight() {
-               boardActivity.move(BoardActivity.MOVE_RIGHT);
+                boardActivity.move(BoardActivity.MOVE_RIGHT);
             }
 
             @Override

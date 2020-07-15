@@ -317,6 +317,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     public void onSensorChanged(SensorEvent event) {
         int sensorType = event.sensor.getType();
         switch (sensorType) {
+            // TODO: 15.07.2020 rename all Runnable classes to things that make sense
             case Sensor.TYPE_ACCELEROMETER:
                 mAccelerometerData = event.values.clone();
                 if (chosenSensors[0]) {

@@ -20,8 +20,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.game.module.Field;
@@ -95,6 +97,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static double changeColourAzimunthBreakpoint2 = 1;
     private final static double changeColourAzimunthBreakpoint3 = 2;
     private final static double changeColourAzimunthBreakpoint4 = 2.5;
+
+    private final static int DARKMODE_ENABLE_LIGHT = 30;
+    private final static int DARKMODE_DISABLE_LIGHT = 50;
+
+    private final static int DARKMODE_COLOUR = Color.rgb(165, 152, 152);
+    private final static int LIGHTMODE_COLOUR = Color.rgb(255, 215, 215);
 
     // to glupie zeby miec tablice 4bool i pamietac ktory, do ktorego sensora, ale narazie tak zostawiam
     private final boolean[] chosenSensors = new boolean[]{true, true, true, true};
@@ -441,6 +449,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.setScoreTexts();
     }
 
+
     // TODO: 15.07.2020 mało daje multi threading
     private class DarkMode implements Runnable {
         @Override
@@ -453,11 +462,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void run() {
                     mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
-                    if (mLightData < 30 && colorId != -5924712) {
+                    if (mLightData <= DARKMODE_ENABLE_LIGHT && colorId != DARKMODE_COLOUR) {
                         // TODO: 13.07.2020 toConstant
-                        cl.setBackgroundColor(Color.rgb(165, 152, 152));
-                    } else if (mLightData >= 30 && colorId != -10281) {
-                        cl.setBackgroundColor(Color.rgb(255, 215, 215));
+                        // TODO: 15.07.2020 chciałbym to tak
+//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        //https://developer.android.com/guide/topics/ui/look-and-feel/darktheme
+                        cl.setBackgroundColor(DARKMODE_COLOUR);
+                    } else if (mLightData >= DARKMODE_DISABLE_LIGHT && colorId != LIGHTMODE_COLOUR) {
+//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        cl.setBackgroundColor(LIGHTMODE_COLOUR);
                     }
                 }
             });

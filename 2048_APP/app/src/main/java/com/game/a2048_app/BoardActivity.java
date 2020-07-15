@@ -369,12 +369,22 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 roll = 0;
             }
 
-            mTextSensorAzimuth.setText(getResources().getString(
-                    R.string.value_format, azimuth));
-            mTextSensorPitch.setText(getResources().getString(
-                    R.string.value_format, pitch));
-            mTextSensorRoll.setText(getResources().getString(
-                    R.string.value_format, roll));
+            final float finalAzimuth = azimuth;
+            final float finalPitch = pitch;
+            final float finalRoll = roll;
+            // has to run on main thread
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mTextSensorAzimuth.setText(getResources().getString(
+                            R.string.value_format, finalAzimuth));
+                    mTextSensorPitch.setText(getResources().getString(
+                            R.string.value_format, finalPitch));
+                    mTextSensorRoll.setText(getResources().getString(
+                            R.string.value_format, finalRoll));
+
+                }
+            });
 
             if (!hasMoved && (Math.abs(pitch) >= DETECT_MOVE_PITCH || Math.abs(roll) >= DETECT_MOVE_ROLL)) {
                 try {

@@ -112,7 +112,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static int DARKMODE_DISABLE_LIGHT = 50;
 
     // to glupie zeby miec tablice 4bool i pamietac ktory, do ktorego sensora, ale narazie tak zostawiam
-    private final boolean[] chosenSensors = new boolean[]{true, true, true, true};
+    // TODO: 16.07.2020 zrobić to tak żeby się nie resetowało przy każdej zmianie otwartego okna (tzn to i tak ma byc
+    //  w DB i być zapisywane na 'stałe' ale no wiadomo cojest5
+    private final boolean[] chosenSensors = new boolean[]{false, false, false, false};
 
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
     // Pitch: The top-to-bottom tilt of the device. 0 is flat.

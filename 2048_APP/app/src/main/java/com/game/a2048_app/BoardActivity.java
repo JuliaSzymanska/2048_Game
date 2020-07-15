@@ -312,8 +312,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             case Sensor.TYPE_ACCELEROMETER:
                 mAccelerometerData = event.values.clone();
                 if (chosenSensors[0]) {
-                    Thread thread = new Thread(new PositionGyroscope());
-                    thread.start();
+                    new Thread(new PositionGyroscope()).start();
                 }
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
@@ -325,7 +324,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             case Sensor.TYPE_LIGHT:
                 mLightData = event.values[0];
                 if (chosenSensors[2]) {
-                    darkMode();
+                    new Thread(new DarkMode()).start();
                 }
                 break;
             case Sensor.TYPE_PROXIMITY:
@@ -411,7 +410,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
 
-
     // FIXME: 13.07.2020 to się robi straszne, jest metoda która sprawdza czy został wykonany ruch,
     //  wywołująca ruch, która wywołuje to, co wywołuje metody zmieniające text brrr straszne
     void setScoreTexts() {
@@ -443,20 +441,29 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.setScoreTexts();
     }
 
-
-    private void darkMode() {
-        // Light Sensor - gdy jest ciemno włącza się dark mode
-        mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
-        ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
-        ColorDrawable viewColor = (ColorDrawable) cl.getBackground();
-        int colorId = viewColor.getColor();
-        if (mLightData < 30 && colorId != -5924712) {
-            // TODO: 13.07.2020 toConstant
-            cl.setBackgroundColor(Color.rgb(165, 152, 152));
-        } else if (mLightData >= 30 && colorId != -10281) {
-            cl.setBackgroundColor(Color.rgb(255, 215, 215));
+    // TODO: 15.07.2020 mało daje multi threading
+    private class DarkMode implements Runnable {
+        @Override
+        public void run() {
+            // Light Sensor - gdy jest ciemno włącza się dark mode
+            final ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
+            ColorDrawable viewColor = (ColorDrawable) cl.getBackground();
+            final int colorId = viewColor.getColor();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
+                    if (mLightData < 30 && colorId != -5924712) {
+                        // TODO: 13.07.2020 toConstant
+                        cl.setBackgroundColor(Color.rgb(165, 152, 152));
+                    } else if (mLightData >= 30 && colorId != -10281) {
+                        cl.setBackgroundColor(Color.rgb(255, 215, 215));
+                    }
+                }
+            });
         }
     }
+
 
     private void stopGameProximity() {
         // Proximity sensor - zatrzymuje sie czas po zblizeniu

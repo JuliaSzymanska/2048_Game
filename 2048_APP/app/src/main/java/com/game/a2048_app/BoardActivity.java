@@ -505,9 +505,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-
-    // FIXME: 13.07.2020 to się robi straszne, jest metoda która sprawdza czy został wykonany ruch,
-    //  wywołująca ruch, która wywołuje to, co wywołuje metody zmieniające text brrr straszne
+    // TODO: 16.07.2020 add binding so this is not needed
     void setScoreTexts() {
         this.setTextScoreText();
         this.setTextHighScoreText();
@@ -534,7 +532,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 public void run() {
                     mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
                     if (mLightData <= DARKMODE_ENABLE_LIGHT && isDarkModeEnabled == false) {
-                        // TODO: 13.07.2020 toConstant
                         // TODO: 15.07.2020 chciałbym to tak
 //                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                         //https://developer.android.com/guide/topics/ui/look-and-feel/darktheme

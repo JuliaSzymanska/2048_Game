@@ -278,7 +278,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     // TODO: 15.07.2020 bardzo mi się to nie podoba, ale chwilowo nic innego nie przychodzi mi do głowy
-    // TODO: 15.07.2020 generalnie nie od konca zle dziala, jakby blokuje sie na 16 i po zlaczeniu, nie wyswietla 32 tylko 16
     private void setFieldsImages(){
         for(int i = 0; i < fields.length; i++){
             switch (fields[i].getValue()){
@@ -293,6 +292,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     break;
                 case 8:
                     fieldsImages[i] = R.drawable.eight;
+                    break;
                 case 16:
                     fieldsImages[i] = R.drawable.sixteen;
                     break;

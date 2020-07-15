@@ -318,7 +318,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             case Sensor.TYPE_MAGNETIC_FIELD:
                 mMagnetometerData = event.values.clone();
                 if (chosenSensors[1]) {
-                    changeColourMagnetometer();
+                    new Thread(new ChangeColourMagnetometer()).start();
                 }
                 break;
             case Sensor.TYPE_LIGHT:
@@ -330,7 +330,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             case Sensor.TYPE_PROXIMITY:
                 mProximityData = event.values[0];
                 if (chosenSensors[3]) {
-                    stopGameProximity();
+                    new Thread(new StopGameProximity()).start();
                 }
                 break;
             default:
@@ -465,42 +465,52 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
 
-    private void stopGameProximity() {
-        // Proximity sensor - zatrzymuje sie czas po zblizeniu
-        if (mProximityData < PROXIMITY_DISTANCE) {
-            if (!game.isSuspended()) {
-                game.pauseTimer();
+
+    private class StopGameProximity implements Runnable {
+        @Override
+        public void run() {
+            // Proximity sensor - zatrzymuje sie czas po zblizeniu
+            if (mProximityData < PROXIMITY_DISTANCE) {
+                if (!game.isSuspended()) {
+                    game.pauseTimer();
+                }
+            } else if (game.isSuspended()) {
+                game.unpauseTimer();
             }
-        } else if (game.isSuspended()) {
-            game.unpauseTimer();
         }
     }
 
-    private void changeColourMagnetometer() {
-        // Magnetometer - zmiana kolorów klocków w zależności od strony świata
-        float[] orientationValues = magnetometerSetup();
-        float azimuth = orientationValues[0];
-        float pitch = orientationValues[1];
-        // FIXME: 13.07.2020 to constant
-        if (pitch > -0.5 && pitch < 0.5) {
-            if (azimuth >= changeColourAzimunthBreakpoint2 && azimuth < changeColourAzimunthBreakpoint3) {
-                // FIXME: 13.07.2020 to constant
-                mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
-                mThumbIds = R.drawable.button_green;
-            } else if (azimuth >= changeColourAzimunthBreakpoint4 || azimuth < -changeColourAzimunthBreakpoint4) {
-                mTextSensorLux.setTextColor(Color.rgb(112, 175, 212));
-                mThumbIds = R.drawable.button_blue;
-            } else if (azimuth >= -changeColourAzimunthBreakpoint1 && azimuth < changeColourAzimunthBreakpoint1) {
-                mTextSensorLux.setTextColor(Color.rgb(181, 114, 106));
-                mThumbIds = R.drawable.button_red;
-            } else if (azimuth > -changeColourAzimunthBreakpoint3 && azimuth < -changeColourAzimunthBreakpoint2) {
-                mTextSensorLux.setTextColor(Color.rgb(228, 63, 222));
-                mThumbIds = R.drawable.button_pink;
-            }
-            adapter.notifyDataSetChanged();
+    private class ChangeColourMagnetometer implements Runnable {
+        @Override
+        public void run() {
+            float[] orientationValues = magnetometerSetup();
+            final float azimuth = orientationValues[0];
+            final float pitch = orientationValues[1];
+            // FIXME: 13.07.2020 to constant
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (pitch > -0.5 && pitch < 0.5) {
+                        if (azimuth >= changeColourAzimunthBreakpoint2 && azimuth < changeColourAzimunthBreakpoint3) {
+                            // FIXME: 13.07.2020 to constant
+                            mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
+                            mThumbIds = R.drawable.button_green;
+                        } else if (azimuth >= changeColourAzimunthBreakpoint4 || azimuth < -changeColourAzimunthBreakpoint4) {
+                            mTextSensorLux.setTextColor(Color.rgb(112, 175, 212));
+                            mThumbIds = R.drawable.button_blue;
+                        } else if (azimuth >= -changeColourAzimunthBreakpoint1 && azimuth < changeColourAzimunthBreakpoint1) {
+                            mTextSensorLux.setTextColor(Color.rgb(181, 114, 106));
+                            mThumbIds = R.drawable.button_red;
+                        } else if (azimuth > -changeColourAzimunthBreakpoint3 && azimuth < -changeColourAzimunthBreakpoint2) {
+                            mTextSensorLux.setTextColor(Color.rgb(228, 63, 222));
+                            mThumbIds = R.drawable.button_pink;
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            });
         }
     }
-
 
     private void restartGame() {
         this.game.restartGame();

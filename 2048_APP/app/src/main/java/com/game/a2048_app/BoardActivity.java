@@ -59,7 +59,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Integer mThumbIds = R.drawable.button_green;
 
 
-
     // System sensor manager instance.
     private SensorManager mSensorManager;
     //
@@ -120,6 +119,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     // Roll: The left-to-right tilt of the device. 0 is flat.
 
     private float[] previousValuesAzimuthPitchRoll = new float[3];
+
+
+    // znowu się spotykamy
+    public final static int MOVE_UP = Game.MOVE_UP;
+    public final static int MOVE_RIGHT = Game.MOVE_RIGHT;
+    public final static int MOVE_DOWN = Game.MOVE_DOWN;
+    public final static int MOVE_LEFT = Game.MOVE_LEFT;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -249,7 +255,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 viewHolder.imageViewItem.setTag(position);
                 viewHolder.imageViewItem.setImageResource(fieldsImages[position]);
 
-                    return convertView;
+                return convertView;
             }
 
             class ViewHolderItem {
@@ -267,9 +273,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     // TODO: 15.07.2020 bardzo mi się to nie podoba, ale chwilowo nic innego nie przychodzi mi do głowy
-    private void setFieldsImages(){
-        for(int i = 0; i < fields.length; i++){
-            switch (fields[i].getValue()){
+    private void setFieldsImages() {
+        for (int i = 0; i < fields.length; i++) {
+            switch (fields[i].getValue()) {
                 case 0:
                     fieldsImages[i] = R.drawable.zero;
                     break;
@@ -480,16 +486,16 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                            if (finalPitch1 >= DETECT_MOVE_PITCH) {
-                                moveUp();
-                            } else if (finalPitch1 <= -DETECT_MOVE_PITCH) {
-                                moveDown();
-                            } else if (finalRoll1 >= DETECT_MOVE_ROLL) {
-                                moveRight();
-                            } else if (finalRoll1 <= -DETECT_MOVE_ROLL) {
-                                moveLeft();
-                            }
-                            hasMoved = true;
+                        if (finalPitch1 >= DETECT_MOVE_PITCH) {
+                            move(MOVE_UP);
+                        } else if (finalPitch1 <= -DETECT_MOVE_PITCH) {
+                            move(MOVE_DOWN);
+                        } else if (finalRoll1 >= DETECT_MOVE_ROLL) {
+                            move(MOVE_RIGHT);
+                        } else if (finalRoll1 <= -DETECT_MOVE_ROLL) {
+                            move(MOVE_LEFT);
+                        }
+                        hasMoved = true;
                     }
                 });
             }
@@ -507,9 +513,26 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.setTextHighScoreText();
     }
 
-    void moveUp() {
+    void move(int direction) {
         try {
-            game.move(Game.MOVE_UP);
+            // TODO: 16.07.2020 JAK SIĘ WYśPISZ PRZEMKU TO USUń TEN SWITCH I NIE RÓB Z SB DEBILA
+            switch (direction) {
+                case MOVE_UP:
+                    moveUp();
+                    break;
+                case MOVE_DOWN:
+                    moveDown();
+                    break;
+                case MOVE_LEFT:
+                    moveLeft();
+                    break;
+                case MOVE_RIGHT:
+                    moveRight();
+                    break;
+                default:
+                    // TODO: 16.07.2020 Exception czy cos
+                    System.out.println("UNEXPECTED : O");
+            }
         } catch (GameOverException e) {
             startActivity(new Intent(BoardActivity.this, EndGame.class));
         }
@@ -517,36 +540,23 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.setScoreTexts();
     }
 
-    void moveDown() {
-        try {
-            game.move(Game.MOVE_DOWN);
-        } catch (GameOverException e) {
-            startActivity(new Intent(BoardActivity.this, EndGame.class));
-        }
-        adapter.notifyDataSetChanged();
-        this.setScoreTexts();
+    void moveUp() throws GameOverException {
+        game.move(Game.MOVE_UP);
     }
 
-    void moveRight() {
-        try {
-            game.move(Game.MOVE_RIGHT);
-        } catch (GameOverException e) {
-            startActivity(new Intent(BoardActivity.this, EndGame.class));
-        }
-        adapter.notifyDataSetChanged();
-        this.setScoreTexts();
+    void moveDown() throws GameOverException {
+        game.move(Game.MOVE_DOWN);
+
     }
 
-    void moveLeft() {
-        try {
-            game.move(Game.MOVE_LEFT);
-        } catch (GameOverException e) {
-            startActivity(new Intent(BoardActivity.this, EndGame.class));
-        }
-        adapter.notifyDataSetChanged();
-        this.setScoreTexts();
+    void moveRight() throws GameOverException {
+        game.move(Game.MOVE_RIGHT);
+
     }
 
+    void moveLeft() throws GameOverException {
+        game.move(Game.MOVE_LEFT);
+    }
 
     // TODO: 15.07.2020 mało daje multi threading
     private class DarkMode implements Runnable {
@@ -578,7 +588,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             });
         }
     }
-
 
 
     private class StopGameProximity implements Runnable {

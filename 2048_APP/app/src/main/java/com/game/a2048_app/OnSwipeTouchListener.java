@@ -103,22 +103,22 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
             @Override
             public void swipeRight() {
-               boardActivity.moveRight();
+               boardActivity.move(BoardActivity.MOVE_RIGHT);
             }
 
             @Override
             public void swipeTop() {
-                boardActivity.moveUp();
+                boardActivity.move(BoardActivity.MOVE_UP);
             }
 
             @Override
             public void swipeBottom() {
-                boardActivity.moveDown();
+                boardActivity.move(BoardActivity.MOVE_DOWN);
             }
 
             @Override
             public void swipeLeft() {
-                boardActivity.moveLeft();
+                boardActivity.move(BoardActivity.MOVE_LEFT);
             }
         };
     }

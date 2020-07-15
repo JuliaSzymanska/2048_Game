@@ -515,6 +515,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         try {
             game.move(direction);
         } catch (GameOverException e) {
+            restartGame();
             startActivity(new Intent(BoardActivity.this, EndGame.class));
         }
         adapter.notifyDataSetChanged();

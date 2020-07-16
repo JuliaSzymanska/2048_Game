@@ -9,6 +9,7 @@
         android:id="@+id/textView"
         android:layout_width="92dp"
         android:layout_height="100dp"
+        android:padding="15dp"
         android:textSize="0sp"
         tools:ignore="MissingConstraints">
     </TextView>

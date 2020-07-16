@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.game.module.Field;
@@ -74,8 +76,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private float mLightData;
     private float mProximityData;
     private boolean hasMoved = false;
-    // TODO: 16.07.2020 jak sie zobaczy ten twoj dark mode to moze nie bedzie to potrzbene
-    private boolean isDarkModeEnabled = false;
 
     // TextViews to display current sensor values.
     private TextView mTextSensorAzimuth;
@@ -534,20 +534,19 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void run() {
                     mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
-                    if (mLightData <= DARKMODE_ENABLE_LIGHT && isDarkModeEnabled == false) {
+                    int isNightTheme = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                    if (mLightData <= DARKMODE_ENABLE_LIGHT && isNightTheme == Configuration.UI_MODE_NIGHT_NO) {
                         // TODO: 15.07.2020 chciałbym to tak
-//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        //https://developer.android.com/guide/topics/ui/look-and-feel/darktheme
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                         cl.setBackgroundResource(R.drawable.background_dark);
                         mThumbIds = R.drawable.button_dark;
                         adapter.notifyDataSetChanged();
-                        isDarkModeEnabled = true;
-                    } else if (mLightData >= DARKMODE_DISABLE_LIGHT && isDarkModeEnabled == true) {
-//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        //https://developer.android.com/guide/topics/ui/look-and-feel/darktheme
+                    } else if (mLightData >= DARKMODE_DISABLE_LIGHT && isNightTheme == Configuration.UI_MODE_NIGHT_YES) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                         cl.setBackgroundResource(R.drawable.background);
                         mThumbIds = R.drawable.button_blue;
                         adapter.notifyDataSetChanged();
-                        isDarkModeEnabled = false;
                     }
                 }
             });
@@ -578,12 +577,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             float[] orientationValues = magnetometerSetup();
             final float azimuth = orientationValues[0];
             final float pitch = orientationValues[1];
+            final int isNightTheme = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
             // FIXME: 13.07.2020 to constant
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     // TODO: 15.07.2020 mój telefon zauważyłem że ma problem z azymuntem tzn praktycznie nie wychodzi poza 2-3 i -3 - -2
-                    if (pitch > horizontalPitchMin && pitch < horizontalPitchMax && isDarkModeEnabled == false) {
+                    if (pitch > horizontalPitchMin && pitch < horizontalPitchMax && isNightTheme == Configuration.UI_MODE_NIGHT_NO) {
                         if (azimuth >= changeColourAzimunthBreakpoint2 && azimuth < changeColourAzimunthBreakpoint3) {
                             // FIXME: 13.07.2020 to constant
                             mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));

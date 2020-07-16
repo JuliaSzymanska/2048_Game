@@ -140,13 +140,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     void setTextScoreText() {
-        textScore.setText(String.format("%s%s", "Score: ", game.getCurrentScore()));
+        textScore.setText(String.format("%s%s", "Score:\n", game.getCurrentScore()));
 
     }
 
     void setTextHighScoreText() {
         if (game.isUserAuthenticated()) {
-            textHighScore.setText(String.format("%s%s", "Highscore: ", game.getHighScore()));
+            textHighScore.setText(String.format("%s%s", "Highscore:\n", game.getHighScore()));
         }
     }
 
@@ -364,7 +364,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                                 long elapsedTime = game.getElapsedTimeSeconds();
                                 int minutes = (int) elapsedTime / 60;
                                 long seconds = elapsedTime % 60;
-                                textTime.setText(String.format("Time: %s:%s", minutes, seconds));
+                                textTime.setText(String.format("Time:\n%s:%s", minutes, seconds));
                             }
                         });
 

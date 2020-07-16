@@ -59,7 +59,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Integer mThumbIds = R.drawable.button_green;
 
 
-
     // System sensor manager instance.
     private SensorManager mSensorManager;
     //
@@ -113,13 +112,22 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static int DARKMODE_DISABLE_LIGHT = 50;
 
     // to glupie zeby miec tablice 4bool i pamietac ktory, do ktorego sensora, ale narazie tak zostawiam
-    private final boolean[] chosenSensors = new boolean[]{true, true, true, true};
+    // TODO: 16.07.2020 zrobić to tak żeby się nie resetowało przy każdej zmianie otwartego okna (tzn to i tak ma byc
+    //  w DB i być zapisywane na 'stałe' ale no wiadomo cojest5
+    private final boolean[] chosenSensors = new boolean[]{false, false, false, false};
 
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
     // Pitch: The top-to-bottom tilt of the device. 0 is flat.
     // Roll: The left-to-right tilt of the device. 0 is flat.
 
     private float[] previousValuesAzimuthPitchRoll = new float[3];
+
+
+    // znowu się spotykamy
+    public final static int MOVE_UP = Game.MOVE_UP;
+    public final static int MOVE_RIGHT = Game.MOVE_RIGHT;
+    public final static int MOVE_DOWN = Game.MOVE_DOWN;
+    public final static int MOVE_LEFT = Game.MOVE_LEFT;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -249,7 +257,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 viewHolder.imageViewItem.setTag(position);
                 viewHolder.imageViewItem.setImageResource(fieldsImages[position]);
 
-                    return convertView;
+                return convertView;
             }
 
             class ViewHolderItem {
@@ -267,9 +275,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     // TODO: 15.07.2020 bardzo mi się to nie podoba, ale chwilowo nic innego nie przychodzi mi do głowy
-    private void setFieldsImages(){
-        for(int i = 0; i < fields.length; i++){
-            switch (fields[i].getValue()){
+    private void setFieldsImages() {
+        for (int i = 0; i < fields.length; i++) {
+            switch (fields[i].getValue()) {
                 case 0:
                     fieldsImages[i] = R.drawable.zero;
                     break;
@@ -480,21 +488,16 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            if (finalPitch1 >= DETECT_MOVE_PITCH) {
-                                moveUp();
-                            } else if (finalPitch1 <= -DETECT_MOVE_PITCH) {
-                                moveDown();
-                            } else if (finalRoll1 >= DETECT_MOVE_ROLL) {
-                                moveRight();
-                            } else if (finalRoll1 <= -DETECT_MOVE_ROLL) {
-                                moveLeft();
-                            }
-                            hasMoved = true;
-                        } catch (GameOverException e) {
-                            e.printStackTrace();
-                            startActivity(new Intent(BoardActivity.this, EndGame.class));
+                        if (finalPitch1 >= DETECT_MOVE_PITCH) {
+                            move(MOVE_UP);
+                        } else if (finalPitch1 <= -DETECT_MOVE_PITCH) {
+                            move(MOVE_DOWN);
+                        } else if (finalRoll1 >= DETECT_MOVE_ROLL) {
+                            move(MOVE_RIGHT);
+                        } else if (finalRoll1 <= -DETECT_MOVE_ROLL) {
+                            move(MOVE_LEFT);
                         }
+                        hasMoved = true;
                     }
                 });
             }
@@ -504,38 +507,22 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-
-    // FIXME: 13.07.2020 to się robi straszne, jest metoda która sprawdza czy został wykonany ruch,
-    //  wywołująca ruch, która wywołuje to, co wywołuje metody zmieniające text brrr straszne
+    // TODO: 16.07.2020 add binding so this is not needed
     void setScoreTexts() {
         this.setTextScoreText();
         this.setTextHighScoreText();
     }
 
-    void moveUp() throws GameOverException {
-        game.move(Game.MOVE_UP);
+    void move(int direction) {
+        try {
+            game.move(direction);
+        } catch (GameOverException e) {
+            restartGame();
+            startActivity(new Intent(BoardActivity.this, EndGame.class));
+        }
         adapter.notifyDataSetChanged();
         this.setScoreTexts();
     }
-
-    void moveDown() throws GameOverException {
-        game.move(Game.MOVE_DOWN);
-        adapter.notifyDataSetChanged();
-        this.setScoreTexts();
-    }
-
-    void moveRight() throws GameOverException {
-        game.move(Game.MOVE_RIGHT);
-        adapter.notifyDataSetChanged();
-        this.setScoreTexts();
-    }
-
-    void moveLeft() throws GameOverException {
-        game.move(Game.MOVE_LEFT);
-        adapter.notifyDataSetChanged();
-        this.setScoreTexts();
-    }
-
 
     // TODO: 15.07.2020 mało daje multi threading
     private class DarkMode implements Runnable {
@@ -548,7 +535,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 public void run() {
                     mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
                     if (mLightData <= DARKMODE_ENABLE_LIGHT && isDarkModeEnabled == false) {
-                        // TODO: 13.07.2020 toConstant
                         // TODO: 15.07.2020 chciałbym to tak
 //                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                         //https://developer.android.com/guide/topics/ui/look-and-feel/darktheme
@@ -567,7 +553,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             });
         }
     }
-
 
 
     private class StopGameProximity implements Runnable {
@@ -623,6 +608,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void restartGame() {
         this.game.restartGame();
         this.setTextScoreText();
+        adapter.notifyDataSetChanged();
     }
 
 

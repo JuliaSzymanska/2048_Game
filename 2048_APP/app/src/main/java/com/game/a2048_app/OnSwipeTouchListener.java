@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.game.module.Game;
-import com.game.module.GameOverException;
 
 public class OnSwipeTouchListener implements View.OnTouchListener {
     private final GestureDetector gestureDetector;
@@ -29,7 +28,6 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
             GestureDetector.SimpleOnGestureListener {
         private static final int SWIPE_THRESHOLD = 10;
         private static final int SWIPE_VELOCITY_THRESHOLD = 10;
-
 
 
         @Override
@@ -60,8 +58,6 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                     }
                     result = true;
                 }
-            } catch (GameOverException ignored) {
-                // FIXME: 07.07.2020 GameOver
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
@@ -69,30 +65,30 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         }
     }
 
-    void onSwipeRight() throws GameOverException {
+    void onSwipeRight() {
         this.onSwipe.swipeRight();
     }
 
-    void onSwipeLeft() throws GameOverException {
+    void onSwipeLeft() {
         this.onSwipe.swipeLeft();
     }
 
-    void onSwipeTop() throws GameOverException {
+    void onSwipeTop() {
         this.onSwipe.swipeTop();
     }
 
-    void onSwipeBottom() throws GameOverException {
+    void onSwipeBottom() {
         this.onSwipe.swipeBottom();
     }
 
     interface onSwipeListener {
-        void swipeRight() throws GameOverException;
+        void swipeRight();
 
-        void swipeTop() throws GameOverException;
+        void swipeTop();
 
-        void swipeBottom() throws GameOverException;
+        void swipeBottom();
 
-        void swipeLeft() throws GameOverException;
+        void swipeLeft();
     }
 
     onSwipeListener onSwipe;
@@ -104,23 +100,23 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         onSwipeTouchListener = new OnSwipeTouchListener(boardActivity, view);
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
             @Override
-            public void swipeRight() throws GameOverException {
-               boardActivity.moveRight();
+            public void swipeRight() {
+                boardActivity.move(BoardActivity.MOVE_RIGHT);
             }
 
             @Override
-            public void swipeTop() throws GameOverException {
-                boardActivity.moveUp();
+            public void swipeTop() {
+                boardActivity.move(BoardActivity.MOVE_UP);
             }
 
             @Override
-            public void swipeBottom() throws GameOverException {
-                boardActivity.moveDown();
+            public void swipeBottom() {
+                boardActivity.move(BoardActivity.MOVE_DOWN);
             }
 
             @Override
-            public void swipeLeft() throws GameOverException {
-                boardActivity.moveLeft();
+            public void swipeLeft() {
+                boardActivity.move(BoardActivity.MOVE_LEFT);
             }
         };
     }

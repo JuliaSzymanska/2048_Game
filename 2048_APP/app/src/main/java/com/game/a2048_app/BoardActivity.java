@@ -78,10 +78,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private boolean hasMoved = false;
 
     // TextViews to display current sensor values.
-    private TextView mTextSensorAzimuth;
-    private TextView mTextSensorPitch;
-    private TextView mTextSensorRoll;
-    private TextView mTextSensorLux;
+//    private TextView mTextSensorAzimuth;
+//    private TextView mTextSensorPitch;
+//    private TextView mTextSensorRoll;
+//    private TextView mTextSensorLux;
 
     // TODO: 15.07.2020 binding podwojny
     //  https://developer.android.com/topic/libraries/data-binding/two-way?fbclid=IwAR3nCMsvlFlrsTQVVEvW-Sk9wxKMeOh2HJm_XUM9BJNlJW9ZFFeH-26kXFM
@@ -468,18 +468,18 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             final float finalPitch = pitch;
             final float finalRoll = roll;
             // has to run on main thread
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mTextSensorAzimuth.setText(getResources().getString(
-                            R.string.value_format, finalAzimuth));
-                    mTextSensorPitch.setText(getResources().getString(
-                            R.string.value_format, finalPitch));
-                    mTextSensorRoll.setText(getResources().getString(
-                            R.string.value_format, finalRoll));
-
-                }
-            });
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mTextSensorAzimuth.setText(getResources().getString(
+//                            R.string.value_format, finalAzimuth));
+//                    mTextSensorPitch.setText(getResources().getString(
+//                            R.string.value_format, finalPitch));
+//                    mTextSensorRoll.setText(getResources().getString(
+//                            R.string.value_format, finalRoll));
+//
+//                }
+//            });
 
             if (!hasMoved && (Math.abs(pitch) >= DETECT_MOVE_PITCH || Math.abs(roll) >= DETECT_MOVE_ROLL)) {
                 final float finalPitch1 = pitch;
@@ -532,7 +532,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
+//                    mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
                     int isNightTheme = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
                     if (mLightData <= DARKMODE_ENABLE_LIGHT && isNightTheme == Configuration.UI_MODE_NIGHT_NO) {
                         // TODO: 15.07.2020 chciałbym to tak
@@ -585,16 +585,16 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     if (pitch > horizontalPitchMin && pitch < horizontalPitchMax && isNightTheme == Configuration.UI_MODE_NIGHT_NO) {
                         if (azimuth >= changeColourAzimunthBreakpoint2 && azimuth < changeColourAzimunthBreakpoint3) {
                             // FIXME: 13.07.2020 to constant
-                            mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
+//                            mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
                             mThumbIds = R.drawable.button_green;
                         } else if (azimuth >= changeColourAzimunthBreakpoint4 || azimuth < -changeColourAzimunthBreakpoint4) {
-                            mTextSensorLux.setTextColor(Color.rgb(112, 175, 212));
+//                            mTextSensorLux.setTextColor(Color.rgb(112, 175, 212));
                             mThumbIds = R.drawable.button_green_light;
                         } else if (azimuth >= -changeColourAzimunthBreakpoint1 && azimuth < changeColourAzimunthBreakpoint1) {
-                            mTextSensorLux.setTextColor(Color.rgb(181, 114, 106));
+//                            mTextSensorLux.setTextColor(Color.rgb(181, 114, 106));
                             mThumbIds = R.drawable.button_blue;
                         } else if (azimuth > -changeColourAzimunthBreakpoint3 && azimuth < -changeColourAzimunthBreakpoint2) {
-                            mTextSensorLux.setTextColor(Color.rgb(228, 63, 222));
+//                            mTextSensorLux.setTextColor(Color.rgb(228, 63, 222));
                             mThumbIds = R.drawable.button_blue_light;
                         }
                         adapter.notifyDataSetChanged();

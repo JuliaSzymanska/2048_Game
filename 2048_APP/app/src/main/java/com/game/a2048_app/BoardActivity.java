@@ -157,6 +157,25 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    private void prepareViews() {
+        gridView = (GridView) findViewById(R.id.gridView);
+        this.prepareGrid();
+//        mTextSensorAzimuth = (TextView) findViewById(R.id.mTextSensorAzimuth);
+//        mTextSensorPitch = (TextView) findViewById(R.id.mTextSensorPitch);
+//        mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
+//        mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
+        textTime = (TextView) findViewById(R.id.time);
+        prepareScoreText();
+        prepareHighscoreText();
+        restartGameButton = (Button) findViewById(R.id.restartGameButton);
+        this.restartGameButton.setOnClickListener(restartGameListener);
+        Button settingsButton = (Button) findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(settingsListener);
+        Button pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
+        pausePlayButton.setOnClickListener(playPauseListener);
+        adapter.notifyDataSetChanged();
+    }
+
     private View.OnClickListener restartGameListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -186,25 +205,17 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
-    private void prepareViews() {
-        gridView = (GridView) findViewById(R.id.gridView);
-        this.prepareGrid();
-//        mTextSensorAzimuth = (TextView) findViewById(R.id.mTextSensorAzimuth);
-//        mTextSensorPitch = (TextView) findViewById(R.id.mTextSensorPitch);
-//        mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
-//        mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
-        textTime = (TextView) findViewById(R.id.time);
-        prepareScoreText();
-        prepareHighscoreText();
-        restartGameButton = (Button) findViewById(R.id.restartGameButton);
-        this.restartGameButton.setOnClickListener(restartGameListener);
-        Button settingsButton = (Button) findViewById(R.id.settingsButton);
-        settingsButton.setOnClickListener(settingsListener);
-        Button pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
-
-        adapter.notifyDataSetChanged();
-    }
-
+    private View.OnClickListener playPauseListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(!game.isSuspended()){
+                game.pauseTimer();
+            }
+            else{
+                game.unpauseTimer();
+            }
+        }
+    };
 
     private void prepareScoreText() {
         textScore = (TextView) findViewById(R.id.score);

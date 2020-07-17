@@ -374,12 +374,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     try {
                         Thread.sleep(500);
                         runOnUiThread(new Runnable() {
+                            @SuppressLint("DefaultLocale")
                             @Override
                             public void run() {
                                 long elapsedTime = game.getElapsedTimeSeconds();
                                 int minutes = (int) elapsedTime / 60;
                                 long seconds = elapsedTime % 60;
-                                textTime.setText(String.format("Time:\n%s:%s", minutes, seconds));
+                                textTime.setText(String.format("Time:\n%02d:%02d", minutes, seconds));
                             }
                         });
 

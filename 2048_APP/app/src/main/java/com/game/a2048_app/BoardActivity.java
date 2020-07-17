@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -165,8 +164,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
-    // dałam to w tym activity, żeby nie robić problemów z lista dostepna dla paru activity, a w trakcie gry możesz sobie zawsze zmienić i
-    // nie będzie problemu
     private View.OnClickListener settingsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -200,11 +197,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         prepareScoreText();
         prepareHighscoreText();
         restartGameButton = (Button) findViewById(R.id.restartGameButton);
-        this.restartGameButton.setBackgroundResource(R.drawable.main_activity_button);
         this.restartGameButton.setOnClickListener(restartGameListener);
         Button settingsButton = (Button) findViewById(R.id.settingsButton);
-        settingsButton.setBackgroundResource(R.drawable.settings);
         settingsButton.setOnClickListener(settingsListener);
+        Button pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
+
         adapter.notifyDataSetChanged();
     }
 

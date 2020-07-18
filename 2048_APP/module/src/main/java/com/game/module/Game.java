@@ -26,7 +26,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Game {
     // TODO: 19.07.2020 mądra jest ta podpowiedź, ale nie bardzo wiem co z tym zrobić
-    //  jeśli context byłby tylko wewnątrz instan
     private static final Game INSTANCE = new Game();
 
     private Board gameBoard = new Board();

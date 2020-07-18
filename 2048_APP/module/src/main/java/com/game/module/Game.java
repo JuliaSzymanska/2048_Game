@@ -28,6 +28,8 @@ public class Game {
     private static final Game INSTANCE = new Game();
 
     private Board gameBoard = new Board();
+
+    // TODO: 19.07.2020 to nie jest serializowalne i nie wiem co z tym zrobić
     private StopWatch watch = new StopWatch();
     private int highScore;
 
@@ -41,6 +43,9 @@ public class Game {
     Context context;
 
     private Game() {
+        // TODO: 19.07.2020 mam problem z tym żeby to zrobić żeby to dzialalo
+        //  zeby zaladować grę to potrzebuję context
+        //  w momencie kiedy jestem w stanie przekazać context to już constructor jest wykonany ehh
         if (this.isUserAuthenticated) {
             if (this.loadGame()) {
                 return;
@@ -112,7 +117,6 @@ public class Game {
                 // FIXME: 18.07.2020
             }
         }
-
     }
 
     public boolean loadGame() {

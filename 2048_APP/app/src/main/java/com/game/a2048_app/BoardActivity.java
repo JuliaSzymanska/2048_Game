@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.hardware.Sensor;
@@ -32,6 +33,7 @@ import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 // TODO: 09.06.2020 wcale nie julaszym1212 oto animacja:
@@ -113,7 +115,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     // to glupie zeby miec tablice 4bool i pamietac ktory, do ktorego sensora, ale narazie tak zostawiam
     // TODO: 16.07.2020 zrobić to tak żeby się nie resetowało przy każdej zmianie otwartego okna (tzn to i tak ma byc
     //  w DB i być zapisywane na 'stałe' ale no wiadomo cojest5
-    private final static boolean[] chosenSensors = new boolean[]{false, false, false, false};
+    private final boolean[] chosenSensors = new boolean[]{false, false, false, false};
 
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
     // Pitch: The top-to-bottom tilt of the device. 0 is flat.
@@ -128,6 +130,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     public final static int MOVE_DOWN = Game.MOVE_DOWN;
     public final static int MOVE_LEFT = Game.MOVE_LEFT;
 
+    // settings
+
+    SharedPreferences preferences;
+
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     // https://developer.android.com/guide/components/activities/activity-lifecycle
@@ -139,11 +145,22 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         Arrays.fill(fieldsImages, R.drawable.zero);
         this.prepareViews();
         this.prepareSensors();
+        this.loadData();
 
 
         // TODO: 12.07.2020 should probably not be in a different file in such a convoluted function
         OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView,
                 this, this.game, this.adapter, this.textScore, this.textHighScore);
+    }
+
+    private void loadData() {
+        // wolał bym przypisać preferences w jednym miejcu zamiasty dwu ale się z jakiegoś powodu psuje :/
+        preferences = getSharedPreferences("settings", MODE_PRIVATE);
+        String[] sensorNames = getResources().getStringArray(R.array.sensors);
+        this.chosenSensors[0] = preferences.getBoolean(sensorNames[0], false);
+        this.chosenSensors[1] = preferences.getBoolean(sensorNames[1], false);
+        this.chosenSensors[2] = preferences.getBoolean(sensorNames[2], false);
+        this.chosenSensors[3] = preferences.getBoolean(sensorNames[3], false);
     }
 
     void setTextScoreText() {
@@ -198,6 +215,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    preferences = getSharedPreferences("settings", MODE_PRIVATE);
+                    String[] sensorNames = getResources().getStringArray(R.array.sensors);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean(sensorNames[0], chosenSensors[0]);
+                    editor.putBoolean(sensorNames[1], chosenSensors[1]);
+                    editor.putBoolean(sensorNames[2], chosenSensors[2]);
+                    editor.putBoolean(sensorNames[3], chosenSensors[3]);
+                    editor.commit();
                 }
             });
             AlertDialog dialog = builder.create();
@@ -208,10 +233,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener playPauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(!game.isSuspended()){
+            if (!game.isSuspended()) {
                 game.pauseTimer();
-            }
-            else{
+            } else {
                 game.unpauseTimer();
             }
         }

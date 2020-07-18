@@ -222,7 +222,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     editor.putBoolean(sensorNames[1], chosenSensors[1]);
                     editor.putBoolean(sensorNames[2], chosenSensors[2]);
                     editor.putBoolean(sensorNames[3], chosenSensors[3]);
-                    editor.commit();
+                    editor.apply();
                 }
             });
             AlertDialog dialog = builder.create();

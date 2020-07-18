@@ -1,11 +1,22 @@
 package com.game.module;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.time.StopWatch;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +38,8 @@ public class Game {
     public final static int MOVE_DOWN = 2;
     public final static int MOVE_LEFT = 3;
 
+    Context context;
+
     private Game() {
         if (this.isUserAuthenticated) {
             if (this.loadGame()) {
@@ -34,6 +47,10 @@ public class Game {
             }
         }
         this.startNewGame();
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public static Game getInstance() {
@@ -79,11 +96,42 @@ public class Game {
     }
 
     private void saveGame() {
-        // FIXME: 11.07.2020
+        if (this.context != null) {
+            // TODO: 18.07.2020 string
+            try(FileOutputStream fileOutputStream = context.openFileOutput("GameSave", Context.MODE_PRIVATE);
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+                List<Object> list = new ArrayList<>();
+                list.add(this.gameBoard);
+                list.add(Integer.valueOf(this.getHighScore()));
+                // TODO: 19.07.2020 stopwatch jest unseralizable ._.
+//                list.add(this.watch);
+                objectOutputStream.writeObject(list);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                // FIXME: 18.07.2020
+            }
+        }
+
     }
 
-    private boolean loadGame() {
-        // FIXME: 11.07.2020
+    public boolean loadGame() {
+        if (this.context != null) {
+            // TODO: 18.07.2020 string
+            try(FileInputStream fileInputStream = context.openFileInput("GameSave");
+                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+                List<Object> list = new ArrayList<>();
+                list = (ArrayList<Object>)objectInputStream.readObject();
+                this.gameBoard = (Board) list.get(0);
+                this.highScore = (int) list.get(1);
+//                this.watch = (StopWatch) list.get(2);
+            } catch (IOException | ClassNotFoundException | IndexOutOfBoundsException e){
+                // FIXME: 18.07.2020
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+        }
         return false;
     }
 

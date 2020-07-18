@@ -56,7 +56,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Game game = Game.getInstance();
     private ArrayAdapter<Integer> adapter;
     private GridView gridView;
-    private Field[] fields = game.getCopyOfTheBoard().toArray(new Field[0]);
+    private Field[] fields;
     private Integer[] fieldsImages;
 
     private Integer mThumbIds = R.drawable.button_green;
@@ -141,11 +141,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
+        this.loadData();
         fieldsImages = new Integer[fields.length];
         Arrays.fill(fieldsImages, R.drawable.zero);
         this.prepareViews();
         this.prepareSensors();
-        this.loadData();
 
 
         // TODO: 12.07.2020 should probably not be in a different file in such a convoluted function
@@ -155,12 +155,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private void loadData() {
         // wolał bym przypisać preferences w jednym miejcu zamiasty dwu ale się z jakiegoś powodu psuje :/
-        preferences = getSharedPreferences("settings", MODE_PRIVATE);
-        String[] sensorNames = getResources().getStringArray(R.array.sensors);
+        preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
+        String[] sensorNames =  getResources().getStringArray(R.array.sensors);
         this.chosenSensors[0] = preferences.getBoolean(sensorNames[0], false);
         this.chosenSensors[1] = preferences.getBoolean(sensorNames[1], false);
         this.chosenSensors[2] = preferences.getBoolean(sensorNames[2], false);
         this.chosenSensors[3] = preferences.getBoolean(sensorNames[3], false);
+        Game.getInstance().setContext(this);
+        this.game.loadGame();
+        this.fields = game.getCopyOfTheBoard().toArray(new Field[0]);
     }
 
     void setTextScoreText() {
@@ -212,10 +215,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             });
             builder.setCancelable(false);
             builder.setTitle("Which sensors to enable?");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.dialog_accept), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    preferences = getSharedPreferences(getResources().getString(R.string.dialog_accept), MODE_PRIVATE);
+                    preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
                     String[] sensorNames = getResources().getStringArray(R.array.sensors);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putBoolean(sensorNames[0], chosenSensors[0]);
@@ -480,7 +483,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private class PositionGyroscope implements Runnable {
-
         @Override
         public void run() {
             float[] orientationValues = magnetometerSetup();

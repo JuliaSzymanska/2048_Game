@@ -8,5 +8,6 @@
     <string name="home_page">Home Page</string>
     <string name="fingerprint_title">Fingerprint authentication</string>
     <string name="fingerprint_message">Being a phone user allows you to save a high score</string>
-    <string name="dialog_accept">ok</string>
+    <string name="dialog_accept">OK</string>
+    <string name="settings">settings</string>
 </resources>

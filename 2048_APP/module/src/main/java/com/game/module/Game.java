@@ -105,7 +105,7 @@ public class Game {
     }
 
     private void saveGame() {
-        if (this.context != null) {
+        if (this.context != null && this.isUserAuthenticated) {
             // TODO: 18.07.2020 string
             try(FileOutputStream fileOutputStream = context.openFileOutput("GameSave", Context.MODE_PRIVATE);
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
@@ -126,7 +126,7 @@ public class Game {
     // TODO: 19.07.2020 niby powinno być w osobnym thread, ale i tak trzeba boola zwrócić?
     //  Chyba że nie trzeba zwracać jakoś hmm
     public boolean loadGame() {
-        if (this.context != null) {
+        if (this.context != null && this.isUserAuthenticated) {
             // TODO: 18.07.2020 string
             try(FileInputStream fileInputStream = context.openFileInput("GameSave");
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {

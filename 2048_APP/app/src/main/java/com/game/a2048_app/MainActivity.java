@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
-        Game.getInstance().setContext(this);
         setContentView(R.layout.activity_main);
         initButtons();
     }

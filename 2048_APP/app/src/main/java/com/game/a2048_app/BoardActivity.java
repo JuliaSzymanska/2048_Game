@@ -161,9 +161,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.chosenSensors[1] = preferences.getBoolean(sensorNames[1], false);
         this.chosenSensors[2] = preferences.getBoolean(sensorNames[2], false);
         this.chosenSensors[3] = preferences.getBoolean(sensorNames[3], false);
-        Game.getInstance().setContext(this);
-        Game.getInstance().loadGame();
-        Game.getInstance().setContext(null);
+        Game.getInstance().setContext(this.getApplicationContext());
+        this.game.loadGame();
         this.fields = game.getCopyOfTheBoard().toArray(new Field[0]);
     }
 

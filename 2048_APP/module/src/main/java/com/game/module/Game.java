@@ -25,11 +25,16 @@ import java.util.concurrent.TimeUnit;
 //  ^ wygląda legitnie
 
 public class Game {
+    // TODO: 19.07.2020 mądra jest ta podpowiedź, ale nie bardzo wiem co z tym zrobić
+    //  jeśli context byłby tylko wewnątrz instan
     private static final Game INSTANCE = new Game();
 
     private Board gameBoard = new Board();
 
     // TODO: 19.07.2020 to nie jest serializowalne i nie wiem co z tym zrobić
+    //  również, jeżeli chcielibyśmy przypisac context do gry przed uruchomieniem gry
+    //  to wtedy zacznie się liczyć czas bo powstanie instancja klasy.
+    //  jeśli poczekamy na ekranie startowym to będzie późniejszy czas
     private StopWatch watch = new StopWatch();
     private int highScore;
 
@@ -40,7 +45,7 @@ public class Game {
     public final static int MOVE_DOWN = 2;
     public final static int MOVE_LEFT = 3;
 
-    Context context;
+    private Context context;
 
     private Game() {
         // TODO: 19.07.2020 mam problem z tym żeby to zrobić żeby to dzialalo
@@ -119,6 +124,8 @@ public class Game {
         }
     }
 
+    // TODO: 19.07.2020 niby powinno być w osobnym thread, ale i tak trzeba boola zwrócić?
+    //  Chyba że nie trzeba zwracać jakoś hmm
     public boolean loadGame() {
         if (this.context != null) {
             // TODO: 18.07.2020 string
@@ -129,12 +136,12 @@ public class Game {
                 this.gameBoard = (Board) list.get(0);
                 this.highScore = (int) list.get(1);
 //                this.watch = (StopWatch) list.get(2);
+                return true;
             } catch (IOException | ClassNotFoundException | IndexOutOfBoundsException e){
                 // FIXME: 18.07.2020
                 e.printStackTrace();
                 return false;
             }
-            return true;
         }
         return false;
     }

@@ -215,7 +215,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    preferences = getSharedPreferences("settings", MODE_PRIVATE);
+                    preferences = getSharedPreferences(getResources().getString(R.string.dialog_accept), MODE_PRIVATE);
                     String[] sensorNames = getResources().getStringArray(R.array.sensors);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putBoolean(sensorNames[0], chosenSensors[0]);

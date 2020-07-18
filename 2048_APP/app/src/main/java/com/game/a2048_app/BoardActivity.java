@@ -33,7 +33,6 @@ import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 // TODO: 09.06.2020 wcale nie julaszym1212 oto animacja:
@@ -112,7 +111,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
 
-    private final boolean[] chosenSensors = new boolean[]{false, false, false, false};
+    private final boolean[] choosenSensors = new boolean[]{false, false, false, false};
 
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
     // Pitch: The top-to-bottom tilt of the device. 0 is flat.
@@ -152,10 +151,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         // wolał bym przypisać preferences w jednym miejcu zamiasty dwu ale się z jakiegoś powodu psuje :/
         preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
         String[] sensorNames =  getResources().getStringArray(R.array.sensors);
-        this.chosenSensors[0] = preferences.getBoolean(sensorNames[0], false);
-        this.chosenSensors[1] = preferences.getBoolean(sensorNames[1], false);
-        this.chosenSensors[2] = preferences.getBoolean(sensorNames[2], false);
-        this.chosenSensors[3] = preferences.getBoolean(sensorNames[3], false);
+        for(int i = 0; i < this.choosenSensors.length; i++) {
+            this.choosenSensors[i] = preferences.getBoolean(sensorNames[i], false);
+        }
         Game.getInstance().setContext(this.getApplicationContext());
         this.game.loadGame();
         this.fields = game.getCopyOfTheBoard().toArray(new Field[0]);
@@ -204,10 +202,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
-            builder.setMultiChoiceItems(R.array.sensors, chosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
+            builder.setMultiChoiceItems(R.array.sensors, choosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                    chosenSensors[which] = isChecked;
+                    choosenSensors[which] = isChecked;
                 }
             });
             builder.setCancelable(false);
@@ -218,10 +216,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
                     String[] sensorNames = getResources().getStringArray(R.array.sensors);
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putBoolean(sensorNames[0], chosenSensors[0]);
-                    editor.putBoolean(sensorNames[1], chosenSensors[1]);
-                    editor.putBoolean(sensorNames[2], chosenSensors[2]);
-                    editor.putBoolean(sensorNames[3], chosenSensors[3]);
+                    for(int i = 0; i < choosenSensors.length; i++) {
+                        editor.putBoolean(sensorNames[i], choosenSensors[i]);
+                    }
                     editor.apply();
                 }
             });
@@ -440,25 +437,25 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             // TODO: 15.07.2020 rename all Runnable classes to things that make sense
             case Sensor.TYPE_ACCELEROMETER:
                 mAccelerometerData = event.values.clone();
-                if (chosenSensors[0]) {
+                if (choosenSensors[0]) {
                     new Thread(new PositionGyroscope()).start();
                 }
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
                 mMagnetometerData = event.values.clone();
-                if (chosenSensors[1]) {
+                if (choosenSensors[1]) {
                     new Thread(new ChangeColourMagnetometer()).start();
                 }
                 break;
             case Sensor.TYPE_LIGHT:
                 mLightData = event.values[0];
-                if (chosenSensors[2]) {
+                if (choosenSensors[2]) {
                     new Thread(new DarkMode()).start();
                 }
                 break;
             case Sensor.TYPE_PROXIMITY:
                 mProximityData = event.values[0];
-                if (chosenSensors[3]) {
+                if (choosenSensors[3]) {
                     new Thread(new StopGameProximity()).start();
                 }
                 break;

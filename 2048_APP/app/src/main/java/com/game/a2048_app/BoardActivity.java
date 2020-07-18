@@ -112,9 +112,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
 
-    // to glupie zeby miec tablice 4bool i pamietac ktory, do ktorego sensora, ale narazie tak zostawiam
-    // TODO: 16.07.2020 zrobić to tak żeby się nie resetowało przy każdej zmianie otwartego okna (tzn to i tak ma byc
-    //  w DB i być zapisywane na 'stałe' ale no wiadomo cojest5
     private final boolean[] chosenSensors = new boolean[]{false, false, false, false};
 
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
@@ -142,8 +139,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
         this.loadData();
-        fieldsImages = new Integer[fields.length];
-        Arrays.fill(fieldsImages, R.drawable.zero);
         this.prepareViews();
         this.prepareSensors();
 
@@ -164,6 +159,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         Game.getInstance().setContext(this.getApplicationContext());
         this.game.loadGame();
         this.fields = game.getCopyOfTheBoard().toArray(new Field[0]);
+        this.fieldsImages = new Integer[fields.length];
+        Arrays.fill(fieldsImages, R.drawable.zero);
     }
 
     void setTextScoreText() {

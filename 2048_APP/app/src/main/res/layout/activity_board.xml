@@ -9,7 +9,16 @@
     tools:context=".BoardActivity">
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/darkThemeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/scoreBoard"
         android:layout_width="362dp"
         android:layout_height="209dp"
         android:layout_marginBottom="10dp"
@@ -57,7 +66,9 @@
         app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0" >
+
+    </GridView>
 
     <TextView
         android:id="@+id/score"

@@ -26,8 +26,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.game.module.Field;
 import com.game.module.Game;
@@ -41,25 +39,20 @@ import java.util.Arrays;
 //  https://www.youtube.com/watch?v=33wOlQ2y0hQ - tez git
 //  https://stackoverflow.com/questions/30997624/how-to-apply-animation-to-add-item-in-gridview-one-by-one
 
-// TODO: 08.06.2020 coś nie halo jest w tym proximity, co ci pisałem, trzeba zobaczyc
+// TODO: 08.06.2020 coś nie halo jest w tym proximity, co ci pisałem, trzeba zobaczyc - chyba juz jest git
 
 public class BoardActivity extends AppCompatActivity implements SensorEventListener {
     private static final float VALUE_DRIFT = 0.05f;
-
-
-    // TODO: 13.07.2020 https://developer.android.com/guide/topics/ui/dialogs.html
-    // ^ settings
 
     OnSwipeTouchListener onSwipeTouchListener;
 
     private Game game = Game.getInstance();
     private ArrayAdapter<Integer> adapter;
     private GridView gridView;
+    private ImageView darkThemeView;
     private Field[] fields;
     private Integer[] fieldsImages;
-
     private Integer mThumbIds = R.drawable.button_green;
-
 
     // System sensor manager instance.
     private SensorManager mSensorManager;
@@ -75,7 +68,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private float[] mMagnetometerData = new float[3];
     private float mLightData;
     private float mProximityData;
-    private boolean hasMoved = false;
+
+    private final boolean[] chosenSensors = new boolean[]{false, false, false, false};
 
     // TextViews to display current sensor values.
 //    private TextView mTextSensorAzimuth;
@@ -111,12 +105,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
 
-    private final boolean[] choosenSensors = new boolean[]{false, false, false, false};
-
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
     // Pitch: The top-to-bottom tilt of the device. 0 is flat.
     // Roll: The left-to-right tilt of the device. 0 is flat.
 
+    // // TODO: 19.07.2020 to chyba można usunąc nie?
     private float[] previousValuesAzimuthPitchRoll = new float[3];
 
 
@@ -126,9 +119,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     public final static int MOVE_DOWN = Game.MOVE_DOWN;
     public final static int MOVE_LEFT = Game.MOVE_LEFT;
 
+    private boolean hasMoved = false;
+
     // settings
 
     SharedPreferences preferences;
+    private boolean isDarkTheme = false;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -154,6 +150,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         for(int i = 0; i < this.choosenSensors.length; i++) {
             this.choosenSensors[i] = preferences.getBoolean(sensorNames[i], false);
         }
+        this.isDarkTheme = preferences.getBoolean(getResources().getString(R.string.darkTheme), false);
         Game.getInstance().setContext(this.getApplicationContext());
         this.game.loadGame();
         this.fields = game.getCopyOfTheBoard().toArray(new Field[0]);
@@ -188,7 +185,17 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         settingsButton.setOnClickListener(settingsListener);
         Button pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
         pausePlayButton.setOnClickListener(playPauseListener);
+        darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
+        this.setTheme();
         adapter.notifyDataSetChanged();
+    }
+
+    private void setTheme() {
+        if (this.isDarkTheme == true) {
+            darkThemeView.setImageResource(R.drawable.dark_theme_on);
+        } else {
+            darkThemeView.setImageResource(R.drawable.dark_theme_off);
+        }
     }
 
     private View.OnClickListener restartGameListener = new View.OnClickListener() {
@@ -557,25 +564,24 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void run() {
             // Light Sensor - gdy jest ciemno włącza się dark mode
-            final ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
 //                    mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
-                    int isNightTheme = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-                    if (mLightData <= DARKMODE_ENABLE_LIGHT && isNightTheme == Configuration.UI_MODE_NIGHT_NO) {
-                        // TODO: 15.07.2020 chciałbym to tak
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        cl.setBackgroundResource(R.drawable.background_dark);
-                        mThumbIds = R.drawable.button_dark;
+                    if (mLightData <= DARKMODE_ENABLE_LIGHT && isDarkTheme == false) {
+                        darkThemeView.setImageResource(R.drawable.dark_theme_on);
+                        isDarkTheme = true;
+                        editor.putBoolean(getResources().getString(R.string.darkTheme), isDarkTheme);
                         adapter.notifyDataSetChanged();
-                        //https://developer.android.com/guide/topics/ui/look-and-feel/darktheme
-                    } else if (mLightData >= DARKMODE_DISABLE_LIGHT && isNightTheme == Configuration.UI_MODE_NIGHT_YES) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        cl.setBackgroundResource(R.drawable.background);
-                        mThumbIds = R.drawable.button_blue;
+                    } else if (mLightData >= DARKMODE_DISABLE_LIGHT && isDarkTheme == true) {
+                        darkThemeView.setImageResource(R.drawable.dark_theme_off);
+                        isDarkTheme = false;
+                        editor.putBoolean(getResources().getString(R.string.darkTheme), isDarkTheme);
                         adapter.notifyDataSetChanged();
                     }
+                    editor.apply();
                 }
             });
         }
@@ -611,7 +617,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void run() {
                     // TODO: 15.07.2020 mój telefon zauważyłem że ma problem z azymuntem tzn praktycznie nie wychodzi poza 2-3 i -3 - -2
-                    if (pitch > horizontalPitchMin && pitch < horizontalPitchMax && isNightTheme == Configuration.UI_MODE_NIGHT_NO) {
+                    if (pitch > horizontalPitchMin && pitch < horizontalPitchMax) {
                         if (azimuth >= changeColourAzimunthBreakpoint2 && azimuth < changeColourAzimunthBreakpoint3) {
                             // FIXME: 13.07.2020 to constant
 //                            mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));

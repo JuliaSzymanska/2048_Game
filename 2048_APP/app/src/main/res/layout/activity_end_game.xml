@@ -7,6 +7,15 @@
     android:background="@drawable/background"
     tools:context=".EndGame">
 
+    <ImageView
+        android:id="@+id/darkThemeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/endGame"
         android:layout_width="wrap_content"

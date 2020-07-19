@@ -14,6 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.module.Game;
 
+// TODO: 19.07.2020  powiązanie musi zawierać załączniki w postaci wszystkich dokumentów powiązanych
+//  (not katalogowych, dokumentów RFC, aktów prawnych, itp.,
+//  a także wszystkich programów źródłowych (także bibliotek open source'owych), a także programów wykonywalnych
+//  do czego zmierzam, pamiętać żeby to dodać jako biblioteka opensourcowa
+//  https://github.com/OmarAflak/Fingerprint
 import me.aflak.libraries.callback.FingerprintDialogCallback;
 import me.aflak.libraries.dialog.FingerprintDialog;
 

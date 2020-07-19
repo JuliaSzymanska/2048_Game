@@ -145,8 +145,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void loadData() {
         // wolał bym przypisać preferences w jednym miejcu zamiasty dwu ale się z jakiegoś powodu psuje :/
         preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
-        String[] sensorNames =  getResources().getStringArray(R.array.sensors);
-        for(int i = 0; i < this.choosenSensors.length; i++) {
+        String[] sensorNames = getResources().getStringArray(R.array.sensors);
+        for (int i = 0; i < this.choosenSensors.length; i++) {
             this.choosenSensors[i] = preferences.getBoolean(sensorNames[i], false);
         }
         this.isDarkTheme = preferences.getBoolean(getResources().getString(R.string.darkTheme), false);
@@ -222,7 +222,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
                     String[] sensorNames = getResources().getStringArray(R.array.sensors);
                     SharedPreferences.Editor editor = preferences.edit();
-                    for(int i = 0; i < choosenSensors.length; i++) {
+                    for (int i = 0; i < choosenSensors.length; i++) {
                         editor.putBoolean(sensorNames[i], choosenSensors[i]);
                     }
                     editor.apply();
@@ -364,8 +364,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     @Override
     protected void onStart() {
         super.onStart();
-
-
         // Listeners for the sensors are registered in this callback and
         // can be unregistered in onStop().
         //
@@ -410,8 +408,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                                 textTime.setText(String.format("Time:\n%02d:%02d", minutes, seconds));
                             }
                         });
-
-
                     } catch (InterruptedException e) {
                         // TODO: 13.07.2020 logger
                         e.printStackTrace();
@@ -427,11 +423,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     @Override
     protected void onStop() {
         super.onStop();
-
         // Unregister all sensor listeners in this callback so they don't
         // continue to use resources when the app is stopped.
         mSensorManager.unregisterListener(this);
-
         this.game.pauseTimer();
     }
 
@@ -647,7 +641,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
     }
 }
 

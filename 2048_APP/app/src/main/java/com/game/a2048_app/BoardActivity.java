@@ -69,7 +69,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private float mLightData;
     private float mProximityData;
 
-    private final boolean[] chosenSensors = new boolean[]{false, false, false, false};
+    private final boolean[] choosenSensors = new boolean[]{false, false, false, false};
 
     // TextViews to display current sensor values.
 //    private TextView mTextSensorAzimuth;
@@ -552,8 +552,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         try {
             game.move(direction);
         } catch (GameOverException e) {
-            restartGame();
             startActivity(new Intent(BoardActivity.this, EndGame.class));
+            restartGame();
         }
         adapter.notifyDataSetChanged();
         this.setScoreTexts();

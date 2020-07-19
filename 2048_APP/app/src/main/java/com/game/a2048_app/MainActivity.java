@@ -18,6 +18,10 @@ import me.aflak.libraries.callback.FingerprintDialogCallback;
 import me.aflak.libraries.dialog.FingerprintDialog;
 
 
+// TODO: 19.07.2020 spojrzeć na bindingi
+
+// TODO: 19.07.2020 spojrzeć na dao
+
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback {
 
     MainActivity mainActivity = this;
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         setTheme(isDarkTheme);
     }
 
+    // TODO: 19.07.2020 spojrzeć na te i podobne funkcje
     private void setTheme(boolean isDarkTheme) {
         ImageView darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         if (isDarkTheme == true) {

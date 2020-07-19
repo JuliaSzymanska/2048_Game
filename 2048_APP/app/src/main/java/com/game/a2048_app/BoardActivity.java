@@ -39,14 +39,10 @@ import java.util.Arrays;
 //  https://www.youtube.com/watch?v=33wOlQ2y0hQ - tez git
 //  https://stackoverflow.com/questions/30997624/how-to-apply-animation-to-add-item-in-gridview-one-by-one
 
-// TODO: 08.06.2020 coś nie halo jest w tym proximity, co ci pisałem, trzeba zobaczyc
+// TODO: 08.06.2020 coś nie halo jest w tym proximity, co ci pisałem, trzeba zobaczyc - chyba juz jest git
 
 public class BoardActivity extends AppCompatActivity implements SensorEventListener {
     private static final float VALUE_DRIFT = 0.05f;
-
-
-    // TODO: 13.07.2020 https://developer.android.com/guide/topics/ui/dialogs.html
-    // ^ settings
 
     OnSwipeTouchListener onSwipeTouchListener;
 
@@ -56,9 +52,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private ImageView darkThemeView;
     private Field[] fields;
     private Integer[] fieldsImages;
-
     private Integer mThumbIds = R.drawable.button_green;
-
 
     // System sensor manager instance.
     private SensorManager mSensorManager;
@@ -74,8 +68,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private float[] mMagnetometerData = new float[3];
     private float mLightData;
     private float mProximityData;
-    private boolean hasMoved = false;
-    private boolean isDarkTheme = false;
+
+    private final boolean[] chosenSensors = new boolean[]{false, false, false, false};
 
     // TextViews to display current sensor values.
 //    private TextView mTextSensorAzimuth;
@@ -111,8 +105,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
 
-    private final boolean[] chosenSensors = new boolean[]{false, false, false, false};
-
     // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
     // Pitch: The top-to-bottom tilt of the device. 0 is flat.
     // Roll: The left-to-right tilt of the device. 0 is flat.
@@ -127,9 +119,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     public final static int MOVE_DOWN = Game.MOVE_DOWN;
     public final static int MOVE_LEFT = Game.MOVE_LEFT;
 
+    private boolean hasMoved = false;
+
     // settings
 
     SharedPreferences preferences;
+    private boolean isDarkTheme = false;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -624,7 +619,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void run() {
                     // TODO: 15.07.2020 mój telefon zauważyłem że ma problem z azymuntem tzn praktycznie nie wychodzi poza 2-3 i -3 - -2
-                    if (pitch > horizontalPitchMin && pitch < horizontalPitchMax && isNightTheme == Configuration.UI_MODE_NIGHT_NO) {
+                    if (pitch > horizontalPitchMin && pitch < horizontalPitchMax) {
                         if (azimuth >= changeColourAzimunthBreakpoint2 && azimuth < changeColourAzimunthBreakpoint3) {
                             // FIXME: 13.07.2020 to constant
 //                            mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));

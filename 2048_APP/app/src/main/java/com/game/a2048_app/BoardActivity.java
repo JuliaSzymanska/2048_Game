@@ -117,6 +117,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     // Pitch: The top-to-bottom tilt of the device. 0 is flat.
     // Roll: The left-to-right tilt of the device. 0 is flat.
 
+    // // TODO: 19.07.2020 to chyba można usunąc nie?
     private float[] previousValuesAzimuthPitchRoll = new float[3];
 
 
@@ -577,13 +578,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     SharedPreferences.Editor editor = preferences.edit();
 //                    mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
                     if (mLightData <= DARKMODE_ENABLE_LIGHT && isDarkTheme == false) {
-//                        mThumbIds = R.drawable.button_dark;
                         darkThemeView.setImageResource(R.drawable.dark_theme_on);
                         isDarkTheme = true;
                         editor.putBoolean(getResources().getString(R.string.darkTheme), isDarkTheme);
                         adapter.notifyDataSetChanged();
                     } else if (mLightData >= DARKMODE_DISABLE_LIGHT && isDarkTheme == true) {
-//                        mThumbIds = R.drawable.button_blue;
                         darkThemeView.setImageResource(R.drawable.dark_theme_off);
                         isDarkTheme = false;
                         editor.putBoolean(getResources().getString(R.string.darkTheme), isDarkTheme);

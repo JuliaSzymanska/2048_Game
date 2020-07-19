@@ -26,14 +26,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 // TODO: 09.06.2020 wcale nie julaszym1212 oto animacja:
@@ -56,6 +53,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Game game = Game.getInstance();
     private ArrayAdapter<Integer> adapter;
     private GridView gridView;
+    private ImageView darkThemeView;
     private Field[] fields;
     private Integer[] fieldsImages;
 
@@ -77,6 +75,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private float mLightData;
     private float mProximityData;
     private boolean hasMoved = false;
+    private boolean isDarkTheme = false;
 
     // TextViews to display current sensor values.
 //    private TextView mTextSensorAzimuth;
@@ -151,11 +150,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void loadData() {
         // wolał bym przypisać preferences w jednym miejcu zamiasty dwu ale się z jakiegoś powodu psuje :/
         preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
-        String[] sensorNames =  getResources().getStringArray(R.array.sensors);
+        String[] sensorNames = getResources().getStringArray(R.array.sensors);
         this.chosenSensors[0] = preferences.getBoolean(sensorNames[0], false);
         this.chosenSensors[1] = preferences.getBoolean(sensorNames[1], false);
         this.chosenSensors[2] = preferences.getBoolean(sensorNames[2], false);
         this.chosenSensors[3] = preferences.getBoolean(sensorNames[3], false);
+        this.isDarkTheme = preferences.getBoolean(getResources().getString(R.string.darkTheme), false);
         Game.getInstance().setContext(this.getApplicationContext());
         this.game.loadGame();
         this.fields = game.getCopyOfTheBoard().toArray(new Field[0]);
@@ -190,7 +190,17 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         settingsButton.setOnClickListener(settingsListener);
         Button pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
         pausePlayButton.setOnClickListener(playPauseListener);
+        darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
+        this.setTheme();
         adapter.notifyDataSetChanged();
+    }
+
+    private void setTheme() {
+        if (this.isDarkTheme == true) {
+            darkThemeView.setImageResource(R.drawable.dark_theme_on);
+        } else {
+            darkThemeView.setImageResource(R.drawable.dark_theme_off);
+        }
     }
 
     private View.OnClickListener restartGameListener = new View.OnClickListener() {
@@ -560,25 +570,26 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void run() {
             // Light Sensor - gdy jest ciemno włącza się dark mode
-            final ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.constraintLayout);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
 //                    mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
-                    int isNightTheme = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-                    if (mLightData <= DARKMODE_ENABLE_LIGHT && isNightTheme == Configuration.UI_MODE_NIGHT_NO) {
-                        // TODO: 15.07.2020 chciałbym to tak
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        cl.setBackgroundResource(R.drawable.background_dark);
-                        mThumbIds = R.drawable.button_dark;
+                    if (mLightData <= DARKMODE_ENABLE_LIGHT && isDarkTheme == false) {
+//                        mThumbIds = R.drawable.button_dark;
+                        darkThemeView.setImageResource(R.drawable.dark_theme_on);
+                        isDarkTheme = true;
+                        editor.putBoolean(getResources().getString(R.string.darkTheme), isDarkTheme);
                         adapter.notifyDataSetChanged();
-                        //https://developer.android.com/guide/topics/ui/look-and-feel/darktheme
-                    } else if (mLightData >= DARKMODE_DISABLE_LIGHT && isNightTheme == Configuration.UI_MODE_NIGHT_YES) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        cl.setBackgroundResource(R.drawable.background);
-                        mThumbIds = R.drawable.button_blue;
+                    } else if (mLightData >= DARKMODE_DISABLE_LIGHT && isDarkTheme == true) {
+//                        mThumbIds = R.drawable.button_blue;
+                        darkThemeView.setImageResource(R.drawable.dark_theme_off);
+                        isDarkTheme = false;
+                        editor.putBoolean(getResources().getString(R.string.darkTheme), isDarkTheme);
                         adapter.notifyDataSetChanged();
                     }
+                    editor.apply();
                 }
             });
         }

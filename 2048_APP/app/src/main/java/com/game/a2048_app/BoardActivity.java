@@ -122,7 +122,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private boolean hasMoved = false;
 
     // settings
-
     SharedPreferences preferences;
     private boolean isDarkTheme = false;
 

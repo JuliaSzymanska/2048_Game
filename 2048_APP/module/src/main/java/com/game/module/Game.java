@@ -15,7 +15,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 // TODO: 29.05.2020 DAO
 //  https://www.youtube.com/watch?v=0cg09tlAAQ0
@@ -181,8 +180,9 @@ public class Game {
         return watch.getNanoTime();
     }
 
-    public long getElapsedTimeSeconds() {
-        return watch.getTime(TimeUnit.SECONDS);
+    public String getElapsedTimeToString() {
+        String time = watch.toString();
+        return time.substring(0, time.length() - 4);
     }
 
     public int getCurrentScore() {

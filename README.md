@@ -8,8 +8,8 @@ Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(vi
 ***
 
 ### Team Members
-* [Julia Szymańska](https://github.com/Julaszym1212)
-* [Przemysław Zdrzalik](https://github.com/zdrzalik-przemek)
+* [Julia Szymańska](https://github.com/JuliaSzymanska)
+* [Przemysław Zdrzalik](https://github.com/ZdrzalikPrzemyslaw)
 
 ### Implementation Details
 The app uses the following sensors:

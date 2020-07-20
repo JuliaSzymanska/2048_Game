@@ -238,7 +238,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void onShow(DialogInterface dialog) {
                     for (int position = 0; position < alertDialogList.getChildCount(); position++) {
-                        if ((mSensorAccelerometer != null && getResources().getStringArray(R.array.sensors)[position].equals("Accelerometer + Gyroscope"))
+                        if ((mSensorAccelerometer == null && getResources().getStringArray(R.array.sensors)[position].equals("Accelerometer + Gyroscope"))
                                 || (mSensorMagnetometer == null && getResources().getStringArray(R.array.sensors)[position].equals("Magnetometer"))
                                 || mSensorLight == null && getResources().getStringArray(R.array.sensors)[position].equals("Light sensor")
                                 || mSensorProximity == null && getResources().getStringArray(R.array.sensors)[position].equals("Proximity sensor")) {

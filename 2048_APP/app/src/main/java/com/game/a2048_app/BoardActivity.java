@@ -78,6 +78,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView textTime;
 
     private Button restartGameButton;
+    Button pausePlayButton;
 
     private Thread updateTimeThread;
 
@@ -186,7 +187,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.restartGameButton.setOnClickListener(restartGameListener);
         Button settingsButton = (Button) findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(settingsListener);
-        Button pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
+        pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
         pausePlayButton.setOnClickListener(playPauseListener);
         darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         this.setTheme();
@@ -257,8 +258,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         public void onClick(View v) {
             if (!game.isSuspended()) {
                 game.pauseTimer();
+                pausePlayButton.setBackgroundResource(R.drawable.pause_play_on);
             } else {
                 game.unpauseTimer();
+                pausePlayButton.setBackgroundResource(R.drawable.pause_play);
             }
         }
     };

@@ -108,6 +108,7 @@ public class Game {
             try(Dao<Board, Integer> daoBoard = GameSaveDaoFactory.getFileBoardDao("GameSave", context)) {
                 this.gameBoard = daoBoard.read().first;
                 this.highScore = daoBoard.read().second;
+                this.watch.start();
                 return true;
             } catch (IOException | ClassNotFoundException e) {
                 // FIXME: 18.07.2020

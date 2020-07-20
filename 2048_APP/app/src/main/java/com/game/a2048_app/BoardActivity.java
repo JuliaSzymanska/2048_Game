@@ -39,14 +39,12 @@ import java.util.Arrays;
 //  https://www.youtube.com/watch?v=33wOlQ2y0hQ - tez git
 //  https://stackoverflow.com/questions/30997624/how-to-apply-animation-to-add-item-in-gridview-one-by-one
 
-// TODO: 08.06.2020 coś nie halo jest w tym proximity, co ci pisałem, trzeba zobaczyc - chyba juz jest git
-
 public class BoardActivity extends AppCompatActivity implements SensorEventListener {
     private static final float VALUE_DRIFT = 0.05f;
 
     OnSwipeTouchListener onSwipeTouchListener;
 
-    private Game game = Game.getInstance();
+    private Game game;
     private ArrayAdapter<Integer> adapter;
     private GridView gridView;
     private ImageView darkThemeView;
@@ -56,7 +54,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     // System sensor manager instance.
     private SensorManager mSensorManager;
-    //
+
     // Accelerometer and magnetometer sensors, as retrieved from the
     // sensor manager.
     private Sensor mSensorAccelerometer;
@@ -70,12 +68,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private float mProximityData;
 
     private final boolean[] choosenSensors = new boolean[]{false, false, false, false};
-
-    // TextViews to display current sensor values.
-//    private TextView mTextSensorAzimuth;
-//    private TextView mTextSensorPitch;
-//    private TextView mTextSensorRoll;
-//    private TextView mTextSensorLux;
 
     // TODO: 15.07.2020 binding podwojny
     //  https://developer.android.com/topic/libraries/data-binding/two-way?fbclid=IwAR3nCMsvlFlrsTQVVEvW-Sk9wxKMeOh2HJm_XUM9BJNlJW9ZFFeH-26kXFM
@@ -105,13 +97,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
 
-    // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
-    // Pitch: The top-to-bottom tilt of the device. 0 is flat.
-    // Roll: The left-to-right tilt of the device. 0 is flat.
-
-    // // TODO: 19.07.2020 to chyba można usunąc nie?
-    private float[] previousValuesAzimuthPitchRoll = new float[3];
-
 
     // znowu się spotykamy
     public final static int MOVE_UP = Game.MOVE_UP;
@@ -132,8 +117,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
-        Intent intent = getIntent();
-        Game.getInstance().setUserAuthenticated(Boolean.parseBoolean(intent.getStringExtra(String.valueOf(R.string.authentication))));
         this.loadData();
         this.prepareViews();
         this.prepareSensors();
@@ -152,8 +135,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             this.choosenSensors[i] = preferences.getBoolean(sensorNames[i], false);
         }
         this.isDarkTheme = preferences.getBoolean(getResources().getString(R.string.darkTheme), false);
-        Game.getInstance().setContext(this.getApplicationContext());
-        this.game.loadGame();
+        this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(String.valueOf(R.string.authentication))), this);
         this.fields = game.getCopyOfTheBoard().toArray(new Field[0]);
         this.fieldsImages = new Integer[fields.length];
         Arrays.fill(fieldsImages, R.drawable.zero);
@@ -173,10 +155,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void prepareViews() {
         gridView = (GridView) findViewById(R.id.gridView);
         this.prepareGrid();
-//        mTextSensorAzimuth = (TextView) findViewById(R.id.mTextSensorAzimuth);
-//        mTextSensorPitch = (TextView) findViewById(R.id.mTextSensorPitch);
-//        mTextSensorRoll = (TextView) findViewById(R.id.mTextSensorRoll);
-//        mTextSensorLux = (TextView) findViewById(R.id.mTextSensorLux);
         textTime = (TextView) findViewById(R.id.time);
         prepareScoreText();
         prepareHighscoreText();
@@ -192,7 +170,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private void setTheme() {
-        if (this.isDarkTheme == true) {
+        if (this.isDarkTheme) {
             darkThemeView.setImageResource(R.drawable.dark_theme_on);
         } else {
             darkThemeView.setImageResource(R.drawable.dark_theme_off);
@@ -359,10 +337,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Listeners for the sensors are registered in this callback so that
      * they can be unregistered in onStop().
      */
-    // TODO: 03.06.2020
-    //  https://codelabs.developers.google.com/codelabs/advanced-android-training-sensor-orientation/#0
-    //  https://androidkennel.org/android-sensors-game-tutorial/
-    //  https://www.androidauthority.com/how-to-add-sensor-support-to-your-apps-810715/
     @Override
     protected void onStart() {
         super.onStart();
@@ -479,6 +453,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void run() {
             float[] orientationValues = magnetometerSetup();
+            // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
+            // Pitch: The top-to-bottom tilt of the device. 0 is flat.
+            // Roll: The left-to-right tilt of the device. 0 is flat.
             float azimuth = orientationValues[0];
             float pitch = orientationValues[1];
             float roll = orientationValues[2];
@@ -492,36 +469,20 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 roll = 0;
             }
 
-            final float finalAzimuth = azimuth;
-            final float finalPitch = pitch;
-            final float finalRoll = roll;
-            // has to run on main thread
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mTextSensorAzimuth.setText(getResources().getString(
-//                            R.string.value_format, finalAzimuth));
-//                    mTextSensorPitch.setText(getResources().getString(
-//                            R.string.value_format, finalPitch));
-//                    mTextSensorRoll.setText(getResources().getString(
-//                            R.string.value_format, finalRoll));
-//
-//                }
-//            });
 
             if (!hasMoved && (Math.abs(pitch) >= DETECT_MOVE_PITCH || Math.abs(roll) >= DETECT_MOVE_ROLL)) {
-                final float finalPitch1 = pitch;
-                final float finalRoll1 = roll;
+                final float finalPitch = pitch;
+                final float finalRoll = roll;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (finalPitch1 >= DETECT_MOVE_PITCH) {
+                        if (finalPitch >= DETECT_MOVE_PITCH) {
                             move(MOVE_UP);
-                        } else if (finalPitch1 <= -DETECT_MOVE_PITCH) {
+                        } else if (finalPitch <= -DETECT_MOVE_PITCH) {
                             move(MOVE_DOWN);
-                        } else if (finalRoll1 >= DETECT_MOVE_ROLL) {
+                        } else if (finalRoll >= DETECT_MOVE_ROLL) {
                             move(MOVE_RIGHT);
-                        } else if (finalRoll1 <= -DETECT_MOVE_ROLL) {
+                        } else if (finalRoll <= -DETECT_MOVE_ROLL) {
                             move(MOVE_LEFT);
                         }
                         hasMoved = true;
@@ -555,7 +516,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.setScoreTexts();
     }
 
-    // TODO: 15.07.2020 mało daje multi threading
     private class DarkMode implements Runnable {
         @Override
         public void run() {
@@ -565,14 +525,23 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 public void run() {
                     preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
-//                    mTextSensorLux.setText(getResources().getString(R.string.value_format, mLightData));
-                    if (mLightData <= DARKMODE_ENABLE_LIGHT && isDarkTheme == false) {
-                        darkThemeView.setImageResource(R.drawable.dark_theme_on);
+                    if (mLightData <= DARKMODE_ENABLE_LIGHT && !isDarkTheme) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                darkThemeView.setImageResource(R.drawable.dark_theme_on);
+                            }
+                        });
                         isDarkTheme = true;
                         editor.putBoolean(getResources().getString(R.string.darkTheme), isDarkTheme);
                         adapter.notifyDataSetChanged();
-                    } else if (mLightData >= DARKMODE_DISABLE_LIGHT && isDarkTheme == true) {
-                        darkThemeView.setImageResource(R.drawable.dark_theme_off);
+                    } else if (mLightData >= DARKMODE_DISABLE_LIGHT && isDarkTheme) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                darkThemeView.setImageResource(R.drawable.dark_theme_off);
+                            }
+                        });
                         isDarkTheme = false;
                         editor.putBoolean(getResources().getString(R.string.darkTheme), isDarkTheme);
                         adapter.notifyDataSetChanged();
@@ -581,6 +550,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 }
             });
         }
+    }
+
+    private void setDarkMode() {
+
     }
 
 
@@ -607,25 +580,17 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             float[] orientationValues = magnetometerSetup();
             final float azimuth = orientationValues[0];
             final float pitch = orientationValues[1];
-            final int isNightTheme = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-            // FIXME: 13.07.2020 to constant
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    // TODO: 15.07.2020 mój telefon zauważyłem że ma problem z azymuntem tzn praktycznie nie wychodzi poza 2-3 i -3 - -2
                     if (pitch > horizontalPitchMin && pitch < horizontalPitchMax) {
                         if (azimuth >= changeColourAzimunthBreakpoint2 && azimuth < changeColourAzimunthBreakpoint3) {
-                            // FIXME: 13.07.2020 to constant
-//                            mTextSensorLux.setTextColor(Color.rgb(109, 198, 150));
                             mThumbIds = R.drawable.button_green;
                         } else if (azimuth >= changeColourAzimunthBreakpoint4 || azimuth < -changeColourAzimunthBreakpoint4) {
-//                            mTextSensorLux.setTextColor(Color.rgb(112, 175, 212));
                             mThumbIds = R.drawable.button_green_light;
                         } else if (azimuth >= -changeColourAzimunthBreakpoint1 && azimuth < changeColourAzimunthBreakpoint1) {
-//                            mTextSensorLux.setTextColor(Color.rgb(181, 114, 106));
                             mThumbIds = R.drawable.button_blue;
                         } else if (azimuth > -changeColourAzimunthBreakpoint3 && azimuth < -changeColourAzimunthBreakpoint2) {
-//                            mTextSensorLux.setTextColor(Color.rgb(228, 63, 222));
                             mThumbIds = R.drawable.button_blue_light;
                         }
                         adapter.notifyDataSetChanged();

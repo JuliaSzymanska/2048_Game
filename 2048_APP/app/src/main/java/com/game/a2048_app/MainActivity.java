@@ -24,7 +24,7 @@ import me.aflak.libraries.dialog.FingerprintDialog;
 
 // TODO: 19.07.2020 spojrzeć na bindingi
 
-// TODO: 19.07.2020 spojrzeć na dao
+// TODO: 20.07.2020 https://www.youtube.com/watch?v=0s6x3Sn4eYo - animacja przejść między activites
 
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback {
 
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         setContentView(R.layout.activity_main);
         initButtons();
         loadData();
-        checkAuthentication();
+        initFingerprintDialog();
     }
 
     private void loadData(){
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     // TODO: 19.07.2020 spojrzeć na te i podobne funkcje
     private void setTheme(boolean isDarkTheme) {
         ImageView darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
-        if (isDarkTheme == true) {
+        if (isDarkTheme) {
             darkThemeView.setImageResource(R.drawable.dark_theme_on);
         } else {
             darkThemeView.setImageResource(R.drawable.dark_theme_off);
@@ -66,11 +66,11 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private View.OnClickListener authenticationListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            checkAuthentication();
+            initFingerprintDialog();
         }
     };
 
-    private void checkAuthentication(){
+    private void initFingerprintDialog() {
         if (FingerprintDialog.isAvailable(mainActivity)) {
             FingerprintDialog.initialize(mainActivity)
                     .title(R.string.fingerprint_title)
@@ -103,12 +103,12 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     @Override
     public void onAuthenticationSucceeded() {
-        authentication = true;
+        this.authentication = true;
     }
 
     @Override
     public void onAuthenticationCancel() {
-        // FIXME: 11.07.2020
+
     }
 
 

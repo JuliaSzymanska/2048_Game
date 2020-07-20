@@ -2,74 +2,64 @@ package com.game.module;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
+import com.game.module.dao.Dao;
+import com.game.module.dao.GameSaveDaoFactory;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.commons.lang3.time.StopWatch;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
-// TODO: 29.05.2020 DAO
-//  https://www.youtube.com/watch?v=0cg09tlAAQ0
-//  ^ wygląda legitnie
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Game {
-    // TODO: 19.07.2020 mądra jest ta podpowiedź, ale nie bardzo wiem co z tym zrobić
-    private static final Game INSTANCE = new Game();
-
     private Board gameBoard = new Board();
 
-    // TODO: 19.07.2020 to nie jest serializowalne i nie wiem co z tym zrobić
-    //  również, jeżeli chcielibyśmy przypisac context do gry przed uruchomieniem gry
-    //  to wtedy zacznie się liczyć czas bo powstanie instancja klasy.
-    //  jeśli poczekamy na ekranie startowym to będzie późniejszy czas
-    private StopWatch watch = new StopWatch();
     private int highScore;
 
-    private boolean isUserAuthenticated = false;
+    private boolean isUserAuthenticated = true;
 
     public final static int MOVE_UP = 0;
     public final static int MOVE_RIGHT = 1;
     public final static int MOVE_DOWN = 2;
     public final static int MOVE_LEFT = 3;
 
+    private long gameBeginTime;
+    private long pausedTimeDuration;
+    private boolean isSuspended;
+
     private Context context;
 
-    private Game() {
-        // TODO: 19.07.2020 mam problem z tym żeby to zrobić żeby to dzialalo
-        //  zeby zaladować grę to potrzebuję context
-        //  w momencie kiedy jestem w stanie przekazać context to już constructor jest wykonany ehh
-        if (this.isUserAuthenticated) {
-            if (this.loadGame()) {
-                return;
-            }
-        }
+    private final static String GAME_SAVE_NAME = "GameSave";
+
+    public Game(boolean isUserAuthenticated, @Nullable Context context) {
+        this.setUserAuthenticated(isUserAuthenticated);
+        this.setContext(context);
         this.startNewGame();
+        if (this.isUserAuthenticated) {
+            // unikam konieczności używania boola
+            this.loadGame();
+        }
     }
 
     public void setContext(Context context) {
         this.context = context.getApplicationContext();
     }
 
-    public static Game getInstance() {
-        return INSTANCE;
-    }
 
     public List<Field> getCopyOfTheBoard() {
         return gameBoard.getCopyBoard();
     }
 
     public void move(int direction) throws GameOverException {
-        // to w takim razie to było zepsute już wcześniej bo ja tylko zmieniałem nazwy :v
-        // a działało u mnie przez zepsuty proximity sensor ( :
-        if (!this.watch.isSuspended()) {
+        if (!this.isSuspended) {
             switch (direction) {
                 case MOVE_UP:
                     gameBoard.moveUp();
@@ -102,43 +92,26 @@ public class Game {
 
     private void saveGame() {
         if (this.context != null && this.isUserAuthenticated) {
-            // TODO: 18.07.2020 string
-            try(FileOutputStream fileOutputStream = context.openFileOutput("GameSave", Context.MODE_PRIVATE);
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
-                List<Object> list = new ArrayList<>();
-                list.add(this.gameBoard);
-                list.add(Integer.valueOf(this.getHighScore()));
-                // TODO: 19.07.2020 stopwatch jest unseralizable ._.
-//                list.add(this.watch);
-                objectOutputStream.writeObject(list);
-
+            try(Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
+                daoBoard.write(this.gameBoard, this.highScore, System.nanoTime() - this.gameBeginTime);
             } catch (IOException e) {
+                // FIXME: 20.07.2020
                 e.printStackTrace();
-                // FIXME: 18.07.2020
             }
         }
     }
 
-    // TODO: 19.07.2020 niby powinno być w osobnym thread, ale i tak trzeba boola zwrócić?
-    //  Chyba że nie trzeba zwracać jakoś hmm
-    public boolean loadGame() {
+    public void loadGame() {
         if (this.context != null && this.isUserAuthenticated) {
-            // TODO: 18.07.2020 string
-            try(FileInputStream fileInputStream = context.openFileInput("GameSave");
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
-                List<Object> list = new ArrayList<>();
-                list = (ArrayList<Object>)objectInputStream.readObject();
-                this.gameBoard = (Board) list.get(0);
-                this.highScore = (int) list.get(1);
-//                this.watch = (StopWatch) list.get(2);
-                return true;
-            } catch (IOException | ClassNotFoundException | IndexOutOfBoundsException e){
+            try(Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
+                this.gameBoard = daoBoard.read().getLeft();
+                this.highScore = daoBoard.read().getMiddle();
+                this.gameBeginTime = System.nanoTime() - daoBoard.read().getRight();
+            } catch (IOException | ClassNotFoundException | NullPointerException e) {
                 // FIXME: 18.07.2020
                 e.printStackTrace();
-                return false;
             }
         }
-        return false;
     }
 
     private void updateHighscore() {
@@ -149,8 +122,7 @@ public class Game {
 
     public void startNewGame() {
         this.gameBoard.restartGame();
-        this.watch.reset();
-        this.watch.start();
+        this.gameBeginTime = System.nanoTime();
     }
 
     public void restartGame() {
@@ -161,29 +133,37 @@ public class Game {
     }
 
     public void pauseTimer() {
-        if (!watch.isSuspended()) {
-            watch.suspend();
+        if (!this.isSuspended) {
+            this.isSuspended = true;
+            this.pausedTimeDuration = System.nanoTime() - this.gameBeginTime;
         }
     }
 
     public void unpauseTimer() {
-        if (watch.isSuspended()) {
-            watch.resume();
+        if (this.isSuspended) {
+            this.isSuspended = false;
+            this.gameBeginTime = System.nanoTime() - this.pausedTimeDuration;
+            this.pausedTimeDuration = 0;
         }
     }
 
     public boolean isSuspended() {
-        return watch.isSuspended();
+        return this.isSuspended;
     }
 
     public long getElapsedTime() {
-        return watch.getNanoTime();
+        if (this.isSuspended) {
+            return this.pausedTimeDuration;
+        }
+        return System.nanoTime() - this.gameBeginTime;
     }
 
     public String getElapsedTimeToString() {
-        String time = watch.toString();
+        long timeSeconds = TimeUnit.MILLISECONDS.convert(this.getElapsedTime(), TimeUnit.NANOSECONDS);
+        String time = DurationFormatUtils.formatDurationHMS(timeSeconds);
         return time.substring(0, time.length() - 4);
     }
+
 
     public int getCurrentScore() {
         return this.gameBoard.getScore();
@@ -212,7 +192,7 @@ public class Game {
         return new EqualsBuilder()
                 .append(highScore, game.highScore)
                 .append(gameBoard, game.gameBoard)
-                .append(watch, game.watch)
+                .append(gameBeginTime, game.gameBeginTime)
                 .isEquals();
     }
 
@@ -220,8 +200,8 @@ public class Game {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(gameBoard)
-                .append(watch)
                 .append(highScore)
+                .append(gameBeginTime)
                 .toHashCode();
     }
 
@@ -229,7 +209,7 @@ public class Game {
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("gameBoard", gameBoard)
-                .append("watch", watch)
+                .append("time elapsed", this.getElapsedTimeToString())
                 .append("highScore", highScore)
                 .toString();
     }

@@ -49,7 +49,7 @@ public class EndGame extends AppCompatActivity {
 
     void setTextScoreText() {
         TextView textScore = (TextView) findViewById(R.id.textScore);
-        textScore.setText(String.format("%s%s", "Score:\n", score));
+        textScore.setText(String.format("%s%s", "Your score:\n", score));
     }
 
     void setTextHighScoreText() {

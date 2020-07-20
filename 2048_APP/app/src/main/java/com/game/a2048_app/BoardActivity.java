@@ -239,6 +239,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void onShow(DialogInterface dialog) {
                     for (int position = 0; position < alertDialogList.getChildCount(); position++) {
+                        // TODO: 20.07.2020 trzeba bedzie to zmienic
                         if ((mSensorAccelerometer == null && getResources().getStringArray(R.array.sensors)[position].equals("Accelerometer + Gyroscope"))
                                 || (mSensorMagnetometer == null && getResources().getStringArray(R.array.sensors)[position].equals("Magnetometer"))
                                 || mSensorLight == null && getResources().getStringArray(R.array.sensors)[position].equals("Light sensor")

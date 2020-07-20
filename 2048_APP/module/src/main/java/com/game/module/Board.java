@@ -54,7 +54,7 @@ public class Board implements Serializable {
     /**
      * Reset board variable by creating new fields list.
      */
-   private void resetBoard() {
+    private void resetBoard() {
         for (Field i : board) {
             i.setValue(0);
         }
@@ -62,10 +62,8 @@ public class Board implements Serializable {
         try {
             this.addNewNonEmptyFieldAfterMove();
             this.addNewNonEmptyFieldAfterMove();
-        } catch (GameOverException e) {
-            // TODO: 31.05.2020 narazie tu nie rzucam teog wyajtku bo sie robi straszny balagan
-            // TODO: 05.07.2020 tak sobie mysle zeby rzucac ten wyjatek az do boardActivity i tam lapac go i skonczyc gre
-            e.printStackTrace();
+        } catch (GameOverException ignore) {
+            // nie może się rzucić fizycznie ten wyjątek tutaj
         }
     }
 

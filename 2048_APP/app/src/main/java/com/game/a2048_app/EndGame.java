@@ -40,7 +40,7 @@ public class EndGame extends AppCompatActivity {
 
     private void setTheme(boolean isDarkTheme) {
         ImageView darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
-        if (isDarkTheme == true) {
+        if (isDarkTheme) {
             darkThemeView.setImageResource(R.drawable.dark_theme_on);
         } else {
             darkThemeView.setImageResource(R.drawable.dark_theme_off);

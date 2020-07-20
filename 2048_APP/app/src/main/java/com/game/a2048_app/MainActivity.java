@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     // TODO: 19.07.2020 spojrzeć na te i podobne funkcje
     private void setTheme(boolean isDarkTheme) {
         ImageView darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
-        if (isDarkTheme == true) {
+        if (isDarkTheme) {
             darkThemeView.setImageResource(R.drawable.dark_theme_on);
         } else {
             darkThemeView.setImageResource(R.drawable.dark_theme_off);
@@ -98,12 +98,12 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     @Override
     public void onAuthenticationSucceeded() {
-        authentication = true;
+        this.authentication = true;
     }
 
     @Override
     public void onAuthenticationCancel() {
-        // FIXME: 11.07.2020
+
     }
 
 

@@ -12,7 +12,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.commons.lang3.time.StopWatch;
 
 
 import java.io.IOException;
@@ -23,10 +22,6 @@ import java.util.concurrent.TimeUnit;
 public class Game {
     private Board gameBoard = new Board();
 
-    // TODO: 19.07.2020 to nie jest serializowalne i nie wiem co z tym zrobić
-    //  również, jeżeli chcielibyśmy przypisac context do gry przed uruchomieniem gry
-    //  to wtedy zacznie się liczyć czas bo powstanie instancja klasy.
-    //  jeśli poczekamy na ekranie startowym to będzie późniejszy czas
     private int highScore;
 
     private boolean isUserAuthenticated = true;
@@ -42,15 +37,16 @@ public class Game {
 
     private Context context;
 
+    private final static String GAME_SAVE_NAME = "GameSave";
+
     public Game(boolean isUserAuthenticated, @Nullable Context context) {
         this.setUserAuthenticated(isUserAuthenticated);
         this.setContext(context);
-        if (this.isUserAuthenticated) {
-            if (this.loadGame()) {
-                return;
-            }
-        }
         this.startNewGame();
+        if (this.isUserAuthenticated) {
+            // unikam konieczności używania boola
+            this.loadGame();
+        }
     }
 
     public void setContext(Context context) {
@@ -63,8 +59,6 @@ public class Game {
     }
 
     public void move(int direction) throws GameOverException {
-        // to w takim razie to było zepsute już wcześniej bo ja tylko zmieniałem nazwy :v
-        // a działało u mnie przez zepsuty proximity sensor ( :
         if (!this.isSuspended) {
             switch (direction) {
                 case MOVE_UP:
@@ -98,32 +92,26 @@ public class Game {
 
     private void saveGame() {
         if (this.context != null && this.isUserAuthenticated) {
-            // TODO: 18.07.2020 string
-            try(Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao("GameSave", context)) {
+            try(Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
                 daoBoard.write(this.gameBoard, this.highScore, System.nanoTime() - this.gameBeginTime);
             } catch (IOException e) {
+                // FIXME: 20.07.2020
                 e.printStackTrace();
             }
         }
     }
 
-    // TODO: 19.07.2020 niby powinno być w osobnym thread, ale i tak trzeba boola zwrócić?
-    //  Chyba że nie trzeba zwracać jakoś hmm
-    public boolean loadGame() {
+    public void loadGame() {
         if (this.context != null && this.isUserAuthenticated) {
-            // TODO: 18.07.2020 string
-            try(Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao("GameSave", context)) {
+            try(Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
                 this.gameBoard = daoBoard.read().getLeft();
                 this.highScore = daoBoard.read().getMiddle();
                 this.gameBeginTime = System.nanoTime() - daoBoard.read().getRight();
-                return true;
             } catch (IOException | ClassNotFoundException | NullPointerException e) {
                 // FIXME: 18.07.2020
                 e.printStackTrace();
-                return false;
             }
         }
-        return false;
     }
 
     private void updateHighscore() {

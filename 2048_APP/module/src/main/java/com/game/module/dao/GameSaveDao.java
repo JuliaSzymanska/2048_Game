@@ -5,6 +5,9 @@ import android.util.Pair;
 
 import com.game.module.Board;
 
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.tuple.Triple;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-class GameSaveDao implements Dao<Board, Integer> {
+class GameSaveDao implements Dao<Board, Integer, Long> {
 
     private String filename;
     private Context context;
@@ -26,25 +29,26 @@ class GameSaveDao implements Dao<Board, Integer> {
     }
 
     @Override
-    public Pair<Board, Integer> read() throws IOException, ClassNotFoundException {
+    public Triple<Board, Integer, Long> read() throws IOException, ClassNotFoundException, NullPointerException {
         try(FileInputStream fileInputStream = context.openFileInput(filename);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
             try {
-                List boardIntegerPair = (ArrayList) objectInputStream.readObject();
-                return Pair.create((Board)boardIntegerPair.get(0),(Integer) boardIntegerPair.get(1));
-            } catch (ClassCastException e) {
+                List boardIntegerTimeTriple = (ArrayList) objectInputStream.readObject();
+                return Triple.of((Board)boardIntegerTimeTriple.get(0),(Integer) boardIntegerTimeTriple.get(1), (Long) boardIntegerTimeTriple.get(2));
+            } catch (ClassCastException | IndexOutOfBoundsException e) {
                 return null;
             }
         }
     }
 
     @Override
-    public void write(Board board, Integer score) throws IOException {
+    public void write(Board board, Integer score, Long time) throws IOException {
         try(FileOutputStream fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
             List list = new ArrayList();
             list.add(board);
             list.add(score);
+            list.add(time);
             objectOutputStream.writeObject(list);
         }
     }

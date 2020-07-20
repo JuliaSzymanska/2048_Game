@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 class GameSaveDao implements Dao<Board, Integer> {
@@ -27,8 +29,12 @@ class GameSaveDao implements Dao<Board, Integer> {
     public Pair<Board, Integer> read() throws IOException, ClassNotFoundException {
         try(FileInputStream fileInputStream = context.openFileInput(filename);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
-            MyPair<Board, Integer> boardIntegerPair = (MyPair<Board, Integer>) objectInputStream.readObject();
-            return Pair.create(boardIntegerPair.first, boardIntegerPair.second);
+            try {
+                List boardIntegerPair = (ArrayList) objectInputStream.readObject();
+                return Pair.create((Board)boardIntegerPair.get(0),(Integer) boardIntegerPair.get(1));
+            } catch (ClassCastException e) {
+                return null;
+            }
         }
     }
 
@@ -36,22 +42,13 @@ class GameSaveDao implements Dao<Board, Integer> {
     public void write(Board board, Integer score) throws IOException {
         try(FileOutputStream fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
-            objectOutputStream.writeObject(MyPair.create(board, score));
+            List list = new ArrayList();
+            list.add(board);
+            list.add(score);
+            objectOutputStream.writeObject(list);
         }
     }
 
-    private class MyPair<F, S> extends android.util.Pair<F, S> implements Serializable {
-
-        /**
-         * Constructor for a Pair.
-         *
-         * @param first  the first object in the Pair
-         * @param second the second object in the pair
-         */
-        public MyPair(F first, S second) {
-            super(first, second);
-        }
-    }
 
     @Override
     public void close() {

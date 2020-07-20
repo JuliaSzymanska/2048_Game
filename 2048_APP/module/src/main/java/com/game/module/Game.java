@@ -33,7 +33,7 @@ public class Game {
     private StopWatch watch = new StopWatch();
     private int highScore;
 
-    private boolean isUserAuthenticated = false;
+    private boolean isUserAuthenticated = true;
 
     public final static int MOVE_UP = 0;
     public final static int MOVE_RIGHT = 1;
@@ -120,7 +120,7 @@ public class Game {
                 this.gameBoard = daoBoard.read().first;
                 this.highScore = daoBoard.read().second;
                 return true;
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException | NullPointerException e) {
                 // FIXME: 18.07.2020
                 e.printStackTrace();
                 return false;

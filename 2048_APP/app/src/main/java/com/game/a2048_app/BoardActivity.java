@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,8 @@ import com.game.module.Game;
 import com.game.module.GameOverException;
 
 import java.util.Arrays;
+
+// TODO: 20.07.2020 dzwiek: http://drpetter.se/project_sfxr.html
 
 // TODO: 09.06.2020 wcale nie julaszym1212 oto animacja:
 //  https://stackoverflow.com/questions/46359987/which-layoutmanager-for-the-animations-of-a-2048-game
@@ -116,23 +119,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
-//        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-//            @Override
-//            public void handleOnBackPressed() {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
-//                builder.setMessage(R.string.dialog_back_question)
-//                        .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                startActivity(new Intent(BoardActivity.this, MainActivity.class));
-//                            }
-//                        })
-//                        .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                            }
-//                        });
-//                builder.create();
-//            }
-//        };
         this.loadData();
         this.prepareViews();
         this.prepareSensors();
@@ -145,19 +131,24 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
-        builder.setMessage(R.string.dialog_back_question)
-                .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        startActivity(new Intent(BoardActivity.this, MainActivity.class));
-                    }
-                })
-                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        if (!game.isUserAuthenticated()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
+            builder.setMessage(R.string.dialog_back_question)
+                    .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // TODO: 20.07.2020 tutaj tez powinno byc super.OnBackPressed()
+                            startActivity(new Intent(BoardActivity.this, MainActivity.class));
+                        }
+                    })
+                    .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void loadData() {
@@ -242,6 +233,23 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 }
             });
             AlertDialog dialog = builder.create();
+            final ListView alertDialogList = dialog.getListView();
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    for (int position = 0; position < alertDialogList.getChildCount(); position++) {
+                        if ((mSensorAccelerometer == null && getResources().getStringArray(R.array.sensors)[position].equals("Accelerometer + Gyroscope"))
+                                || (mSensorMagnetometer == null && getResources().getStringArray(R.array.sensors)[position].equals("Magnetometer"))
+                                || mSensorLight == null && getResources().getStringArray(R.array.sensors)[position].equals("Light sensor")
+                                || mSensorProximity == null && getResources().getStringArray(R.array.sensors)[position].equals("Proximity sensor")) {
+                            alertDialogList.getChildAt(position).setEnabled(false);
+
+
+                        }
+
+                    }
+                }
+            });
             dialog.show();
         }
     };
@@ -538,6 +546,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         try {
             game.move(direction);
         } catch (GameOverException e) {
+            e.printStackTrace();
             Intent i = new Intent(BoardActivity.this, EndGame.class);
             i.putExtra(String.valueOf(R.string.score), Integer.toString(game.getCurrentScore()));
             i.putExtra(String.valueOf(R.string.high_score), Integer.toString(game.getHighScore()));

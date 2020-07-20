@@ -15,5 +15,5 @@
     <string name="score">Score</string>
     <string name="high_score">High score</string>
     <string name="authentication">Authentication</string>
-    <string name="dialog_back_question">Do you want to exit?\nYour game will not save if your are not authenticated.</string>
+    <string name="dialog_back_question">Are you sure you want to exit?\nYour game will not be saved.</string>
 </resources>

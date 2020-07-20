@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         setContentView(R.layout.activity_main);
         initButtons();
         loadData();
+        checkAuthentication();
     }
 
     private void loadData(){
@@ -65,15 +66,19 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private View.OnClickListener authenticationListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (FingerprintDialog.isAvailable(mainActivity)) {
-                FingerprintDialog.initialize(mainActivity)
-                        .title(R.string.fingerprint_title)
-                        .message(R.string.fingerprint_message)
-                        .callback(mainActivity)
-                        .show();
-            }
+            checkAuthentication();
         }
     };
+
+    private void checkAuthentication(){
+        if (FingerprintDialog.isAvailable(mainActivity)) {
+            FingerprintDialog.initialize(mainActivity)
+                    .title(R.string.fingerprint_title)
+                    .message(R.string.fingerprint_message)
+                    .callback(mainActivity)
+                    .show();
+        }
+    }
 
     private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
         @Override

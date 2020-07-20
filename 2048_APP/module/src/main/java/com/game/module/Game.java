@@ -2,6 +2,9 @@ package com.game.module;
 
 import android.content.Context;
 
+import com.game.module.dao.Dao;
+import com.game.module.dao.FileBoardDaoFactory;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -103,18 +106,10 @@ public class Game {
     private void saveGame() {
         if (this.context != null && this.isUserAuthenticated) {
             // TODO: 18.07.2020 string
-            try(FileOutputStream fileOutputStream = context.openFileOutput("GameSave", Context.MODE_PRIVATE);
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
-                List<Object> list = new ArrayList<>();
-                list.add(this.gameBoard);
-                list.add(Integer.valueOf(this.getHighScore()));
-                // TODO: 19.07.2020 stopwatch jest unseralizable ._.
-//                list.add(this.watch);
-                objectOutputStream.writeObject(list);
-
+            try(Dao<Board> dao = FileBoardDaoFactory.getFileBoardDao("GameSave", context)) {
+                dao.write(this.gameBoard);
             } catch (IOException e) {
                 e.printStackTrace();
-                // FIXME: 18.07.2020
             }
         }
     }
@@ -124,15 +119,10 @@ public class Game {
     public boolean loadGame() {
         if (this.context != null && this.isUserAuthenticated) {
             // TODO: 18.07.2020 string
-            try(FileInputStream fileInputStream = context.openFileInput("GameSave");
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
-                List<Object> list = new ArrayList<>();
-                list = (ArrayList<Object>)objectInputStream.readObject();
-                this.gameBoard = (Board) list.get(0);
-                this.highScore = (int) list.get(1);
-//                this.watch = (StopWatch) list.get(2);
+            try(Dao<Board> dao = FileBoardDaoFactory.getFileBoardDao("GameSave", context)) {
+                this.gameBoard = dao.read();
                 return true;
-            } catch (IOException | ClassNotFoundException | IndexOutOfBoundsException e){
+            } catch (IOException | ClassNotFoundException e) {
                 // FIXME: 18.07.2020
                 e.printStackTrace();
                 return false;

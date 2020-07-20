@@ -72,32 +72,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         configureAuthenticateButton();
     }
 
-    private View.OnClickListener authenticationListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            initFingerprintDialog();
-        }
-    };
-
-    private void initFingerprintDialog() {
-        if (FingerprintDialog.isAvailable(mainActivity)) {
-            FingerprintDialog.initialize(mainActivity)
-                    .title(R.string.fingerprint_title)
-                    .message(R.string.fingerprint_message)
-                    .callback(mainActivity)
-                    .show();
-        }
-    }
-
-    private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent i = new Intent(MainActivity.this, BoardActivity.class);
-            i.putExtra(String.valueOf(R.string.authentication), Boolean.toString(authentication));
-            startActivity(i);
-        }
-    };
-
     private void configureStartGameButton() {
         Button startGame = (Button) findViewById(R.id.startGameButton);
         startGame.setBackgroundResource(R.drawable.main_activity_button);
@@ -111,6 +85,32 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
             authenticationButton.setOnClickListener(authenticationListener);
         } else {
             authenticationButton.setVisibility(View.GONE);
+        }
+    }
+
+    private View.OnClickListener authenticationListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            initFingerprintDialog();
+        }
+    };
+
+    private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent i = new Intent(MainActivity.this, BoardActivity.class);
+            i.putExtra(String.valueOf(R.string.authentication), Boolean.toString(authentication));
+            startActivity(i);
+        }
+    };
+
+    private void initFingerprintDialog() {
+        if (FingerprintDialog.isAvailable(mainActivity)) {
+            FingerprintDialog.initialize(mainActivity)
+                    .title(R.string.fingerprint_title)
+                    .message(R.string.fingerprint_message)
+                    .callback(mainActivity)
+                    .show();
         }
     }
 

@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -117,6 +116,23 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
+//        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+//            @Override
+//            public void handleOnBackPressed() {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
+//                builder.setMessage(R.string.dialog_back_question)
+//                        .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                startActivity(new Intent(BoardActivity.this, MainActivity.class));
+//                            }
+//                        })
+//                        .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                            }
+//                        });
+//                builder.create();
+//            }
+//        };
         this.loadData();
         this.prepareViews();
         this.prepareSensors();
@@ -127,6 +143,23 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 this, this.game, this.adapter, this.textScore, this.textHighScore);
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
+        builder.setMessage(R.string.dialog_back_question)
+                .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        startActivity(new Intent(BoardActivity.this, MainActivity.class));
+                    }
+                })
+                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     private void loadData() {
         // wolał bym przypisać preferences w jednym miejcu zamiasty dwu ale się z jakiegoś powodu psuje :/
         preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
@@ -134,7 +167,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         for (int i = 0; i < this.choosenSensors.length; i++) {
             this.choosenSensors[i] = preferences.getBoolean(sensorNames[i], false);
         }
-        this.isDarkTheme = preferences.getBoolean(getResources().getString(R.string.darkTheme), false);
+        this.isDarkTheme = preferences.getBoolean(getResources().getString(R.string.dark_theme), false);
         this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(String.valueOf(R.string.authentication))), this);
         this.fields = game.getCopyOfTheBoard().toArray(new Field[0]);
         this.fieldsImages = new Integer[fields.length];
@@ -507,7 +540,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         } catch (GameOverException e) {
             Intent i = new Intent(BoardActivity.this, EndGame.class);
             i.putExtra(String.valueOf(R.string.score), Integer.toString(game.getCurrentScore()));
-            i.putExtra(String.valueOf(R.string.highScore), Integer.toString(game.getHighScore()));
+            i.putExtra(String.valueOf(R.string.high_score), Integer.toString(game.getHighScore()));
             i.putExtra(String.valueOf(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
             startActivity(i);
             restartGame();
@@ -533,7 +566,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                             }
                         });
                         isDarkTheme = true;
-                        editor.putBoolean(getResources().getString(R.string.darkTheme), isDarkTheme);
+                        editor.putBoolean(getResources().getString(R.string.dark_theme), isDarkTheme);
                         adapter.notifyDataSetChanged();
                     } else if (mLightData >= DARKMODE_DISABLE_LIGHT && isDarkTheme) {
                         runOnUiThread(new Runnable() {
@@ -543,7 +576,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                             }
                         });
                         isDarkTheme = false;
-                        editor.putBoolean(getResources().getString(R.string.darkTheme), isDarkTheme);
+                        editor.putBoolean(getResources().getString(R.string.dark_theme), isDarkTheme);
                         adapter.notifyDataSetChanged();
                     }
                     editor.apply();

@@ -21,7 +21,7 @@ public class EndGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         score = intent.getStringExtra(String.valueOf(R.string.score));
-        highScore = intent.getStringExtra(String.valueOf(R.string.highScore));
+        highScore = intent.getStringExtra(String.valueOf(R.string.high_score));
         authentication = Boolean.parseBoolean(intent.getStringExtra(String.valueOf(R.string.authentication)));
         setContentView(R.layout.activity_end_game);
         Button homePage = findViewById(R.id.homePage);
@@ -32,7 +32,7 @@ public class EndGame extends AppCompatActivity {
 
     private void loadData() {
         SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
-        boolean isDarkTheme = preferences.getBoolean(getResources().getString(R.string.darkTheme), false);
+        boolean isDarkTheme = preferences.getBoolean(getResources().getString(R.string.dark_theme), false);
         setTheme(isDarkTheme);
         setTextScoreText();
         setTextHighScoreText();
@@ -65,5 +65,9 @@ public class EndGame extends AppCompatActivity {
             startActivity(new Intent(EndGame.this, MainActivity.class));
         }
     };
+
+    @Override
+    public void onBackPressed() {
+    }
 
 }

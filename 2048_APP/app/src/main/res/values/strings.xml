@@ -9,9 +9,11 @@
     <string name="fingerprint_title">Fingerprint authentication</string>
     <string name="fingerprint_message">Being a phone user allows you to save a high score</string>
     <string name="dialog_accept">OK</string>
+    <string name="dialog_cancel">Cancel</string>
     <string name="settings">settings</string>
-    <string name="darkTheme">dark theme</string>
+    <string name="dark_theme">dark theme</string>
     <string name="score">Score</string>
-    <string name="highScore">High score</string>
+    <string name="high_score">High score</string>
     <string name="authentication">Authentication</string>
+    <string name="dialog_back_question">Do you want to exit?\nYour game will not save if your are not authenticated.</string>
 </resources>

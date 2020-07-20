@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     private void loadData() {
         SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
-        boolean isDarkTheme = preferences.getBoolean(getResources().getString(R.string.darkTheme), false);
+        boolean isDarkTheme = preferences.getBoolean(getResources().getString(R.string.dark_theme), false);
         setTheme(isDarkTheme);
     }
 

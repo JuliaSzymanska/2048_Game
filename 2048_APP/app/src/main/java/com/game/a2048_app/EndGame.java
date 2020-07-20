@@ -6,14 +6,26 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EndGame extends AppCompatActivity {
 
+    String score;
+    String highScore;
+    Boolean authentication;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        Bundle extras = getIntent().getExtras();
+        Intent intent = getIntent();
+//        if (extras != null) {
+            score = intent.getStringExtra(String.valueOf(R.string.score));
+            highScore = intent.getStringExtra(String.valueOf(R.string.highScore));
+            authentication = Boolean.parseBoolean(intent.getStringExtra(String.valueOf(R.string.authentication)));
+//        }
         setContentView(R.layout.activity_end_game);
         Button homePage = findViewById(R.id.homePage);
         homePage.setBackgroundResource(R.drawable.main_activity_button);
@@ -25,6 +37,8 @@ public class EndGame extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
         boolean isDarkTheme = preferences.getBoolean(getResources().getString(R.string.darkTheme), false);
         setTheme(isDarkTheme);
+        setTextScoreText();
+        setTextHighScoreText();
     }
 
     private void setTheme(boolean isDarkTheme) {
@@ -33,6 +47,18 @@ public class EndGame extends AppCompatActivity {
             darkThemeView.setImageResource(R.drawable.dark_theme_on);
         } else {
             darkThemeView.setImageResource(R.drawable.dark_theme_off);
+        }
+    }
+
+    void setTextScoreText() {
+        TextView textScore = (TextView) findViewById(R.id.textScore);
+        textScore.setText(String.format("%s%s", "Score:\n", score));
+    }
+
+    void setTextHighScoreText() {
+        if (authentication) {
+            TextView textScore = (TextView) findViewById(R.id.textHighScore);
+            textScore.setText(String.format("%s%s", "Score:\n", highScore));
         }
     }
 

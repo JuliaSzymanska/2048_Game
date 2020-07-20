@@ -542,7 +542,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         try {
             game.move(direction);
         } catch (GameOverException e) {
-            startActivity(new Intent(BoardActivity.this, EndGame.class));
+            Intent i = new Intent(BoardActivity.this, EndGame.class);
+            i.putExtra(String.valueOf(R.string.score), Integer.toString(game.getCurrentScore()));
+            i.putExtra(String.valueOf(R.string.highScore), Integer.toString(game.getHighScore()));
+            i.putExtra(String.valueOf(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
+            startActivity(i);
             restartGame();
         }
         adapter.notifyDataSetChanged();

@@ -11,4 +11,7 @@
     <string name="dialog_accept">OK</string>
     <string name="settings">settings</string>
     <string name="darkTheme">dark theme</string>
+    <string name="score">Score</string>
+    <string name="highScore">High score</string>
+    <string name="authentication">Authentication</string>
 </resources>

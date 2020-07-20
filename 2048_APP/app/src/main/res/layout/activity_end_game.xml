@@ -41,4 +41,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="75dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textColor="#075275"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/homePage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/endGame" />
+
+    <TextView
+        android:id="@+id/textHighScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textColor="#075275"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/homePage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/endGame" />
 </androidx.constraintlayout.widget.ConstraintLayout>

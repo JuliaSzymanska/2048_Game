@@ -3,7 +3,7 @@ package com.game.module;
 import android.content.Context;
 
 import com.game.module.dao.Dao;
-import com.game.module.dao.FileBoardDaoFactory;
+import com.game.module.dao.GameSaveDaoFactory;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -11,12 +11,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.time.StopWatch;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
+
 import java.util.List;
 
 // TODO: 29.05.2020 DAO
@@ -106,8 +103,8 @@ public class Game {
     private void saveGame() {
         if (this.context != null && this.isUserAuthenticated) {
             // TODO: 18.07.2020 string
-            try(Dao<Board> dao = FileBoardDaoFactory.getFileBoardDao("GameSave", context)) {
-                dao.write(this.gameBoard);
+            try(Dao<Board, Integer> daoBoard = GameSaveDaoFactory.getFileBoardDao("GameSave", context)) {
+                daoBoard.write(this.gameBoard, this.highScore);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -119,8 +116,9 @@ public class Game {
     public boolean loadGame() {
         if (this.context != null && this.isUserAuthenticated) {
             // TODO: 18.07.2020 string
-            try(Dao<Board> dao = FileBoardDaoFactory.getFileBoardDao("GameSave", context)) {
-                this.gameBoard = dao.read();
+            try(Dao<Board, Integer> daoBoard = GameSaveDaoFactory.getFileBoardDao("GameSave", context)) {
+                this.gameBoard = daoBoard.read().first;
+                this.highScore = daoBoard.read().second;
                 return true;
             } catch (IOException | ClassNotFoundException e) {
                 // FIXME: 18.07.2020

@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     private void initButtons() {
         configureStartGameButton();
-            configureAuthenticateButton();
+        configureAuthenticateButton();
     }
 
     private View.OnClickListener authenticationListener = new View.OnClickListener() {

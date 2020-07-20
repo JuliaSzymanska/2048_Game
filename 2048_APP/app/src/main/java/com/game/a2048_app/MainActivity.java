@@ -12,15 +12,14 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.game.module.Game;
+import me.aflak.libraries.callback.FingerprintDialogCallback;
+import me.aflak.libraries.dialog.FingerprintDialog;
 
 // TODO: 19.07.2020  powiązanie musi zawierać załączniki w postaci wszystkich dokumentów powiązanych
 //  (not katalogowych, dokumentów RFC, aktów prawnych, itp.,
 //  a także wszystkich programów źródłowych (także bibliotek open source'owych), a także programów wykonywalnych
 //  do czego zmierzam, pamiętać żeby to dodać jako biblioteka opensourcowa
 //  https://github.com/OmarAflak/Fingerprint
-import me.aflak.libraries.callback.FingerprintDialogCallback;
-import me.aflak.libraries.dialog.FingerprintDialog;
 
 
 // TODO: 19.07.2020 spojrzeć na bindingi
@@ -30,6 +29,7 @@ import me.aflak.libraries.dialog.FingerprintDialog;
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback {
 
     MainActivity mainActivity = this;
+    Boolean authentication = false;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         configureAuthenticateButton();
     }
 
-    private View.OnClickListener authentication = new View.OnClickListener() {
+    private View.OnClickListener authenticationListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             if (FingerprintDialog.isAvailable(mainActivity)) {
@@ -78,7 +78,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            startActivity(new Intent(MainActivity.this, BoardActivity.class));
+            Intent i = new Intent(MainActivity.this, BoardActivity.class);
+            i.putExtra(String.valueOf(R.string.authentication), Boolean.toString(authentication));
+            startActivity(i);
         }
     };
 
@@ -91,12 +93,12 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private void configureAuthenticateButton() {
         Button authenticationButton = (Button) findViewById(R.id.authenticateButton);
         authenticationButton.setBackgroundResource(R.drawable.fingerprint);
-        authenticationButton.setOnClickListener(authentication);
+        authenticationButton.setOnClickListener(authenticationListener);
     }
 
     @Override
     public void onAuthenticationSucceeded() {
-        Game.getInstance().setUserAuthenticated(true);
+        authentication = true;
     }
 
     @Override

@@ -19,13 +19,10 @@ public class EndGame extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Bundle extras = getIntent().getExtras();
         Intent intent = getIntent();
-//        if (extras != null) {
-            score = intent.getStringExtra(String.valueOf(R.string.score));
-            highScore = intent.getStringExtra(String.valueOf(R.string.highScore));
-            authentication = Boolean.parseBoolean(intent.getStringExtra(String.valueOf(R.string.authentication)));
-//        }
+        score = intent.getStringExtra(String.valueOf(R.string.score));
+        highScore = intent.getStringExtra(String.valueOf(R.string.highScore));
+        authentication = Boolean.parseBoolean(intent.getStringExtra(String.valueOf(R.string.authentication)));
         setContentView(R.layout.activity_end_game);
         Button homePage = findViewById(R.id.homePage);
         homePage.setBackgroundResource(R.drawable.main_activity_button);
@@ -33,7 +30,7 @@ public class EndGame extends AppCompatActivity {
         loadData();
     }
 
-    private void loadData(){
+    private void loadData() {
         SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
         boolean isDarkTheme = preferences.getBoolean(getResources().getString(R.string.darkTheme), false);
         setTheme(isDarkTheme);
@@ -58,7 +55,7 @@ public class EndGame extends AppCompatActivity {
     void setTextHighScoreText() {
         if (authentication) {
             TextView textScore = (TextView) findViewById(R.id.textHighScore);
-            textScore.setText(String.format("%s%s", "Score:\n", highScore));
+            textScore.setText(String.format("%s%s", "High score:\n", highScore));
         }
     }
 

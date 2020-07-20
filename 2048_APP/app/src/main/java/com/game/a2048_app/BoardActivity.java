@@ -132,6 +132,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
+        Intent intent = getIntent();
+        Game.getInstance().setUserAuthenticated(Boolean.parseBoolean(intent.getStringExtra(String.valueOf(R.string.authentication))));
         this.loadData();
         this.prepareViews();
         this.prepareSensors();

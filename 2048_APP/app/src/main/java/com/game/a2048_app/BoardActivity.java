@@ -46,7 +46,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     OnSwipeTouchListener onSwipeTouchListener;
 
-    private Game game = Game.getInstance();
+    private Game game;
     private ArrayAdapter<Integer> adapter;
     private GridView gridView;
     private ImageView darkThemeView;
@@ -132,8 +132,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
-        Intent intent = getIntent();
-        Game.getInstance().setUserAuthenticated(Boolean.parseBoolean(intent.getStringExtra(String.valueOf(R.string.authentication))));
         this.loadData();
         this.prepareViews();
         this.prepareSensors();
@@ -152,8 +150,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             this.choosenSensors[i] = preferences.getBoolean(sensorNames[i], false);
         }
         this.isDarkTheme = preferences.getBoolean(getResources().getString(R.string.darkTheme), false);
-        Game.getInstance().setContext(this.getApplicationContext());
-        this.game.loadGame();
+        this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(String.valueOf(R.string.authentication))), this);
         this.fields = game.getCopyOfTheBoard().toArray(new Field[0]);
         this.fieldsImages = new Integer[fields.length];
         Arrays.fill(fieldsImages, R.drawable.zero);

@@ -16,14 +16,7 @@ import java.io.IOException;
 
 import java.util.List;
 
-// TODO: 29.05.2020 DAO
-//  https://www.youtube.com/watch?v=0cg09tlAAQ0
-//  ^ wygląda legitnie
-
 public class Game {
-    // TODO: 19.07.2020 mądra jest ta podpowiedź, ale nie bardzo wiem co z tym zrobić
-    private static final Game INSTANCE = new Game();
-
     private Board gameBoard = new Board();
 
     // TODO: 19.07.2020 to nie jest serializowalne i nie wiem co z tym zrobić
@@ -42,10 +35,9 @@ public class Game {
 
     private Context context;
 
-    private Game() {
-        // TODO: 19.07.2020 mam problem z tym żeby to zrobić żeby to dzialalo
-        //  zeby zaladować grę to potrzebuję context
-        //  w momencie kiedy jestem w stanie przekazać context to już constructor jest wykonany ehh
+    public Game(boolean isUserAuthenticated, Context context) {
+        this.setUserAuthenticated(isUserAuthenticated);
+        this.setContext(context);
         if (this.isUserAuthenticated) {
             if (this.loadGame()) {
                 return;
@@ -58,9 +50,6 @@ public class Game {
         this.context = context.getApplicationContext();
     }
 
-    public static Game getInstance() {
-        return INSTANCE;
-    }
 
     public List<Field> getCopyOfTheBoard() {
         return gameBoard.getCopyBoard();
@@ -120,7 +109,7 @@ public class Game {
                 this.gameBoard = daoBoard.read().first;
                 this.highScore = daoBoard.read().second;
                 return true;
-            } catch (IOException | ClassNotFoundException | NullPointerException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 // FIXME: 18.07.2020
                 e.printStackTrace();
                 return false;

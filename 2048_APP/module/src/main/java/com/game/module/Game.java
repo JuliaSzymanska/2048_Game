@@ -95,7 +95,6 @@ public class Game {
         }
     }
 
-
     private Runnable saveGameOnce = new Runnable() {
         @Override
         public void run() {
@@ -248,12 +247,12 @@ public class Game {
     // W razie gdyby thread się nie przerwał, awaryjny
     @Override
     protected void finalize() throws Throwable {
-        super.finalize();
         // TODO: 21.07.2020 nie jestem pewien czy to np może być tutaj null i się wywalić?
         //  albo może jak juz jest przerwany to nie można drugi raz przerwać?
         //  sprawdzić i ewentualnie usunąc ify
         if (this.saveGameBackgroundThread != null && !this.saveGameBackgroundThread.isInterrupted()) {
             this.saveGameBackgroundThread.interrupt();
         }
+        super.finalize();
     }
 }

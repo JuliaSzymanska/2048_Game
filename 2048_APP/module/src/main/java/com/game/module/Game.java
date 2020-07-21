@@ -20,24 +20,28 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Game {
+
     private Board gameBoard = new Board();
 
     private int highScore;
 
-    private boolean isUserAuthenticated = true;
+    private boolean isUserAuthenticated = false;
+
+    private long gameBeginTime;
+    private long pausedTimeDuration;
+    private boolean isSuspended;
+    private Context context;
 
     public final static int MOVE_UP = 0;
     public final static int MOVE_RIGHT = 1;
     public final static int MOVE_DOWN = 2;
     public final static int MOVE_LEFT = 3;
 
-    private long gameBeginTime;
-    private long pausedTimeDuration;
-    private boolean isSuspended;
-
-    private Context context;
-
     private final static String GAME_SAVE_NAME = "GameSave";
+
+    private final static int SAVE_GAME_DELAY_SECONDS = 2;
+
+    private final Thread saveGameBackgroundThread;
 
     public Game(boolean isUserAuthenticated, @Nullable Context context) {
         this.setUserAuthenticated(isUserAuthenticated);
@@ -47,6 +51,7 @@ public class Game {
             // unikam konieczności używania boola
             this.loadGame();
         }
+        saveGameBackgroundThread = new Thread(this.saveGameBackgroundRunnable);
     }
 
     public void setContext(Context context) {
@@ -59,40 +64,64 @@ public class Game {
     }
 
     public void move(int direction) throws GameOverException {
-        if (!this.isSuspended) {
-            switch (direction) {
-                case MOVE_UP:
-                    gameBoard.moveUp();
-                    break;
-                case MOVE_RIGHT:
-                    gameBoard.moveRight();
-                    break;
-                case MOVE_DOWN:
-                    gameBoard.moveDown();
-                    break;
-                case MOVE_LEFT:
-                    gameBoard.moveLeft();
-                    break;
-                default:
-                    throw new IllegalArgumentException("value can only be equal to 0, 1, 2 or 3");
+        try {
+            if (!this.isSuspended) {
+                switch (direction) {
+                    case MOVE_UP:
+                        gameBoard.moveUp();
+                        break;
+                    case MOVE_RIGHT:
+                        gameBoard.moveRight();
+                        break;
+                    case MOVE_DOWN:
+                        gameBoard.moveDown();
+                        break;
+                    case MOVE_LEFT:
+                        gameBoard.moveLeft();
+                        break;
+                    default:
+                        throw new IllegalArgumentException("value can only be equal to 0, 1, 2 or 3");
+                }
+                this.updateHighscore();
+                if (this.isUserAuthenticated) {
+                    Thread t = new Thread(this.saveGameOnce);
+                    t.start();
+                }
             }
-            this.updateHighscore();
-            if (this.isUserAuthenticated) {
-                Thread t = new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-                        saveGame();
-                    }
-                };
-                t.start();
-            }
+        } catch (GameOverException e) {
+            this.saveGameBackgroundThread.interrupt();
+            // TODO: 21.07.2020 String
+            throw new GameOverException("", e);
         }
     }
 
+
+    private Runnable saveGameOnce = new Runnable() {
+        @Override
+        public void run() {
+            saveGame();
+        }
+    };
+
+    private Runnable saveGameBackgroundRunnable = new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    Thread.sleep(SAVE_GAME_DELAY_SECONDS * 1000);
+                    saveGame();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+    };
+
+
     private void saveGame() {
         if (this.context != null && this.isUserAuthenticated) {
-            try(Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
+            try (Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
                 daoBoard.write(this.gameBoard, this.highScore, System.nanoTime() - this.gameBeginTime);
             } catch (IOException e) {
                 // FIXME: 20.07.2020
@@ -103,7 +132,7 @@ public class Game {
 
     public void loadGame() {
         if (this.context != null && this.isUserAuthenticated) {
-            try(Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
+            try (Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
                 this.gameBoard = daoBoard.read().getLeft();
                 this.highScore = daoBoard.read().getMiddle();
                 this.gameBeginTime = System.nanoTime() - daoBoard.read().getRight();
@@ -123,6 +152,7 @@ public class Game {
     public void startNewGame() {
         this.gameBoard.restartGame();
         this.gameBeginTime = System.nanoTime();
+        this.unpauseTimer();
     }
 
     public void restartGame() {
@@ -212,5 +242,17 @@ public class Game {
                 .append("time elapsed", this.getElapsedTimeToString())
                 .append("highScore", highScore)
                 .toString();
+    }
+
+    // W razie gdyby thread się nie przerwał, awaryjny
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        // TODO: 21.07.2020 nie jestem pewien czy to np może być tutaj null i się wywalić?
+        //  albo może jak juz jest przerwany to nie można drugi raz przerwać?
+        //  sprawdzić i ewentualnie usunąc ify
+        if (this.saveGameBackgroundThread != null && !this.saveGameBackgroundThread.isInterrupted()) {
+            this.saveGameBackgroundThread.interrupt();
+        }
     }
 }

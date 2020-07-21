@@ -421,7 +421,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     try {
                         Thread.sleep(500);
                         runOnUiThread(new Runnable() {
-                            @SuppressLint("DefaultLocale")
                             @Override
                             public void run() {
                                 textTime.setText(String.format("Time:\n%s", game.getElapsedTimeToString()));

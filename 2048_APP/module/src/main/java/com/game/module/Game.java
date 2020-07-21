@@ -103,6 +103,7 @@ public class Game {
         }
     };
 
+    // TODO: 21.07.2020 TEST ME! 
     private Runnable saveGameBackgroundRunnable = new Runnable() {
         @Override
         public void run() {

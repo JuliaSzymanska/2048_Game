@@ -415,7 +415,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     // TODO: 21.07.2020 ten thread działa nadal nawet jak skonczy się gra! trzeba go przerwać!
     private void beginUpdateTime() {
-        Thread updateTimeThread = new Thread() {
+        updateTimeThread = new Thread() {
             @Override
             public void run() {
                 while (!isInterrupted()) {
@@ -429,7 +429,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                             }
                         });
                     } catch (InterruptedException e) {
-                        // TODO: 13.07.2020 logger
+                        Thread.currentThread().interrupt();
                         e.printStackTrace();
                     }
 
@@ -439,7 +439,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         updateTimeThread.start();
     }
 
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -447,6 +446,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         // continue to use resources when the app is stopped.
         mSensorManager.unregisterListener(this);
         this.game.pauseTimer();
+        this.updateTimeThread.interrupt();
         // TODO: 21.07.2020 tutaj trzeba będzie zrobić żeby ten thread się interruptowal
     }
 

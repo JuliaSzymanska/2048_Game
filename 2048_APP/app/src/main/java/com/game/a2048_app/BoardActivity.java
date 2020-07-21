@@ -441,20 +441,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
 
     @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         // Unregister all sensor listeners in this callback so they don't
         // continue to use resources when the app is stopped.
         mSensorManager.unregisterListener(this);
         this.game.pauseTimer();
+        // TODO: 21.07.2020 tutaj trzeba będzie zrobić żeby ten thread się interruptowal
     }
 
-    // TODO: 12.07.2020 wszystko to powinno być asynchroniczne
     @Override
     public void onSensorChanged(SensorEvent event) {
         int sensorType = event.sensor.getType();

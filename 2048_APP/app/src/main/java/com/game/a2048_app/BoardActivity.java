@@ -413,7 +413,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.beginUpdateTime();
     }
 
-    // TODO: 21.07.2020 ten thread działa nadal nawet jak skonczy się gra! trzeba go przerwać!
     private void beginUpdateTime() {
         updateTimeThread = new Thread() {
             @Override
@@ -447,7 +446,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mSensorManager.unregisterListener(this);
         this.game.pauseTimer();
         this.updateTimeThread.interrupt();
-        // TODO: 21.07.2020 tutaj trzeba będzie zrobić żeby ten thread się interruptowal
     }
 
     @Override

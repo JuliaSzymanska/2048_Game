@@ -31,6 +31,8 @@ import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.Arrays;
 
 // TODO: 20.07.2020 dzwiek: http://drpetter.se/project_sfxr.html
@@ -408,10 +410,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
 
         this.game.unpauseTimer();
-        this.beingUpdateTime();
+        this.beginUpdateTime();
     }
 
-    private void beingUpdateTime() {
+    // TODO: 21.07.2020 ten thread działa nadal nawet jak skonczy się gra! trzeba go przerwać!
+    private void beginUpdateTime() {
         Thread updateTimeThread = new Thread() {
             @Override
             public void run() {
@@ -436,6 +439,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         updateTimeThread.start();
     }
 
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+    }
 
     @Override
     protected void onStop() {

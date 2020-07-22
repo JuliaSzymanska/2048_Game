@@ -111,21 +111,25 @@ public class FieldTest {
     }
 
     @Test
-    public void compareToTest() {
-//        Field fieldFirst = new Field(2);
-//        Field fieldSecond = new Field(2);
-//        assertTrue(fieldFirst.equals(fieldSecond));
-//
-//        assertTrue(fieldFirst.equals(fieldFirst));
-//
-//        fieldFirst.setNextValue();
-//        assertFalse(fieldFirst.equals(fieldSecond));
-//
-//        Field fieldThird = null;
-//        assertFalse(fieldFirst.equals(fieldThird));
-//
-//        int a = 3;
-//        assertFalse(fieldFirst.equals(a));
+    public void hashCodeTest() {
+        Field fieldFirst = new Field(2);
+        Field fieldSecond = new Field(2);
+        if (fieldFirst.hashCode() != fieldSecond.hashCode())
+            assertNotEquals(fieldFirst, fieldSecond);
     }
 
+    @Test(expected = NullPointerException.class)
+    public void compareToTest() {
+        Field fieldFirst = new Field(2);
+        Field fieldSecond = new Field(2);
+        Field fieldThird = null;
+        assertEquals(1, fieldFirst.compareTo(fieldThird));
+
+        assertTrue(fieldFirst.equals(fieldSecond));
+        assertEquals(0, fieldFirst.compareTo(fieldSecond));
+
+        fieldFirst.setNextValue();
+        assertEquals(1, fieldFirst.compareTo(fieldSecond));
+        assertEquals(-1, fieldFirst.compareTo(fieldSecond));
+    }
 }

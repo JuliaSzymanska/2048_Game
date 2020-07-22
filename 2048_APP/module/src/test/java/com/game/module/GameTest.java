@@ -195,6 +195,7 @@ public class GameTest {
         assertTrue(game.isUserAuthenticated());
     }
 
+    // TODO: 22.07.2020 taki biedny ten test
     @Test
     public void equalsTest() {
         Game game1 = new Game(true, null);

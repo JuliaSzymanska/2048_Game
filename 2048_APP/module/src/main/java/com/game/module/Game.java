@@ -55,7 +55,9 @@ public class Game {
     }
 
     public void setContext(Context context) {
-        this.context = context.getApplicationContext();
+        if (context != null) {
+            this.context = context.getApplicationContext();
+        }
     }
 
 

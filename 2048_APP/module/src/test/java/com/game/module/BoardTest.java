@@ -10,9 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -370,21 +368,20 @@ public class BoardTest {
     public void equalsTest() {
         Board board1 = new Board(integers);
         Board board2 = new Board(integers);
-        assertTrue(board1.equals(board2));
+        assertEquals(board1, board2);
 
-        assertTrue(board1.equals(board1));
+        assertEquals(board1, board1);
 
         try {
             board1.moveRight();
         } catch (GameOverException ignore) {
         }
-        assertFalse(board1.equals(board2));
+        assertNotEquals(board1, board2);
 
-        Board board3 = null;
-        assertFalse(board1.equals(board3));
+        assertNotEquals(board1, null);
 
         int a = 3;
-        assertFalse(board1.equals(a));
+        assertNotEquals(board1, a);
     }
 
     @Test

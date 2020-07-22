@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -96,18 +95,17 @@ public class FieldTest {
     public void equalsTest() {
         Field fieldFirst = new Field(2);
         Field fieldSecond = new Field(2);
-        assertTrue(fieldFirst.equals(fieldSecond));
+        assertEquals(fieldFirst, fieldSecond);
 
-        assertTrue(fieldFirst.equals(fieldFirst));
+        assertEquals(fieldFirst, fieldFirst);
 
         fieldFirst.setNextValue();
-        assertFalse(fieldFirst.equals(fieldSecond));
+        assertNotEquals(fieldFirst, fieldSecond);
 
-        Field fieldThird = null;
-        assertFalse(fieldFirst.equals(fieldThird));
+        assertNotEquals(fieldFirst, null);
 
         int a = 3;
-        assertFalse(fieldFirst.equals(a));
+        assertNotEquals(fieldFirst, a);
     }
 
     @Test

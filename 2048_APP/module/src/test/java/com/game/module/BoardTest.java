@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -53,7 +58,50 @@ public class BoardTest {
     };
 
     @Test
-    public void boardMoveRightTest(){
+    public void boardDefaultConstructorTest(){
+        Board board = new Board();
+        int numberOfNonZeroFields = 0;
+        for (Field i : board.getCopyBoard()) {
+            if(i.getValue() != 0){
+                numberOfNonZeroFields++;
+            }
+        }
+        Assert.assertEquals(numberOfNonZeroFields, 2);
+    }
+
+
+    @Test
+    public void boardListConstructorTest() {
+        List<Integer> expectedValues = new ArrayList<Integer>() {
+            {
+                add(0);
+                add(2);
+                add(2);
+                add(0);
+
+                add(4);
+                add(0);
+                add(2);
+                add(8);
+
+                add(0);
+                add(0);
+                add(2);
+                add(0);
+
+                add(0);
+                add(16);
+                add(8);
+                add(0);
+            }
+        };
+        Board board = new Board(expectedValues);
+        Board board1 = new Board(expectedValues);
+        assertEquals(board, board1);
+    }
+
+    @Test
+    public void boardMoveRightTest() {
         List<Integer> expectedValuesAfterMove = new ArrayList<Integer>() {
             {
                 add(0);
@@ -87,7 +135,7 @@ public class BoardTest {
             System.out.println(e.getMessage());
             Assert.fail();
         }
-        for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
+        for (Pair<Integer, Field> item : zip(expectedValuesAfterMove, board.getCopyBoard())) {
             if (!item.getLeft().equals(0)) {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
             }
@@ -97,7 +145,7 @@ public class BoardTest {
     }
 
     @Test
-    public void boardMoveLeftTest(){
+    public void boardMoveLeftTest() {
         List<Integer> expectedValuesAfterMove = new ArrayList<Integer>() {
             {
                 add(4);
@@ -131,7 +179,7 @@ public class BoardTest {
             System.out.println(e.getMessage());
             Assert.fail();
         }
-        for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
+        for (Pair<Integer, Field> item : zip(expectedValuesAfterMove, board.getCopyBoard())) {
             if (!item.getLeft().equals(0)) {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
             }
@@ -141,7 +189,7 @@ public class BoardTest {
     }
 
     @Test
-    public void boardMoveUpTest(){
+    public void boardMoveUpTest() {
         List<Integer> expectedValuesAfterMove = new ArrayList<Integer>() {
             {
                 add(4);
@@ -175,7 +223,7 @@ public class BoardTest {
             System.out.println(e.getMessage());
             Assert.fail();
         }
-        for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
+        for (Pair<Integer, Field> item : zip(expectedValuesAfterMove, board.getCopyBoard())) {
             if (!item.getLeft().equals(0)) {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
             }
@@ -185,7 +233,7 @@ public class BoardTest {
     }
 
     @Test
-    public void boardMoveDownTest(){
+    public void boardMoveDownTest() {
         List<Integer> expectedValuesAfterMove = new ArrayList<Integer>() {
             {
                 add(0);
@@ -219,7 +267,7 @@ public class BoardTest {
             System.out.println(e.getMessage());
             Assert.fail();
         }
-        for (Pair<Integer, Field> item: zip(expectedValuesAfterMove, board.getCopyBoard())) {
+        for (Pair<Integer, Field> item : zip(expectedValuesAfterMove, board.getCopyBoard())) {
             if (!item.getLeft().equals(0)) {
                 Assert.assertEquals(item.getLeft().intValue(), item.getRight().getValue());
             }
@@ -229,7 +277,7 @@ public class BoardTest {
     }
 
     @Test
-    public void updateScoreTest(){
+    public void updateScoreTest() {
         Board board = new Board(this.integers);
         Assert.assertEquals(board.getScore(), 0);
         try {
@@ -258,8 +306,8 @@ public class BoardTest {
     public void copyBoardTest() {
         Board board = new Board(this.integers);
         List<Field> copyBoard = board.getCopyBoard();
-        for (Pair<Field, Field> item: zip(copyBoard, board.getCopyBoard())) {
-                Assert.assertEquals(item.getLeft(), item.getRight());
+        for (Pair<Field, Field> item : zip(copyBoard, board.getCopyBoard())) {
+            Assert.assertEquals(item.getLeft(), item.getRight());
         }
         copyBoard.get(7).setValue(16);
         // TODO: 03.06.2020 nie przechodzi dlatego ze teraz kopja planszy nie jest kopia
@@ -269,21 +317,82 @@ public class BoardTest {
     }
 
     @Test
-    public void restartGameTest() {
+    public void getScoreTest() {
         Board board = new Board(this.integers);
-        Assert.assertEquals(board.getScore(), 0);
+        Assert.assertEquals(0, board.getScore());
         try {
             board.moveRight();
         } catch (GameOverException e) {
             System.out.println(e.getMessage());
             Assert.fail();
         }
-        Assert.assertEquals(board.getScore(), 12);
-        board.restartGame();
-        // TODO: 03.06.2020 teraz sa 2 nowe pola po resecie
-//        for (Field i : board.getCopyBoard()) {
-//            Assert.assertEquals(i.getValue(), 0);
-//        }
-        Assert.assertEquals(board.getScore(), 0);
+        Assert.assertEquals(12, board.getScore());
     }
+
+    @Test
+    public void restartGameTest() {
+        Board board = new Board(this.integers);
+        Assert.assertEquals(0, board.getScore());
+        try {
+            board.moveRight();
+        } catch (GameOverException e) {
+            System.out.println(e.getMessage());
+            Assert.fail();
+        }
+        Assert.assertEquals(12, board.getScore());
+        board.restartGame();
+        int numberOfNonZeroFields = 0;
+        for (Field i : board.getCopyBoard()) {
+            if(i.getValue() != 0){
+                numberOfNonZeroFields++;
+            }
+        }
+        Assert.assertEquals(board.getScore(), 0);
+        Assert.assertEquals(numberOfNonZeroFields, 2);
+    }
+
+    @Test
+    public void getCopyBoardTest(){
+        Board board = new Board(integers);
+        assertEquals(board, board.getCopyBoard());
+    }
+
+    @Test
+    public void toStringTest(){
+        Board board = new Board(integers);
+        assertEquals(",[0, 2, 2, 2],\n" +
+                ",[2, 0, 2, 0],\n" +
+                ",[2, 2, 4, 2],\n" +
+                ",[0, 0, 8, 0],\n", board.toString());
+    }
+
+    @Test
+    public void equalsTest() {
+        Board board1 = new Board(integers);
+        Board board2 = new Board(integers);
+        assertTrue(board1.equals(board2));
+
+        assertTrue(board1.equals(board1));
+
+        try {
+            board1.moveRight();
+        } catch (GameOverException ignore) {
+        }
+        assertFalse(board1.equals(board2));
+
+        Board board3 = null;
+        assertFalse(board1.equals(board3));
+
+        int a = 3;
+        assertFalse(board1.equals(a));
+    }
+
+    @Test
+    public void hashCodeTest(){
+        Board board1 = new Board(integers);
+        Board board2 = new Board(integers);
+        if (board1.hashCode() != board2.hashCode())
+            assertNotEquals(board1, board2);
+    }
+
 }

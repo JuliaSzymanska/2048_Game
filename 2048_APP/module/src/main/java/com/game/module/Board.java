@@ -287,6 +287,21 @@ public class Board implements Serializable {
         return this.board;
     }
 
+    /**
+     * Checks if game is over.
+     * CALL ONLY BEFORE TRYING TO ADD A NEW FIELD AFTER MOVE
+     *
+     * @throws Exception when there are no empty fields on the board
+     */
+    private void isGameOver() throws GameOverException {
+        for (Field i : this.board) {
+            if (i.getValue() == 0) {
+                return;
+            }
+        }
+        throw new GameOverException("Game over");
+    }
+
     @Override
     public String toString() {
         ToStringBuilder toStringBuilder = new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE);
@@ -315,20 +330,5 @@ public class Board implements Serializable {
         return new HashCodeBuilder(17, 37)
                 .append(this.board)
                 .toHashCode();
-    }
-
-    /**
-     * Checks if game is over.
-     * CALL ONLY BEFORE TRYING TO ADD A NEW FIELD AFTER MOVE
-     *
-     * @throws Exception when there are no empty fields on the board
-     */
-    private void isGameOver() throws GameOverException {
-        for (Field i : this.board) {
-            if (i.getValue() == 0) {
-                return;
-            }
-        }
-        throw new GameOverException("Game over");
     }
 }

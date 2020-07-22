@@ -113,7 +113,7 @@ public class FieldTest {
     @Test
     public void hashCodeTest() {
         Field fieldFirst = new Field(2);
-        Field fieldSecond = new Field(2);
+        Field fieldSecond = new Field(4);
         if (fieldFirst.hashCode() != fieldSecond.hashCode())
             assertNotEquals(fieldFirst, fieldSecond);
     }

@@ -1,25 +1,52 @@
 package com.game.module;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
+
 public class GameTest {
 
-    @Before
-    public void startNewGame() {
-        new Game(false, null).startNewGame();
+    @Test
+    public void gameConstructor(){
+        Game game = new Game(false, null);
+        assertFalse(game.isUserAuthenticated());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void move() {
         Game game = new Game(false, null);
+        int score = game.getCurrentScore();
         try {
             game.move(Game.MOVE_RIGHT);
+            game.move(Game.MOVE_LEFT);
+            game.move(Game.MOVE_UP);
+            game.move(Game.MOVE_DOWN);
+            assertTrue(score < game.getCurrentScore());
+            score = game.getCurrentScore();
         } catch (GameOverException e) {
             Assert.fail();
+        }
+        game.pauseTimer();
+        try {
+            game.move(Game.MOVE_RIGHT);
+            game.move(Game.MOVE_LEFT);
+            game.move(Game.MOVE_UP);
+            game.move(Game.MOVE_DOWN);
+            assertEquals(score, game.getCurrentScore());
+            score = game.getCurrentScore();
+        } catch (GameOverException e) {
+            Assert.fail();
+        }
+        game.unpauseTimer();
+        try {
+            game.move(5);
+        } catch (GameOverException ignore) {
+
         }
     }
 

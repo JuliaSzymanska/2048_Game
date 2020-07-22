@@ -389,8 +389,8 @@ public class BoardTest {
 
     @Test
     public void hashCodeTest(){
-        Board board1 = new Board(integers);
-        Board board2 = new Board(integers);
+        Board board1 = new Board();
+        Board board2 = new Board();
         if (board1.hashCode() != board2.hashCode())
             assertNotEquals(board1, board2);
     }

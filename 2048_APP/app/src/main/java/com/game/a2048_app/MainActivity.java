@@ -124,5 +124,10 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     }
 
+    @Override
+    public void onBackPressed() {
+        System.exit(0);
+    }
+
 }
 

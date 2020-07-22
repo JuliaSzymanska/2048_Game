@@ -31,8 +31,6 @@ import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
 
-import org.w3c.dom.ls.LSOutput;
-
 import java.util.Arrays;
 
 // TODO: 20.07.2020 dzwiek: http://drpetter.se/project_sfxr.html
@@ -139,8 +137,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             builder.setMessage(R.string.dialog_back_question)
                     .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            // TODO: 20.07.2020 tutaj tez powinno byc super.OnBackPressed()
-                            startActivity(new Intent(BoardActivity.this, MainActivity.class));
+                            BoardActivity.super.onBackPressed();
                         }
                     })
                     .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {

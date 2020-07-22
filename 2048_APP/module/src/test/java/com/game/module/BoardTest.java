@@ -354,7 +354,7 @@ public class BoardTest {
     @Test
     public void getCopyBoardTest(){
         Board board = new Board(integers);
-        assertEquals(board, board.getCopyBoard());
+        assertEquals(integers.toString(), board.getCopyBoard().toString());
     }
 
     @Test

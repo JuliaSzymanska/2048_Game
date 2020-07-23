@@ -565,6 +565,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
             i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
             startActivity(i);
+            this.adapter = null;
             restartGame();
         }
         adapter.notifyDataSetChanged();
@@ -658,7 +659,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void restartGame() {
         this.game.restartGame();
         this.setTextScoreText();
-        adapter.notifyDataSetChanged();
+        if(adapter != null ) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void setupSwipeListener() {

@@ -123,7 +123,11 @@ public class Game {
     public void undoPreviousMove() {
         this.gameBoard.undoPreviousMove();
     }
-    
+
+    public int getAvaiableUndoAmount() {
+        return this.gameBoard.getAvaiableUndoAmount();
+    }
+
     private void saveGame() {
         if (this.context != null && this.isUserAuthenticated) {
             try (Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {

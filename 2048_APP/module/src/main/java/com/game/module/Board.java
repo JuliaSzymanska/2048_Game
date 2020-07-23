@@ -20,8 +20,10 @@ public class Board implements Serializable {
     private List<List<Field>> previousBoards = new ArrayList<>();
     private List<Integer> previousScores = new ArrayList<>();
     private int score = 0;
-    private final int BOARD_DIMENSIONS = 4;
-    private final int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
+    private final static int BOARD_DIMENSIONS = 4;
+    private final static int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
+
+    private final static int PREVIOUS_BOARDS_STORED_AMOUNT = 1;
 
     public Board() {
         this.board = newFieldsList();
@@ -73,6 +75,10 @@ public class Board implements Serializable {
 
     int getScore() {
         return score;
+    }
+
+    int getAvaiableUndoAmount() {
+        return this.previousBoards.size();
     }
 
     private void updateScore(int scoreDelta) {
@@ -147,6 +153,10 @@ public class Board implements Serializable {
     private void appendPreviousBoardToHistory() {
         this.previousBoards.add(this.getCopyBoard());
         this.previousScores.add(this.score);
+        if (this.previousBoards.size() > PREVIOUS_BOARDS_STORED_AMOUNT) {
+            this.previousBoards.remove(0);
+            this.previousScores.remove(0);
+        }
     }
 
     private static <A, B> List<Pair<A, B>> zip(List<A> listA, List<B> listB) {

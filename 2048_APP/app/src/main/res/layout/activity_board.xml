@@ -124,11 +124,12 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/settings"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.04"
         app:layout_constraintHorizontal_bias="0.924"
         app:layout_constraintStart_toStartOf="@+id/pausePlayButton"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.09" />
+        app:layout_constraintWidth_percent="0.09
+"
+        app:layout_constraintDimensionRatio="1:1"/>
 
     <Button
         android:id="@+id/pausePlayButton"
@@ -137,10 +138,11 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/pause_play"
         app:layout_constraintEnd_toStartOf="@+id/settingsButton"
-        app:layout_constraintHeight_percent="0.045"
         app:layout_constraintStart_toEndOf="@+id/restartGameButton"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.09" />
+        app:layout_constraintWidth_percent="0.09"
+        app:layout_constraintDimensionRatio="1:1"
+        />
 
     <Button
         android:id="@+id/undoMoveButton"
@@ -149,10 +151,10 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/undo"
-        app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.07" />
+        app:layout_constraintWidth_percent="0.07"
+        app:layout_constraintDimensionRatio="1:1"/>
 
     <!-- <TextView
     android:id="@+id/mTextSensorAzimuth"

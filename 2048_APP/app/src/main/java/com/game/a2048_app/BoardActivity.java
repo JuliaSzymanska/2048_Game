@@ -220,7 +220,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 }
             });
             builder.setCancelable(false);
-            builder.setTitle("Which sensors to enable?");
+            builder.setTitle(R.string.settings_menu_title);
             builder.setPositiveButton(getResources().getString(R.string.dialog_accept), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -239,12 +239,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void onShow(DialogInterface dialog) {
                     for (int position = 0; position < alertDialogList.getChildCount(); position++) {
-                        // TODO: 20.07.2020 trzeba bedzie to zmienic, chciałeś jakoś tak:
-                        //  wypełnić array wartościami z string.xml i sprwadzac czy pole array jest rowne stringowi ze string.xml ktory ma odpowiedni klucz
-                        if ((mSensorAccelerometer == null && getResources().getStringArray(R.array.sensors)[position].equals("Accelerometer + Gyroscope"))
-                                || (mSensorMagnetometer == null && getResources().getStringArray(R.array.sensors)[position].equals("Magnetometer"))
-                                || mSensorLight == null && getResources().getStringArray(R.array.sensors)[position].equals("Light sensor")
-                                || mSensorProximity == null && getResources().getStringArray(R.array.sensors)[position].equals("Proximity sensor")) {
+                        // TODO: 23.07.2020 Zobaczyć czy dziala
+                        if ((mSensorAccelerometer == null && getResources().getStringArray(R.array.sensors)[position]
+                                .equals(getResources().getString(R.string.Gyroscope_And_Accelerometer_Settings))
+                                || (mSensorMagnetometer == null && getResources().getStringArray(R.array.sensors)[position]
+                                .equals(getResources().getString(R.string.Magnetometer_Settings))
+                                || mSensorLight == null && getResources().getStringArray(R.array.sensors)[position]
+                                .equals(getResources().getString(R.string.Light_Sensor_Settings))
+                                || mSensorProximity == null && getResources().getStringArray(R.array.sensors)[position]
+                                .equals(getResources().getString(R.string.Proximity_Sensor_Settings))))) {
                             alertDialogList.getChildAt(position).setEnabled(false);
                             alertDialogList.getChildAt(position).setOnClickListener(null);
                         }
@@ -547,9 +550,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         } catch (GameOverException e) {
             e.printStackTrace();
             Intent i = new Intent(BoardActivity.this, EndGame.class);
-            i.putExtra(String.valueOf(R.string.score), Integer.toString(game.getCurrentScore()));
-            i.putExtra(String.valueOf(R.string.high_score), Integer.toString(game.getHighScore()));
-            i.putExtra(String.valueOf(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
+            i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getCurrentScore()));
+            i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
+            i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
             startActivity(i);
             restartGame();
         }

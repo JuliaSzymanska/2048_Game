@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="sensors">
-        <item>Accelerometer + Gyroscope</item>
-        <item>Magnetometer</item>
-        <item>Light sensor</item>
-        <item>Proximity sensor</item>
+        <item>@string/Gyroscope_And_Accelerometer_Settings</item>
+        <item>@string/Magnetometer_Settings</item>
+        <item>@string/Light_Sensor_Settings</item>
+        <item>@string/Proximity_Sensor_Settings</item>
     </string-array>
 </resources>

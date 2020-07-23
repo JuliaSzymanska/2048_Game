@@ -16,4 +16,9 @@
     <string name="high_score">High score</string>
     <string name="authentication">Authentication</string>
     <string name="dialog_back_question">Are you sure you want to exit?\nYour game will not be saved.</string>
+    <string name="settings_menu_title">Which functions to enable?</string>
+    <string name="Gyroscope_And_Accelerometer_Settings">Controlling the game by moving the phone</string>
+    <string name="Magnetometer_Settings">Fields Change Colours Based on Orientation</string>
+    <string name="Light_Sensor_Settings">Darkmode controlled by light level</string>
+    <string name="Proximity_Sensor_Settings">Pausing game when an object is detected by proximity sensor</string>
 </resources>

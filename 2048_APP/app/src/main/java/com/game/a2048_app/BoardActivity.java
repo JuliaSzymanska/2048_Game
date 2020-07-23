@@ -316,8 +316,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 viewHolder.textViewItem.setBackgroundResource(mThumbIds);
                 viewHolder.imageViewItem.setTag(position);
                 viewHolder.imageViewItem.setImageResource(fieldsImages[position]);
-                viewHolder.imageViewItem.setScaleType(ImageView.ScaleType.FIT_XY);
-
                 return convertView;
             }
 

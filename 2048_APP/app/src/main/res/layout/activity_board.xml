@@ -10,65 +10,59 @@
 
     <ImageView
         android:id="@+id/darkThemeView"
-        android:elevation="4dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/scoreBoard"
-        android:layout_width="362dp"
-        android:layout_height="209dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/gridView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.551"
+        app:layout_constraintHeight_percent="0.23"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/restartGameButton"
-        app:layout_constraintVertical_bias="0.615"
+        app:layout_constraintWidth_percent="1.2"
         app:srcCompat="@drawable/score_board" />
 
     <Button
         android:id="@+id/restartGameButton"
         style="@android:style/Widget.Material.Light.Button"
-        android:layout_width="182dp"
-        android:layout_height="74dp"
-        android:layout_marginStart="114dp"
-        android:layout_marginTop="61dp"
-        android:layout_marginEnd="115dp"
-        android:layout_marginBottom="75dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/main_activity_button"
         android:fadingEdge="horizontal"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/restart_game"
         android:textColor="#075275"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/score"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.11"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.39" />
+        app:layout_constraintTop_toBottomOf="@+id/pausePlayButton"
+        app:layout_constraintWidth_percent="0.6" />
 
     <GridView
         android:id="@+id/gridView"
-        android:layout_width="368dp"
-        android:layout_height="413dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="400dp"
-        android:layout_marginEnd="30dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:clickable="false"
         android:gravity="center"
         android:numColumns="4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintHeight_percent="0.57"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" >
-
-    </GridView>
+        app:layout_constraintWidth_percent="1.2" />
 
     <TextView
         android:id="@+id/score"
@@ -84,7 +78,6 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -124,30 +117,28 @@
 
     <Button
         android:id="@+id/settingsButton"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="305dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/settings"
-        app:layout_constraintBottom_toTopOf="@+id/restartGameButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.04"
         app:layout_constraintHorizontal_bias="0.924"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/pausePlayButton"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintWidth_percent="0.09" />
 
     <Button
         android:id="@+id/pausePlayButton"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="270dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
         android:background="@drawable/pause_play"
-        app:layout_constraintBottom_toTopOf="@+id/restartGameButton"
         app:layout_constraintEnd_toStartOf="@+id/settingsButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHeight_percent="0.045"
+        app:layout_constraintStart_toEndOf="@+id/restartGameButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.09" />
 
     <!-- <TextView
     android:id="@+id/mTextSensorAzimuth"

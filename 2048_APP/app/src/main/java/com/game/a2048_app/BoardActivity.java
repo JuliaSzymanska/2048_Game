@@ -189,6 +189,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
         pausePlayButton.setOnClickListener(playPauseListener);
         darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
+        ImageView scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
+        scoreBoard.setScaleType(ImageView.ScaleType.FIT_XY);
         this.setTheme();
         adapter.notifyDataSetChanged();
     }
@@ -314,6 +316,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 viewHolder.textViewItem.setBackgroundResource(mThumbIds);
                 viewHolder.imageViewItem.setTag(position);
                 viewHolder.imageViewItem.setImageResource(fieldsImages[position]);
+                viewHolder.textViewItem.setScaleX((float) 1.1);
 
                 return convertView;
             }

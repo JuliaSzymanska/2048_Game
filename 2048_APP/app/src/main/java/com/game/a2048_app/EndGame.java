@@ -19,6 +19,8 @@ public class EndGame extends AppCompatActivity {
     //  - Poziomy trudnośći (rozmiar planszy)
     //  - Jeżeli poziomy trudności czy tam tryby gry no to trzeba grafikę dla wyższych wartości, większych niż 2048
     //  - dodać 'cel' punktowy dla poziomów trudności
+    //  - animacja klockow
+    //  - po uzyskaniu 2048 gra dalej
 
     private String score;
     private String highScore;

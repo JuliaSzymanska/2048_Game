@@ -45,6 +45,7 @@ public class EndGame extends AppCompatActivity {
         } else {
             darkThemeView.setImageResource(R.drawable.dark_theme_off);
         }
+        darkThemeView.setScaleType(ImageView.ScaleType.FIT_XY);
     }
 
     void setTextScoreText() {

@@ -199,6 +199,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         } else {
             darkThemeView.setImageResource(R.drawable.dark_theme_off);
         }
+        darkThemeView.setScaleType(ImageView.ScaleType.FIT_XY);
     }
 
     private View.OnClickListener restartGameListener = new View.OnClickListener() {

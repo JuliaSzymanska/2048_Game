@@ -9,10 +9,11 @@
 
     <ImageView
         android:id="@+id/darkThemeView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,7 +22,7 @@
         style="@android:style/Widget.Material.Light.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="500dp"
         android:background="#875F5F"
         android:fadingEdge="horizontal"
         android:fontFamily="sans-serif-condensed-medium"
@@ -32,14 +33,14 @@
         app:layout_constraintTop_toBottomOf="@+id/startGameButton" />
 
     <ImageView
+        android:id="@+id/logo"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_marginBottom="280dp"
         android:src="@drawable/main_activity_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/startGameButton"
         tools:ignore="ContentDescription,MissingConstraints" />
 
     <Button
@@ -47,27 +48,14 @@
         style="@android:style/Widget.Material.Light.Button"
         android:layout_width="218dp"
         android:layout_height="74dp"
-        android:layout_marginTop="180dp"
         android:fadingEdge="horizontal"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/start_game"
         android:textColor="#075275"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/authenticateButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/informationOfFingerPrint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/startGameButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleLabel"
-        tools:ignore="UnknownId" />
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

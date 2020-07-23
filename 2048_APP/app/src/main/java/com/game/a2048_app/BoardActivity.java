@@ -197,7 +197,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         } else {
             darkThemeView.setImageResource(R.drawable.dark_theme_off);
         }
-        darkThemeView.setScaleType(ImageView.ScaleType.FIT_XY);
+        // TODO: 23.07.2020 przeniosłem to do .xml, mam nadzieję że działa.
+        //  jeśli działa to wszystko trzeba do .xml przenieść żeby był porządek
+//        darkThemeView.setScaleType(ImageView.ScaleType.FIT_XY);
     }
 
     private View.OnClickListener restartGameListener = new View.OnClickListener() {

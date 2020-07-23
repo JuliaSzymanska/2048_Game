@@ -50,6 +50,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private ArrayAdapter<Integer> adapter;
     private GridView gridView;
     private ImageView darkThemeView;
+    private ImageView scoreBoard;
     private Field[] fields;
     private Integer[] fieldsImages;
     private Integer mThumbIds = R.drawable.button_green;
@@ -185,7 +186,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
         pausePlayButton.setOnClickListener(playPauseListener);
         darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
-        ImageView scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
+        scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
         this.setTheme();
         adapter.notifyDataSetChanged();
     }

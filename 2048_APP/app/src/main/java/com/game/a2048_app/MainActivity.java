@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
             Intent i = new Intent(MainActivity.this, BoardActivity.class);
             i.putExtra(String.valueOf(R.string.authentication), Boolean.toString(authentication));
             startActivity(i);
-//            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
     };
 
@@ -127,7 +126,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     @Override
     public void onBackPressed() {
-        System.exit(0);
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
     }
 
 }

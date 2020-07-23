@@ -136,13 +136,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
         android:background="@drawable/pause_play"
-        app:layout_constraintEnd_toStartOf="@+id/settingsButton"
-        app:layout_constraintStart_toEndOf="@+id/restartGameButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.09"
         app:layout_constraintDimensionRatio="1:1"
-        />
+        app:layout_constraintEnd_toStartOf="@+id/settingsButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.09" />
 
     <Button
         android:id="@+id/undoMoveButton"

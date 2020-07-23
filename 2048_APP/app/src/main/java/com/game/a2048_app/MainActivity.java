@@ -72,14 +72,12 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     private void configureStartGameButton() {
         Button startGame = (Button) findViewById(R.id.startGameButton);
-        startGame.setBackgroundResource(R.drawable.main_activity_button);
         startGame.setOnClickListener(initializeBoardActivity);
     }
 
     private void configureAuthenticateButton() {
         Button authenticationButton = (Button) findViewById(R.id.authenticateButton);
         if (isFingerPrintSensorAvailable(this)) {
-            authenticationButton.setBackgroundResource(R.drawable.fingerprint);
             authenticationButton.setOnClickListener(authenticationListener);
         } else {
             authenticationButton.setVisibility(View.GONE);

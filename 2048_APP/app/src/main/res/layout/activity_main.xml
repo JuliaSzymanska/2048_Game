@@ -21,17 +21,17 @@
     <Button
         android:id="@+id/authenticateButton"
         style="@android:style/Widget.Material.Light.Button"
+        android:background="@drawable/fingerprint"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.11"
         app:layout_constraintWidth_percent="0.20"
-        android:background="#875F5F"
         android:fadingEdge="horizontal"
         android:fontFamily="sans-serif-condensed-medium"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintTop_toBottomOf="@+id/startGameButton" />
 
     <ImageView
@@ -50,6 +50,7 @@
     <Button
         android:id="@+id/startGameButton"
         style="@android:style/Widget.Material.Light.Button"
+        android:background="@drawable/main_activity_button"
         android:fadingEdge="horizontal"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/start_game"

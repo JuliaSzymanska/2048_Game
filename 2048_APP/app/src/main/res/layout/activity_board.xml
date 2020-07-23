@@ -14,19 +14,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="4dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        android:scaleType="fitXY"/>
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/scoreBoard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.23"
         app:layout_constraintHorizontal_bias="1.0"
@@ -38,18 +39,22 @@
     <Button
         android:id="@+id/restartGameButton"
         style="@android:style/Widget.Material.Light.Button"
-        android:layout_width="0dp"
+        android:layout_width="246dp"
         android:layout_height="0dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="624dp"
         android:background="@drawable/main_activity_button"
         android:fadingEdge="horizontal"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/restart_game"
         android:textColor="#075275"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.11"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pausePlayButton"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.6" />
 
     <GridView
@@ -61,8 +66,10 @@
         android:numColumns="4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scoreBoard" />
+        app:layout_constraintTop_toBottomOf="@+id/scoreBoard"
+        app:layout_constraintVertical_bias="0.6" />
 
     <TextView
         android:id="@+id/score"

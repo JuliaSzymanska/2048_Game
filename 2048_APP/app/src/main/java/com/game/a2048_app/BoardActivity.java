@@ -186,7 +186,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         pausePlayButton.setOnClickListener(playPauseListener);
         darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         ImageView scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
-        scoreBoard.setScaleType(ImageView.ScaleType.FIT_XY);
         this.setTheme();
         adapter.notifyDataSetChanged();
     }
@@ -199,7 +198,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
         // TODO: 23.07.2020 przeniosłem to do .xml, mam nadzieję że działa.
         //  jeśli działa to wszystko trzeba do .xml przenieść żeby był porządek
-//        darkThemeView.setScaleType(ImageView.ScaleType.FIT_XY);
     }
 
     private View.OnClickListener restartGameListener = new View.OnClickListener() {

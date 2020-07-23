@@ -29,7 +29,7 @@ import me.aflak.libraries.dialog.FingerprintDialog;
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback {
 
     MainActivity mainActivity = this;
-    Boolean authentication = false;
+    Boolean isAuthenticated = false;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         @Override
         public void onClick(View v) {
             Intent i = new Intent(MainActivity.this, BoardActivity.class);
-            i.putExtra(String.valueOf(R.string.authentication), Boolean.toString(authentication));
+            i.putExtra(String.valueOf(R.string.authentication), Boolean.toString(isAuthenticated));
             startActivity(i);
         }
     };
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     @Override
     public void onAuthenticationSucceeded() {
-        this.authentication = true;
+        this.isAuthenticated = true;
     }
 
     @Override

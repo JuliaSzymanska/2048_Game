@@ -123,11 +123,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.loadData();
         this.prepareViews();
         this.prepareSensors();
-
-
-        // TODO: 12.07.2020 should probably not be in a different file in such a convoluted function
-        OnSwipeTouchListener.setupListener(this.onSwipeTouchListener, this.gridView,
-                this, this.game, this.adapter, this.textScore, this.textHighScore);
     }
 
     @Override
@@ -179,6 +174,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void prepareViews() {
         gridView = (GridView) findViewById(R.id.gridView);
         this.prepareGrid();
+        this.setupSwipeListener();
         textTime = (TextView) findViewById(R.id.time);
         prepareScoreText();
         prepareHighscoreText();
@@ -647,6 +643,32 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.game.restartGame();
         this.setTextScoreText();
         adapter.notifyDataSetChanged();
+    }
+
+    private void setupSwipeListener() {
+        onSwipeTouchListener = new OnSwipeTouchListener(this, this.gridView);
+        final BoardActivity boardActivity = this;
+        onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
+            @Override
+            public void swipeRight() {
+                boardActivity.move(BoardActivity.MOVE_RIGHT);
+            }
+
+            @Override
+            public void swipeTop() {
+                boardActivity.move(BoardActivity.MOVE_UP);
+            }
+
+            @Override
+            public void swipeBottom() {
+                boardActivity.move(BoardActivity.MOVE_DOWN);
+            }
+
+            @Override
+            public void swipeLeft() {
+                boardActivity.move(BoardActivity.MOVE_LEFT);
+            }
+        };
     }
 
 

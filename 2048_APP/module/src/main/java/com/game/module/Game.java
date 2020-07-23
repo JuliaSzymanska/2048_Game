@@ -197,7 +197,12 @@ public class Game {
     }
 
 
+    // TODO: 23.07.2020 usunac duplikaty
     public int getCurrentScore() {
+        return this.gameBoard.getScore();
+    }
+
+    public int getScore() {
         return this.gameBoard.getScore();
     }
 

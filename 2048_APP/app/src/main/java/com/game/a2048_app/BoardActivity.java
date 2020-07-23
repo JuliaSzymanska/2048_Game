@@ -217,6 +217,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             game.undoPreviousMove();
             adapter.notifyDataSetChanged();
             setScoreTexts();
+            // TODO: 23.07.2020 tutaj robisz coś mniewiecej jak w komentarzu
+            //  i oczywiście trzeba sprawdzać czy to jest 0 i jeslli 0 to szare czy cos takiego
+            // this.undoCountTextFieldCosTakiego.setText(this.game.getAvaiableUndoAmount());
         }
     };
 
@@ -571,6 +574,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
         adapter.notifyDataSetChanged();
         this.setScoreTexts();
+        // TODO: 23.07.2020 tutaj robisz coś mniewiecej jak w komentarzu
+        // this.undoCountTextFieldCosTakiego.setText(this.game.getAvaiableUndoAmount());
     }
 
     private class DarkMode implements Runnable {

@@ -41,7 +41,7 @@ public class Game {
 
     private final static int SAVE_GAME_DELAY_SECONDS = 2;
 
-    private final Thread saveGameBackgroundThread;
+    private Thread saveGameBackgroundThread;
 
     public Game(boolean isUserAuthenticated, @Nullable Context context) {
         this.setUserAuthenticated(isUserAuthenticated);
@@ -175,6 +175,7 @@ public class Game {
         if (!this.isSuspended) {
             this.isSuspended = true;
             this.pausedTimeDuration = System.nanoTime() - this.gameBeginTime;
+            this.saveGameBackgroundThread.interrupt();
         }
     }
 
@@ -183,6 +184,10 @@ public class Game {
             this.isSuspended = false;
             this.gameBeginTime = System.nanoTime() - this.pausedTimeDuration;
             this.pausedTimeDuration = 0;
+            if (this.saveGameBackgroundThread.isInterrupted()) {
+                // TODO: 23.07.2020 nie jestem pewien czy to takie dobre jest 
+                this.saveGameBackgroundThread = new Thread(this.saveGameBackgroundRunnable);
+            }
         }
     }
 

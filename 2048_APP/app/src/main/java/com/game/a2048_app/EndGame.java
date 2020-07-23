@@ -13,14 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 public class EndGame extends AppCompatActivity {
 
     // TODO: 23.07.2020  Julia work list:
-    //  - Ikonka do undo wraz z liczbą cofnięć
     //  - Azymunt do zmiany kolorów
-    //  - Pójśc zmn na piwo
-    //  - Poziomy trudnośći (rozmiar planszy)
-    //  - Jeżeli poziomy trudności czy tam tryby gry no to trzeba grafikę dla wyższych wartości, większych niż 2048
-    //  - dodać 'cel' punktowy dla poziomów trudności
     //  - animacja klockow
     //  - po uzyskaniu 2048 gra dalej
+    //  - javaDoc
 
     private String score;
     private String highScore;

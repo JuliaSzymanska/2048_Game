@@ -154,7 +154,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             this.choosenSensors[i] = preferences.getBoolean(sensorNames[i], false);
         }
         this.isDarkTheme = preferences.getBoolean(getResources().getString(R.string.dark_theme), false);
-        this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(String.valueOf(R.string.authentication))), this);
+        this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(getResources().getString(R.string.authentication))), this);
         this.fields = game.getCopyOfTheBoard().toArray(new Field[0]);
         this.fieldsImages = new Integer[fields.length];
         Arrays.fill(fieldsImages, R.drawable.zero);

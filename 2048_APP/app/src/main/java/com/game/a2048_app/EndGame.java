@@ -20,9 +20,10 @@ public class EndGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        score = intent.getStringExtra(String.valueOf(R.string.score));
-        highScore = intent.getStringExtra(String.valueOf(R.string.high_score));
+        score = intent.getStringExtra(getResources().getString(R.string.score));
+        highScore = intent.getStringExtra(getResources().getString(R.string.high_score));
         authentication = Boolean.parseBoolean(intent.getStringExtra(String.valueOf(R.string.authentication)));
+        authentication = Boolean.parseBoolean(intent.getStringExtra(getResources().getString(R.string.authentication)));
         setContentView(R.layout.activity_end_game);
         Button homePage = findViewById(R.id.homePage);
         homePage.setOnClickListener(initializeBoardActivity);

@@ -68,52 +68,46 @@
         android:id="@+id/score"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="192dp"
-        android:layout_marginBottom="530dp"
+        android:layout_marginStart="10dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:textAlignment="center"
         android:textColor="#075275"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/scoreBoard"
+        app:layout_constraintEnd_toEndOf="@+id/scoreBoard"
+        app:layout_constraintStart_toStartOf="@+id/scoreBoard"
+        app:layout_constraintTop_toTopOf="@+id/scoreBoard" />
 
     <TextView
         android:id="@+id/highScore"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="192dp"
-        android:layout_marginBottom="530dp"
+        android:layout_marginStart="15dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:textAlignment="center"
         android:textColor="#075275"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/scoreBoard"
         app:layout_constraintEnd_toStartOf="@+id/score"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/scoreBoard" />
 
     <TextView
         android:id="@+id/time"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="192dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="530dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:textAlignment="center"
         android:textColor="#075275"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/scoreBoard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/score"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/scoreBoard" />
 
     <Button
         android:id="@+id/settingsButton"

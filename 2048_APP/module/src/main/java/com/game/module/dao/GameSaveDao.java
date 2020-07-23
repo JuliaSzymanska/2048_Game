@@ -3,6 +3,8 @@ package com.game.module.dao;
 import android.content.Context;
 import android.util.Pair;
 
+import androidx.annotation.Nullable;
+
 import com.game.module.Board;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -28,6 +30,7 @@ class GameSaveDao implements Dao<Board, Integer, Long> {
         this.context = context;
     }
 
+    @Nullable
     @Override
     public Triple<Board, Integer, Long> read() throws IOException, ClassNotFoundException, NullPointerException {
         try(FileInputStream fileInputStream = context.openFileInput(filename);

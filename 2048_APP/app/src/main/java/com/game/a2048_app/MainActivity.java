@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     public void onBackPressed() {
         moveTaskToBack(true);
         android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(1);
+        System.exit(0);
     }
 
 }

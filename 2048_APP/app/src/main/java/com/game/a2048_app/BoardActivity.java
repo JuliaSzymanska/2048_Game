@@ -417,7 +417,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             public void run() {
                 while (!isInterrupted()) {
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(200);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

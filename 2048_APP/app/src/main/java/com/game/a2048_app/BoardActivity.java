@@ -79,7 +79,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView textTime;
 
     private Button restartGameButton;
-    Button pausePlayButton;
+    private Button pausePlayButton;
+    private Button undoButton;
 
     private Thread updateTimeThread;
 
@@ -183,12 +184,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.restartGameButton.setOnClickListener(restartGameListener);
         Button settingsButton = (Button) findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(settingsListener);
-        Button undoButton = (Button) findViewById(R.id.undoMoveButton);
+        undoButton = (Button) findViewById(R.id.undoMoveButton);
         undoButton.setOnClickListener(undoListener);
+        undoButton.setBackgroundResource(R.drawable.undo_zero);
         pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
         pausePlayButton.setOnClickListener(playPauseListener);
         darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
+
         this.setTheme();
         adapter.notifyDataSetChanged();
     }
@@ -217,11 +220,28 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             game.undoPreviousMove();
             adapter.notifyDataSetChanged();
             setScoreTexts();
-            // TODO: 23.07.2020 tutaj robisz coś mniewiecej jak w komentarzu
-            //  i oczywiście trzeba sprawdzać czy to jest 0 i jeslli 0 to szare czy cos takiego
-            // this.undoCountTextFieldCosTakiego.setText(this.game.getAvaiableUndoAmount());
+            setUndoResource();
         }
     };
+
+    private void setUndoResource(){
+        switch (BoardActivity.this.game.getAvaiableUndoAmount()){
+            case 0:
+                undoButton.setBackgroundResource(R.drawable.undo_zero);
+                break;
+            case 1:
+                undoButton.setBackgroundResource(R.drawable.undo_one);
+                break;
+            case 2:
+                undoButton.setBackgroundResource(R.drawable.undo_two);
+                break;
+            case 3:
+                undoButton.setBackgroundResource(R.drawable.undo_three);
+                break;
+            default:
+                // TODO: 24.07.2020 tutaj jakis exception
+        }
+    }
 
     private View.OnClickListener settingsListener = new View.OnClickListener() {
         @Override
@@ -574,8 +594,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
         adapter.notifyDataSetChanged();
         this.setScoreTexts();
-        // TODO: 23.07.2020 tutaj robisz coś mniewiecej jak w komentarzu
-        // this.undoCountTextFieldCosTakiego.setText(this.game.getAvaiableUndoAmount());
+        setUndoResource();
     }
 
     private class DarkMode implements Runnable {

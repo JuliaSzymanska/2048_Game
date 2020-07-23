@@ -23,7 +23,7 @@ public class Board implements Serializable {
     private final static int BOARD_DIMENSIONS = 4;
     private final static int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
 
-    private final static int PREVIOUS_BOARDS_STORED_AMOUNT = 1;
+    private final static int PREVIOUS_BOARDS_STORED_AMOUNT = 3;
 
     public Board() {
         this.board = newFieldsList();

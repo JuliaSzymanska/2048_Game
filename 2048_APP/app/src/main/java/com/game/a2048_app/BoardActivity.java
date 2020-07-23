@@ -565,6 +565,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
             i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
             startActivity(i);
+            // FIXME: 23.07.2020 TO JEST TAKIE XD ale no działa i dzięki temu się nie psuje display po koncu gry xD
             this.adapter = null;
             restartGame();
         }

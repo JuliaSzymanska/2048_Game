@@ -93,7 +93,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
 
     onSwipeListener onSwipe;
 
-    // FIXME: 13.07.2020 wrócić do BoardActivity
+    // FIXME: 13.07.2020 wrócić do BoardActivity --- ?
     static void setupListener(OnSwipeTouchListener onSwipeTouchListener, final View view, final BoardActivity boardActivity,
                               final Game game, final ArrayAdapter<Integer> adapter,
                               final TextView score, final TextView highScore) {

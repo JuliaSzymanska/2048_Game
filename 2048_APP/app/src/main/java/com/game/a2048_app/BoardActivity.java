@@ -316,8 +316,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 viewHolder.textViewItem.setBackgroundResource(mThumbIds);
                 viewHolder.imageViewItem.setTag(position);
                 viewHolder.imageViewItem.setImageResource(fieldsImages[position]);
-//                viewHolder.textViewItem.setScaleX((float) 0.9);
-//                viewHolder.textViewItem.setScaleY((float) 0.9);
                 viewHolder.imageViewItem.setScaleType(ImageView.ScaleType.FIT_XY);
 
                 return convertView;
@@ -337,7 +335,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         gridView.setAdapter(adapter);
     }
 
-    // TODO: 15.07.2020 bardzo mi się to nie podoba, ale chwilowo nic innego nie przychodzi mi do głowy
     private void setFieldsImages() {
         for (int i = 0; i < fields.length; i++) {
             switch (fields[i].getValue()) {
@@ -413,10 +410,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
 
         this.game.unpauseTimer();
-        this.beginUpdateTime();
+        this.beginUpdatingTime();
     }
 
-    private void beginUpdateTime() {
+    private void beginUpdatingTime() {
         updateTimeThread = new Thread() {
             @Override
             public void run() {

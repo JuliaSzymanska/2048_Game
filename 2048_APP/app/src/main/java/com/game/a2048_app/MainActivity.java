@@ -26,8 +26,6 @@ import me.aflak.libraries.dialog.FingerprintDialog;
 
 // TODO: 19.07.2020 spojrzeć na bindingi
 
-// TODO: 20.07.2020 https://www.youtube.com/watch?v=0s6x3Sn4eYo - animacja przejść między activites
-
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback {
 
     MainActivity mainActivity = this;

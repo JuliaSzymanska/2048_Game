@@ -183,6 +183,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.restartGameButton.setOnClickListener(restartGameListener);
         Button settingsButton = (Button) findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(settingsListener);
+        Button undoButton = (Button) findViewById(R.id.undoMoveButton);
+        undoButton.setOnClickListener(undoListener);
         pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
         pausePlayButton.setOnClickListener(playPauseListener);
         darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
@@ -190,6 +192,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.setTheme();
         adapter.notifyDataSetChanged();
     }
+
 
     private void setTheme() {
         if (this.isDarkTheme) {
@@ -205,6 +208,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             restartGame();
+        }
+    };
+
+    private View.OnClickListener undoListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            game.undoPreviousMove();
+            adapter.notifyDataSetChanged();
+            setScoreTexts();
         }
     };
 

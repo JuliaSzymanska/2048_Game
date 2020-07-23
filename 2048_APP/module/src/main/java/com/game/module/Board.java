@@ -5,16 +5,20 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Board implements Serializable {
 
     private List<Field> board;
+    private List<List<Field>> previousBoards = new ArrayList<>();
+    private List<Integer> previousScores = new ArrayList<>();
     private int score = 0;
     private final int BOARD_DIMENSIONS = 4;
     private final int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
@@ -140,8 +144,40 @@ public class Board implements Serializable {
                 Arrays.asList(new Field[BOARD_DIMENSIONS]));
     }
 
+    private void appendPreviousBoardToHistory() {
+        this.previousBoards.add(this.getCopyBoard());
+        this.previousScores.add(this.score);
+    }
+
+    private static <A, B> List<Pair<A, B>> zip(List<A> listA, List<B> listB) {
+        if (listA.size() != listB.size()) {
+            throw new IllegalArgumentException("Lists must have same size");
+        }
+
+        List<Pair<A, B>> pairList = new LinkedList<>();
+
+        for (int index = 0; index < listA.size(); index++) {
+            pairList.add(Pair.of(listA.get(index), listB.get(index)));
+        }
+        return pairList;
+    }
+
+    void undoPreviousMove() {
+        if (this.previousBoards.size() == 0) {
+            return;
+        }
+        List<Field> previousBoard = this.previousBoards.get(this.previousBoards.size() - 1);
+        for (Pair<Field, Field> item : zip(previousBoard, this.board)) {
+            item.getRight().setValue(item.getLeft().getValue());
+        }
+        this.score = this.previousScores.get(this.previousScores.size() - 1);
+        this.previousBoards.remove(this.previousBoards.size() - 1);
+        this.previousScores.remove(this.previousScores.size() - 1);
+    }
+
     // TODO: 31.05.2020 Przemek skroc to tak jak sb wymarzyles
     void moveRight() throws GameOverException {
+        this.appendPreviousBoardToHistory();
         List<List<Field>> rows = get2dList();
         List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
@@ -153,6 +189,7 @@ public class Board implements Serializable {
     }
 
     void moveLeft() throws GameOverException {
+        this.appendPreviousBoardToHistory();
         List<List<Field>> rows = get2dList();
         List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
@@ -166,6 +203,7 @@ public class Board implements Serializable {
     }
 
     void moveDown() throws GameOverException {
+        this.appendPreviousBoardToHistory();
         List<List<Field>> cols = get2dList();
         List<Field> col;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
@@ -177,6 +215,7 @@ public class Board implements Serializable {
     }
 
     void moveUp() throws GameOverException {
+        this.appendPreviousBoardToHistory();
         List<List<Field>> cols = get2dList();
         List<Field> col;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
@@ -277,8 +316,16 @@ public class Board implements Serializable {
         removeZerosInMove(fieldsList);
     }
 
+    private List<Field> getCopyBoard() {
+        List<Field> cloneBoard = newFieldsList();
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            cloneBoard.get(i).setValue(this.board.get(i).getValue());
+        }
+        return cloneBoard;
+    }
 
-    public List<Field> getCopyBoard() {
+
+    public List<Field> getBoard() {
 //        List<Field> cloneBoard = newFieldsList();
 //        for (int i = 0; i < BOARD_SIZE; i++) {
 //            cloneBoard.get(i).setValue(this.board.get(i).getValue());

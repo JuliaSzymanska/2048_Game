@@ -62,7 +62,7 @@ public class Game {
 
 
     public List<Field> getCopyOfTheBoard() {
-        return gameBoard.getCopyBoard();
+        return gameBoard.getBoard();
     }
 
     public void move(int direction) throws GameOverException {
@@ -120,7 +120,10 @@ public class Game {
         }
     };
 
-
+    public void undoPreviousMove() {
+        this.gameBoard.undoPreviousMove();
+    }
+    
     private void saveGame() {
         if (this.context != null && this.isUserAuthenticated) {
             try (Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {

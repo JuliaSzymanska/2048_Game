@@ -36,6 +36,7 @@
         app:layout_constraintWidth_percent="1.2"
         app:srcCompat="@drawable/score_board" />
 
+
     <Button
         android:id="@+id/restartGameButton"
         style="@android:style/Widget.Material.Light.Button"
@@ -140,6 +141,19 @@
         app:layout_constraintStart_toEndOf="@+id/restartGameButton"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.09" />
+
+    <Button
+        android:id="@+id/undoMoveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="323dp"
+        android:layout_marginBottom="646dp"
+        android:text="@string/undoButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- <TextView
     android:id="@+id/mTextSensorAzimuth"

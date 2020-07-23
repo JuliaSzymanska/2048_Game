@@ -19,9 +19,9 @@ public class EndGame extends AppCompatActivity {
     //  - Poziomy trudnośći (rozmiar planszy)
     //  - Jeżeli poziomy trudności czy tam tryby gry no to trzeba grafikę dla wyższych wartości, większych niż 2048
 
-    String score;
-    String highScore;
-    Boolean authentication;
+    private String score;
+    private String highScore;
+    private Boolean authentication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

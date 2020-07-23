@@ -162,13 +162,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     void setTextScoreText() {
-        textScore.setText(String.format("%s%s", "Score:\n", game.getCurrentScore()));
+        textScore.setText(String.format("%s:\n%s", getResources().getString(R.string.score), game.getCurrentScore()));
 
     }
 
     void setTextHighScoreText() {
         if (game.isUserAuthenticated()) {
-            textHighScore.setText(String.format("%s%s", "Highscore:\n", game.getHighScore()));
+            textHighScore.setText(String.format("%s:\n%s", getResources().getString(R.string.high_score), game.getHighScore()));
         }
     }
 
@@ -433,7 +433,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                textTime.setText(String.format("Time:\n%s", game.getElapsedTimeToString()));
+                                textTime.setText(String.format("%s:\n%s", getResources().getString(R.string.time), game.getElapsedTimeToString()));
                             }
                         });
                     } catch (InterruptedException e) {

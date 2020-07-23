@@ -57,13 +57,13 @@ public class EndGame extends AppCompatActivity {
 
     void setTextScoreText() {
         TextView textScore = (TextView) findViewById(R.id.textScore);
-        textScore.setText(String.format("%s%s", "Your score:\n", score));
+        textScore.setText(String.format("%s:\n%s", getResources().getString(R.string.score), score));
     }
 
     void setTextHighScoreText() {
         if (authentication) {
             TextView textScore = (TextView) findViewById(R.id.textHighScore);
-            textScore.setText(String.format("%s%s", "High score:\n", highScore));
+            textScore.setText(String.format("%s:\n%s", getResources().getString(R.string.high_score), highScore));
         }
     }
 

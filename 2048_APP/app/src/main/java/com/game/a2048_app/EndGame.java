@@ -25,7 +25,6 @@ public class EndGame extends AppCompatActivity {
         authentication = Boolean.parseBoolean(intent.getStringExtra(String.valueOf(R.string.authentication)));
         setContentView(R.layout.activity_end_game);
         Button homePage = findViewById(R.id.homePage);
-        homePage.setBackgroundResource(R.drawable.main_activity_button);
         homePage.setOnClickListener(initializeBoardActivity);
         loadData();
     }

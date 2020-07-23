@@ -5,7 +5,7 @@
     <string name="start_game">ROZPOCZNIJ GRĘ</string>
     <string name="authenticate">AUTORYZACJA</string>
     <string name="value_format">%1$.2f</string>
-    <string name="restart_game">Zresetuj Grę</string>
+    <string name="restart_game">Zrestartuj Grę</string>
     <string name="home_page">Strona Startowa</string>
     <string name="fingerprint_title">Autoryzacja odciskiem palca</string>
     <string name="fingerprint_message">Bycie posiadaczem telefonu pozwala na zapis najwyższego wyniku</string>
@@ -16,12 +16,13 @@
     <string name="score">Wynik</string>
     <string name="high_score">Najwyższy wynik</string>
     <string name="authentication">Authentication</string>
-    <string name="dialog_back_question">"Na pewno chcesz wyjść?\\nTwoja gra nie zostanie zapisana. "</string>
+    <string name="dialog_back_question">"Na pewno chcesz wyjść?\nTwoja gra nie zostanie zapisana. "</string>
     <string name="settings_menu_title">Którą z funkcji włączyć?</string>
     <string name="Magnetometer_Settings">Zmiana kolorów klocków na podstawie strony świata</string>
     <string name="Light_Sensor_Settings">Ciemny motyw włączany na podstawie poziomu światła</string>
-    <string name="Proximity_Sensor_Settings">Zatrzymacnie gry, gdy zostanie wykryte zbliżenie przez czujnik zbliżenia</string>
+    <string name="Proximity_Sensor_Settings">Zatrzymanie gry, gdy zostanie wykryte zbliżenie przez czujnik zbliżenia</string>
     <string name="undoButton">Cofnij</string>
     <string name="Gyroscope_And_Accelerometer_Settings">Sterowanie grą za pomocą ruchów telefonem</string>
     <string name="time">Czas</string>
+    <string name="end_game">KONIEC GRY</string>
 </resources>

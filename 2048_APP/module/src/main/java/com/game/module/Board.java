@@ -69,7 +69,7 @@ public class Board implements Serializable {
         try {
             this.addNewNonEmptyFieldAfterMove();
             this.addNewNonEmptyFieldAfterMove();
-        } catch (GameOverException ignore) {
+        } catch (GameOverException | GoalAchievedException ignore) {
             // nie może się rzucić fizycznie ten wyjątek tutaj
         }
     }

@@ -17,6 +17,7 @@ public class EndGame extends AppCompatActivity {
     //  - animacja klockow
     //  - po uzyskaniu 2048 gra dalej
     //  - javaDoc
+    //  - https://stackoverflow.com/a/151940
 
     private String score;
     private String highScore;

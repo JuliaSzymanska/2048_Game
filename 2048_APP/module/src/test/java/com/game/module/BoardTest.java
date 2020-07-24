@@ -452,6 +452,20 @@ public class BoardTest {
         }
     }
 
+    public void undoTest() {
+        Board board1 = new Board(integers);
+        Board board2 = new Board(integers);
+        assertEquals(board1, board2);
+        try {
+            board1.moveRight();
+        } catch (GameOverException | GoalAchievedException e) {
+            e.printStackTrace();
+        }
+        assertNotEquals(board1, board2);
+        board1.undoPreviousMove();
+        assertEquals(board1, board2);
+    }
+
     // TODO: 24.07.2020 zmienic
     @Test
     public void hashCodeTest() {

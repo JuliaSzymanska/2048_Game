@@ -17,8 +17,8 @@ import java.util.List;
 public class Board implements Serializable {
 
     private List<Field> board;
-    private List<List<Field>> previousBoards = new ArrayList<>();
-    private List<Integer> previousScores = new ArrayList<>();
+    private List<List<Field>> previousBoards;
+    private List<Integer> previousScores;
     private int score = 0;
     private final static int BOARD_DIMENSIONS = 4;
     private final static int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
@@ -38,11 +38,19 @@ public class Board implements Serializable {
             board.get(counter).setValue(i);
             counter++;
         }
+        this.setVariablesToDefault();
+    }
+
+    private void setVariablesToDefault() {
+        this.score = 0;
+        this.previousBoards = new ArrayList<>();
+        this.previousScores = new ArrayList<>();
+        this.isGoalAchieved = false;
     }
 
     void restartGame() {
         this.resetBoard();
-        this.score = 0;
+        this.setVariablesToDefault();
     }
 
     /**

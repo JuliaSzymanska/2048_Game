@@ -36,7 +36,7 @@ class GameSaveDao implements Dao<Board, Integer, Long> {
         try(FileInputStream fileInputStream = context.openFileInput(filename);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
             try {
-                List boardIntegerTimeTriple = (ArrayList) objectInputStream.readObject();
+                List<Object> boardIntegerTimeTriple = (ArrayList<Object>) objectInputStream.readObject();
                 return Triple.of((Board)boardIntegerTimeTriple.get(0),(Integer) boardIntegerTimeTriple.get(1), (Long) boardIntegerTimeTriple.get(2));
             } catch (ClassCastException | IndexOutOfBoundsException e) {
                 return null;
@@ -48,7 +48,7 @@ class GameSaveDao implements Dao<Board, Integer, Long> {
     public void write(Board board, Integer score, Long time) throws IOException {
         try(FileOutputStream fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
-            List list = new ArrayList();
+            List<Object> list = new ArrayList<Object>();
             list.add(board);
             list.add(score);
             list.add(time);

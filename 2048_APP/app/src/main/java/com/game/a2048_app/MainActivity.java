@@ -96,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         @Override
         public void onClick(View v) {
             // sound
+            // https://iznaut.itch.io/bfxr
+            // https://www.drpetter.se/project_sfxr.html
             // TODO: 25.07.2020 ten jest mój ulubiony
             MediaPlayer.create(mainActivity, R.raw.select_5).start();
             Intent i = new Intent(MainActivity.this, BoardActivity.class);

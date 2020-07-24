@@ -407,6 +407,24 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 case 2048:
                     fieldsImages[i] = R.drawable.two_thousands;
                     break;
+                case 4096:
+                    fieldsImages[i] = R.drawable.four_thousands;
+                    break;
+                case 8192:
+                    fieldsImages[i] = R.drawable.eight_thousands;
+                    break;
+                case 16384:
+                    fieldsImages[i] = R.drawable.sixteen_thousands;
+                    break;
+                case 32768:
+                    fieldsImages[i] = R.drawable.thirty_two_thousands;
+                    break;
+                case 65536:
+                    fieldsImages[i] = R.drawable.sixty_five_thousands;
+                    break;
+                case 131072:
+                    fieldsImages[i] = R.drawable.one_million;
+                    break;
             }
 
         }

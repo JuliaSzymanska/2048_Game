@@ -375,10 +375,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     fieldsImages[i] = R.drawable.zero;
                     break;
                 case 2:
-                    fieldsImages[i] = R.drawable.two;
+                    fieldsImages[i] = R.drawable.one_million_1;
                     break;
                 case 4:
-                    fieldsImages[i] = R.drawable.four;
+                    fieldsImages[i] = R.drawable.sixty_five_thousands;
                     break;
                 case 8:
                     fieldsImages[i] = R.drawable.eight;

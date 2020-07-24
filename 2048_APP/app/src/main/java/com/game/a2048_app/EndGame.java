@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class EndGame extends AppCompatActivity {
 
     // TODO: 23.07.2020  Julia work list:
-    //  - Azymunt do zmiany kolorów
     //  - animacja klockow
     //  - po uzyskaniu 2048 gra dalej
     //  - javaDoc

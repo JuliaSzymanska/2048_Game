@@ -16,6 +16,7 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.io.IOException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -159,6 +160,30 @@ public class Game {
             this.highScore = this.gameBoard.getScore();
         }
     }
+
+    private List<Integer> integers = new ArrayList<Integer>() {
+        {
+            add(0);
+            add(2);
+            add(2);
+            add(2);
+
+            add(2);
+            add(0);
+            add(2);
+            add(0);
+
+            add(2);
+            add(2);
+            add(4);
+            add(2);
+
+            add(0);
+            add(0);
+            add(1024);
+            add(1024);
+        }
+    };
 
     public void startNewGame() {
         this.gameBoard.restartGame();

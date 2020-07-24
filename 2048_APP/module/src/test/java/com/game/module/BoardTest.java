@@ -55,12 +55,60 @@ public class BoardTest {
         }
     };
 
+    private List<Integer> gameOverIntegers = new ArrayList<Integer>() {
+        {
+            add(2);
+            add(2);
+            add(2);
+            add(2);
+
+            add(4);
+            add(4);
+            add(4);
+            add(4);
+
+            add(8);
+            add(8);
+            add(8);
+            add(8);
+
+            add(16);
+            add(16);
+            add(16);
+            add(16);
+        }
+    };
+
+    private List<Integer> gameWinIntegers = new ArrayList<Integer>() {
+        {
+            add(0);
+            add(0);
+            add(0);
+            add(0);
+
+            add(0);
+            add(0);
+            add(0);
+            add(0);
+
+            add(0);
+            add(0);
+            add(0);
+            add(0);
+
+            add(1024);
+            add(1024);
+            add(0);
+            add(0);
+        }
+    };
+
     @Test
-    public void boardDefaultConstructorTest(){
+    public void boardDefaultConstructorTest() {
         Board board = new Board();
         int numberOfNonZeroFields = 0;
         for (Field i : board.getBoard()) {
-            if(i.getValue() != 0){
+            if (i.getValue() != 0) {
                 numberOfNonZeroFields++;
             }
         }
@@ -129,7 +177,7 @@ public class BoardTest {
         System.out.println(board);
         try {
             board.moveRight();
-        } catch (GameOverException e) {
+        } catch (GameOverException | GoalAchievedException e) {
             System.out.println(e.getMessage());
             Assert.fail();
         }
@@ -173,7 +221,7 @@ public class BoardTest {
         System.out.println(board);
         try {
             board.moveLeft();
-        } catch (GameOverException e) {
+        } catch (GameOverException | GoalAchievedException e) {
             System.out.println(e.getMessage());
             Assert.fail();
         }
@@ -217,7 +265,7 @@ public class BoardTest {
         System.out.println(board);
         try {
             board.moveUp();
-        } catch (GameOverException e) {
+        } catch (GameOverException | GoalAchievedException e) {
             System.out.println(e.getMessage());
             Assert.fail();
         }
@@ -261,7 +309,7 @@ public class BoardTest {
         System.out.println(board);
         try {
             board.moveDown();
-        } catch (GameOverException e) {
+        } catch (GameOverException | GoalAchievedException e) {
             System.out.println(e.getMessage());
             Assert.fail();
         }
@@ -280,7 +328,7 @@ public class BoardTest {
         Assert.assertEquals(board.getScore(), 0);
         try {
             board.moveRight();
-        } catch (GameOverException e) {
+        } catch (GameOverException | GoalAchievedException e) {
             System.out.println(e.getMessage());
             Assert.fail();
         }
@@ -320,7 +368,7 @@ public class BoardTest {
         Assert.assertEquals(0, board.getScore());
         try {
             board.moveRight();
-        } catch (GameOverException e) {
+        } catch (GameOverException | GoalAchievedException e) {
             System.out.println(e.getMessage());
             Assert.fail();
         }
@@ -333,7 +381,7 @@ public class BoardTest {
         Assert.assertEquals(0, board.getScore());
         try {
             board.moveRight();
-        } catch (GameOverException e) {
+        } catch (GameOverException | GoalAchievedException e) {
             System.out.println(e.getMessage());
             Assert.fail();
         }
@@ -341,7 +389,7 @@ public class BoardTest {
         board.restartGame();
         int numberOfNonZeroFields = 0;
         for (Field i : board.getBoard()) {
-            if(i.getValue() != 0){
+            if (i.getValue() != 0) {
                 numberOfNonZeroFields++;
             }
         }
@@ -350,13 +398,13 @@ public class BoardTest {
     }
 
     @Test
-    public void getCopyBoardTest(){
+    public void getCopyBoardTest() {
         Board board = new Board(integers);
         assertEquals(integers.toString(), board.getBoard().toString());
     }
 
     @Test
-    public void toStringTest(){
+    public void toStringTest() {
         Board board = new Board(integers);
         assertEquals(",[0, 2, 2, 2],\n" +
                 ",[2, 0, 2, 0],\n" +
@@ -374,7 +422,7 @@ public class BoardTest {
 
         try {
             board1.moveRight();
-        } catch (GameOverException ignore) {
+        } catch (GameOverException | GoalAchievedException ignore) {
         }
         assertNotEquals(board1, board2);
 
@@ -384,8 +432,29 @@ public class BoardTest {
         assertNotEquals(board1, a);
     }
 
+    @Test(expected = GameOverException.class)
+    public void gameOverTest() throws GameOverException {
+        Board board1 = new Board(gameOverIntegers);
+        try {
+            board1.moveDown();
+        } catch (GoalAchievedException e) {
+            Assert.fail();
+        }
+    }
+
+    @Test(expected = GoalAchievedException.class)
+    public void gameWinTest() throws GoalAchievedException {
+        Board board1 = new Board(gameWinIntegers);
+        try {
+            board1.moveRight();
+        } catch (GameOverException e) {
+            Assert.fail();
+        }
+    }
+
+    // TODO: 24.07.2020 zmienic
     @Test
-    public void hashCodeTest(){
+    public void hashCodeTest() {
         Board board1 = new Board();
         Board board2 = new Board();
         if (board1.hashCode() != board2.hashCode())

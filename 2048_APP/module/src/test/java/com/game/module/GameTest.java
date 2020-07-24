@@ -29,7 +29,7 @@ public class GameTest {
             game.move(Game.MOVE_DOWN);
             assertTrue(score < game.getCurrentScore());
             score = game.getCurrentScore();
-        } catch (GameOverException e) {
+        } catch (GameOverException | GoalAchievedException e) {
             Assert.fail();
         }
         game.pauseTimer();
@@ -40,13 +40,13 @@ public class GameTest {
             game.move(Game.MOVE_DOWN);
             assertEquals(score, game.getCurrentScore());
             score = game.getCurrentScore();
-        } catch (GameOverException e) {
+        } catch (GameOverException | GoalAchievedException e) {
             Assert.fail();
         }
         game.unpauseTimer();
         try {
             game.move(5);
-        } catch (GameOverException ignore) {
+        } catch (GameOverException | GoalAchievedException ignore) {
 
         }
     }
@@ -61,7 +61,7 @@ public class GameTest {
                 game.move(Game.MOVE_LEFT);
                 game.move(Game.MOVE_UP);
                 game.move(Game.MOVE_DOWN);
-            } catch (GameOverException e) {
+            } catch (GameOverException | GoalAchievedException e) {
                 Assert.fail();
             }
         }
@@ -102,7 +102,7 @@ public class GameTest {
                 game.move(Game.MOVE_LEFT);
                 game.move(Game.MOVE_UP);
                 game.move(Game.MOVE_DOWN);
-            } catch (GameOverException e) {
+            } catch (GameOverException | GoalAchievedException e) {
                 Assert.fail();
             }
         }
@@ -121,7 +121,7 @@ public class GameTest {
                 game.move(Game.MOVE_LEFT);
                 game.move(Game.MOVE_UP);
                 game.move(Game.MOVE_DOWN);
-            } catch (GameOverException e) {
+            } catch (GameOverException | GoalAchievedException e) {
                 Assert.fail();
             }
         }

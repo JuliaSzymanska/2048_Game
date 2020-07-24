@@ -94,9 +94,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static float DETECT_MOVE_ROLL = 0.7f;
 
     // FIXME: 12.07.2020 bad naming
-    private final static double changeColourAzimunthBreakpoint1 = 0.75;
+    private final static double changeColourAzimunthBreakpoint1 = 0.25;
     private final static double changeColourAzimunthBreakpoint2 = 1.25;
-    private final static double changeColourAzimunthBreakpoint3 = 2.25;
+    private final static double changeColourAzimunthBreakpoint3 = 1.75;
     private final static double changeColourAzimunthBreakpoint4 = 2.75;
 
     private final static int DARKMODE_ENABLE_LIGHT = 30;
@@ -665,13 +665,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void run() {
                     if (pitch > horizontalPitchMin && pitch < horizontalPitchMax) {
-                        if (azimuth >= changeColourAzimunthBreakpoint2 && azimuth < changeColourAzimunthBreakpoint3) {
+                        if (azimuth >= changeColourAzimunthBreakpoint1 && azimuth < changeColourAzimunthBreakpoint2) {
                             mThumbIds = R.drawable.button_green;
-                        } else if (azimuth >= changeColourAzimunthBreakpoint4 || azimuth < -changeColourAzimunthBreakpoint4) {
+                        } else if (azimuth >= changeColourAzimunthBreakpoint3 && azimuth < changeColourAzimunthBreakpoint4) {
                             mThumbIds = R.drawable.button_green_light;
-                        } else if (azimuth >= -changeColourAzimunthBreakpoint1 && azimuth < changeColourAzimunthBreakpoint1) {
+                        } else if (azimuth >= -changeColourAzimunthBreakpoint4 && azimuth < -changeColourAzimunthBreakpoint3) {
                             mThumbIds = R.drawable.button_blue;
-                        } else if (azimuth > -changeColourAzimunthBreakpoint3 && azimuth < -changeColourAzimunthBreakpoint2) {
+                        } else if (azimuth > -changeColourAzimunthBreakpoint2 && azimuth < -changeColourAzimunthBreakpoint1) {
                             mThumbIds = R.drawable.button_blue_light;
                         }
                         adapter.notifyDataSetChanged();

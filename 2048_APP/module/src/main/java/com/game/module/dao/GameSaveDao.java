@@ -36,8 +36,25 @@ class GameSaveDao implements Dao<Board, Integer, Long> {
         try(FileInputStream fileInputStream = context.openFileInput(filename);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
             try {
-                List<Object> boardIntegerTimeTriple = (ArrayList<Object>) objectInputStream.readObject();
-                return Triple.of((Board)boardIntegerTimeTriple.get(0),(Integer) boardIntegerTimeTriple.get(1), (Long) boardIntegerTimeTriple.get(2));
+                Board inBoard = null;
+                Integer inScore = null;
+                Long inTime = null;
+                Object obj = objectInputStream.readObject();
+                if (obj instanceof ArrayList<?>) {
+                    ArrayList<?> al = (ArrayList<?>) obj;
+                    if (al.size() > 0) {
+                        for(Object o : al) {
+                            if (o instanceof Board) {
+                                inBoard = (Board) o;
+                            } else if (o instanceof Integer) {
+                                inScore = (Integer) o;
+                            } else if (o instanceof Long) {
+                                inTime = (Long) o;
+                            }
+                        }
+                    }
+                }
+                return Triple.of(inBoard, inScore, inTime);
             } catch (ClassCastException | IndexOutOfBoundsException e) {
                 return null;
             }

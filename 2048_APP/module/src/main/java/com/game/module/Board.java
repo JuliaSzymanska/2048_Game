@@ -100,8 +100,9 @@ public class Board implements Serializable {
      * Fills a random empty field in board with either 2 or 4 (9:1 probablility ratio).
      * Called after calling move methods.
      */
-    private void addNewNonEmptyFieldAfterMove() throws GameOverException {
+    private void addNewNonEmptyFieldAfterMove() throws GameOverException, GoalAchievedException {
         this.isGameOver();
+        this.isGoalAchieved();
         List<Field> allEmptyFields = getAllEmptyFields();
         Collections.shuffle(allEmptyFields);
         allEmptyFields.get(0).setValue(Math.random() >= .9 ? 4 : 2);
@@ -206,7 +207,6 @@ public class Board implements Serializable {
             moveFieldsInRowOrColumn(row);
             rows.set(i, row);
         }
-        this.isGoalAchieved();
         this.addNewNonEmptyFieldAfterMove();
     }
 
@@ -221,7 +221,6 @@ public class Board implements Serializable {
             Collections.reverse(row);
             rows.set(i, row);
         }
-        this.isGoalAchieved();
         this.addNewNonEmptyFieldAfterMove();
     }
 
@@ -234,7 +233,6 @@ public class Board implements Serializable {
             moveFieldsInRowOrColumn(col);
             cols.set(i, col);
         }
-        this.isGoalAchieved();
         this.addNewNonEmptyFieldAfterMove();
     }
 
@@ -249,7 +247,6 @@ public class Board implements Serializable {
             Collections.reverse(col);
             cols.set(i, col);
         }
-        this.isGoalAchieved();
         this.addNewNonEmptyFieldAfterMove();
     }
 

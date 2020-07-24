@@ -35,6 +35,11 @@ public class FieldTest {
             add(512);
             add(1024);
             add(2048);
+            add(4096);
+            add(8192);
+            add(16384);
+            add(32768);
+            add(131072);
         }
     };
 

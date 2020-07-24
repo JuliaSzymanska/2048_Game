@@ -22,6 +22,7 @@ public class Board implements Serializable {
     private int score = 0;
     private final static int BOARD_DIMENSIONS = 4;
     private final static int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
+    private boolean isGoalAchieved = false;
 
     private final static int PREVIOUS_BOARDS_STORED_AMOUNT = 3;
 
@@ -106,6 +107,15 @@ public class Board implements Serializable {
         allEmptyFields.get(0).setValue(Math.random() >= .9 ? 4 : 2);
     }
 
+    private void isGoalAchieved() throws GoalAchievedException {
+        for(Field i : board){
+            if (i.getValue() >= 2048 && !this.isGoalAchieved) {
+                this.isGoalAchieved = true;
+                throw new GoalAchievedException("Goal Achieved");
+            }
+        }
+    }
+
     /**
      * @param x horizontal position.
      * @param y vertical position.
@@ -172,6 +182,7 @@ public class Board implements Serializable {
         return pairList;
     }
 
+    // TODO: 24.07.2020 tutaj trzeba zrobic to z tym boolem isGoalAchieved
     void undoPreviousMove() {
         if (this.previousBoards.size() == 0) {
             return;
@@ -186,7 +197,7 @@ public class Board implements Serializable {
     }
 
     // TODO: 31.05.2020 Przemek skroc to tak jak sb wymarzyles
-    void moveRight() throws GameOverException {
+    void moveRight() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
         List<List<Field>> rows = get2dList();
         List<Field> row;
@@ -195,10 +206,11 @@ public class Board implements Serializable {
             moveFieldsInRowOrColumn(row);
             rows.set(i, row);
         }
+        this.isGoalAchieved();
         this.addNewNonEmptyFieldAfterMove();
     }
 
-    void moveLeft() throws GameOverException {
+    void moveLeft() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
         List<List<Field>> rows = get2dList();
         List<Field> row;
@@ -209,10 +221,11 @@ public class Board implements Serializable {
             Collections.reverse(row);
             rows.set(i, row);
         }
+        this.isGoalAchieved();
         this.addNewNonEmptyFieldAfterMove();
     }
 
-    void moveDown() throws GameOverException {
+    void moveDown() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
         List<List<Field>> cols = get2dList();
         List<Field> col;
@@ -221,10 +234,11 @@ public class Board implements Serializable {
             moveFieldsInRowOrColumn(col);
             cols.set(i, col);
         }
+        this.isGoalAchieved();
         this.addNewNonEmptyFieldAfterMove();
     }
 
-    void moveUp() throws GameOverException {
+    void moveUp() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
         List<List<Field>> cols = get2dList();
         List<Field> col;
@@ -235,6 +249,7 @@ public class Board implements Serializable {
             Collections.reverse(col);
             cols.set(i, col);
         }
+        this.isGoalAchieved();
         this.addNewNonEmptyFieldAfterMove();
     }
 

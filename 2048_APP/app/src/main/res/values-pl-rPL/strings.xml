@@ -25,4 +25,7 @@
     <string name="Gyroscope_And_Accelerometer_Settings">Sterowanie grą za pomocą ruchów telefonem</string>
     <string name="time">Czas</string>
     <string name="end_game">KONIEC GRY</string>
+    <string name="goal_achieved_question">"Osiągnołęś cel gry.\nChcesz kontynuować? "</string>
+    <string name="continue_game_dialog">Kontynuuj</string>
+    <string name="end_game_dialog">Zakończ</string>
 </resources>

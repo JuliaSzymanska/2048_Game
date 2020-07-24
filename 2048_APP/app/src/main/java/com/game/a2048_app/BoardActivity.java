@@ -30,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.GameOverException;
+import com.game.module.GoalAchievedException;
 
 import java.util.Arrays;
 
@@ -224,8 +225,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
-    private void setUndoResource(){
-        switch (BoardActivity.this.game.getAvaiableUndoAmount()){
+    private void setUndoResource() {
+        switch (BoardActivity.this.game.getAvaiableUndoAmount()) {
             case 0:
                 undoButton.setBackgroundResource(R.drawable.undo_zero);
                 break;
@@ -375,10 +376,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     fieldsImages[i] = R.drawable.zero;
                     break;
                 case 2:
-                    fieldsImages[i] = R.drawable.one_million_1;
+                    fieldsImages[i] = R.drawable.two;
                     break;
                 case 4:
-                    fieldsImages[i] = R.drawable.sixty_five_thousands;
+                    fieldsImages[i] = R.drawable.four;
                     break;
                 case 8:
                     fieldsImages[i] = R.drawable.eight;
@@ -601,18 +602,41 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             game.move(direction);
         } catch (GameOverException e) {
             e.printStackTrace();
-            Intent i = new Intent(BoardActivity.this, EndGame.class);
-            i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getCurrentScore()));
-            i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
-            i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
-            startActivity(i);
-            // FIXME: 23.07.2020 TO JEST TAKIE XD ale no działa i dzięki temu się nie psuje display po koncu gry xD
-            this.adapter = null;
-            restartGame();
+            changeToEndActivity();
+        } catch (GoalAchievedException e) {
+            e.printStackTrace();
+            goalAchieved();
         }
         adapter.notifyDataSetChanged();
         this.setScoreTexts();
         setUndoResource();
+    }
+
+    private void changeToEndActivity(){
+        Intent i = new Intent(BoardActivity.this, EndGame.class);
+        i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getCurrentScore()));
+        i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
+        i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
+        startActivity(i);
+        // FIXME: 23.07.2020 TO JEST TAKIE XD ale no działa i dzięki temu się nie psuje display po koncu gry xD
+        this.adapter = null;
+        restartGame();
+    }
+
+    private void goalAchieved() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
+        builder.setMessage(R.string.goal_achieved_question)
+                .setPositiveButton(R.string.continue_game_dialog, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                })
+                .setNegativeButton(R.string.end_game_dialog, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        changeToEndActivity();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private class DarkMode implements Runnable {
@@ -702,7 +726,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void restartGame() {
         this.game.restartGame();
         this.setTextScoreText();
-        if(adapter != null ) {
+        if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
     }

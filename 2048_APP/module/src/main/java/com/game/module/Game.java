@@ -65,7 +65,7 @@ public class Game {
         return gameBoard.getBoard();
     }
 
-    public void move(int direction) throws GameOverException {
+    public void move(int direction) throws GameOverException, GoalAchievedException {
         try {
             if (!this.isSuspended) {
                 switch (direction) {
@@ -94,6 +94,8 @@ public class Game {
             this.saveGameBackgroundThread.interrupt();
             // TODO: 21.07.2020 String
             throw new GameOverException("", e);
+        } catch (GoalAchievedException e) {
+            throw new GoalAchievedException("", e);
         }
     }
 

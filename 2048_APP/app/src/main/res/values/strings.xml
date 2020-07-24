@@ -24,4 +24,7 @@
     <string name="undoButton">Undo</string>
     <string name="time">Time</string>
     <string name="end_game">END GAME</string>
+    <string name="goal_achieved_question">You have achieved the goal.\nWould you like to continue game?</string>
+    <string name="continue_game_dialog">Continue</string>
+    <string name="end_game_dialog">End Game</string>
 </resources>

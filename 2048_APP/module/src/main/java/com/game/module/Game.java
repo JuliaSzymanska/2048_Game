@@ -50,7 +50,12 @@ public class Game {
         this.startNewGame();
         if (this.isUserAuthenticated) {
             // unikam konieczności używania boola
-            this.loadGame();
+            try {
+                this.loadGame();
+            } catch (LoadException e) {
+                e.printStackTrace();
+                this.startNewGame();
+            }
         }
         saveGameBackgroundThread = new Thread(this.saveGameBackgroundRunnable);
     }
@@ -142,7 +147,13 @@ public class Game {
         }
     }
 
-    public void loadGame() {
+    private class LoadException extends Exception {
+        LoadException(Exception e) {
+            super(e);
+        }
+    }
+
+    public void loadGame() throws LoadException {
         if (this.context != null && this.isUserAuthenticated) {
             try (Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
                 this.gameBoard = daoBoard.read().getLeft();
@@ -151,6 +162,7 @@ public class Game {
             } catch (IOException | ClassNotFoundException | NullPointerException e) {
                 // FIXME: 18.07.2020
                 e.printStackTrace();
+                throw new LoadException(e);
             }
         }
     }

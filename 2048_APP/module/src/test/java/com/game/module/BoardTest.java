@@ -452,6 +452,7 @@ public class BoardTest {
         }
     }
 
+    @Test
     public void undoTest() {
         Board board1 = new Board(integers);
         Board board2 = new Board(integers);

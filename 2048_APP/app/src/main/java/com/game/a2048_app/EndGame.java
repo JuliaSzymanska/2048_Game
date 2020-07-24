@@ -2,6 +2,7 @@ package com.game.a2048_app;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ public class EndGame extends AppCompatActivity {
     private String score;
     private String highScore;
     private Boolean authentication;
+    private EndGame endgame = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class EndGame extends AppCompatActivity {
     private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            MediaPlayer.create(endgame, R.raw.blip_select3).start();
             startActivity(new Intent(EndGame.this, MainActivity.class));
         }
     };

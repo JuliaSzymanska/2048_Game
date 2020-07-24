@@ -12,6 +12,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,8 +114,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private boolean hasMoved = false;
 
     // settings
-    SharedPreferences preferences;
+    private SharedPreferences preferences;
     private boolean isDarkTheme = false;
+
+    private BoardActivity boardActivity = this;
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -211,6 +215,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener restartGameListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            // sound
+            MediaPlayer.create(boardActivity, R.raw.blip_select2).start();
             restartGame();
         }
     };
@@ -218,6 +224,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener undoListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            MediaPlayer.create(boardActivity, R.raw.blip_select).start();
             game.undoPreviousMove();
             adapter.notifyDataSetChanged();
             setScoreTexts();
@@ -296,6 +303,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener playPauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            MediaPlayer.create(boardActivity, R.raw.select_4).start();
             if (!game.isSuspended()) {
                 game.pauseTimer();
                 pausePlayButton.setBackgroundResource(R.drawable.pause_play_on);

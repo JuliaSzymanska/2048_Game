@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.hardware.fingerprint.FingerprintManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -94,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            // sound
+            // TODO: 25.07.2020 ten jest mój ulubiony
+            MediaPlayer.create(mainActivity, R.raw.select_5).start();
             Intent i = new Intent(MainActivity.this, BoardActivity.class);
             i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(isAuthenticated));
             startActivity(i);

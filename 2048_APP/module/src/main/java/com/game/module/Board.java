@@ -316,6 +316,7 @@ public class Board implements Serializable {
      * @param fieldsList 2d list of fields in board as rows or columns.
      * @param index      index of the field to start with.
      */
+    // TODO: 25.07.2020 w liscie trzeba inkrementowac dla indeksow dla pol ktore się przesuenly
     private void moveFieldsPositions(List<Field> fieldsList, int index) {
         for (int i = index; i >= 0; i--) {
             if (i > 0) {
@@ -351,6 +352,8 @@ public class Board implements Serializable {
      *
      * @param fieldsList 2d list of fields in board as rows or columns.
      */
+    // TODO: 25.07.2020 przy kazdym przejsciu algorytmu, wykonaniu ruchu, należy zinkrementować int na pozycjach na których się przesuneły pola usuwajac zero.
+    //  Ostatecznie dla pól na których były 0 resetujemy int
     private void removeZerosInMove(List<Field> fieldsList) {
         int countMoves = countZerosToDelete(fieldsList);
         for (int i = 0; i < countMoves; i++) {
@@ -363,6 +366,7 @@ public class Board implements Serializable {
         }
     }
 
+    // TODO: 25.07.2020 trzeba podawac liste int tak samo jak przekazujemy liste fields
     private void moveFieldsInRowOrColumn(List<Field> fieldsList) {
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
             //bool, ktorego wartosc oznacza czy zostala znaleziony inny field z ktorym field moze sie polaczyc

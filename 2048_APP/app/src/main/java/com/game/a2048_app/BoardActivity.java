@@ -439,7 +439,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         System.out.println(viewHolderItem);
         ImageView imageView = viewHolderItem.getImageViewItem();
         System.out.println(imageView);
-        View view2 = this.gridView.getChildAt(1);
+        View view2 = this.gridView.getChildAt(3);
         TranslateAnimation translateAnimation = new TranslateAnimation
                 (0, view2.getX() - view1.getX(), 0, view2.getY() - view1.getY());
         translateAnimation.setRepeatMode(0);
@@ -450,6 +450,23 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 ////        imageView.setElevation(1000);
 ////        imageView.invalidate();
         view1.startAnimation(translateAnimation);
+        this.prepareGrid();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        move(Game.MOVE_RIGHT);
+                    }
+                });
+            }
+        }).start();
     }
 
     private void setFieldsImages() {

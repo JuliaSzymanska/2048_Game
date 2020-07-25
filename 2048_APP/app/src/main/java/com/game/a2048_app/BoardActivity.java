@@ -450,6 +450,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 ////        imageView.setElevation(1000);
 ////        imageView.invalidate();
         view1.startAnimation(translateAnimation);
+        setFieldsImagesToZeros();
         this.prepareGrid();
         new Thread(new Runnable() {
             @Override
@@ -467,6 +468,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 });
             }
         }).start();
+    }
+
+    private void setFieldsImagesToZeros() {
+        for(int i = 0; i< fields.length; i++) {
+            fieldsImages[i] = R.drawable.zero;
+        }
     }
 
     private void setFieldsImages() {

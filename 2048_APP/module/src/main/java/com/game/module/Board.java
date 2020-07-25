@@ -205,9 +205,16 @@ public class Board implements Serializable {
         this.previousScores.remove(this.previousScores.size() - 1);
     }
 
+    private class InvalidMoveException extends Exception {
+        InvalidMoveException(Exception e){
+            super(e);
+        }
+    }
+
     // TODO: 31.05.2020 Przemek skroc to tak jak sb wymarzyles
     void moveRight() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
+        List<Field> copyList = this.getCopyBoard();
         List<List<Field>> rows = get2dList();
         List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
@@ -215,11 +222,18 @@ public class Board implements Serializable {
             moveFieldsInRowOrColumn(row);
             rows.set(i, row);
         }
-        this.addNewNonEmptyFieldAfterMove();
+        for (Pair<Field, Field> item : zip(copyList, this.board)) {
+            if(!item.getLeft().equals(item.getRight())) {
+                this.addNewNonEmptyFieldAfterMove();
+                return;
+            }
+        }
+        // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
     }
 
     void moveLeft() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
+        List<Field> copyList = this.getCopyBoard();
         List<List<Field>> rows = get2dList();
         List<Field> row;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
@@ -229,11 +243,18 @@ public class Board implements Serializable {
             Collections.reverse(row);
             rows.set(i, row);
         }
-        this.addNewNonEmptyFieldAfterMove();
+        for (Pair<Field, Field> item : zip(copyList, this.board)) {
+            if(!item.getLeft().equals(item.getRight())) {
+                this.addNewNonEmptyFieldAfterMove();
+                return;
+            }
+        }
+        // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
     }
 
     void moveDown() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
+        List<Field> copyList = this.getCopyBoard();
         List<List<Field>> cols = get2dList();
         List<Field> col;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
@@ -241,11 +262,18 @@ public class Board implements Serializable {
             moveFieldsInRowOrColumn(col);
             cols.set(i, col);
         }
-        this.addNewNonEmptyFieldAfterMove();
+        for (Pair<Field, Field> item : zip(copyList, this.board)) {
+            if(!item.getLeft().equals(item.getRight())) {
+                this.addNewNonEmptyFieldAfterMove();
+                return;
+            }
+        }
+        // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
     }
 
     void moveUp() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
+        List<Field> copyList = this.getCopyBoard();
         List<List<Field>> cols = get2dList();
         List<Field> col;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
@@ -255,7 +283,13 @@ public class Board implements Serializable {
             Collections.reverse(col);
             cols.set(i, col);
         }
-        this.addNewNonEmptyFieldAfterMove();
+        for (Pair<Field, Field> item : zip(copyList, this.board)) {
+            if(!item.getLeft().equals(item.getRight())) {
+                this.addNewNonEmptyFieldAfterMove();
+                return;
+            }
+        }
+        // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
     }
 
     /**

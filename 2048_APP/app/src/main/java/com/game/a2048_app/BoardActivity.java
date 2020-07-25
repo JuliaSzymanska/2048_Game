@@ -30,6 +30,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.game.module.Field;
 import com.game.module.Game;
@@ -127,6 +128,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private MediaPlayer mediaPlayerSettings;
     private MediaPlayer mediaPlayerUndo;
 
+    private ConstraintLayout constraintLayout;
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -218,6 +221,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         pausePlayButton.setOnClickListener(playPauseListener);
         darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
+
+        constraintLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
 
         Button animateButton = (Button) findViewById(R.id.animate);
         animateButton.setOnClickListener(new View.OnClickListener() {
@@ -429,7 +434,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             System.out.println("X = " + this.gridView.getChildAt(i).getX());
             System.out.println("Y = " + this.gridView.getChildAt(i).getY());
         }
-        View view1 = this.gridView.getChildAt(3);
+        View view1 = this.gridView.getChildAt(0);
         ViewHolderItem viewHolderItem = (ViewHolderItem) view1.getTag();
         System.out.println(viewHolderItem);
         ImageView imageView = viewHolderItem.getImageViewItem();
@@ -440,12 +445,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         translateAnimation.setRepeatMode(0);
         translateAnimation.setDuration(1000);
         translateAnimation.setFillAfter(true);
+//        view1.bringToFront();
+        view1.setTranslationZ(1000);
+////        imageView.setElevation(1000);
+////        imageView.invalidate();
         view1.startAnimation(translateAnimation);
-        imageView.bringToFront();
-        imageView.setTranslationZ(1000);
-        imageView.setElevation(1000);
-        ((View) imageView.getParent()).invalidate();
-        ((View) imageView.getParent()).requestLayout();
     }
 
     private void setFieldsImages() {

@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="92dp"
-        android:layout_height="100dp"
+        android:layout_height="92dp"
         android:padding="15dp"
         android:textSize="0sp"
         tools:ignore="MissingConstraints">
@@ -17,7 +17,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="92dp"
-        android:layout_height="100dp"
+        android:layout_height="92dp"
         android:layout_marginTop="50dp"
         android:padding="15dp"
         android:clickable="false"

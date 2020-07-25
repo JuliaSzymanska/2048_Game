@@ -47,10 +47,10 @@
         android:background="@drawable/main_activity_button"
         android:fadingEdge="horizontal"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="@string/restart_game"
-        android:textColor="#075275"
         android:paddingHorizontal="20dp"
         android:paddingVertical="10dp"
+        android:text="@string/restart_game"
+        android:textColor="#075275"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -125,13 +125,13 @@
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/settings"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.924"
         app:layout_constraintStart_toStartOf="@+id/pausePlayButton"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.09
-"
-        app:layout_constraintDimensionRatio="1:1"/>
+" />
 
     <Button
         android:id="@+id/pausePlayButton"
@@ -151,10 +151,23 @@
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.07"
-        app:layout_constraintDimensionRatio="1:1"/>
+        app:layout_constraintWidth_percent="0.07" />
+
+    <Button
+        android:id="@+id/animate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="323dp"
+        android:layout_marginBottom="631dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- <TextView
     android:id="@+id/mTextSensorAzimuth"

@@ -1,5 +1,7 @@
 package com.game.a2048_app;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,6 +19,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -216,6 +219,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
 
+        Button animateButton = (Button) findViewById(R.id.animate);
+        animateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                anim();
+            }
+        });
+
         this.setTheme();
         adapter.notifyDataSetChanged();
     }
@@ -372,8 +383,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
                     convertView = inflater.inflate(R.layout.item, parent, false);
                     viewHolder = new ViewHolderItem();
-                    viewHolder.imageViewItem = (ImageView) convertView.findViewById(R.id.imageView);
                     viewHolder.textViewItem = (TextView) convertView.findViewById(R.id.textView);
+                    viewHolder.imageViewItem = (ImageView) convertView.findViewById(R.id.imageView);
                     convertView.setTag(viewHolder);
                 } else {
                     viewHolder = (ViewHolderItem) convertView.getTag();
@@ -384,10 +395,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 return convertView;
             }
 
-            class ViewHolderItem {
-                TextView textViewItem;
-                ImageView imageViewItem;
-            }
 
             @Override
             public void notifyDataSetChanged() {
@@ -396,6 +403,49 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             }
         };
         gridView.setAdapter(adapter);
+    }
+
+    private class ViewHolderItem {
+        TextView textViewItem;
+        ImageView imageViewItem;
+
+        public ImageView getImageViewItem() {
+            return imageViewItem;
+        }
+
+        public TextView getTextViewItem() {
+            return textViewItem;
+        }
+    }
+
+
+
+    private void anim() {
+        for(int i = 0; i < this.gridView.getChildCount(); i++) {
+            System.out.println("I = " + Integer.toString(i));
+            System.out.println("TAG = " + this.gridView.getChildAt(i).getTag());
+            System.out.println("Elevation = " + this.gridView.getChildAt(i).getElevation());
+            System.out.println("Z = " + this.gridView.getChildAt(i).getZ());
+            System.out.println("X = " + this.gridView.getChildAt(i).getX());
+            System.out.println("Y = " + this.gridView.getChildAt(i).getY());
+        }
+        View view1 = this.gridView.getChildAt(3);
+        ViewHolderItem viewHolderItem = (ViewHolderItem) view1.getTag();
+        System.out.println(viewHolderItem);
+        ImageView imageView = viewHolderItem.getImageViewItem();
+        System.out.println(imageView);
+        View view2 = this.gridView.getChildAt(1);
+        TranslateAnimation translateAnimation = new TranslateAnimation
+                (0, view2.getX() - view1.getX(), 0, view2.getY() - view1.getY());
+        translateAnimation.setRepeatMode(0);
+        translateAnimation.setDuration(1000);
+        translateAnimation.setFillAfter(true);
+        view1.startAnimation(translateAnimation);
+        imageView.bringToFront();
+        imageView.setTranslationZ(1000);
+        imageView.setElevation(1000);
+        ((View) imageView.getParent()).invalidate();
+        ((View) imageView.getParent()).requestLayout();
     }
 
     private void setFieldsImages() {

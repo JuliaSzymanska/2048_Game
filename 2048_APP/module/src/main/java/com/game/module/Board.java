@@ -216,9 +216,8 @@ public class Board implements Serializable {
             for (Pair<Field, Field> item : zip(copyList, this.board)) {
                 item.getRight().setValue(item.getLeft().getValue());
             }
-            return boolean;
         }
-
+        return hasChanged;
     }
 
     private void testIfGameOver(List<Field> copyList) throws GoalAchievedException, GameOverException {

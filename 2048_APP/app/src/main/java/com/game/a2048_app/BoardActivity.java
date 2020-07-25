@@ -119,6 +119,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private BoardActivity boardActivity = this;
 
+    private MediaPlayer mediaPlayerPause;
+    private MediaPlayer mediaPlayerRestart;
+    private MediaPlayer mediaPlayerSettings;
+    private MediaPlayer mediaPlayerUndo;
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -130,6 +135,20 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.loadData();
         this.prepareViews();
         this.prepareSensors();
+    }
+
+    private void initMediaPlayers() {
+        this.mediaPlayerPause = MediaPlayer.create(this, R.raw.pause);
+        this.mediaPlayerRestart = MediaPlayer.create(this, R.raw.restart);
+        this.mediaPlayerSettings = MediaPlayer.create(this, R.raw.button_no_reverb);
+        this.mediaPlayerUndo = MediaPlayer.create(this, R.raw.undo);
+    }
+
+    private void releaseMediaPlayers() {
+        this.mediaPlayerPause.release();
+        this.mediaPlayerRestart.release();
+        this.mediaPlayerSettings.release();
+        this.mediaPlayerUndo.release();
     }
 
     @Override
@@ -216,7 +235,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             // sound
-            MediaPlayer.create(boardActivity, R.raw.restart).start();
+            mediaPlayerRestart.start();
             restartGame();
         }
     };
@@ -224,7 +243,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener undoListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            MediaPlayer.create(boardActivity, R.raw.undo).start();
+            mediaPlayerUndo.start();
             game.undoPreviousMove();
             adapter.notifyDataSetChanged();
             setScoreTexts();
@@ -232,6 +251,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
+    // TODO: 25.07.2020 Mi się wydaje że jak łysy zobaczy że zamiast zrobić liczbe to robimy takiego switcha to nas pobije
     private void setUndoResource() {
         switch (BoardActivity.this.game.getAvaiableUndoAmount()) {
             case 0:
@@ -254,7 +274,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener settingsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            MediaPlayer.create(boardActivity, R.raw.button_no_reverb).start();
+            mediaPlayerSettings.start();
             AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
             builder.setMultiChoiceItems(R.array.sensors, choosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
@@ -304,7 +324,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener playPauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            MediaPlayer.create(boardActivity, R.raw.pause).start();
+            mediaPlayerPause.start();
             if (!game.isSuspended()) {
                 game.pauseTimer();
                 pausePlayButton.setBackgroundResource(R.drawable.pause_play_on);
@@ -472,6 +492,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         this.game.unpauseTimer();
         this.beginUpdatingTime();
+        this.initMediaPlayers();
     }
 
     private void beginUpdatingTime() {
@@ -506,6 +527,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mSensorManager.unregisterListener(this);
         this.game.pauseTimer();
         this.updateTimeThread.interrupt();
+        this.releaseMediaPlayers();
     }
 
     @Override
@@ -738,6 +760,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
+        this.setUndoResource();
     }
 
     private void setupSwipeListener() {

@@ -70,7 +70,7 @@ public class EndGame extends AppCompatActivity {
     private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            MediaPlayer.create(endgame, R.raw.blip_select3).start();
+            MediaPlayer.create(endgame, R.raw.slide_activities).start();
             startActivity(new Intent(EndGame.this, MainActivity.class));
         }
     };

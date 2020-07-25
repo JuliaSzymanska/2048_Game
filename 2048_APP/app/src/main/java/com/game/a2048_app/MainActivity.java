@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
             // https://iznaut.itch.io/bfxr
             // https://www.drpetter.se/project_sfxr.html
             // TODO: 25.07.2020 ten jest mój ulubiony
-            MediaPlayer.create(mainActivity, R.raw.select_5).start();
+            MediaPlayer.create(mainActivity, R.raw.decline_call).start();
             Intent i = new Intent(MainActivity.this, BoardActivity.class);
             i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(isAuthenticated));
             startActivity(i);

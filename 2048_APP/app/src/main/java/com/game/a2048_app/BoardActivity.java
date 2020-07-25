@@ -216,7 +216,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             // sound
-            MediaPlayer.create(boardActivity, R.raw.blip_select2).start();
+            MediaPlayer.create(boardActivity, R.raw.restart).start();
             restartGame();
         }
     };
@@ -224,7 +224,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener undoListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            MediaPlayer.create(boardActivity, R.raw.blip_select).start();
+            MediaPlayer.create(boardActivity, R.raw.undo).start();
             game.undoPreviousMove();
             adapter.notifyDataSetChanged();
             setScoreTexts();
@@ -304,7 +304,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener playPauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            MediaPlayer.create(boardActivity, R.raw.select_4).start();
+            MediaPlayer.create(boardActivity, R.raw.pause).start();
             if (!game.isSuspended()) {
                 game.pauseTimer();
                 pausePlayButton.setBackgroundResource(R.drawable.pause_play_on);
@@ -626,7 +626,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getCurrentScore()));
         i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
         i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
-//        startActivity(i);
+        startActivity(i);
         // FIXME: 23.07.2020 TO JEST TAKIE XD ale no działa i dzięki temu się nie psuje display po koncu gry xD
         this.adapter = null;
         restartGame();

@@ -206,6 +206,15 @@ public class Board implements Serializable {
     }
 
     private void testIfGameOver(List<Field> copyList) throws GoalAchievedException, GameOverException {
+        for (Pair<Field, Field> item : zip(copyList, this.board)) {
+            if(!item.getLeft().equals(item.getRight())) {
+                this.addNewNonEmptyFieldAfterMove();
+                return;
+            }
+        }
+        if (this.getAllEmptyFields().size() != 0) {
+            return;
+        }
         this.moveDown();
         boolean hasChanged = false;
         for (Pair<Field, Field> item : zip(copyList, this.board)) {
@@ -272,15 +281,6 @@ public class Board implements Serializable {
             moveFieldsInRowOrColumn(row);
             rows.set(i, row);
         }
-        for (Pair<Field, Field> item : zip(copyList, this.board)) {
-            if(!item.getLeft().equals(item.getRight())) {
-                this.addNewNonEmptyFieldAfterMove();
-                return;
-            }
-        }
-        if (this.getAllEmptyFields().size() != 0) {
-            return;
-        }
         testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
     }
@@ -297,15 +297,6 @@ public class Board implements Serializable {
             Collections.reverse(row);
             rows.set(i, row);
         }
-        for (Pair<Field, Field> item : zip(copyList, this.board)) {
-            if(!item.getLeft().equals(item.getRight())) {
-                this.addNewNonEmptyFieldAfterMove();
-                return;
-            }
-        }
-        if (this.getAllEmptyFields().size() != 0) {
-            return;
-        }
         testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
     }
@@ -319,15 +310,6 @@ public class Board implements Serializable {
             col = getColumn(i);
             moveFieldsInRowOrColumn(col);
             cols.set(i, col);
-        }
-        for (Pair<Field, Field> item : zip(copyList, this.board)) {
-            if(!item.getLeft().equals(item.getRight())) {
-                this.addNewNonEmptyFieldAfterMove();
-                return;
-            }
-        }
-        if (this.getAllEmptyFields().size() != 0) {
-            return;
         }
         testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
@@ -344,15 +326,6 @@ public class Board implements Serializable {
             moveFieldsInRowOrColumn(col);
             Collections.reverse(col);
             cols.set(i, col);
-        }
-        for (Pair<Field, Field> item : zip(copyList, this.board)) {
-            if(!item.getLeft().equals(item.getRight())) {
-                this.addNewNonEmptyFieldAfterMove();
-                return;
-            }
-        }
-        if (this.getAllEmptyFields().size() != 0) {
-            return;
         }
         testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC

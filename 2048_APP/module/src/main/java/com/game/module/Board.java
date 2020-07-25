@@ -205,6 +205,22 @@ public class Board implements Serializable {
         this.previousScores.remove(this.previousScores.size() - 1);
     }
 
+    private boolean checkIfBoardChanged(List<Field> copyList) {
+        boolean hasChanged = false;
+        for (Pair<Field, Field> item : zip(copyList, this.board)) {
+            if(!item.getLeft().equals(item.getRight())) {
+                hasChanged = true;
+            }
+        }
+        if (hasChanged) {
+            for (Pair<Field, Field> item : zip(copyList, this.board)) {
+                item.getRight().setValue(item.getLeft().getValue());
+            }
+            return boolean;
+        }
+
+    }
+
     private void testIfGameOver(List<Field> copyList) throws GoalAchievedException, GameOverException {
         for (Pair<Field, Field> item : zip(copyList, this.board)) {
             if(!item.getLeft().equals(item.getRight())) {
@@ -216,55 +232,19 @@ public class Board implements Serializable {
             return;
         }
         this.moveDown();
-        boolean hasChanged = false;
-        for (Pair<Field, Field> item : zip(copyList, this.board)) {
-            if(!item.getLeft().equals(item.getRight())) {
-                hasChanged = true;
-            }
-        }
-        if (hasChanged) {
-            for (Pair<Field, Field> item : zip(copyList, this.board)) {
-                item.getRight().setValue(item.getLeft().getValue());
-            }
+        if(this.checkIfBoardChanged(copyList)) {
             return;
         }
         this.moveLeft();
-        hasChanged = false;
-        for (Pair<Field, Field> item : zip(copyList, this.board)) {
-            if(!item.getLeft().equals(item.getRight())) {
-                hasChanged = true;
-            }
-        }
-        if (hasChanged) {
-            for (Pair<Field, Field> item : zip(copyList, this.board)) {
-                item.getRight().setValue(item.getLeft().getValue());
-            }
+        if(this.checkIfBoardChanged(copyList)) {
             return;
         }
         this.moveUp();
-        hasChanged = false;
-        for (Pair<Field, Field> item : zip(copyList, this.board)) {
-            if(!item.getLeft().equals(item.getRight())) {
-                hasChanged = true;
-            }
-        }
-        if (hasChanged) {
-            for (Pair<Field, Field> item : zip(copyList, this.board)) {
-                item.getRight().setValue(item.getLeft().getValue());
-            }
+        if(this.checkIfBoardChanged(copyList)) {
             return;
         }
         this.moveRight();
-        hasChanged = false;
-        for (Pair<Field, Field> item : zip(copyList, this.board)) {
-            if(!item.getLeft().equals(item.getRight())) {
-                hasChanged = true;
-            }
-        }
-        if (hasChanged) {
-            for (Pair<Field, Field> item : zip(copyList, this.board)) {
-                item.getRight().setValue(item.getLeft().getValue());
-            }
+        if(this.checkIfBoardChanged(copyList)) {
             return;
         }
         throw new GameOverException("Game lost");

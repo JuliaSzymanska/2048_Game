@@ -1,7 +1,5 @@
 package com.game.a2048_app;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -130,6 +128,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private ConstraintLayout constraintLayout;
 
+    // TODO: 25.07.2020 blokada interakcji z użytkownikiem
+    //  https://stackoverflow.com/questions/36918219/how-to-disable-user-interaction-while-progressbar-is-visible-in-android
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -443,7 +443,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         TranslateAnimation translateAnimation = new TranslateAnimation
                 (0, view2.getX() - view1.getX(), 0, view2.getY() - view1.getY());
         translateAnimation.setRepeatMode(0);
-        translateAnimation.setDuration(1000);
+        translateAnimation.setDuration(10000);
         translateAnimation.setFillAfter(true);
 //        view1.bringToFront();
         view1.setTranslationZ(1000);
@@ -456,7 +456,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             @Override
             public void run() {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

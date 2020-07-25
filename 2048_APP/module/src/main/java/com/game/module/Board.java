@@ -205,10 +205,60 @@ public class Board implements Serializable {
         this.previousScores.remove(this.previousScores.size() - 1);
     }
 
-    private class InvalidMoveException extends Exception {
-        InvalidMoveException(Exception e){
-            super(e);
+    private void testIfGameOver(List<Field> copyList) throws GoalAchievedException, GameOverException {
+        this.moveDown();
+        boolean hasChanged = false;
+        for (Pair<Field, Field> item : zip(copyList, this.board)) {
+            if(!item.getLeft().equals(item.getRight())) {
+                hasChanged = true;
+            }
         }
+        if (hasChanged) {
+            for (Pair<Field, Field> item : zip(copyList, this.board)) {
+                item.getRight().setValue(item.getLeft().getValue());
+            }
+            return;
+        }
+        this.moveLeft();
+        hasChanged = false;
+        for (Pair<Field, Field> item : zip(copyList, this.board)) {
+            if(!item.getLeft().equals(item.getRight())) {
+                hasChanged = true;
+            }
+        }
+        if (hasChanged) {
+            for (Pair<Field, Field> item : zip(copyList, this.board)) {
+                item.getRight().setValue(item.getLeft().getValue());
+            }
+            return;
+        }
+        this.moveUp();
+        hasChanged = false;
+        for (Pair<Field, Field> item : zip(copyList, this.board)) {
+            if(!item.getLeft().equals(item.getRight())) {
+                hasChanged = true;
+            }
+        }
+        if (hasChanged) {
+            for (Pair<Field, Field> item : zip(copyList, this.board)) {
+                item.getRight().setValue(item.getLeft().getValue());
+            }
+            return;
+        }
+        this.moveRight();
+        hasChanged = false;
+        for (Pair<Field, Field> item : zip(copyList, this.board)) {
+            if(!item.getLeft().equals(item.getRight())) {
+                hasChanged = true;
+            }
+        }
+        if (hasChanged) {
+            for (Pair<Field, Field> item : zip(copyList, this.board)) {
+                item.getRight().setValue(item.getLeft().getValue());
+            }
+            return;
+        }
+        throw new GameOverException("Game lost");
     }
 
     // TODO: 31.05.2020 Przemek skroc to tak jak sb wymarzyles
@@ -228,6 +278,10 @@ public class Board implements Serializable {
                 return;
             }
         }
+        if (this.getAllEmptyFields().size() != 0) {
+            return;
+        }
+        testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
     }
 
@@ -249,6 +303,10 @@ public class Board implements Serializable {
                 return;
             }
         }
+        if (this.getAllEmptyFields().size() != 0) {
+            return;
+        }
+        testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
     }
 
@@ -268,6 +326,10 @@ public class Board implements Serializable {
                 return;
             }
         }
+        if (this.getAllEmptyFields().size() != 0) {
+            return;
+        }
+        testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
     }
 
@@ -289,6 +351,10 @@ public class Board implements Serializable {
                 return;
             }
         }
+        if (this.getAllEmptyFields().size() != 0) {
+            return;
+        }
+        testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
     }
 

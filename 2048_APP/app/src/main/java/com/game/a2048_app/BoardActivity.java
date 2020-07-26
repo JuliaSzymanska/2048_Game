@@ -123,6 +123,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private BoardActivity boardActivity = this;
 
+    // TODO: 26.07.2020 https://stackoverflow.com/a/15189123 - tak zrobic dla każdego mediaPlayera
     private MediaPlayer mediaPlayerPause;
     private MediaPlayer mediaPlayerRestart;
     private MediaPlayer mediaPlayerSettings;

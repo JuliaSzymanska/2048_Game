@@ -18,6 +18,9 @@ public class EndGame extends AppCompatActivity {
     //  - po uzyskaniu 2048 gra dalej
     //  - javaDoc
     //  - https://stackoverflow.com/a/151940
+    //  - undo = 0 - unclickable
+    //  - wyciszanie apki
+
 
     private String score;
     private String highScore;

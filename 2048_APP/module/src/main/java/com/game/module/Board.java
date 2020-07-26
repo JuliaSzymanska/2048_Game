@@ -127,7 +127,7 @@ public class Board implements Serializable {
     }
 
     private void isGoalAchieved() throws GoalAchievedException {
-        for(Field i : board){
+        for (Field i : board) {
             if (i.getValue() >= 2048 && !this.isGoalAchieved) {
                 this.isGoalAchieved = true;
                 throw new GoalAchievedException("Goal Achieved");
@@ -258,7 +258,7 @@ public class Board implements Serializable {
     private boolean checkIfBoardChanged(List<Field> copyList) {
         boolean hasChanged = false;
         for (Pair<Field, Field> item : zip(copyList, this.board)) {
-            if(!item.getLeft().equals(item.getRight())) {
+            if (!item.getLeft().equals(item.getRight())) {
                 hasChanged = true;
             }
         }
@@ -272,7 +272,7 @@ public class Board implements Serializable {
 
     private void testIfGameOver(List<Field> copyList) throws GoalAchievedException, GameOverException {
         for (Pair<Field, Field> item : zip(copyList, this.board)) {
-            if(!item.getLeft().equals(item.getRight())) {
+            if (!item.getLeft().equals(item.getRight())) {
                 this.addNewNonEmptyFieldAfterMove();
                 return;
             }
@@ -281,19 +281,19 @@ public class Board implements Serializable {
             return;
         }
         this.moveDown();
-        if(this.checkIfBoardChanged(copyList)) {
+        if (this.checkIfBoardChanged(copyList)) {
             return;
         }
         this.moveLeft();
-        if(this.checkIfBoardChanged(copyList)) {
+        if (this.checkIfBoardChanged(copyList)) {
             return;
         }
         this.moveUp();
-        if(this.checkIfBoardChanged(copyList)) {
+        if (this.checkIfBoardChanged(copyList)) {
             return;
         }
         this.moveRight();
-        if(this.checkIfBoardChanged(copyList)) {
+        if (this.checkIfBoardChanged(copyList)) {
             return;
         }
         throw new GameOverException("Game lost");
@@ -381,7 +381,9 @@ public class Board implements Serializable {
             if (i > 0) {
                 //jesli nie jest to ostatni element to przesuwa go o jeden w prawo
                 fieldsList.get(i).setValue(fieldsList.get(i - 1).getValue());
-                if (i != index) moveCountList.set(i, moveCountList.get(i) + 1);
+                if (i != index) {
+                    moveCountList.set(i, moveCountList.get(i) + 1);
+                }
             } else {
                 //jesli to jest ostatni element to ustawiamy wartosc na 0
                 fieldsList.get(i).setValue(0);

@@ -376,18 +376,18 @@ public class Board implements Serializable {
      */
     // TODO: 25.07.2020 w liscie trzeba inkrementowac dla indeksow dla pol ktore się przesuenly
     private void moveFieldsPositions(List<Field> fieldsList, int index, List<Integer> moveCountList) {
-        int amountCalled = 0;
         for (int i = index; i >= 0; i--) {
             if (i > 0) {
                 //jesli nie jest to ostatni element to przesuwa go o jeden w prawo
                 fieldsList.get(i).setValue(fieldsList.get(i - 1).getValue());
-                if (i != index) {
-                    moveCountList.set(i, moveCountList.get(i) + 1);
-                }
             } else {
                 //jesli to jest ostatni element to ustawiamy wartosc na 0
                 fieldsList.get(i).setValue(0);
             }
+//            if (i != index) {
+//                moveCountList.set(i, moveCountList.get(i) + 1);
+//                amountCalled++;
+//            }
         }
     }
 
@@ -418,6 +418,14 @@ public class Board implements Serializable {
     //  Ostatecznie dla pól na których były 0 resetujemy int
     private void removeZerosInMove(List<Field> fieldsList, List<Integer> moveCountList) {
         int countMoves = countZerosToDelete(fieldsList);
+        // TODO: 26.07.2020 tutaj jest sprawdzanie o ile się ruszyło
+        for(int i = 1; i < fieldsList.size(); i++) {
+            if(fieldsList.get(i).getValue() == 0) {
+                for(int j = i - 1; j >= 0; j--) {
+                    moveCountList.set(j, moveCountList.get(j) + 1);
+                }
+            }
+        }
         for (int i = 0; i < countMoves; i++) {
             for (int j = BOARD_DIMENSIONS - 1; j >= 0; j--) {
                 //jesli wartosc jest rowna 0 to przesun od tej pozycji w prawo o 1
@@ -440,6 +448,10 @@ public class Board implements Serializable {
                 //jesli nie jest to ostatni element oraz to pole i pole na indexie sa rowne i pole ma wartosc rozna od 0 to
                 if (i != 0 && fieldsList.get(i).getValue() == fieldsList.get(index).getValue() && fieldsList.get(i).getValue() != 0) {
                     //podnies do kwadratu wartosc pola
+                    // TODO: 26.07.2020 tutaj też jest sprawdzanie o ile się ruszyło, jeżeli kasujemy frajera(laczymy klocek)
+                    for (int j = index; j >= 0; j--) {
+                        moveCountList.set(j, moveCountList.get(j) + 1);
+                    }
                     fieldsList.get(i).setNextValue();
                     //zwieksz liczbe pkt
                     this.updateScore(fieldsList.get(i).getValue());

@@ -22,7 +22,6 @@ public class EndGame extends AppCompatActivity {
     //  - testy testy testy (jeden jest prawdkopodobnie zepsuty, dodać testy do tego co dzisiaj zrobiłem)
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
     //  - zrobić animacje pojawiania się nowych klocków, no przejście z naszej animacji do po animacji
-    //  - zablokować możliwość ruchu po planszy w trakcie animacji
     //  - naprawić mediaPlayer tak jak podałem w linku https://stackoverflow.com/a/15189123 - każdy mediaplayer musi być w ten sposób zakończony po odtworzeniu swojego dźwięku.
 
 

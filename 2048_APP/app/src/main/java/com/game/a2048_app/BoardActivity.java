@@ -691,7 +691,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         setUndoAmount();
     }
 
-    private final static double ANIM_SPEED_SECONDS = 0.3;
+    private final static double ANIM_SPEED_SECONDS = 0.25;
 
     private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
         @Override
@@ -703,6 +703,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onAnimationEnd(Animation arg0) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            adapter.notifyDataSetChanged();
         }
 
         @Override
@@ -735,19 +736,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
         this.prepareGrid();
         setFieldsImagesToZeros();
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                adapter.notifyDataSetChanged();
-                            }
-                        });
-                    }
-                }, (long) (ANIM_SPEED_SECONDS * 1000)
-        );
     }
 
     private void animUP(List<Field> fieldCopies) {
@@ -774,19 +762,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
         this.prepareGrid();
         setFieldsImagesToZeros();
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                adapter.notifyDataSetChanged();
-                            }
-                        });
-                    }
-                }, (long) (ANIM_SPEED_SECONDS * 1000)
-        );
     }
 
     private void animLeft(List<Field> fieldCopies) {
@@ -814,19 +789,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
         this.prepareGrid();
         setFieldsImagesToZeros();
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                adapter.notifyDataSetChanged();
-                            }
-                        });
-                    }
-                }, (long) (ANIM_SPEED_SECONDS * 1000)
-        );
     }
 
     private void animRight(List<Field> fieldCopies) {
@@ -853,19 +815,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
         this.prepareGrid();
         setFieldsImagesToZeros();
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                adapter.notifyDataSetChanged();
-                            }
-                        });
-                    }
-                }, (long) (ANIM_SPEED_SECONDS * 1000)
-        );
     }
 
     private void changeToEndActivity() {

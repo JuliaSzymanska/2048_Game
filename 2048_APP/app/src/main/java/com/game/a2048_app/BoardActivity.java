@@ -285,6 +285,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         System.out.println(undoAmount);
         if(undoAmount >= 0){
             undoTextView.setText(String.format("%d", undoAmount));
+        } else {
+            // TODO: 26.07.2020 tutaj jakis exception
         }
     }
 
@@ -293,14 +295,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         public void onClick(View v) {
             settingsButton.setBackgroundResource(R.drawable.settings_clicked);
             mediaPlayerSettings.start();
-            mediaPlayerSettings.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-//                    settingsButton.setBackgroundResource(R.drawable.settings);
-                }
-
-            });
             AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
             builder.setMultiChoiceItems(R.array.sensors, choosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override

@@ -80,7 +80,6 @@ public class EndGame extends AppCompatActivity {
     private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
             homePageButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
             MediaPlayer mediaPlayerStart = MediaPlayer.create(endgame, R.raw.slide_activities);
             mediaPlayerStart.start();

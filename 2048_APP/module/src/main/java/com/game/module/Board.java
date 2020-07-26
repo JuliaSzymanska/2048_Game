@@ -71,9 +71,11 @@ public class Board implements Serializable {
 
     private List<Integer> newAmountMovedList() {
         List<Integer> amountMovedList = Arrays.asList(new Integer[BOARD_SIZE]);
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            amountMovedList.set(i, 0);
-        }
+        // TODO: 26.07.2020 moze tak?
+        java.util.Collections.fill(amountMovedList, 0);
+//        for (int i = 0; i < BOARD_SIZE; i++) {
+//            amountMovedList.set(i, 0);
+//        }
         return amountMovedList;
     }
 

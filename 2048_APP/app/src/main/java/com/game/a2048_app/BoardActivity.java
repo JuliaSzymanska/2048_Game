@@ -706,10 +706,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         for(int i = 0; i < this.gridView.getChildCount(); i++) {
             this.gridView.setZ(i);
             View viewBeingAnimated = this.gridView.getChildAt(i);
-            int index = i - amountsMoved.get(i) * 4;
-            System.out.println("INDEXY " + i + " " + index);
             View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i) * 4);
-            TranslateAnimation translateAnimation = new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
+            TranslateAnimation translateAnimation =
+                    new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
                     0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
             translateAnimation.setRepeatMode(0);
             translateAnimation.setDuration(1000);

@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -760,15 +759,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             }
         }
         this.prepareGrid();
-        Animation fadeOut = AnimationUtils.loadAnimation(BoardActivity.this, R.anim.fade_out);
-        for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
-            this.gridView.getChildAt(i).startAnimation(fadeOut);
-        }
         setFieldsImagesToZeros();
-        Animation fadeIn = AnimationUtils.loadAnimation(BoardActivity.this, R.anim.fade_in);
-        for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
-            this.gridView.getChildAt(i).startAnimation(fadeIn);
-        }
     }
 
     private void animDown(List<Field> fieldCopies) {

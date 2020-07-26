@@ -26,6 +26,7 @@ public class EndGame extends AppCompatActivity {
     private String highScore;
     private Boolean authentication;
     private EndGame endgame = this;
+    private Button homePageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +37,8 @@ public class EndGame extends AppCompatActivity {
         authentication = Boolean.parseBoolean(intent.getStringExtra(String.valueOf(R.string.authentication)));
         authentication = Boolean.parseBoolean(intent.getStringExtra(getResources().getString(R.string.authentication)));
         setContentView(R.layout.activity_end_game);
-        Button homePage = findViewById(R.id.homePage);
-        homePage.setOnClickListener(initializeBoardActivity);
+        homePageButton = findViewById(R.id.homePage);
+        homePageButton.setOnClickListener(initializeBoardActivity);
         loadData();
     }
 
@@ -73,7 +74,18 @@ public class EndGame extends AppCompatActivity {
     private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            MediaPlayer.create(endgame, R.raw.slide_activities).start();
+
+            homePageButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
+            MediaPlayer mediaPlayerStart = MediaPlayer.create(endgame, R.raw.slide_activities);
+            mediaPlayerStart.start();
+            mediaPlayerStart.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    homePageButton.setBackgroundResource(R.drawable.main_activity_button);
+                }
+
+            });
             startActivity(new Intent(EndGame.this, MainActivity.class));
         }
     };

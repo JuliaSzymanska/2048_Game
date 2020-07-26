@@ -29,8 +29,9 @@ import me.aflak.libraries.dialog.FingerprintDialog;
 
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback {
 
-    MainActivity mainActivity = this;
-    Boolean isAuthenticated = false;
+    private MainActivity mainActivity = this;
+    private Boolean isAuthenticated = false;
+    private Button startGameButton;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -72,8 +73,8 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     }
 
     private void configureStartGameButton() {
-        Button startGame = (Button) findViewById(R.id.startGameButton);
-        startGame.setOnClickListener(initializeBoardActivity);
+        startGameButton = (Button) findViewById(R.id.startGameButton);
+        startGameButton.setOnClickListener(initializeBoardActivity);
     }
 
     private void configureAuthenticateButton() {
@@ -99,7 +100,18 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
             // https://iznaut.itch.io/bfxr
             // https://www.drpetter.se/project_sfxr.html
             // TODO: 25.07.2020 ten jest mój ulubiony
-            MediaPlayer.create(mainActivity, R.raw.decline_call).start();
+
+            startGameButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
+            MediaPlayer mediaPlayerStart = MediaPlayer.create(mainActivity, R.raw.decline_call);
+            mediaPlayerStart.start();
+            mediaPlayerStart.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    startGameButton.setBackgroundResource(R.drawable.main_activity_button);
+                }
+
+            });
             Intent i = new Intent(MainActivity.this, BoardActivity.class);
             i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(isAuthenticated));
             startActivity(i);

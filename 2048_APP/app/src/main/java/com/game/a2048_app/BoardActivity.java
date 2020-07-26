@@ -256,7 +256,16 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             // sound
+            restartGameButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
             mediaPlayerRestart.start();
+            mediaPlayerRestart.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    restartGameButton.setBackgroundResource(R.drawable.main_activity_button);
+                }
+
+            });
             restartGame();
         }
     };

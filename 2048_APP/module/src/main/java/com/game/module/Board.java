@@ -350,8 +350,7 @@ public class Board implements Serializable {
     void moveUp() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
         this.amountMovedList = this.newAmountMovedList();
-        System.out.println("\n" + this.board);
-        System.out.println(this.amountMovedList);
+        System.out.println("\n" + testToString());
         List<Field> copyList = this.getCopyBoard();
         List<Field> col;
         List<Integer> colAmountMoved;
@@ -364,8 +363,7 @@ public class Board implements Serializable {
             Collections.reverse(colAmountMoved);
             this.setAmountMovedColumn(i, colAmountMoved);
         }
-        System.out.println("\n" + this.board);
-        System.out.println(this.amountMovedList);
+        System.out.println("\n" + testToString());
         testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
     }
@@ -378,6 +376,7 @@ public class Board implements Serializable {
      */
     // TODO: 25.07.2020 w liscie trzeba inkrementowac dla indeksow dla pol ktore się przesuenly
     private void moveFieldsPositions(List<Field> fieldsList, int index, List<Integer> moveCountList) {
+        int amountCalled = 0;
         for (int i = index; i >= 0; i--) {
             if (i > 0) {
                 //jesli nie jest to ostatni element to przesuwa go o jeden w prawo
@@ -502,6 +501,22 @@ public class Board implements Serializable {
         toStringBuilder.append("");
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             toStringBuilder.append(this.getRow(i));
+            toStringBuilder.append("\n");
+        }
+        return toStringBuilder.toString();
+    }
+
+    private String testToString() {
+        ToStringBuilder toStringBuilder = new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE);
+        toStringBuilder.append("BOARD \n");
+
+        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
+            toStringBuilder.append(this.getRow(i));
+            toStringBuilder.append("\n");
+        }
+        toStringBuilder.append("MOVED AMOUNT \n");
+        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
+            toStringBuilder.append(this.getAmountMovedRow(i));
             toStringBuilder.append("\n");
         }
         return toStringBuilder.toString();

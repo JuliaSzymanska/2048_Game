@@ -150,11 +150,40 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.prepareSensors();
     }
 
+    private MediaPlayer.OnCompletionListener mediaPlayerListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            mp.release();
+        }
+    };
+
     private void initMediaPlayers() {
         this.mediaPlayerPause = MediaPlayer.create(this, R.raw.pause);
         this.mediaPlayerRestart = MediaPlayer.create(this, R.raw.restart);
         this.mediaPlayerSettings = MediaPlayer.create(this, R.raw.button_no_reverb);
         this.mediaPlayerUndo = MediaPlayer.create(this, R.raw.undo);
+        mediaPlayerPause.setOnCompletionListener(mediaPlayerListener);
+        mediaPlayerRestart.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                restartGameButton.setBackgroundResource(R.drawable.main_activity_button);
+                mp.release();
+            }
+
+        });
+
+        mediaPlayerSettings.setOnCompletionListener(mediaPlayerListener);
+        mediaPlayerUndo.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                setUndoAmount();
+                mp.release();
+            }
+
+        });
+
     }
 
     private void releaseMediaPlayers() {
@@ -250,15 +279,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             // sound
             restartGameButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
             mediaPlayerRestart.start();
-            mediaPlayerRestart.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    restartGameButton.setBackgroundResource(R.drawable.main_activity_button);
-                    mp.release();
-                }
-
-            });
             restartGame();
         }
     };
@@ -268,15 +288,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         public void onClick(View v) {
             undoButton.setBackgroundResource(R.drawable.undo_clicked);
             mediaPlayerUndo.start();
-            mediaPlayerUndo.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    setUndoAmount();
-                    mp.release();
-                }
-
-            });
             game.undoPreviousMove();
             adapter.notifyDataSetChanged();
             setScoreTexts();
@@ -290,7 +301,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             undoButton.setBackgroundResource(R.drawable.undo);
             undoTextView.setText(String.format("%d", undoAmount));
             undoButton.setEnabled(true);
-        } else if(undoAmount == 0){
+        } else if (undoAmount == 0) {
             undoButton.setBackgroundResource(R.drawable.undo_clicked);
             undoTextView.setText(String.format("%d", undoAmount));
             undoButton.setEnabled(false);
@@ -355,14 +366,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             mediaPlayerPause.start();
-            mediaPlayerUndo.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    mp.release();
-                }
-
-            });
             if (!game.isSuspended()) {
                 game.pauseTimer();
                 pausePlayButton.setBackgroundResource(R.drawable.pause_play_on);
@@ -726,7 +730,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
-    private TranslateAnimation prepareTranslateAnimation(View viewBeingAnimated, View viewBeingAnimatedTo){
+    private TranslateAnimation prepareTranslateAnimation(View viewBeingAnimated, View viewBeingAnimatedTo) {
         TranslateAnimation translateAnimation =
                 new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
                         0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
@@ -736,7 +740,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         return translateAnimation;
     }
 
-    private void startAnimation(List<Field> fieldCopies, List<TranslateAnimation> translateAnimationList){
+    private void startAnimation(List<Field> fieldCopies, List<TranslateAnimation> translateAnimationList) {
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
             if (fieldCopies.get(i).getValue() != 0) {
                 Animation translateAnimation = translateAnimationList.get(i);

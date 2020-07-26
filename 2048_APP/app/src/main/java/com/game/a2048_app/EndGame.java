@@ -14,15 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 public class EndGame extends AppCompatActivity {
 
     // TODO: 23.07.2020  Julia work list:
-    //  - animacja klockow
     //  - javaDoc
     //  - https://stackoverflow.com/a/151940
-    //  - wyciszanie apki
     //  - testy testy testy (jeden jest prawdkopodobnie zepsuty, dodać testy do tego co dzisiaj zrobiłem)
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
     //  - zrobić animacje pojawiania się nowych klocków, no przejście z naszej animacji do po animacji
-    //  - naprawić mediaPlayer tak jak podałem w linku https://stackoverflow.com/a/15189123 - każdy mediaplayer musi być w ten sposób zakończony po odtworzeniu swojego dźwięku.
-
 
     private String score;
     private String highScore;

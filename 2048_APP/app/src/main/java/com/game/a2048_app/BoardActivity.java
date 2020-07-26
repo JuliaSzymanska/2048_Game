@@ -261,19 +261,23 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         //  jeśli działa to wszystko trzeba do .xml przenieść żeby był porządek
     }
 
+    private void setMediaPlayer(int id){
+        AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(id);
+        try {
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(assetFileDescriptor);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private View.OnClickListener restartGameListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             restartGameButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
-            AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(R.raw.restart);
-            try {
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(assetFileDescriptor);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            setMediaPlayer(R.raw.restart);
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
                 @Override
@@ -290,15 +294,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             undoButton.setBackgroundResource(R.drawable.undo_clicked);
-            AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(R.raw.undo);
-            try {
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(assetFileDescriptor);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            setMediaPlayer(R.raw.undo);
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
                 @Override
@@ -333,17 +329,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             settingsButton.setBackgroundResource(R.drawable.settings_clicked);
-//            Uri uri = ContentUris.withAppendedId(
-//                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, R.raw.button_no_reverb);
-            AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(R.raw.button_no_reverb);
-            try {
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(assetFileDescriptor);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            setMediaPlayer(R.raw.button_no_reverb);
             AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
             builder.setMultiChoiceItems(R.array.sensors, choosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
@@ -394,16 +380,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener playPauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(R.raw.pause);
-            try {
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(assetFileDescriptor);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            setMediaPlayer(R.raw.pause);
             if (!game.isSuspended()) {
                 game.pauseTimer();
                 pausePlayButton.setBackgroundResource(R.drawable.pause_play_on);

@@ -228,10 +228,6 @@ public class Board implements Serializable {
         return pairList;
     }
 
-    public int getMaxAmountOfUndo(){
-        return PREVIOUS_BOARDS_STORED_AMOUNT;
-    }
-
     // TODO: 24.07.2020 tutaj trzeba zrobic to z tym boolem isGoalAchieved
     void undoPreviousMove() {
         if (this.previousBoards.size() == 0) {

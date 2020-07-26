@@ -491,6 +491,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     fieldsImages[i] = R.drawable.sixty_five_thousands;
                     break;
                 case 131072:
+                    // TODO: 26.07.2020 czy to na pewno jest milion julka? xd
                     fieldsImages[i] = R.drawable.one_million;
                     break;
             }
@@ -550,7 +551,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                         Thread.currentThread().interrupt();
                         e.printStackTrace();
                     }
-
                 }
             }
         };

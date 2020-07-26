@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -254,6 +255,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     restartGameButton.setBackgroundResource(R.drawable.main_activity_button);
+                    mp.release();
                 }
 
             });
@@ -271,6 +273,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     setUndoAmount();
+                    mp.release();
                 }
 
             });
@@ -352,6 +355,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             mediaPlayerPause.start();
+            mediaPlayerUndo.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+
+            });
             if (!game.isSuspended()) {
                 game.pauseTimer();
                 pausePlayButton.setBackgroundResource(R.drawable.pause_play_on);
@@ -734,7 +745,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             }
         }
         this.prepareGrid();
+        Animation fadeOut = AnimationUtils.loadAnimation(BoardActivity.this, R.anim.fade_out);
+        for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
+            this.gridView.getChildAt(i).startAnimation(fadeOut);
+        }
         setFieldsImagesToZeros();
+        Animation fadeIn = AnimationUtils.loadAnimation(BoardActivity.this, R.anim.fade_in);
+        for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
+            this.gridView.getChildAt(i).startAnimation(fadeIn);
+        }
     }
 
     private void animDown(List<Field> fieldCopies) {

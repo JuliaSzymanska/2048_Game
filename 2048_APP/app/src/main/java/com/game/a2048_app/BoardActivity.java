@@ -3,6 +3,7 @@ package com.game.a2048_app;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +13,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +40,7 @@ import com.game.module.Game;
 import com.game.module.GameOverException;
 import com.game.module.GoalAchievedException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -91,6 +95,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Button pausePlayButton;
     private Button undoButton;
     private Button settingsButton;
+    private Button muteButton;
     private TextView undoTextView;
 
     private Thread updateTimeThread;
@@ -129,10 +134,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private BoardActivity boardActivity = this;
 
     // TODO: 26.07.2020 https://stackoverflow.com/a/15189123 - tak zrobic dla każdego mediaPlayera
-    private MediaPlayer mediaPlayerPause;
-    private MediaPlayer mediaPlayerRestart;
-    private MediaPlayer mediaPlayerSettings;
-    private MediaPlayer mediaPlayerUndo;
+//    private MediaPlayer mediaPlayerPause;
+//    private MediaPlayer mediaPlayerRestart;
+//    private MediaPlayer mediaPlayerSettings;
+    private MediaPlayer mediaPlayer;
 
 
     // TODO: 25.07.2020 blokada interakcji z użytkownikiem
@@ -150,47 +155,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.prepareSensors();
     }
 
-    private MediaPlayer.OnCompletionListener mediaPlayerListener = new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            mp.release();
-        }
-    };
-
-    private void initMediaPlayers() {
-        this.mediaPlayerPause = MediaPlayer.create(this, R.raw.pause);
-        this.mediaPlayerRestart = MediaPlayer.create(this, R.raw.restart);
-        this.mediaPlayerSettings = MediaPlayer.create(this, R.raw.button_no_reverb);
-        this.mediaPlayerUndo = MediaPlayer.create(this, R.raw.undo);
-        mediaPlayerPause.setOnCompletionListener(mediaPlayerListener);
-        mediaPlayerRestart.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                restartGameButton.setBackgroundResource(R.drawable.main_activity_button);
-                mp.release();
-            }
-
-        });
-
-        mediaPlayerSettings.setOnCompletionListener(mediaPlayerListener);
-        mediaPlayerUndo.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                setUndoAmount();
-                mp.release();
-            }
-
-        });
-
-    }
-
-    private void releaseMediaPlayers() {
-        this.mediaPlayerPause.release();
-        this.mediaPlayerRestart.release();
-        this.mediaPlayerSettings.release();
-        this.mediaPlayerUndo.release();
+    private void initMediaPlayer() {
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioAttributes(
+                new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build()
+        );
     }
 
     @Override
@@ -257,11 +229,23 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
         undoTextView = (TextView) findViewById(R.id.undoTextView);
+        muteButton = (Button) findViewById(R.id.muteButton);
+        muteButton.setOnClickListener(muteListener);
         setUndoAmount();
         this.setTheme();
         adapter.notifyDataSetChanged();
     }
 
+//    private View.OnClickListener muteListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            muteButton.setBackgroundResource(R.drawable.undo_clicked);
+//            mediaPlayerUndo.start();
+//            game.undoPreviousMove();
+//            adapter.notifyDataSetChanged();
+//            setScoreTexts();
+//        }
+//    };
 
     private void setTheme() {
         if (this.isDarkTheme) {
@@ -276,9 +260,25 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener restartGameListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            // sound
             restartGameButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
-            mediaPlayerRestart.start();
+            Uri uri = ContentUris.withAppendedId(
+                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, R.raw.restart);
+            try {
+                mediaPlayer.setDataSource(getApplicationContext(), uri);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    restartGameButton.setBackgroundResource(R.drawable.main_activity_button);
+                    mp.release();
+                }
+
+            });
             restartGame();
         }
     };
@@ -287,7 +287,24 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             undoButton.setBackgroundResource(R.drawable.undo_clicked);
-            mediaPlayerUndo.start();
+            Uri uri = ContentUris.withAppendedId(
+                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, R.raw.undo);
+            try {
+                mediaPlayer.setDataSource(getApplicationContext(), uri);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    setUndoAmount();
+                    mp.release();
+                }
+
+            });
             game.undoPreviousMove();
             adapter.notifyDataSetChanged();
             setScoreTexts();
@@ -314,7 +331,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             settingsButton.setBackgroundResource(R.drawable.settings_clicked);
-            mediaPlayerSettings.start();
+            Uri uri = ContentUris.withAppendedId(
+                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, R.raw.button_no_reverb);
+            try {
+                mediaPlayer.setDataSource(getApplicationContext(), uri);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
             builder.setMultiChoiceItems(R.array.sensors, choosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
@@ -365,7 +390,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener playPauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mediaPlayerPause.start();
+            Uri uri = ContentUris.withAppendedId(
+                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, R.raw.pause);
+            try {
+                mediaPlayer.setDataSource(getApplicationContext(), uri);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             if (!game.isSuspended()) {
                 game.pauseTimer();
@@ -551,7 +584,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         this.game.unpauseTimer();
         this.beginUpdatingTime();
-        this.initMediaPlayers();
+        this.initMediaPlayer();
     }
 
     private void beginUpdatingTime() {
@@ -585,7 +618,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mSensorManager.unregisterListener(this);
         this.game.pauseTimer();
         this.updateTimeThread.interrupt();
-        this.releaseMediaPlayers();
+        this.mediaPlayer.release();
     }
 
     @Override

@@ -26,7 +26,7 @@
         android:id="@+id/scoreBoard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="20dp"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.23"
@@ -42,7 +42,7 @@
         style="@android:style/Widget.Material.Light.Button"
         android:layout_width="246dp"
         android:layout_height="0dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="624dp"
         android:background="@drawable/main_activity_button"
         android:fadingEdge="horizontal"
@@ -123,13 +123,12 @@
         android:id="@+id/settingsButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="18dp"
         android:background="@drawable/settings"
+        app:layout_constraintBottom_toTopOf="@+id/scoreBoard"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.924"
-        app:layout_constraintStart_toStartOf="@+id/pausePlayButton"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/restartGameButton"
         app:layout_constraintWidth_percent="0.09
 " />
 
@@ -137,23 +136,35 @@
         android:id="@+id/pausePlayButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginTop="18dp"
         android:background="@drawable/pause_play"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/settingsButton"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/restartGameButton"
+        app:layout_constraintTop_toTopOf="@+id/darkThemeView"
+        app:layout_constraintWidth_percent="0.09" />
+
+    <Button
+        android:id="@+id/muteButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/mute_off"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/restartGameButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/darkThemeView"
         app:layout_constraintWidth_percent="0.09" />
 
     <Button
         android:id="@+id/undoMoveButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/scoreBoard"
         app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/restartGameButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.07" />
 
 
@@ -161,13 +172,13 @@
         android:id="@+id/undoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="3dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/undoMoveButton"
         app:layout_constraintEnd_toEndOf="@+id/undoMoveButton"
         app:layout_constraintStart_toStartOf="@+id/undoMoveButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/undoMoveButton" />
 
     <!-- <TextView
     android:id="@+id/mTextSensorAzimuth"

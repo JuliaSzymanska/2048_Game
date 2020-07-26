@@ -85,6 +85,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Button restartGameButton;
     private Button pausePlayButton;
     private Button undoButton;
+    private Button settingsButton;
+    private TextView undoTextView;
 
     private Thread updateTimeThread;
 
@@ -212,15 +214,17 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         prepareHighscoreText();
         restartGameButton = (Button) findViewById(R.id.restartGameButton);
         this.restartGameButton.setOnClickListener(restartGameListener);
-        Button settingsButton = (Button) findViewById(R.id.settingsButton);
+        this.settingsButton = (Button) findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(settingsListener);
         undoButton = (Button) findViewById(R.id.undoMoveButton);
         undoButton.setOnClickListener(undoListener);
-        undoButton.setBackgroundResource(R.drawable.undo_zero);
+        undoButton.setBackgroundResource(R.drawable.undo);
         pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
         pausePlayButton.setOnClickListener(playPauseListener);
         darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
+        undoTextView = (TextView) findViewById(R.id.undoTextView);
+        setUndoAmount();
 
         constraintLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
 
@@ -259,38 +263,44 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener undoListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            undoButton.setBackgroundResource(R.drawable.undo_clicked);
             mediaPlayerUndo.start();
+            mediaPlayerUndo.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    undoButton.setBackgroundResource(R.drawable.undo);
+                }
+
+            });
             game.undoPreviousMove();
             adapter.notifyDataSetChanged();
             setScoreTexts();
-            setUndoResource();
+            setUndoAmount();
         }
     };
 
-    // TODO: 25.07.2020 Mi się wydaje że jak łysy zobaczy że zamiast zrobić liczbe to robimy takiego switcha to nas pobije
-    private void setUndoResource() {
-        switch (BoardActivity.this.game.getAvaiableUndoAmount()) {
-            case 0:
-                undoButton.setBackgroundResource(R.drawable.undo_zero);
-                break;
-            case 1:
-                undoButton.setBackgroundResource(R.drawable.undo_one);
-                break;
-            case 2:
-                undoButton.setBackgroundResource(R.drawable.undo_two);
-                break;
-            case 3:
-                undoButton.setBackgroundResource(R.drawable.undo_three);
-                break;
-            default:
-                // TODO: 24.07.2020 tutaj jakis exception
+    private void setUndoAmount() {
+        int undoAmount = BoardActivity.this.game.getAvaiableUndoAmount();
+        System.out.println(undoAmount);
+        if(undoAmount >= 0){
+            undoTextView.setText(String.format("%d", undoAmount));
         }
     }
 
     private View.OnClickListener settingsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            settingsButton.setBackgroundResource(R.drawable.settings_clicked);
             mediaPlayerSettings.start();
+            mediaPlayerSettings.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+//                    settingsButton.setBackgroundResource(R.drawable.settings);
+                }
+
+            });
             AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
             builder.setMultiChoiceItems(R.array.sensors, choosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
@@ -309,6 +319,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     for (int i = 0; i < choosenSensors.length; i++) {
                         editor.putBoolean(sensorNames[i], choosenSensors[i]);
                     }
+                    settingsButton.setBackgroundResource(R.drawable.settings);
                     editor.apply();
                 }
             });
@@ -718,7 +729,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
         adapter.notifyDataSetChanged();
         this.setScoreTexts();
-        setUndoResource();
+        setUndoAmount();
     }
 
     private void changeToEndActivity(){
@@ -838,7 +849,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
-        this.setUndoResource();
+        this.setUndoAmount();
     }
 
     private void setupSwipeListener() {

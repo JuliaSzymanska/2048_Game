@@ -1,6 +1,5 @@
 package com.game.a2048_app;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 
 public class PreferencesHelper {
@@ -15,7 +14,8 @@ public class PreferencesHelper {
     }
 
     public boolean getDarkTheme(SharedPreferences preferences){
-        return preferences.getBoolean(getResources().getString(R.string.dark_theme), false);
+//        return preferences.getBoolean(getResources().getString(R.string.dark_theme), false);
+        return true;
     }
 
 }

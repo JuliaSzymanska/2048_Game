@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
             startGameButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
             MediaPlayer mediaPlayerStart = MediaPlayer.create(mainActivity, R.raw.decline_call);
             SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
+            // TODO: 27.07.2020 to nei dziala
             mediaPlayerStart.setVolume(preferences.getBoolean(getResources().getString(R.string.volume), true) ? 1 : 0, preferences.getBoolean(getResources().getString(R.string.volume), true) ? 1 : 0);
             mediaPlayerStart.start();
             mediaPlayerStart.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {

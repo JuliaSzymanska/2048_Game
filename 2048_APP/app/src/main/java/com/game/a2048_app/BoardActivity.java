@@ -132,7 +132,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private MediaPlayer mediaPlayerSettings;
     private MediaPlayer mediaPlayerUndo;
 
-    private ConstraintLayout constraintLayout;
 
     // TODO: 25.07.2020 blokada interakcji z użytkownikiem
     //  https://stackoverflow.com/questions/36918219/how-to-disable-user-interaction-while-progressbar-is-visible-in-android
@@ -229,17 +228,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
         undoTextView = (TextView) findViewById(R.id.undoTextView);
         setUndoAmount();
-
-        constraintLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
-
-        Button animateButton = (Button) findViewById(R.id.animate);
-        animateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                animUP();
-            }
-        });
-
         this.setTheme();
         adapter.notifyDataSetChanged();
     }
@@ -702,6 +690,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         setUndoAmount();
     }
 
+    private final static double ANIM_SPEED_SECONDS = 0.3;
+
     private void animDown(List<Field> fieldCopies) {
         List<TranslateAnimation> translateAnimationList = new ArrayList<>();
         List<Integer> amountsMoved = this.game.getAmountMovedList();
@@ -713,7 +703,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
                             0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
             translateAnimation.setRepeatMode(0);
-            translateAnimation.setDuration(1000);
+            translateAnimation.setDuration((long) (ANIM_SPEED_SECONDS * 1000));
             translateAnimation.setFillAfter(true);
             translateAnimationList.add(translateAnimation);
         }
@@ -736,7 +726,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                             }
                         });
                     }
-                }, 1000
+                }, (long) (ANIM_SPEED_SECONDS * 1000)
         );
     }
 
@@ -751,7 +741,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
                             0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
             translateAnimation.setRepeatMode(0);
-            translateAnimation.setDuration(1000);
+            translateAnimation.setDuration((long) (ANIM_SPEED_SECONDS * 1000));
             translateAnimation.setFillAfter(true);
             translateAnimationList.add(translateAnimation);
         }
@@ -773,7 +763,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                             }
                         });
                     }
-                }, 1000
+                }, (long) (ANIM_SPEED_SECONDS * 1000)
         );
     }
 
@@ -788,7 +778,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
                             0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
             translateAnimation.setRepeatMode(0);
-            translateAnimation.setDuration(1000);
+            translateAnimation.setDuration((long) (ANIM_SPEED_SECONDS * 1000));
             translateAnimation.setFillAfter(true);
             translateAnimationList.add(translateAnimation);
         }
@@ -811,7 +801,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                             }
                         });
                     }
-                }, 1000
+                }, (long) (ANIM_SPEED_SECONDS * 1000)
         );
     }
 
@@ -826,7 +816,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
                             0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
             translateAnimation.setRepeatMode(0);
-            translateAnimation.setDuration(1000);
+            translateAnimation.setDuration((long) (ANIM_SPEED_SECONDS * 1000));
             translateAnimation.setFillAfter(true);
             translateAnimationList.add(translateAnimation);
         }
@@ -848,7 +838,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                             }
                         });
                     }
-                }, 1000
+                }, (long) (ANIM_SPEED_SECONDS * 1000)
         );
     }
 

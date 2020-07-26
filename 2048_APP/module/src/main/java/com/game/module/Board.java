@@ -142,10 +142,19 @@ public class Board implements Serializable {
      * @return return field at x, y position.
      */
     private Field getFieldByPos(int x, int y) {
+        // TODO: 26.07.2020 to constant
         if ((x < 0 || x > 3) || (y < 0 || y > 3)) {
             throw new IndexOutOfBoundsException("Values have to be in range 0 - 3");
         }
         return this.board.get(x + y * 4); // od lewej do prawej, od dołu do góry
+    }
+
+    private Integer getAmountMovedByPos(int x, int y) {
+        // TODO: 26.07.2020 to constant
+        if ((x < 0 || x > 3) || (y < 0 || y > 3)) {
+            throw new IndexOutOfBoundsException("Values have to be in range 0 - 3");
+        }
+        return this.amountMovedList.get(x + y * 4);
     }
 
     /**
@@ -172,6 +181,22 @@ public class Board implements Serializable {
                 this.getFieldByPos(col, 3));
     }
 
+    private List<Integer> getAmountMovedRow(int row) {
+        return Arrays.asList(
+                this.getAmountMovedByPos(0, row),
+                this.getAmountMovedByPos(1, row),
+                this.getAmountMovedByPos(2, row),
+                this.getAmountMovedByPos(3, row));
+    }
+
+    private List<Integer> getAmountMovedColumn(int col) {
+        return Arrays.asList(
+                this.getAmountMovedByPos(col, 0),
+                this.getAmountMovedByPos(col, 1),
+                this.getAmountMovedByPos(col, 2),
+                this.getAmountMovedByPos(col, 3));
+    }
+
     private List<List<Field>> get2dList() {
         return Arrays.asList(
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
@@ -179,6 +204,7 @@ public class Board implements Serializable {
                 Arrays.asList(new Field[BOARD_DIMENSIONS]),
                 Arrays.asList(new Field[BOARD_DIMENSIONS]));
     }
+
 
     private void appendPreviousBoardToHistory() {
         this.previousBoards.add(this.getCopyBoard());
@@ -264,12 +290,12 @@ public class Board implements Serializable {
     void moveRight() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
         List<Field> copyList = this.getCopyBoard();
-        List<List<Field>> rows = get2dList();
         List<Field> row;
+        List<Integer> rowAmountMoved;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             row = getRow(i);
-            moveFieldsInRowOrColumn(row);
-            rows.set(i, row);
+            rowAmountMoved = getAmountMovedRow(i);
+            moveFieldsInRowOrColumn(row, rowAmountMoved);
         }
         testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
@@ -278,14 +304,15 @@ public class Board implements Serializable {
     void moveLeft() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
         List<Field> copyList = this.getCopyBoard();
-        List<List<Field>> rows = get2dList();
         List<Field> row;
+        List<Integer> rowAmountMoved;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             row = getRow(i);
+            rowAmountMoved = getAmountMovedRow(i);
             Collections.reverse(row);
-            moveFieldsInRowOrColumn(row);
+            Collections.reverse(rowAmountMoved);
+            moveFieldsInRowOrColumn(row, rowAmountMoved);
             Collections.reverse(row);
-            rows.set(i, row);
         }
         testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
@@ -294,12 +321,12 @@ public class Board implements Serializable {
     void moveDown() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
         List<Field> copyList = this.getCopyBoard();
-        List<List<Field>> cols = get2dList();
         List<Field> col;
+        List<Integer> colAmountMoved;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             col = getColumn(i);
-            moveFieldsInRowOrColumn(col);
-            cols.set(i, col);
+            colAmountMoved = getAmountMovedColumn(i);
+            moveFieldsInRowOrColumn(col, colAmountMoved);
         }
         testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
@@ -308,14 +335,15 @@ public class Board implements Serializable {
     void moveUp() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
         List<Field> copyList = this.getCopyBoard();
-        List<List<Field>> cols = get2dList();
         List<Field> col;
+        List<Integer> colAmountMoved;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             col = getColumn(i);
+            colAmountMoved = getAmountMovedColumn(i);
             Collections.reverse(col);
-            moveFieldsInRowOrColumn(col);
+            Collections.reverse(colAmountMoved);
+            moveFieldsInRowOrColumn(col, colAmountMoved);
             Collections.reverse(col);
-            cols.set(i, col);
         }
         testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC

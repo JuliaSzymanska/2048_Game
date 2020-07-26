@@ -130,6 +130,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     // settings
     private SharedPreferences preferences;
     private boolean isDarkTheme = false;
+    private int volume;
 
     private BoardActivity boardActivity = this;
 
@@ -230,7 +231,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
         undoTextView = (TextView) findViewById(R.id.undoTextView);
         muteButton = (Button) findViewById(R.id.muteButton);
-        muteButton.setOnClickListener(muteListener);
+//        muteButton.setOnClickListener(muteListener);
         setUndoAmount();
         this.setTheme();
         adapter.notifyDataSetChanged();
@@ -239,11 +240,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 //    private View.OnClickListener muteListener = new View.OnClickListener() {
 //        @Override
 //        public void onClick(View v) {
-//            muteButton.setBackgroundResource(R.drawable.undo_clicked);
-//            mediaPlayerUndo.start();
-//            game.undoPreviousMove();
-//            adapter.notifyDataSetChanged();
-//            setScoreTexts();
+//            if(volume == 0){
+//                volume = 1;
+//                mediaPlayer.setVolume(volume, volume);
+//                muteButton.setBackgroundResource(R.drawable.mute_off);
+//            } else if(volume == 1){
+//                volume = 0;
+//                mediaPlayer.setVolume(volume, volume);
+//                muteButton.setBackgroundResource(R.drawable.mute_on);
+//            }
 //        }
 //    };
 

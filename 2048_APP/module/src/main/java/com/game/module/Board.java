@@ -72,7 +72,7 @@ public class Board implements Serializable {
     private List<Integer> newAmountMovedList() {
         List<Integer> amountMovedList = Arrays.asList(new Integer[BOARD_SIZE]);
         for (int i = 0; i < BOARD_SIZE; i++) {
-            amountMovedList.set(i, 0);
+            amountMovedList.set(i, new Integer(0));
         }
         return amountMovedList;
     }
@@ -157,6 +157,14 @@ public class Board implements Serializable {
         return this.amountMovedList.get(x + y * 4);
     }
 
+    private void setAmountMovedByPos(int x, int y, int value) {
+        // TODO: 26.07.2020 to constant
+        if ((x < 0 || x > 3) || (y < 0 || y > 3)) {
+            throw new IndexOutOfBoundsException("Values have to be in range 0 - 3");
+        }
+        this.amountMovedList.set(x + y * 4, value);
+    }
+
     /**
      * @param row row's number.
      * @return row at row's number position.
@@ -195,6 +203,12 @@ public class Board implements Serializable {
                 this.getAmountMovedByPos(col, 1),
                 this.getAmountMovedByPos(col, 2),
                 this.getAmountMovedByPos(col, 3));
+    }
+
+    private void setAmountMovedColumn(int col, List<Integer> amountMovedList) {
+        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
+            this.amountMovedList.set(col + i * 4, amountMovedList.get(i));
+        }
     }
 
     private List<List<Field>> get2dList() {
@@ -289,6 +303,7 @@ public class Board implements Serializable {
     // TODO: 31.05.2020 Przemek skroc to tak jak sb wymarzyles
     void moveRight() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
+        this.amountMovedList = this.newAmountMovedList();
         List<Field> copyList = this.getCopyBoard();
         List<Field> row;
         List<Integer> rowAmountMoved;
@@ -303,6 +318,7 @@ public class Board implements Serializable {
 
     void moveLeft() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
+        this.amountMovedList = this.newAmountMovedList();
         List<Field> copyList = this.getCopyBoard();
         List<Field> row;
         List<Integer> rowAmountMoved;
@@ -312,7 +328,6 @@ public class Board implements Serializable {
             Collections.reverse(row);
             Collections.reverse(rowAmountMoved);
             moveFieldsInRowOrColumn(row, rowAmountMoved);
-            Collections.reverse(row);
         }
         testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
@@ -320,6 +335,7 @@ public class Board implements Serializable {
 
     void moveDown() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
+        this.amountMovedList = this.newAmountMovedList();
         List<Field> copyList = this.getCopyBoard();
         List<Field> col;
         List<Integer> colAmountMoved;
@@ -334,6 +350,9 @@ public class Board implements Serializable {
 
     void moveUp() throws GameOverException, GoalAchievedException {
         this.appendPreviousBoardToHistory();
+        this.amountMovedList = this.newAmountMovedList();
+        System.out.println("\n" + this.board);
+        System.out.println(this.amountMovedList);
         List<Field> copyList = this.getCopyBoard();
         List<Field> col;
         List<Integer> colAmountMoved;
@@ -343,8 +362,11 @@ public class Board implements Serializable {
             Collections.reverse(col);
             Collections.reverse(colAmountMoved);
             moveFieldsInRowOrColumn(col, colAmountMoved);
-            Collections.reverse(col);
+            Collections.reverse(colAmountMoved);
+            this.setAmountMovedColumn(i, colAmountMoved);
         }
+        System.out.println("\n" + this.board);
+        System.out.println(this.amountMovedList);
         testIfGameOver(copyList);
         // TODO: 25.07.2020 WARUNEK KONCA GRY, AKTUALNIE SIE NIE DA PRZEGRAC
     }
@@ -356,11 +378,12 @@ public class Board implements Serializable {
      * @param index      index of the field to start with.
      */
     // TODO: 25.07.2020 w liscie trzeba inkrementowac dla indeksow dla pol ktore się przesuenly
-    private void moveFieldsPositions(List<Field> fieldsList, int index) {
+    private void moveFieldsPositions(List<Field> fieldsList, int index, List<Integer> moveCountList) {
         for (int i = index; i >= 0; i--) {
             if (i > 0) {
                 //jesli nie jest to ostatni element to przesuwa go o jeden w prawo
                 fieldsList.get(i).setValue(fieldsList.get(i - 1).getValue());
+                if (i != index) moveCountList.set(i, moveCountList.get(i) + 1);
             } else {
                 //jesli to jest ostatni element to ustawiamy wartosc na 0
                 fieldsList.get(i).setValue(0);
@@ -393,13 +416,13 @@ public class Board implements Serializable {
      */
     // TODO: 25.07.2020 przy kazdym przejsciu algorytmu, wykonaniu ruchu, należy zinkrementować int na pozycjach na których się przesuneły pola usuwajac zero.
     //  Ostatecznie dla pól na których były 0 resetujemy int
-    private void removeZerosInMove(List<Field> fieldsList) {
+    private void removeZerosInMove(List<Field> fieldsList, List<Integer> moveCountList) {
         int countMoves = countZerosToDelete(fieldsList);
         for (int i = 0; i < countMoves; i++) {
             for (int j = BOARD_DIMENSIONS - 1; j >= 0; j--) {
                 //jesli wartosc jest rowna 0 to przesun od tej pozycji w prawo o 1
                 if (fieldsList.get(j).getValue() == 0) {
-                    moveFieldsPositions(fieldsList, j);
+                    moveFieldsPositions(fieldsList, j, moveCountList);
                 }
             }
         }
@@ -421,7 +444,7 @@ public class Board implements Serializable {
                     //zwieksz liczbe pkt
                     this.updateScore(fieldsList.get(i).getValue());
                     //przesun pola o jeden w prawo
-                    moveFieldsPositions(fieldsList, index);
+                    moveFieldsPositions(fieldsList, index, moveCountList);
                     //ustaw wartosc boola na true czyli znalezlismy
                     found = true;
                     //jesli pole jest rowne zero
@@ -438,7 +461,7 @@ public class Board implements Serializable {
             }
         }
         //wywolaj metode usuwajaca zera z planszy pomiedzy liczbami
-        removeZerosInMove(fieldsList);
+        removeZerosInMove(fieldsList, moveCountList);
     }
 
     private List<Field> getCopyBoard() {

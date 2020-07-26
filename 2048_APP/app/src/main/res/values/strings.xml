@@ -12,6 +12,7 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="settings">settings</string>
     <string name="dark_theme">dark theme</string>
+    <string name="volume">mute</string>
     <string name="score">Score</string>
     <string name="high_score">High score</string>
     <string name="authentication">Authentication</string>

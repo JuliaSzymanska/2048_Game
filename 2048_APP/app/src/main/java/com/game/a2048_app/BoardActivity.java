@@ -129,14 +129,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     // settings
     private SharedPreferences preferences;
     private boolean isDarkTheme = false;
-    private int volume;
+    private boolean volume;
 
     private BoardActivity boardActivity = this;
 
-    // TODO: 26.07.2020 https://stackoverflow.com/a/15189123 - tak zrobic dla każdego mediaPlayera
-//    private MediaPlayer mediaPlayerPause;
-//    private MediaPlayer mediaPlayerRestart;
-//    private MediaPlayer mediaPlayerSettings;
     private MediaPlayer mediaPlayer;
 
 
@@ -194,6 +190,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             this.choosenSensors[i] = preferences.getBoolean(sensorNames[i], false);
         }
         this.isDarkTheme = preferences.getBoolean(getResources().getString(R.string.dark_theme), false);
+        this.volume = preferences.getBoolean(getResources().getString(R.string.volume), true);
         this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(getResources().getString(R.string.authentication))), this);
         this.fields = game.getBoard().toArray(new Field[0]);
         this.fieldsImages = new Integer[fields.length];
@@ -239,13 +236,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener muteListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(volume == 0){
-                volume = 1;
-                mediaPlayer.setVolume(volume, volume);
+            if(!volume){
+                volume = true;
+                mediaPlayer.setVolume(volume ? 1 : 0, volume ? 1 : 0);
                 muteButton.setBackgroundResource(R.drawable.mute_off);
-            } else if(volume == 1){
-                volume = 0;
-                mediaPlayer.setVolume(volume, volume);
+            } else if(volume){
+                volume = false;
+                mediaPlayer.setVolume(volume ? 1 : 0, volume ? 1 : 0);
                 muteButton.setBackgroundResource(R.drawable.mute_on);
             }
         }

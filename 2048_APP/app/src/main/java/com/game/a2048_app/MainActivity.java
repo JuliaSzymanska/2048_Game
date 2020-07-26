@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private MainActivity mainActivity = this;
     private Boolean isAuthenticated = false;
     private Button startGameButton;
+    private boolean volume = true;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private void loadData() {
         SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
         boolean isDarkTheme = preferences.getBoolean(getResources().getString(R.string.dark_theme), false);
+        this.volume = preferences.getBoolean(getResources().getString(R.string.volume), true);
         setTheme(isDarkTheme);
     }
 
@@ -103,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
             startGameButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
             MediaPlayer mediaPlayerStart = MediaPlayer.create(mainActivity, R.raw.decline_call);
+            SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
+            mediaPlayerStart.setVolume(preferences.getBoolean(getResources().getString(R.string.volume), true) ? 1 : 0, preferences.getBoolean(getResources().getString(R.string.volume), true) ? 1 : 0);
             mediaPlayerStart.start();
             mediaPlayerStart.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 

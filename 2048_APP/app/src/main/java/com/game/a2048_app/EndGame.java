@@ -17,7 +17,6 @@ public class EndGame extends AppCompatActivity {
     //  - animacja klockow
     //  - javaDoc
     //  - https://stackoverflow.com/a/151940
-    //  - undo = 0 - unclickable
     //  - wyciszanie apki
     //  - testy testy testy (jeden jest prawdkopodobnie zepsuty, dodać testy do tego co dzisiaj zrobiłem)
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
@@ -42,6 +41,7 @@ public class EndGame extends AppCompatActivity {
         setContentView(R.layout.activity_end_game);
         homePageButton = findViewById(R.id.homePage);
         homePageButton.setOnClickListener(initializeBoardActivity);
+
         loadData();
     }
 

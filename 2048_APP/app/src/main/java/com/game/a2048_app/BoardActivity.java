@@ -715,6 +715,18 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
+    private TranslateAnimation prepareTranslateAnimation(View viewBeingAnimated, View viewBeingAnimatedTo){
+        TranslateAnimation translateAnimation =
+                new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
+                        0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
+        translateAnimation.setRepeatMode(0);
+        translateAnimation.setDuration((long) (ANIM_SPEED_SECONDS * 1000));
+        translateAnimation.setFillAfter(true);
+        return translateAnimation;
+    }
+
+    private void startAnim
+
     private void animDown(List<Field> fieldCopies) {
         List<TranslateAnimation> translateAnimationList = new ArrayList<>();
         List<Integer> amountsMoved = this.game.getAmountMovedList();
@@ -722,13 +734,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             this.gridView.setZ(i);
             View viewBeingAnimated = this.gridView.getChildAt(i);
             View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i) * 4);
-            TranslateAnimation translateAnimation =
-                    new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
-                            0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
-            translateAnimation.setRepeatMode(0);
-            translateAnimation.setDuration((long) (ANIM_SPEED_SECONDS * 1000));
-            translateAnimation.setFillAfter(true);
-            translateAnimationList.add(translateAnimation);
+            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
         }
         Collections.reverse(translateAnimationList);
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
@@ -749,13 +755,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             this.gridView.setZ(i);
             View viewBeingAnimated = this.gridView.getChildAt(i);
             View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i) * 4);
-            TranslateAnimation translateAnimation =
-                    new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
-                            0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
-            translateAnimation.setRepeatMode(0);
-            translateAnimation.setDuration((long) (ANIM_SPEED_SECONDS * 1000));
-            translateAnimation.setFillAfter(true);
-            translateAnimationList.add(translateAnimation);
+            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
         }
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
             if (fieldCopies.get(i).getValue() != 0) {
@@ -775,13 +775,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             this.gridView.setZ(i);
             View viewBeingAnimated = this.gridView.getChildAt(i);
             View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i));
-            TranslateAnimation translateAnimation =
-                    new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
-                            0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
-            translateAnimation.setRepeatMode(0);
-            translateAnimation.setDuration((long) (ANIM_SPEED_SECONDS * 1000));
-            translateAnimation.setFillAfter(true);
-            translateAnimationList.add(translateAnimation);
+            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
         }
         Collections.reverse(translateAnimationList);
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
@@ -802,13 +796,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             this.gridView.setZ(i);
             View viewBeingAnimated = this.gridView.getChildAt(i);
             View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i));
-            TranslateAnimation translateAnimation =
-                    new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
-                            0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
-            translateAnimation.setRepeatMode(0);
-            translateAnimation.setDuration((long) (ANIM_SPEED_SECONDS * 1000));
-            translateAnimation.setFillAfter(true);
-            translateAnimationList.add(translateAnimation);
+            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
         }
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
             if (fieldCopies.get(i).getValue() != 0) {
@@ -887,7 +875,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void setDarkMode() {
 
     }
-
 
     private class StopGameProximity implements Runnable {
         @Override

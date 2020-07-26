@@ -37,6 +37,7 @@ import com.game.module.GoalAchievedException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 // TODO: 20.07.2020 dzwiek: http://drpetter.se/project_sfxr.html
@@ -295,7 +296,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void setUndoAmount() {
         int undoAmount = BoardActivity.this.game.getAvaiableUndoAmount();
         System.out.println(undoAmount);
-        if(undoAmount >= 0){
+        if (undoAmount >= 0) {
             undoTextView.setText(String.format("%d", undoAmount));
         } else {
             // TODO: 26.07.2020 tutaj jakis exception
@@ -441,10 +442,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
 
-
-
     private void setFieldsImagesToZeros() {
-        for(int i = 0; i< fields.length; i++) {
+        for (int i = 0; i < fields.length; i++) {
             fieldsImages[i] = R.drawable.zero;
         }
     }
@@ -683,6 +682,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         List<Field> fieldsCopies = game.getCopyOfTheBoard();
         try {
             game.move(direction);
+            if (direction == MOVE_UP) {
+                animUP(fieldsCopies);
+            } else if (direction == MOVE_DOWN) {
+                animDown(fieldsCopies);
+            } else if (direction == MOVE_LEFT) {
+                animLeft(fieldsCopies);
+            } else if (direction == MOVE_RIGHT) {
+                animRight(fieldsCopies);
+            }
         } catch (GameOverException e) {
             e.printStackTrace();
             changeToEndActivity();
@@ -690,33 +698,28 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             e.printStackTrace();
             goalAchieved();
         }
-        if(direction == MOVE_UP) {
-            animUP(fieldsCopies);
-        }
-        else {
-            adapter.notifyDataSetChanged();
-        }
         this.setScoreTexts();
         setUndoAmount();
     }
 
-    private void animUP(List<Field> fieldCopies) {
+    private void animDown(List<Field> fieldCopies) {
         List<TranslateAnimation> translateAnimationList = new ArrayList<>();
         List<Integer> amountsMoved = this.game.getAmountMovedList();
-        for(int i = 0; i < this.gridView.getChildCount(); i++) {
+        for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
             this.gridView.setZ(i);
             View viewBeingAnimated = this.gridView.getChildAt(i);
-            View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i) * 4);
+            View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i) * 4);
             TranslateAnimation translateAnimation =
                     new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
-                    0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
+                            0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
             translateAnimation.setRepeatMode(0);
             translateAnimation.setDuration(1000);
             translateAnimation.setFillAfter(true);
             translateAnimationList.add(translateAnimation);
         }
-        for(int i = 0; i < this.gridView.getChildCount(); i++) {
-            if(fieldCopies.get(i).getValue() != 0) {
+        Collections.reverse(translateAnimationList);
+        for (int i = 0; i < this.gridView.getChildCount(); i++) {
+            if (fieldCopies.get(i).getValue() != 0) {
                 this.gridView.getChildAt(i).startAnimation(translateAnimationList.get(i));
             }
         }
@@ -737,7 +740,119 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         );
     }
 
-    private void changeToEndActivity(){
+    private void animUP(List<Field> fieldCopies) {
+        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
+        List<Integer> amountsMoved = this.game.getAmountMovedList();
+        for (int i = 0; i < this.gridView.getChildCount(); i++) {
+            this.gridView.setZ(i);
+            View viewBeingAnimated = this.gridView.getChildAt(i);
+            View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i) * 4);
+            TranslateAnimation translateAnimation =
+                    new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
+                            0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
+            translateAnimation.setRepeatMode(0);
+            translateAnimation.setDuration(1000);
+            translateAnimation.setFillAfter(true);
+            translateAnimationList.add(translateAnimation);
+        }
+        for (int i = 0; i < this.gridView.getChildCount(); i++) {
+            if (fieldCopies.get(i).getValue() != 0) {
+                this.gridView.getChildAt(i).startAnimation(translateAnimationList.get(i));
+            }
+        }
+        this.prepareGrid();
+        setFieldsImagesToZeros();
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }, 1000
+        );
+    }
+
+    private void animLeft(List<Field> fieldCopies) {
+        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
+        List<Integer> amountsMoved = this.game.getAmountMovedList();
+        for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
+            this.gridView.setZ(i);
+            View viewBeingAnimated = this.gridView.getChildAt(i);
+            View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i));
+            TranslateAnimation translateAnimation =
+                    new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
+                            0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
+            translateAnimation.setRepeatMode(0);
+            translateAnimation.setDuration(1000);
+            translateAnimation.setFillAfter(true);
+            translateAnimationList.add(translateAnimation);
+        }
+        Collections.reverse(translateAnimationList);
+        for (int i = 0; i < this.gridView.getChildCount(); i++) {
+            if (fieldCopies.get(i).getValue() != 0) {
+                this.gridView.getChildAt(i).startAnimation(translateAnimationList.get(i));
+            }
+        }
+        this.prepareGrid();
+        setFieldsImagesToZeros();
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }, 1000
+        );
+    }
+
+    private void animRight(List<Field> fieldCopies) {
+        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
+        List<Integer> amountsMoved = this.game.getAmountMovedList();
+        for (int i = 0; i < this.gridView.getChildCount(); i++) {
+            this.gridView.setZ(i);
+            View viewBeingAnimated = this.gridView.getChildAt(i);
+            View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i));
+            TranslateAnimation translateAnimation =
+                    new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
+                            0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
+            translateAnimation.setRepeatMode(0);
+            translateAnimation.setDuration(1000);
+            translateAnimation.setFillAfter(true);
+            translateAnimationList.add(translateAnimation);
+        }
+        for (int i = 0; i < this.gridView.getChildCount(); i++) {
+            if (fieldCopies.get(i).getValue() != 0) {
+                this.gridView.getChildAt(i).startAnimation(translateAnimationList.get(i));
+            }
+        }
+        this.prepareGrid();
+        setFieldsImagesToZeros();
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }, 1000
+        );
+    }
+
+    private void changeToEndActivity() {
         Intent i = new Intent(BoardActivity.this, EndGame.class);
         i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getCurrentScore()));
         i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));

@@ -17,6 +17,7 @@ import java.util.List;
 public class Board implements Serializable {
 
     private List<Field> board;
+    private List<Integer> amountMovedList;
     private List<List<Field>> previousBoards;
     private List<Integer> previousScores;
     private int score = 0;
@@ -28,11 +29,13 @@ public class Board implements Serializable {
 
     public Board() {
         this.board = newFieldsList();
+        this.amountMovedList = newAmountMovedList();
         this.resetBoard();
     }
 
     Board(List<Integer> integerList) {
         this.board = newFieldsList();
+        this.amountMovedList = newAmountMovedList();
         int counter = 0;
         for (int i : integerList) {
             board.get(counter).setValue(i);
@@ -64,6 +67,14 @@ public class Board implements Serializable {
             fieldList.set(i, new Field(0));
         }
         return fieldList;
+    }
+
+    private List<Integer> newAmountMovedList() {
+        List<Integer> amountMovedList = Arrays.asList(new Integer[BOARD_SIZE]);
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            amountMovedList.set(i, 0);
+        }
+        return amountMovedList;
     }
 
     /**
@@ -367,7 +378,7 @@ public class Board implements Serializable {
     }
 
     // TODO: 25.07.2020 trzeba podawac liste int tak samo jak przekazujemy liste fields
-    private void moveFieldsInRowOrColumn(List<Field> fieldsList) {
+    private void moveFieldsInRowOrColumn(List<Field> fieldsList, List<Integer> moveCountList) {
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
             //bool, ktorego wartosc oznacza czy zostala znaleziony inny field z ktorym field moze sie polaczyc
             boolean found = false;

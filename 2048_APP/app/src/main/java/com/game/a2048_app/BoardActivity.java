@@ -17,6 +17,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,7 +30,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.game.module.Field;
 import com.game.module.Game;
@@ -692,6 +693,23 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private final static double ANIM_SPEED_SECONDS = 0.3;
 
+    private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+        @Override
+        public void onAnimationStart(Animation arg0) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        }
+
+        @Override
+        public void onAnimationEnd(Animation arg0) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+        }
+    };
+
     private void animDown(List<Field> fieldCopies) {
         List<TranslateAnimation> translateAnimationList = new ArrayList<>();
         List<Integer> amountsMoved = this.game.getAmountMovedList();
@@ -710,7 +728,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         Collections.reverse(translateAnimationList);
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
             if (fieldCopies.get(i).getValue() != 0) {
-                this.gridView.getChildAt(i).startAnimation(translateAnimationList.get(i));
+                Animation translateAnimation = translateAnimationList.get(i);
+                translateAnimation.setAnimationListener(animationListener);
+                this.gridView.getChildAt(i).startAnimation(translateAnimation);
             }
         }
         this.prepareGrid();
@@ -747,7 +767,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
             if (fieldCopies.get(i).getValue() != 0) {
-                this.gridView.getChildAt(i).startAnimation(translateAnimationList.get(i));
+                Animation translateAnimation = translateAnimationList.get(i);
+                translateAnimation.setAnimationListener(animationListener);
+                this.gridView.getChildAt(i).startAnimation(translateAnimation);
             }
         }
         this.prepareGrid();
@@ -785,7 +807,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         Collections.reverse(translateAnimationList);
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
             if (fieldCopies.get(i).getValue() != 0) {
-                this.gridView.getChildAt(i).startAnimation(translateAnimationList.get(i));
+                Animation translateAnimation = translateAnimationList.get(i);
+                translateAnimation.setAnimationListener(animationListener);
+                this.gridView.getChildAt(i).startAnimation(translateAnimation);
             }
         }
         this.prepareGrid();
@@ -822,7 +846,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
             if (fieldCopies.get(i).getValue() != 0) {
-                this.gridView.getChildAt(i).startAnimation(translateAnimationList.get(i));
+                Animation translateAnimation = translateAnimationList.get(i);
+                translateAnimation.setAnimationListener(animationListener);
+                this.gridView.getChildAt(i).startAnimation(translateAnimation);
             }
         }
         this.prepareGrid();

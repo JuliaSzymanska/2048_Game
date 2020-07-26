@@ -15,12 +15,10 @@ public class EndGame extends AppCompatActivity {
 
     // TODO: 23.07.2020  Julia work list:
     //  - animacja klockow
-    //  - po uzyskaniu 2048 gra dalej
     //  - javaDoc
     //  - https://stackoverflow.com/a/151940
     //  - undo = 0 - unclickable
     //  - wyciszanie apki
-    //  - ten przycisk undo - lepiej ustawić cyfrę w środek
     //  - testy testy testy (jeden jest prawdkopodobnie zepsuty, dodać testy do tego co dzisiaj zrobiłem)
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
     //  - zrobić animacje pojawiania się nowych klocków, no przejście z naszej animacji do po animacji

@@ -3,19 +3,18 @@ package com.game.a2048_app;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.AssetFileDescriptor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -231,26 +230,26 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
         undoTextView = (TextView) findViewById(R.id.undoTextView);
         muteButton = (Button) findViewById(R.id.muteButton);
-//        muteButton.setOnClickListener(muteListener);
+        muteButton.setOnClickListener(muteListener);
         setUndoAmount();
         this.setTheme();
         adapter.notifyDataSetChanged();
     }
 
-//    private View.OnClickListener muteListener = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            if(volume == 0){
-//                volume = 1;
-//                mediaPlayer.setVolume(volume, volume);
-//                muteButton.setBackgroundResource(R.drawable.mute_off);
-//            } else if(volume == 1){
-//                volume = 0;
-//                mediaPlayer.setVolume(volume, volume);
-//                muteButton.setBackgroundResource(R.drawable.mute_on);
-//            }
-//        }
-//    };
+    private View.OnClickListener muteListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(volume == 0){
+                volume = 1;
+                mediaPlayer.setVolume(volume, volume);
+                muteButton.setBackgroundResource(R.drawable.mute_off);
+            } else if(volume == 1){
+                volume = 0;
+                mediaPlayer.setVolume(volume, volume);
+                muteButton.setBackgroundResource(R.drawable.mute_on);
+            }
+        }
+    };
 
     private void setTheme() {
         if (this.isDarkTheme) {
@@ -266,10 +265,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             restartGameButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
-            Uri uri = ContentUris.withAppendedId(
-                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, R.raw.restart);
+            AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(R.raw.restart);
             try {
-                mediaPlayer.setDataSource(getApplicationContext(), uri);
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(assetFileDescriptor);
                 mediaPlayer.prepare();
                 mediaPlayer.start();
             } catch (IOException e) {
@@ -280,7 +279,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     restartGameButton.setBackgroundResource(R.drawable.main_activity_button);
-                    mp.release();
                 }
 
             });
@@ -292,10 +290,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             undoButton.setBackgroundResource(R.drawable.undo_clicked);
-            Uri uri = ContentUris.withAppendedId(
-                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, R.raw.undo);
+            AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(R.raw.undo);
             try {
-                mediaPlayer.setDataSource(getApplicationContext(), uri);
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(assetFileDescriptor);
                 mediaPlayer.prepare();
                 mediaPlayer.start();
             } catch (IOException e) {
@@ -306,7 +304,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     setUndoAmount();
-                    mp.release();
                 }
 
             });
@@ -336,10 +333,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             settingsButton.setBackgroundResource(R.drawable.settings_clicked);
-            Uri uri = ContentUris.withAppendedId(
-                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, R.raw.button_no_reverb);
+//            Uri uri = ContentUris.withAppendedId(
+//                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, R.raw.button_no_reverb);
+            AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(R.raw.button_no_reverb);
             try {
-                mediaPlayer.setDataSource(getApplicationContext(), uri);
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(assetFileDescriptor);
                 mediaPlayer.prepare();
                 mediaPlayer.start();
             } catch (IOException e) {
@@ -395,10 +394,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener playPauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Uri uri = ContentUris.withAppendedId(
-                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, R.raw.pause);
+            AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(R.raw.pause);
             try {
-                mediaPlayer.setDataSource(getApplicationContext(), uri);
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(assetFileDescriptor);
                 mediaPlayer.prepare();
                 mediaPlayer.start();
             } catch (IOException e) {

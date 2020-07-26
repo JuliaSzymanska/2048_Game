@@ -66,8 +66,12 @@ public class Game {
         }
     }
 
-
     public List<Field> getCopyOfTheBoard() {
+        return gameBoard.getCopyBoard();
+    }
+
+
+    public List<Field> getBoard() {
         return gameBoard.getBoard();
     }
 
@@ -145,6 +149,9 @@ public class Game {
                 e.printStackTrace();
             }
         }
+    }
+    public List<Integer> getAmountMovedList() {
+        return this.gameBoard.getAmountMovedList();
     }
 
     private class LoadException extends Exception {

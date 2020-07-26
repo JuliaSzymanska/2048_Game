@@ -35,7 +35,9 @@ import com.game.module.Game;
 import com.game.module.GameOverException;
 import com.game.module.GoalAchievedException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 // TODO: 20.07.2020 dzwiek: http://drpetter.se/project_sfxr.html
 
@@ -190,7 +192,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
         this.isDarkTheme = preferences.getBoolean(getResources().getString(R.string.dark_theme), false);
         this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(getResources().getString(R.string.authentication))), this);
-        this.fields = game.getCopyOfTheBoard().toArray(new Field[0]);
+        this.fields = game.getBoard().toArray(new Field[0]);
         this.fieldsImages = new Integer[fields.length];
         Arrays.fill(fieldsImages, R.drawable.zero);
     }
@@ -233,7 +235,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         animateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                anim();
+//                animUP();
             }
         });
 
@@ -440,50 +442,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
 
 
-    private void anim() {
-        for(int i = 0; i < this.gridView.getChildCount(); i++) {
-            System.out.println("I = " + Integer.toString(i));
-            System.out.println("TAG = " + this.gridView.getChildAt(i).getTag());
-            System.out.println("Elevation = " + this.gridView.getChildAt(i).getElevation());
-            System.out.println("Z = " + this.gridView.getChildAt(i).getZ());
-            System.out.println("X = " + this.gridView.getChildAt(i).getX());
-            System.out.println("Y = " + this.gridView.getChildAt(i).getY());
-        }
-        View view1 = this.gridView.getChildAt(0);
-        ViewHolderItem viewHolderItem = (ViewHolderItem) view1.getTag();
-        System.out.println(viewHolderItem);
-        ImageView imageView = viewHolderItem.getImageViewItem();
-        System.out.println(imageView);
-        View view2 = this.gridView.getChildAt(3);
-        TranslateAnimation translateAnimation = new TranslateAnimation
-                (0, view2.getX() - view1.getX(), 0, view2.getY() - view1.getY());
-        translateAnimation.setRepeatMode(0);
-        translateAnimation.setDuration(10000);
-        translateAnimation.setFillAfter(true);
-//        view1.bringToFront();
-        view1.setTranslationZ(1000);
-////        imageView.setElevation(1000);
-////        imageView.invalidate();
-        view1.startAnimation(translateAnimation);
-        setFieldsImagesToZeros();
-        this.prepareGrid();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        move(Game.MOVE_RIGHT);
-                    }
-                });
-            }
-        }).start();
-    }
 
     private void setFieldsImagesToZeros() {
         for(int i = 0; i< fields.length; i++) {
@@ -721,7 +679,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.setTextHighScoreText();
     }
 
-    void move(int direction) {
+    private void move(int direction) {
+        List<Field> fieldsCopies = game.getCopyOfTheBoard();
         try {
             game.move(direction);
         } catch (GameOverException e) {
@@ -731,9 +690,52 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             e.printStackTrace();
             goalAchieved();
         }
-        adapter.notifyDataSetChanged();
+        if(direction == MOVE_UP) {
+            animUP(fieldsCopies);
+        }
+        else {
+            adapter.notifyDataSetChanged();
+        }
         this.setScoreTexts();
         setUndoAmount();
+    }
+
+    private void animUP(List<Field> fieldCopies) {
+        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
+        List<Integer> amountsMoved = this.game.getAmountMovedList();
+        for(int i = 0; i < this.gridView.getChildCount(); i++) {
+            this.gridView.setZ(i);
+            View viewBeingAnimated = this.gridView.getChildAt(i);
+            int index = i - amountsMoved.get(i) * 4;
+            System.out.println("INDEXY " + i + " " + index);
+            View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i) * 4);
+            TranslateAnimation translateAnimation = new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
+                    0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
+            translateAnimation.setRepeatMode(0);
+            translateAnimation.setDuration(1000);
+            translateAnimation.setFillAfter(true);
+            translateAnimationList.add(translateAnimation);
+        }
+        for(int i = 0; i < this.gridView.getChildCount(); i++) {
+            if(fieldCopies.get(i).getValue() != 0) {
+                this.gridView.getChildAt(i).startAnimation(translateAnimationList.get(i));
+            }
+        }
+        this.prepareGrid();
+        setFieldsImagesToZeros();
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }, 1000
+        );
     }
 
     private void changeToEndActivity(){

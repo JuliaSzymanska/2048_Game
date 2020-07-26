@@ -409,6 +409,10 @@ public class Board implements Serializable {
         return zero_count - index;
     }
 
+    List<Integer> getAmountMovedList() {
+        return amountMovedList;
+    }
+
     /**
      * Removes zeros before others values.
      *
@@ -476,7 +480,7 @@ public class Board implements Serializable {
         removeZerosInMove(fieldsList, moveCountList);
     }
 
-    private List<Field> getCopyBoard() {
+    List<Field> getCopyBoard() {
         List<Field> cloneBoard = newFieldsList();
         for (int i = 0; i < BOARD_SIZE; i++) {
             cloneBoard.get(i).setValue(this.board.get(i).getValue());

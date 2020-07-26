@@ -222,7 +222,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         settingsButton.setOnClickListener(settingsListener);
         undoButton = (Button) findViewById(R.id.undoMoveButton);
         undoButton.setOnClickListener(undoListener);
-        undoButton.setBackgroundResource(R.drawable.undo);
         pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
         pausePlayButton.setOnClickListener(playPauseListener);
         darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
@@ -271,22 +270,27 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    undoButton.setBackgroundResource(R.drawable.undo);
+                    setUndoAmount();
                 }
 
             });
             game.undoPreviousMove();
             adapter.notifyDataSetChanged();
             setScoreTexts();
-            setUndoAmount();
         }
     };
 
     private void setUndoAmount() {
         int undoAmount = BoardActivity.this.game.getAvaiableUndoAmount();
         System.out.println(undoAmount);
-        if (undoAmount >= 0) {
+        if (undoAmount > 0) {
+            undoButton.setBackgroundResource(R.drawable.undo);
             undoTextView.setText(String.format("%d", undoAmount));
+            undoButton.setEnabled(true);
+        } else if(undoAmount == 0){
+            undoButton.setBackgroundResource(R.drawable.undo_clicked);
+            undoTextView.setText(String.format("%d", undoAmount));
+            undoButton.setEnabled(false);
         } else {
             // TODO: 26.07.2020 tutaj jakis exception
         }

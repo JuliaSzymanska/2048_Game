@@ -17,7 +17,6 @@ public class EndGame extends AppCompatActivity {
     //  - https://stackoverflow.com/a/151940 - authentication
     //  - testy testy testy (jeden jest prawdkopodobnie zepsuty, dodać testy do tego co dzisiaj zrobiłem)
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
-    //  - zrobić animacje pojawiania się nowych klocków, no przejście z naszej animacji do po animacji
 
     private String score;
     private String highScore;

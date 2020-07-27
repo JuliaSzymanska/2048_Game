@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import me.aflak.libraries.callback.FingerprintDialogCallback;
@@ -42,6 +41,12 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        // TODO: 27.07.2020 no chwilowo to nie dziala nie wiedziec czemu :(
+        isAuthenticated = Boolean.parseBoolean(intent.getStringExtra(getResources().getString(R.string.authentication)));
+        if(!isAuthenticated){
+            isAuthenticated = false;
+        }
         PreferencesHelper.initContext(this);
         setContentView(R.layout.activity_main);
         initButtons();
@@ -139,18 +144,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     @Override
     public void onAuthenticationCancel() {
 
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBoolean(getResources().getString(R.string.authentication), isAuthenticated);
-    }
-
-    @Override
-    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        this.isAuthenticated = savedInstanceState.getBoolean(getResources().getString(R.string.authentication));
     }
 
     @Override

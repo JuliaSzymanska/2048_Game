@@ -276,22 +276,22 @@ public class Board implements Serializable {
         if (this.getAllEmptyFields().size() != 0) {
             return;
         }
-        this.moveDown();
+        this.moveDownAndDontTestIfGameOver();
         this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
             return;
         }
-        this.moveLeft();
+        this.moveLeftAndDontTestIfGameOver();
         this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
             return;
         }
-        this.moveUp();
+        this.moveLeftAndDontTestIfGameOver();
         this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
             return;
         }
-        this.moveRight();
+        this.moveRightAndDontTestIfGameOver();
         this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
             return;
@@ -353,7 +353,6 @@ public class Board implements Serializable {
             this.setAmountMovedColumn(i, colAmountMoved);
         }
     }
-
 
     void moveDown() throws GameOverException, GoalAchievedException {
         List<Field> copyList = this.getCopyBoard();

@@ -43,21 +43,47 @@ public class PreferencesHelper {
         if (PreferencesHelper.context == null) {
             throw new NullPointerException("Null context. ");
         }
-         return PreferencesHelper.sharedPreferencesSettings.
+        return PreferencesHelper.sharedPreferencesSettings.
                 getBoolean(PreferencesHelper.context.getResources().getString(R.string.volume), true) ? 1 : 0;
 
     }
 
-    public void setDarkTheme(boolean isDarkTheme){
+    public void getChoosenSensors(boolean[] choosenSensors) {
+        if (PreferencesHelper.context == null) {
+            throw new NullPointerException("Null context. ");
+        }
+        String[] sensorNames = PreferencesHelper.context.getResources().getStringArray(R.array.sensors);
+        for (int i = 0; i < choosenSensors.length; i++) {
+            choosenSensors[i] = PreferencesHelper.sharedPreferencesSettings.getBoolean(sensorNames[i], false);
+        }
+    }
+
+    public void setDarkTheme(boolean isDarkTheme) {
+        if (PreferencesHelper.context == null) {
+            throw new NullPointerException("Null context. ");
+        }
         sharedPreferencesEditor.putBoolean(PreferencesHelper.context.getResources().getString(R.string.dark_theme), isDarkTheme);
         sharedPreferencesEditor.apply();
     }
 
-    public void setVolume(int volume){
+    public void setVolume(int volume) {
+        if (PreferencesHelper.context == null) {
+            throw new NullPointerException("Null context. ");
+        }
         sharedPreferencesEditor.putBoolean(PreferencesHelper.context.getResources().getString(R.string.volume), (volume == 1));
         sharedPreferencesEditor.apply();
     }
 
+    public void setChoosenSensors(boolean[] choosenSensors) {
+        if (PreferencesHelper.context == null) {
+            throw new NullPointerException("Null context. ");
+        }
+        String[] sensorNames = PreferencesHelper.context.getResources().getStringArray(R.array.sensors);
+        for (int i = 0; i < choosenSensors.length; i++) {
+            sharedPreferencesEditor.putBoolean(sensorNames[i], choosenSensors[i]);
+        }
+        sharedPreferencesEditor.apply();
+    }
 
 
 }

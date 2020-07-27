@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetFileDescriptor;
 import android.hardware.Sensor;
@@ -126,7 +125,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private boolean hasMoved = false;
 
     // settings
-    private SharedPreferences preferences;
     private boolean isDarkTheme = false;
     private int volume = 1;
     private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
@@ -185,29 +183,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private void loadData() {
-        // wolał bym przypisać preferences w jednym miejcu zamiasty dwu ale się z jakiegoś powodu psuje :/
-        preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
-        String[] sensorNames = getResources().getStringArray(R.array.sensors);
-        for (int i = 0; i < this.choosenSensors.length; i++) {
-            this.choosenSensors[i] = preferences.getBoolean(sensorNames[i], false);
-        }
+        preferencesHelper.getChoosenSensors(this.choosenSensors);
         this.isDarkTheme = preferencesHelper.getDarkTheme();
         this.volume = preferencesHelper.getVolume();
         this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(getResources().getString(R.string.authentication))), this);
         this.fields = game.getBoard().toArray(new Field[0]);
         this.fieldsImages = new Integer[fields.length];
         Arrays.fill(fieldsImages, R.drawable.zero);
-    }
-
-    private void setMuteSettings() {
-        if (volume == 1) {
-            muteButton.setBackgroundResource(R.drawable.mute_off);
-        } else if (volume == 0) {
-            muteButton.setBackgroundResource(R.drawable.mute_on);
-        } else {
-            throw new IllegalArgumentException("Argument value should be 0 or 1");
-        }
-        mediaPlayer.setVolume(volume, volume);
     }
 
     void setTextScoreText() {
@@ -245,6 +227,17 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         setUndoAmount();
         this.setTheme();
         adapter.notifyDataSetChanged();
+    }
+
+    private void setMuteSettings() {
+        if (volume == 1) {
+            muteButton.setBackgroundResource(R.drawable.mute_off);
+        } else if (volume == 0) {
+            muteButton.setBackgroundResource(R.drawable.mute_on);
+        } else {
+            throw new IllegalArgumentException("Argument value should be 0 or 1");
+        }
+        mediaPlayer.setVolume(volume, volume);
     }
 
     private View.OnClickListener muteListener = new View.OnClickListener() {
@@ -353,14 +346,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             builder.setPositiveButton(getResources().getString(R.string.dialog_accept), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
-                    String[] sensorNames = getResources().getStringArray(R.array.sensors);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    for (int i = 0; i < choosenSensors.length; i++) {
-                        editor.putBoolean(sensorNames[i], choosenSensors[i]);
-                    }
+                    preferencesHelper.setChoosenSensors(choosenSensors);
                     settingsButton.setBackgroundResource(R.drawable.settings);
-                    editor.apply();
                 }
             });
             AlertDialog dialog = builder.create();
@@ -850,7 +837,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
                     if (mLightData <= DARKMODE_ENABLE_LIGHT && !isDarkTheme) {
                         runOnUiThread(new Runnable() {
                             @Override

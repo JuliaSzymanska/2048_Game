@@ -278,18 +278,22 @@ public class Board implements Serializable {
             return;
         }
         this.moveDown();
+        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
             return;
         }
         this.moveLeft();
+        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
             return;
         }
         this.moveUp();
+        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
             return;
         }
         this.moveRight();
+        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
             return;
         }

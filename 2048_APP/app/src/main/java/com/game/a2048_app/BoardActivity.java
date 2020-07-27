@@ -43,14 +43,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-// TODO: 20.07.2020 dzwiek: http://drpetter.se/project_sfxr.html
-
-// TODO: 09.06.2020 wcale nie julaszym1212 oto animacja:
-//  https://stackoverflow.com/questions/46359987/which-layoutmanager-for-the-animations-of-a-2048-game
-//  https://github.com/wasabeef/recyclerview-animators - to chyba najlepsze
-//  https://www.youtube.com/watch?v=33wOlQ2y0hQ - tez git
-//  https://stackoverflow.com/questions/30997624/how-to-apply-animation-to-add-item-in-gridview-one-by-one
-
 public class BoardActivity extends AppCompatActivity implements SensorEventListener {
     private static final float VALUE_DRIFT = 0.05f;
 
@@ -106,6 +98,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static float DETECT_MOVE_PITCH = 0.7f;
     private final static float DETECT_MOVE_ROLL = 0.7f;
 
+    private final static double HORIZONTAL_PITCH_MAX = 0.5;
+    private final static double HORIZONTAL_PITCH_MIN = -0.5;
+
     // FIXME: 12.07.2020 bad naming
     private final static double changeColourAzimunthBreakpoint1 = 0.25;
     private final static double changeColourAzimunthBreakpoint2 = 1.25;
@@ -115,6 +110,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
 
+    private final static double ANIM_SPEED_SECONDS = 0.25;
 
     // znowu się spotykamy
     public final static int MOVE_UP = Game.MOVE_UP;
@@ -133,10 +129,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private MediaPlayer mediaPlayer;
 
-
-    // TODO: 25.07.2020 blokada interakcji z użytkownikiem
-    //  https://stackoverflow.com/questions/36918219/how-to-disable-user-interaction-while-progressbar-is-visible-in-android
-
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     // https://developer.android.com/guide/components/activities/activity-lifecycle
@@ -151,37 +143,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.prepareSensors();
     }
 
-    private void initMediaPlayer() {
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioAttributes(
-                new AudioAttributes.Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .build()
-        );
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (!game.isUserAuthenticated()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
-            builder.setMessage(R.string.dialog_back_question)
-                    .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            BoardActivity.super.onBackPressed();
-                        }
-                    })
-                    .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                        }
-                    });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
     private void loadData() {
         preferencesHelper.getChoosenSensors(this.choosenSensors);
         this.isDarkTheme = preferencesHelper.getDarkTheme();
@@ -192,88 +153,118 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         Arrays.fill(fieldsImages, R.drawable.zero);
     }
 
+    private void initMediaPlayer() {
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioAttributes(
+                new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build()
+        );
+    }
+
+    private void prepareViews() {
+        this.gridView = (GridView) findViewById(R.id.gridView);
+        this.prepareGrid();
+        this.setupSwipeListener();
+        this.textTime = (TextView) findViewById(R.id.time);
+        this.prepareScoreText();
+        this.prepareHighscoreText();
+        this.restartGameButton = (Button) findViewById(R.id.restartGameButton);
+        this.restartGameButton.setOnClickListener(restartGameListener);
+        this.settingsButton = (Button) findViewById(R.id.settingsButton);
+        this.settingsButton.setOnClickListener(settingsListener);
+        this.undoButton = (Button) findViewById(R.id.undoMoveButton);
+        this.undoButton.setOnClickListener(undoListener);
+        this.pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
+        this.pausePlayButton.setOnClickListener(playPauseListener);
+        this.muteButton = (Button) findViewById(R.id.muteButton);
+        this.muteButton.setOnClickListener(muteListener);
+        this.darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
+        this.setTheme();
+        this.scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
+        this.undoTextView = (TextView) findViewById(R.id.undoTextView);
+        this.setUndoAmount();
+        this.adapter.notifyDataSetChanged();
+    }
+
+    private void prepareGrid() {
+        this.adapter = new ArrayAdapter<Integer>(this,
+                android.R.layout.simple_list_item_1, fieldsImages) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                ViewHolderItem viewHolder;
+                if (convertView == null) {
+                    LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
+                    convertView = inflater.inflate(R.layout.item, parent, false);
+                    viewHolder = new ViewHolderItem();
+                    viewHolder.textViewItem = (TextView) convertView.findViewById(R.id.textView);
+                    viewHolder.imageViewItem = (ImageView) convertView.findViewById(R.id.imageView);
+                    convertView.setTag(viewHolder);
+                } else {
+                    viewHolder = (ViewHolderItem) convertView.getTag();
+                }
+                viewHolder.textViewItem.setBackgroundResource(mThumbIds);
+                viewHolder.imageViewItem.setTag(position);
+                viewHolder.imageViewItem.setImageResource(fieldsImages[position]);
+                return convertView;
+            }
+
+
+            @Override
+            public void notifyDataSetChanged() {
+                setFieldsImages();
+                super.notifyDataSetChanged();
+            }
+        };
+        gridView.setAdapter(adapter);
+    }
+
+    private void setupSwipeListener() {
+        onSwipeTouchListener = new OnSwipeTouchListener(this, this.gridView);
+        final BoardActivity boardActivity = this;
+        onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
+            @Override
+            public void swipeRight() {
+                boardActivity.move(BoardActivity.MOVE_RIGHT);
+            }
+
+            @Override
+            public void swipeTop() {
+                boardActivity.move(BoardActivity.MOVE_UP);
+            }
+
+            @Override
+            public void swipeBottom() {
+                boardActivity.move(BoardActivity.MOVE_DOWN);
+            }
+
+            @Override
+            public void swipeLeft() {
+                boardActivity.move(BoardActivity.MOVE_LEFT);
+            }
+        };
+    }
+
+    private void prepareScoreText() {
+        textScore = (TextView) findViewById(R.id.score);
+        this.setTextScoreText();
+    }
+
     void setTextScoreText() {
         textScore.setText(String.format("%s:\n%s", getResources().getString(R.string.score), game.getCurrentScore()));
 
     }
 
+    private void prepareHighscoreText() {
+        textHighScore = (TextView) findViewById(R.id.highScore);
+        this.setTextHighScoreText();
+    }
+
     void setTextHighScoreText() {
         if (game.isUserAuthenticated()) {
             textHighScore.setText(String.format("%s:\n%s", getResources().getString(R.string.high_score), game.getHighScore()));
-        }
-    }
-
-    private void prepareViews() {
-        gridView = (GridView) findViewById(R.id.gridView);
-        this.prepareGrid();
-        this.setupSwipeListener();
-        textTime = (TextView) findViewById(R.id.time);
-        prepareScoreText();
-        prepareHighscoreText();
-        restartGameButton = (Button) findViewById(R.id.restartGameButton);
-        this.restartGameButton.setOnClickListener(restartGameListener);
-        this.settingsButton = (Button) findViewById(R.id.settingsButton);
-        settingsButton.setOnClickListener(settingsListener);
-        undoButton = (Button) findViewById(R.id.undoMoveButton);
-        undoButton.setOnClickListener(undoListener);
-        pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
-        pausePlayButton.setOnClickListener(playPauseListener);
-        darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
-        scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
-        undoTextView = (TextView) findViewById(R.id.undoTextView);
-        muteButton = (Button) findViewById(R.id.muteButton);
-        muteButton.setOnClickListener(muteListener);
-        setMuteSettings();
-        setUndoAmount();
-        this.setTheme();
-        adapter.notifyDataSetChanged();
-    }
-
-    private void setMuteSettings() {
-        if (volume == 1) {
-            muteButton.setBackgroundResource(R.drawable.mute_off);
-        } else if (volume == 0) {
-            muteButton.setBackgroundResource(R.drawable.mute_on);
-        } else {
-            throw new IllegalArgumentException("Argument value should be 0 or 1");
-        }
-        mediaPlayer.setVolume(volume, volume);
-    }
-
-    private View.OnClickListener muteListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (volume == 0) {
-                volume = 1;
-            } else if (volume == 1) {
-                volume = 0;
-            } else {
-                throw new IllegalArgumentException("Argument value should be 0 or 1");
-            }
-            preferencesHelper.setVolume(volume);
-            setMuteSettings();
-        }
-    };
-
-    private void setTheme() {
-        if (this.isDarkTheme) {
-            darkThemeView.setImageResource(R.drawable.dark_theme_on);
-        } else {
-            darkThemeView.setImageResource(R.drawable.dark_theme_off);
-        }
-        // TODO: 23.07.2020 przeniosłem to do .xml, mam nadzieję że działa.
-        //  jeśli działa to wszystko trzeba do .xml przenieść żeby był porządek
-    }
-
-    private void setMediaPlayer(int id) {
-        AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(id);
-        try {
-            mediaPlayer.reset();
-            mediaPlayer.setDataSource(assetFileDescriptor);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -293,41 +284,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             restartGame();
         }
     };
-
-    private View.OnClickListener undoListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            undoButton.setBackgroundResource(R.drawable.undo_clicked);
-            setMediaPlayer(R.raw.undo);
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    setUndoAmount();
-                }
-
-            });
-            game.undoPreviousMove();
-            adapter.notifyDataSetChanged();
-            setScoreTexts();
-        }
-    };
-
-    private void setUndoAmount() {
-        int undoAmount = BoardActivity.this.game.getAvaiableUndoAmount();
-        System.out.println(undoAmount);
-        if (undoAmount > 0) {
-            undoButton.setBackgroundResource(R.drawable.undo);
-            undoTextView.setText(String.format("%d", undoAmount));
-            undoButton.setEnabled(true);
-        } else if (undoAmount == 0) {
-            undoButton.setBackgroundResource(R.drawable.undo_clicked);
-            undoTextView.setText(String.format("%d", undoAmount));
-            undoButton.setEnabled(false);
-        } else {
-            // TODO: 26.07.2020 tutaj jakis exception
-        }
-    }
 
     private View.OnClickListener settingsListener = new View.OnClickListener() {
         @Override
@@ -375,6 +331,25 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
+    private View.OnClickListener undoListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            undoButton.setBackgroundResource(R.drawable.undo_clicked);
+            setMediaPlayer(R.raw.undo);
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    setUndoAmount();
+                }
+
+            });
+            game.undoPreviousMove();
+            adapter.notifyDataSetChanged();
+            setScoreTexts();
+        }
+    };
+
     private View.OnClickListener playPauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -389,66 +364,103 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
-    private void prepareScoreText() {
-        textScore = (TextView) findViewById(R.id.score);
-        this.setTextScoreText();
-    }
-
-    private void prepareHighscoreText() {
-        textHighScore = (TextView) findViewById(R.id.highScore);
-        this.setTextHighScoreText();
-    }
-
-    private void prepareSensors() {
-        // Get accelerometer and magnetometer sensors from the sensor manager.
-        // The getDefaultSensor() method returns null if the sensor
-        // is not available on the device.
-        mSensorManager = (SensorManager) getSystemService(
-                Context.SENSOR_SERVICE);
-        mSensorAccelerometer = mSensorManager.getDefaultSensor(
-                Sensor.TYPE_ACCELEROMETER);
-        mSensorMagnetometer = mSensorManager.getDefaultSensor(
-                Sensor.TYPE_MAGNETIC_FIELD);
-        mSensorLight = mSensorManager.getDefaultSensor(
-                Sensor.TYPE_LIGHT);
-        mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-    }
-
-
-    private void prepareGrid() {
-        this.adapter = new ArrayAdapter<Integer>(this,
-                android.R.layout.simple_list_item_1, fieldsImages) {
-            @NonNull
-            @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                ViewHolderItem viewHolder;
-                if (convertView == null) {
-                    LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
-                    convertView = inflater.inflate(R.layout.item, parent, false);
-                    viewHolder = new ViewHolderItem();
-                    viewHolder.textViewItem = (TextView) convertView.findViewById(R.id.textView);
-                    viewHolder.imageViewItem = (ImageView) convertView.findViewById(R.id.imageView);
-                    convertView.setTag(viewHolder);
-                } else {
-                    viewHolder = (ViewHolderItem) convertView.getTag();
-                }
-                viewHolder.textViewItem.setBackgroundResource(mThumbIds);
-                viewHolder.imageViewItem.setTag(position);
-                viewHolder.imageViewItem.setImageResource(fieldsImages[position]);
-                return convertView;
+    private View.OnClickListener muteListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (volume == 0) {
+                volume = 1;
+            } else if (volume == 1) {
+                volume = 0;
+            } else {
+                throw new IllegalArgumentException("Argument value should be 0 or 1");
             }
+            preferencesHelper.setVolume(volume);
+            setMuteSettings();
+        }
+    };
 
-
-            @Override
-            public void notifyDataSetChanged() {
-                setFieldsImages();
-                super.notifyDataSetChanged();
-            }
-        };
-        gridView.setAdapter(adapter);
+    private void setMediaPlayer(int id) {
+        AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(id);
+        try {
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(assetFileDescriptor);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private class ViewHolderItem {
+    private void setMuteSettings() {
+        if (volume == 1) {
+            muteButton.setBackgroundResource(R.drawable.mute_off);
+        } else if (volume == 0) {
+            muteButton.setBackgroundResource(R.drawable.mute_on);
+        } else {
+            throw new IllegalArgumentException("Argument value should be 0 or 1");
+        }
+        mediaPlayer.setVolume(volume, volume);
+    }
+
+    private void setTheme() {
+        if (this.isDarkTheme) {
+            darkThemeView.setImageResource(R.drawable.dark_theme_on);
+        } else {
+            darkThemeView.setImageResource(R.drawable.dark_theme_off);
+        }
+    }
+
+    private void setUndoAmount() {
+        int undoAmount = BoardActivity.this.game.getAvaiableUndoAmount();
+        System.out.println(undoAmount);
+        if (undoAmount > 0) {
+            undoButton.setBackgroundResource(R.drawable.undo);
+            undoTextView.setText(String.format("%d", undoAmount));
+            undoButton.setEnabled(true);
+        } else if (undoAmount == 0) {
+            undoButton.setBackgroundResource(R.drawable.undo_clicked);
+            undoTextView.setText(String.format("%d", undoAmount));
+            undoButton.setEnabled(false);
+        } else {
+            // TODO: 26.07.2020 tutaj jakis exception
+        }
+    }
+
+    /**
+     * Listeners for the sensors are registered in this callback so that
+     * they can be unregistered in onStop().
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Listeners for the sensors are registered in this callback and
+        // can be unregistered in onStop().
+        //
+        // Check to ensure sensors are available before registering listeners.
+        // Both listeners are registered with a "normal" amount of delay
+        // (SENSOR_DELAY_NORMAL).
+        if (mSensorAccelerometer != null) {
+            mSensorManager.registerListener(this, mSensorAccelerometer,
+                    SensorManager.SENSOR_DELAY_GAME);
+        }
+        if (mSensorMagnetometer != null) {
+            mSensorManager.registerListener(this, mSensorMagnetometer,
+                    SensorManager.SENSOR_DELAY_GAME);
+        }
+        if (mSensorLight != null) {
+            mSensorManager.registerListener(this, mSensorLight,
+                    SensorManager.SENSOR_DELAY_GAME);
+        }
+        if (mSensorProximity != null) {
+            mSensorManager.registerListener(this, mSensorProximity,
+                    SensorManager.SENSOR_DELAY_GAME);
+        }
+
+        this.game.unpauseTimer();
+        this.beginUpdatingTime();
+    }
+
+    private static class ViewHolderItem {
         TextView textViewItem;
         ImageView imageViewItem;
 
@@ -460,7 +472,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             return textViewItem;
         }
     }
-
 
     private void setFieldsImagesToZeros() {
         for (int i = 0; i < fields.length; i++) {
@@ -531,40 +542,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-    /**
-     * Listeners for the sensors are registered in this callback so that
-     * they can be unregistered in onStop().
-     */
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // Listeners for the sensors are registered in this callback and
-        // can be unregistered in onStop().
-        //
-        // Check to ensure sensors are available before registering listeners.
-        // Both listeners are registered with a "normal" amount of delay
-        // (SENSOR_DELAY_NORMAL).
-        if (mSensorAccelerometer != null) {
-            mSensorManager.registerListener(this, mSensorAccelerometer,
-                    SensorManager.SENSOR_DELAY_GAME);
-        }
-        if (mSensorMagnetometer != null) {
-            mSensorManager.registerListener(this, mSensorMagnetometer,
-                    SensorManager.SENSOR_DELAY_GAME);
-        }
-        if (mSensorLight != null) {
-            mSensorManager.registerListener(this, mSensorLight,
-                    SensorManager.SENSOR_DELAY_GAME);
-        }
-        if (mSensorProximity != null) {
-            mSensorManager.registerListener(this, mSensorProximity,
-                    SensorManager.SENSOR_DELAY_GAME);
-        }
-
-        this.game.unpauseTimer();
-        this.beginUpdatingTime();
-    }
-
     private void beginUpdatingTime() {
         updateTimeThread = new Thread() {
             @Override
@@ -588,6 +565,168 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         updateTimeThread.start();
     }
 
+    // TODO: 16.07.2020 add binding so this is not needed
+    void setScoreTexts() {
+        this.setTextScoreText();
+        this.setTextHighScoreText();
+    }
+
+    private void move(int direction) {
+        List<Field> fieldsCopies = game.getCopyOfTheBoard();
+        try {
+            game.move(direction);
+            if (direction == MOVE_UP) {
+                animationUP(fieldsCopies);
+            } else if (direction == MOVE_DOWN) {
+                animationDown(fieldsCopies);
+            } else if (direction == MOVE_LEFT) {
+                animationLeft(fieldsCopies);
+            } else if (direction == MOVE_RIGHT) {
+                animationRight(fieldsCopies);
+            }
+        } catch (GameOverException e) {
+            e.printStackTrace();
+            changeToEndActivity();
+        } catch (GoalAchievedException e) {
+            e.printStackTrace();
+            goalAchieved();
+        }
+        this.setScoreTexts();
+        setUndoAmount();
+    }
+
+
+    private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+        @Override
+        public void onAnimationStart(Animation arg0) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        }
+
+        @Override
+        public void onAnimationEnd(Animation arg0) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+        }
+    };
+
+    private TranslateAnimation prepareTranslateAnimation(View viewBeingAnimated, View viewBeingAnimatedTo) {
+        TranslateAnimation translateAnimation =
+                new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
+                        0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
+        translateAnimation.setRepeatMode(0);
+        translateAnimation.setDuration((long) (ANIM_SPEED_SECONDS * 1000));
+        translateAnimation.setFillAfter(true);
+        return translateAnimation;
+    }
+
+    private void startAnimation(List<Field> fieldCopies, List<TranslateAnimation> translateAnimationList) {
+        for (int i = 0; i < this.gridView.getChildCount(); i++) {
+            if (fieldCopies.get(i).getValue() != 0) {
+                Animation translateAnimation = translateAnimationList.get(i);
+                translateAnimation.setAnimationListener(animationListener);
+                this.gridView.getChildAt(i).startAnimation(translateAnimation);
+            }
+        }
+        this.prepareGrid();
+        setFieldsImagesToZeros();
+    }
+
+    private void animationDown(List<Field> fieldCopies) {
+        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
+        List<Integer> amountsMoved = this.game.getAmountMovedList();
+        for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
+            this.gridView.setZ(i);
+            View viewBeingAnimated = this.gridView.getChildAt(i);
+            View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i) * 4);
+            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
+        }
+        Collections.reverse(translateAnimationList);
+        startAnimation(fieldCopies, translateAnimationList);
+    }
+
+    private void animationUP(List<Field> fieldCopies) {
+        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
+        List<Integer> amountsMoved = this.game.getAmountMovedList();
+        for (int i = 0; i < this.gridView.getChildCount(); i++) {
+            this.gridView.setZ(i);
+            View viewBeingAnimated = this.gridView.getChildAt(i);
+            View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i) * 4);
+            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
+        }
+        startAnimation(fieldCopies, translateAnimationList);
+    }
+
+    private void animationLeft(List<Field> fieldCopies) {
+        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
+        List<Integer> amountsMoved = this.game.getAmountMovedList();
+        for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
+            this.gridView.setZ(i);
+            View viewBeingAnimated = this.gridView.getChildAt(i);
+            View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i));
+            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
+        }
+        Collections.reverse(translateAnimationList);
+        startAnimation(fieldCopies, translateAnimationList);
+    }
+
+    private void animationRight(List<Field> fieldCopies) {
+        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
+        List<Integer> amountsMoved = this.game.getAmountMovedList();
+        for (int i = 0; i < this.gridView.getChildCount(); i++) {
+            this.gridView.setZ(i);
+            View viewBeingAnimated = this.gridView.getChildAt(i);
+            View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i));
+            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
+        }
+        startAnimation(fieldCopies, translateAnimationList);
+    }
+
+    private void goalAchieved() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
+        builder.setMessage(R.string.goal_achieved_question)
+                .setPositiveButton(R.string.continue_game_dialog, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                })
+                .setNegativeButton(R.string.end_game_dialog, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        changeToEndActivity();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void changeToEndActivity() {
+        Intent i = new Intent(BoardActivity.this, EndGame.class);
+        i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getCurrentScore()));
+        i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
+        i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
+        startActivity(i);
+        // FIXME: 23.07.2020 TO JEST TAKIE XD ale no działa i dzięki temu się nie psuje display po koncu gry xD
+        this.adapter = null;
+        restartGame();
+    }
+
+    private void prepareSensors() {
+        // Get accelerometer and magnetometer sensors from the sensor manager.
+        // The getDefaultSensor() method returns null if the sensor
+        // is not available on the device.
+        mSensorManager = (SensorManager) getSystemService(
+                Context.SENSOR_SERVICE);
+        mSensorAccelerometer = mSensorManager.getDefaultSensor(
+                Sensor.TYPE_ACCELEROMETER);
+        mSensorMagnetometer = mSensorManager.getDefaultSensor(
+                Sensor.TYPE_MAGNETIC_FIELD);
+        mSensorLight = mSensorManager.getDefaultSensor(
+                Sensor.TYPE_LIGHT);
+        mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -681,155 +820,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-    // TODO: 16.07.2020 add binding so this is not needed
-    void setScoreTexts() {
-        this.setTextScoreText();
-        this.setTextHighScoreText();
-    }
-
-    private void move(int direction) {
-        List<Field> fieldsCopies = game.getCopyOfTheBoard();
-        try {
-            game.move(direction);
-            if (direction == MOVE_UP) {
-                animUP(fieldsCopies);
-            } else if (direction == MOVE_DOWN) {
-                animDown(fieldsCopies);
-            } else if (direction == MOVE_LEFT) {
-                animLeft(fieldsCopies);
-            } else if (direction == MOVE_RIGHT) {
-                animRight(fieldsCopies);
-            }
-        } catch (GameOverException e) {
-            e.printStackTrace();
-            changeToEndActivity();
-        } catch (GoalAchievedException e) {
-            e.printStackTrace();
-            goalAchieved();
-        }
-        this.setScoreTexts();
-        setUndoAmount();
-    }
-
-    private final static double ANIM_SPEED_SECONDS = 0.25;
-
-    private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
-        @Override
-        public void onAnimationStart(Animation arg0) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        }
-
-        @Override
-        public void onAnimationEnd(Animation arg0) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            adapter.notifyDataSetChanged();
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-        }
-    };
-
-    private TranslateAnimation prepareTranslateAnimation(View viewBeingAnimated, View viewBeingAnimatedTo) {
-        TranslateAnimation translateAnimation =
-                new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
-                        0, viewBeingAnimatedTo.getY() - viewBeingAnimated.getY());
-        translateAnimation.setRepeatMode(0);
-        translateAnimation.setDuration((long) (ANIM_SPEED_SECONDS * 1000));
-        translateAnimation.setFillAfter(true);
-        return translateAnimation;
-    }
-
-    private void startAnimation(List<Field> fieldCopies, List<TranslateAnimation> translateAnimationList) {
-        for (int i = 0; i < this.gridView.getChildCount(); i++) {
-            if (fieldCopies.get(i).getValue() != 0) {
-                Animation translateAnimation = translateAnimationList.get(i);
-                translateAnimation.setAnimationListener(animationListener);
-                this.gridView.getChildAt(i).startAnimation(translateAnimation);
-            }
-        }
-        this.prepareGrid();
-        setFieldsImagesToZeros();
-    }
-
-    private void animDown(List<Field> fieldCopies) {
-        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
-        List<Integer> amountsMoved = this.game.getAmountMovedList();
-        for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
-            this.gridView.setZ(i);
-            View viewBeingAnimated = this.gridView.getChildAt(i);
-            View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i) * 4);
-            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
-        }
-        Collections.reverse(translateAnimationList);
-        startAnimation(fieldCopies, translateAnimationList);
-    }
-
-    private void animUP(List<Field> fieldCopies) {
-        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
-        List<Integer> amountsMoved = this.game.getAmountMovedList();
-        for (int i = 0; i < this.gridView.getChildCount(); i++) {
-            this.gridView.setZ(i);
-            View viewBeingAnimated = this.gridView.getChildAt(i);
-            View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i) * 4);
-            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
-        }
-        startAnimation(fieldCopies, translateAnimationList);
-    }
-
-    private void animLeft(List<Field> fieldCopies) {
-        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
-        List<Integer> amountsMoved = this.game.getAmountMovedList();
-        for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
-            this.gridView.setZ(i);
-            View viewBeingAnimated = this.gridView.getChildAt(i);
-            View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i));
-            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
-        }
-        Collections.reverse(translateAnimationList);
-        startAnimation(fieldCopies, translateAnimationList);
-    }
-
-    private void animRight(List<Field> fieldCopies) {
-        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
-        List<Integer> amountsMoved = this.game.getAmountMovedList();
-        for (int i = 0; i < this.gridView.getChildCount(); i++) {
-            this.gridView.setZ(i);
-            View viewBeingAnimated = this.gridView.getChildAt(i);
-            View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i));
-            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
-        }
-        startAnimation(fieldCopies, translateAnimationList);
-    }
-
-    private void changeToEndActivity() {
-        Intent i = new Intent(BoardActivity.this, EndGame.class);
-        i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getCurrentScore()));
-        i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
-        i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
-        startActivity(i);
-        // FIXME: 23.07.2020 TO JEST TAKIE XD ale no działa i dzięki temu się nie psuje display po koncu gry xD
-        this.adapter = null;
-        restartGame();
-    }
-
-    private void goalAchieved() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
-        builder.setMessage(R.string.goal_achieved_question)
-                .setPositiveButton(R.string.continue_game_dialog, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                })
-                .setNegativeButton(R.string.end_game_dialog, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        changeToEndActivity();
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
     private class DarkMode implements Runnable {
         @Override
         public void run() {
@@ -863,10 +853,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-    private void setDarkMode() {
-
-    }
-
     private class StopGameProximity implements Runnable {
         @Override
         public void run() {
@@ -881,9 +867,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-    private final static double horizontalPitchMax = 0.5;
-    private final static double horizontalPitchMin = -0.5;
-
     private class ChangeColourMagnetometer implements Runnable {
         @Override
         public void run() {
@@ -893,7 +876,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (pitch > horizontalPitchMin && pitch < horizontalPitchMax) {
+                    if (pitch > HORIZONTAL_PITCH_MIN && pitch < HORIZONTAL_PITCH_MAX) {
                         if (azimuth >= changeColourAzimunthBreakpoint1 && azimuth < changeColourAzimunthBreakpoint2) {
                             mThumbIds = R.drawable.button_green;
                         } else if (azimuth >= changeColourAzimunthBreakpoint3 && azimuth < changeColourAzimunthBreakpoint4) {
@@ -919,35 +902,29 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.setUndoAmount();
     }
 
-    private void setupSwipeListener() {
-        onSwipeTouchListener = new OnSwipeTouchListener(this, this.gridView);
-        final BoardActivity boardActivity = this;
-        onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
-            @Override
-            public void swipeRight() {
-                boardActivity.move(BoardActivity.MOVE_RIGHT);
-            }
-
-            @Override
-            public void swipeTop() {
-                boardActivity.move(BoardActivity.MOVE_UP);
-            }
-
-            @Override
-            public void swipeBottom() {
-                boardActivity.move(BoardActivity.MOVE_DOWN);
-            }
-
-            @Override
-            public void swipeLeft() {
-                boardActivity.move(BoardActivity.MOVE_LEFT);
-            }
-        };
-    }
-
-
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!game.isUserAuthenticated()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
+            builder.setMessage(R.string.dialog_back_question)
+                    .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            BoardActivity.super.onBackPressed();
+                        }
+                    })
+                    .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

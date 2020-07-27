@@ -253,7 +253,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     void setTextScoreText() {
-        textScore.setText(String.format("%s:\n%s", getResources().getString(R.string.score), game.getCurrentScore()));
+        textScore.setText(String.format("%s:\n%s", getResources().getString(R.string.score), game.getScore()));
 
     }
 
@@ -704,7 +704,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private void changeToEndActivity() {
         Intent i = new Intent(BoardActivity.this, EndGame.class);
-        i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getCurrentScore()));
+        i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getScore()));
         i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
         i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
         startActivity(i);

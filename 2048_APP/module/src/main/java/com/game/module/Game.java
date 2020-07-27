@@ -13,25 +13,21 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
-
 import java.io.IOException;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Game {
 
     private Board gameBoard = new Board();
+    private Context context;
 
     private int highScore;
-
     private boolean isUserAuthenticated = false;
 
     private long gameBeginTime;
     private long pausedTimeDuration;
     private boolean isSuspended;
-    private Context context;
 
     public final static int MOVE_UP = 0;
     public final static int MOVE_RIGHT = 1;
@@ -39,7 +35,6 @@ public class Game {
     public final static int MOVE_LEFT = 3;
 
     private final static String GAME_SAVE_NAME = "GameSave";
-
     private final static int SAVE_GAME_DELAY_SECONDS = 2;
 
     private Thread saveGameBackgroundThread;
@@ -92,7 +87,7 @@ public class Game {
                         gameBoard.moveLeft();
                         break;
                     default:
-                        throw new IllegalArgumentException("value can only be equal to 0, 1, 2 or 3");
+                        throw new IllegalArgumentException("Value can only be equal to 0, 1, 2 or 3");
                 }
                 this.updateHighscore();
                 if (this.isUserAuthenticated) {
@@ -154,7 +149,7 @@ public class Game {
         return this.gameBoard.getAmountMovedList();
     }
 
-    private class LoadException extends Exception {
+    private static class LoadException extends Exception {
         LoadException(Exception e) {
             super(e);
         }
@@ -179,30 +174,6 @@ public class Game {
             this.highScore = this.gameBoard.getScore();
         }
     }
-
-    private List<Integer> integers = new ArrayList<Integer>() {
-        {
-            add(0);
-            add(2);
-            add(2);
-            add(2);
-
-            add(2);
-            add(0);
-            add(2);
-            add(0);
-
-            add(2);
-            add(2);
-            add(4);
-            add(2);
-
-            add(0);
-            add(0);
-            add(1024);
-            add(1024);
-        }
-    };
 
     public void startNewGame() {
         this.gameBoard.restartGame();
@@ -256,10 +227,6 @@ public class Game {
 
 
     // TODO: 23.07.2020 usunac duplikaty
-    public int getCurrentScore() {
-        return this.gameBoard.getScore();
-    }
-
     public int getScore() {
         return this.gameBoard.getScore();
     }

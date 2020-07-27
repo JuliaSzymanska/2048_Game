@@ -21,11 +21,13 @@ public class Board implements Serializable {
     private List<List<Field>> previousBoards;
     private List<Integer> previousScores;
     private int score = 0;
-    private final static int BOARD_DIMENSIONS = 4;
-    private final static int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
     private boolean isGoalAchieved = false;
 
     private final static int PREVIOUS_BOARDS_STORED_AMOUNT = 3;
+    private final static int BOARD_DIMENSIONS = 4;
+    private final static int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
+    private final static int FIELD_POSITION_MIN = 0;
+    private final static int FIELD_POSITION_MAX = BOARD_DIMENSIONS - 1;
 
     public Board() {
         this.board = newFieldsList();
@@ -140,27 +142,24 @@ public class Board implements Serializable {
      * @return return field at x, y position.
      */
     private Field getFieldByPos(int x, int y) {
-        // TODO: 26.07.2020 to constant
-        if ((x < 0 || x > 3) || (y < 0 || y > 3)) {
-            throw new IndexOutOfBoundsException("Values have to be in range 0 - 3");
+        if ((x < FIELD_POSITION_MIN || x > FIELD_POSITION_MAX) || (y < FIELD_POSITION_MIN || y > FIELD_POSITION_MAX)) {
+            throw new IndexOutOfBoundsException("Values have to be in range " + FIELD_POSITION_MIN + " - " + FIELD_POSITION_MAX);
         }
-        return this.board.get(x + y * 4); // od lewej do prawej, od dołu do góry
+        return this.board.get(x + y * BOARD_DIMENSIONS); // od lewej do prawej, od dołu do góry
     }
 
     private Integer getAmountMovedByPos(int x, int y) {
-        // TODO: 26.07.2020 to constant
-        if ((x < 0 || x > 3) || (y < 0 || y > 3)) {
-            throw new IndexOutOfBoundsException("Values have to be in range 0 - 3");
+        if ((x < FIELD_POSITION_MIN || x > FIELD_POSITION_MAX) || (y < FIELD_POSITION_MIN || y > FIELD_POSITION_MAX)) {
+            throw new IndexOutOfBoundsException("Values have to be in range " + FIELD_POSITION_MIN + " - " + FIELD_POSITION_MAX);
         }
-        return this.amountMovedList.get(x + y * 4);
+        return this.amountMovedList.get(x + y * BOARD_DIMENSIONS);
     }
 
     private void setAmountMovedByPos(int x, int y, int value) {
-        // TODO: 26.07.2020 to constant
-        if ((x < 0 || x > 3) || (y < 0 || y > 3)) {
-            throw new IndexOutOfBoundsException("Values have to be in range 0 - 3");
+        if ((x < FIELD_POSITION_MIN || x > FIELD_POSITION_MAX) || (y < FIELD_POSITION_MIN || y > FIELD_POSITION_MAX)) {
+            throw new IndexOutOfBoundsException("Values have to be in range " + FIELD_POSITION_MIN + " - " + FIELD_POSITION_MAX);
         }
-        this.amountMovedList.set(x + y * 4, value);
+        this.amountMovedList.set(x + y * BOARD_DIMENSIONS, value);
     }
 
     /**

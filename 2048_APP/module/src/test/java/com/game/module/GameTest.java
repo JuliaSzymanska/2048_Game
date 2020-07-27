@@ -21,14 +21,14 @@ public class GameTest {
     @Test(expected = IllegalArgumentException.class)
     public void move() {
         Game game = new Game(false, null);
-        int score = game.getCurrentScore();
+        int score = game.getScore();
         try {
             game.move(Game.MOVE_RIGHT);
             game.move(Game.MOVE_LEFT);
             game.move(Game.MOVE_UP);
             game.move(Game.MOVE_DOWN);
-            assertTrue(score < game.getCurrentScore());
-            score = game.getCurrentScore();
+            assertTrue(score < game.getScore());
+            score = game.getScore();
         } catch (GameOverException | GoalAchievedException e) {
             Assert.fail();
         }
@@ -38,8 +38,8 @@ public class GameTest {
             game.move(Game.MOVE_LEFT);
             game.move(Game.MOVE_UP);
             game.move(Game.MOVE_DOWN);
-            assertEquals(score, game.getCurrentScore());
-            score = game.getCurrentScore();
+            assertEquals(score, game.getScore());
+            score = game.getScore();
         } catch (GameOverException | GoalAchievedException e) {
             Assert.fail();
         }
@@ -54,8 +54,8 @@ public class GameTest {
     @Test
     public void startNewGameTest() {
         Game game = new Game(false, null);
-        int score = game.getCurrentScore();
-        while (game.getCurrentScore() == 0) {
+        int score = game.getScore();
+        while (game.getScore() == 0) {
             try {
                 game.move(Game.MOVE_RIGHT);
                 game.move(Game.MOVE_LEFT);
@@ -65,10 +65,10 @@ public class GameTest {
                 Assert.fail();
             }
         }
-        assertTrue(score < game.getCurrentScore());
-        score = game.getCurrentScore();
+        assertTrue(score < game.getScore());
+        score = game.getScore();
         game.startNewGame();
-        assertNotEquals(score, game.getCurrentScore());
+        assertNotEquals(score, game.getScore());
     }
 
     @Test
@@ -94,9 +94,9 @@ public class GameTest {
     @Test
     public void getCurrentScore() {
         Game game = new Game(false, null);
-        Assert.assertEquals(game.getCurrentScore(), 0);
-        int score = game.getCurrentScore();
-        while (game.getCurrentScore() == 0) {
+        Assert.assertEquals(game.getScore(), 0);
+        int score = game.getScore();
+        while (game.getScore() == 0) {
             try {
                 game.move(Game.MOVE_RIGHT);
                 game.move(Game.MOVE_LEFT);
@@ -106,7 +106,7 @@ public class GameTest {
                 Assert.fail();
             }
         }
-        assertTrue(score < game.getCurrentScore());
+        assertTrue(score < game.getScore());
     }
 
     // TODO: 29.05.2020 update somehow
@@ -114,8 +114,8 @@ public class GameTest {
     public void getHighScore() {
         Game game = new Game(true, null);
         Assert.assertEquals(game.getHighScore(), 0);
-        int score = game.getCurrentScore();
-        while (game.getCurrentScore() == 0) {
+        int score = game.getScore();
+        while (game.getScore() == 0) {
             try {
                 game.move(Game.MOVE_RIGHT);
                 game.move(Game.MOVE_LEFT);
@@ -125,8 +125,8 @@ public class GameTest {
                 Assert.fail();
             }
         }
-        assertTrue(score < game.getCurrentScore());
-        assertEquals(game.getHighScore(), game.getCurrentScore());
+        assertTrue(score < game.getScore());
+        assertEquals(game.getHighScore(), game.getScore());
         score = game.getHighScore();
         game.restartGame();
         assertEquals(score, game.getHighScore());

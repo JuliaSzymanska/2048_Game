@@ -119,7 +119,6 @@ public class Board implements Serializable {
      * Called after calling move methods.
      */
     private void addNewNonEmptyFieldAfterMove() throws GameOverException, GoalAchievedException {
-        this.isGameOver();
         this.isGoalAchieved();
         List<Field> allEmptyFields = getAllEmptyFields();
         Collections.shuffle(allEmptyFields);
@@ -511,14 +510,6 @@ public class Board implements Serializable {
      *
      * @throws Exception when there are no empty fields on the board
      */
-    private void isGameOver() throws GameOverException {
-        for (Field i : this.board) {
-            if (i.getValue() == 0) {
-                return;
-            }
-        }
-        throw new GameOverException("Game over");
-    }
 
     @Override
     public String toString() {

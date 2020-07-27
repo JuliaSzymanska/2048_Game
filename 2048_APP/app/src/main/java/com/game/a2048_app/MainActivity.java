@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import me.aflak.libraries.callback.FingerprintDialogCallback;
@@ -45,9 +46,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         setContentView(R.layout.activity_main);
         initButtons();
         loadData();
-        if (isFingerPrintSensorAvailable(this)) {
-            initFingerprintDialog();
-        }
     }
 
     public static boolean isFingerPrintSensorAvailable(Context context) {
@@ -141,6 +139,18 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     @Override
     public void onAuthenticationCancel() {
 
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean(getResources().getString(R.string.authentication), isAuthenticated);
+    }
+
+    @Override
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        this.isAuthenticated = savedInstanceState.getBoolean(getResources().getString(R.string.authentication));
     }
 
     @Override

@@ -275,20 +275,29 @@ public class Board implements Serializable {
         if (this.getAllEmptyFields().size() != 0) {
             return;
         }
+        int score_before_test = this.score;
         this.moveDownAndDontTestIfGameOver();
+        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
+            this.score = score_before_test;
             return;
         }
         this.moveLeftAndDontTestIfGameOver();
+        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
+            this.score = score_before_test;
             return;
         }
         this.moveUpAndDontTestIfGameOver();
+        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
+            this.score = score_before_test;
             return;
         }
         this.moveRightAndDontTestIfGameOver();
+        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
+            this.score = score_before_test;
             return;
         }
         throw new GameOverException("Game lost");

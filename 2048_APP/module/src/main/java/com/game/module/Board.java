@@ -204,13 +204,13 @@ public class Board implements Serializable {
 
     private void setAmountMovedColumn(int col, List<Integer> amountMovedListColumn) {
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
-            this.amountMovedList.set(col + i * 4, amountMovedListColumn.get(i));
+            this.amountMovedList.set(col + i * BOARD_DIMENSIONS, amountMovedListColumn.get(i));
         }
     }
 
     private void setAmoutMovedRow(int row, List<Integer> amountMovedListRow) {
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
-            this.amountMovedList.set(i + row * 4, amountMovedListRow.get(i));
+            this.amountMovedList.set(i + row * BOARD_DIMENSIONS, amountMovedListRow.get(i));
         }
     }
 
@@ -276,22 +276,18 @@ public class Board implements Serializable {
             return;
         }
         this.moveDownAndDontTestIfGameOver();
-        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
             return;
         }
         this.moveLeftAndDontTestIfGameOver();
-        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
             return;
         }
-        this.moveLeftAndDontTestIfGameOver();
-        this.amountMovedList = newAmountMovedList();
+        this.moveUpAndDontTestIfGameOver();
         if (this.checkIfBoardChanged(copyList)) {
             return;
         }
         this.moveRightAndDontTestIfGameOver();
-        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChanged(copyList)) {
             return;
         }
@@ -327,28 +323,27 @@ public class Board implements Serializable {
             rowAmountMoved = getAmountMovedRow(i);
             Collections.reverse(row);
             Collections.reverse(rowAmountMoved);
-            moveFieldsInRowOrColumn(row, rowAmountMoved);
+            this.moveFieldsInRowOrColumn(row, rowAmountMoved);
             Collections.reverse(rowAmountMoved);
-            setAmoutMovedRow(i, rowAmountMoved);
+            this.setAmoutMovedRow(i, rowAmountMoved);
         }
     }
 
     void moveLeft() throws GameOverException, GoalAchievedException {
         List<Field> copyList = this.getCopyBoard();
         this.moveLeftAndDontTestIfGameOver();
-        testIfGameOver(copyList);
+        this.testIfGameOver(copyList);
     }
 
     private void moveDownAndDontTestIfGameOver() {
         this.appendPreviousBoardToHistory();
         this.amountMovedList = this.newAmountMovedList();
-        System.out.println("\n" + testToString());
         List<Field> col;
         List<Integer> colAmountMoved;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             col = getColumn(i);
             colAmountMoved = getAmountMovedColumn(i);
-            moveFieldsInRowOrColumn(col, colAmountMoved);
+            this.moveFieldsInRowOrColumn(col, colAmountMoved);
             this.setAmountMovedColumn(i, colAmountMoved);
         }
     }
@@ -356,13 +351,12 @@ public class Board implements Serializable {
     void moveDown() throws GameOverException, GoalAchievedException {
         List<Field> copyList = this.getCopyBoard();
         this.moveDownAndDontTestIfGameOver();
-        testIfGameOver(copyList);
+        this.testIfGameOver(copyList);
     }
 
     private void moveUpAndDontTestIfGameOver() {
         this.appendPreviousBoardToHistory();
         this.amountMovedList = this.newAmountMovedList();
-        System.out.println("\n" + testToString());
         List<Field> col;
         List<Integer> colAmountMoved;
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
@@ -370,7 +364,7 @@ public class Board implements Serializable {
             colAmountMoved = getAmountMovedColumn(i);
             Collections.reverse(col);
             Collections.reverse(colAmountMoved);
-            moveFieldsInRowOrColumn(col, colAmountMoved);
+            this.moveFieldsInRowOrColumn(col, colAmountMoved);
             Collections.reverse(colAmountMoved);
             this.setAmountMovedColumn(i, colAmountMoved);
         }
@@ -504,11 +498,6 @@ public class Board implements Serializable {
 
 
     public List<Field> getBoard() {
-//        List<Field> cloneBoard = newFieldsList();
-//        for (int i = 0; i < BOARD_SIZE; i++) {
-//            cloneBoard.get(i).setValue(this.board.get(i).getValue());
-//        }
-        // TODO: 02.06.2020 poprawic kopiowanie
         return this.board;
     }
 

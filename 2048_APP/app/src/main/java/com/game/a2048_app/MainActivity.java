@@ -4,7 +4,6 @@ package com.game.a2048_app;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.hardware.fingerprint.FingerprintManager;
 import android.media.MediaPlayer;
@@ -32,13 +31,17 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private MainActivity mainActivity = this;
     private Boolean isAuthenticated = false;
     private Button startGameButton;
-    private boolean volume = true;
+    private int volume = 1;
+    MediaPlayer mediaPlayer;
+    private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
+        PreferencesHelper.initContext(this);
         setContentView(R.layout.activity_main);
         initButtons();
         loadData();
@@ -53,10 +56,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     }
 
     private void loadData() {
-        SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
-        boolean isDarkTheme = preferences.getBoolean(getResources().getString(R.string.dark_theme), false);
-        this.volume = preferences.getBoolean(getResources().getString(R.string.volume), true);
+        boolean isDarkTheme = preferencesHelper.getDarkTheme();
         setTheme(isDarkTheme);
+        this.volume = preferencesHelper.getVolume();
     }
 
     // TODO: 19.07.2020 spojrzeć na te i podobne funkcje
@@ -104,12 +106,10 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
             // TODO: 25.07.2020 ten jest mój ulubiony
 
             startGameButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
-            MediaPlayer mediaPlayerStart = MediaPlayer.create(mainActivity, R.raw.decline_call);
-            SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
-            // TODO: 27.07.2020 to nei dziala
-            mediaPlayerStart.setVolume(preferences.getBoolean(getResources().getString(R.string.volume), true) ? 1 : 0, preferences.getBoolean(getResources().getString(R.string.volume), true) ? 1 : 0);
-            mediaPlayerStart.start();
-            mediaPlayerStart.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            mediaPlayer = MediaPlayer.create(mainActivity, R.raw.decline_call);
+            mediaPlayer.setVolume(volume, volume);
+            mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
                 @Override
                 public void onCompletion(MediaPlayer mp) {
@@ -148,6 +148,12 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         moveTaskToBack(true);
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(0);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.mediaPlayer.release();
     }
 
 }

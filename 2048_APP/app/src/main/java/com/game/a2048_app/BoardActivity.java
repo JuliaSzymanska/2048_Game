@@ -128,7 +128,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     // settings
     private SharedPreferences preferences;
     private boolean isDarkTheme = false;
-    private boolean volume;
+    private int volume = 1;
+    private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
     private BoardActivity boardActivity = this;
 
@@ -143,9 +144,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     // https://developer.android.com/guide/components/activities/activity-lifecycle
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PreferencesHelper.initContext(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
         this.loadData();
+        this.initMediaPlayer();
         this.prepareViews();
         this.prepareSensors();
     }
@@ -188,12 +191,23 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         for (int i = 0; i < this.choosenSensors.length; i++) {
             this.choosenSensors[i] = preferences.getBoolean(sensorNames[i], false);
         }
-        this.isDarkTheme = preferences.getBoolean(getResources().getString(R.string.dark_theme), false);
-        this.volume = preferences.getBoolean(getResources().getString(R.string.volume), true);
+        this.isDarkTheme = preferencesHelper.getDarkTheme();
+        this.volume = preferencesHelper.getVolume();
         this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(getResources().getString(R.string.authentication))), this);
         this.fields = game.getBoard().toArray(new Field[0]);
         this.fieldsImages = new Integer[fields.length];
         Arrays.fill(fieldsImages, R.drawable.zero);
+    }
+
+    private void setMuteSettings() {
+        if (volume == 1) {
+            muteButton.setBackgroundResource(R.drawable.mute_off);
+        } else if (volume == 0) {
+            muteButton.setBackgroundResource(R.drawable.mute_on);
+        } else {
+            throw new IllegalArgumentException("Argument value should be 0 or 1");
+        }
+        mediaPlayer.setVolume(volume, volume);
     }
 
     void setTextScoreText() {
@@ -227,6 +241,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         undoTextView = (TextView) findViewById(R.id.undoTextView);
         muteButton = (Button) findViewById(R.id.muteButton);
         muteButton.setOnClickListener(muteListener);
+        setMuteSettings();
         setUndoAmount();
         this.setTheme();
         adapter.notifyDataSetChanged();
@@ -235,15 +250,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener muteListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(!volume){
-                volume = true;
-                mediaPlayer.setVolume(volume ? 1 : 0, volume ? 1 : 0);
-                muteButton.setBackgroundResource(R.drawable.mute_off);
-            } else if(volume){
-                volume = false;
-                mediaPlayer.setVolume(volume ? 1 : 0, volume ? 1 : 0);
-                muteButton.setBackgroundResource(R.drawable.mute_on);
+            if (volume == 0) {
+                volume = 1;
+            } else if (volume == 1) {
+                volume = 0;
+            } else {
+                throw new IllegalArgumentException("Argument value should be 0 or 1");
             }
+            preferencesHelper.setVolume(volume);
+            setMuteSettings();
         }
     };
 
@@ -257,7 +272,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         //  jeśli działa to wszystko trzeba do .xml przenieść żeby był porządek
     }
 
-    private void setMediaPlayer(int id){
+    private void setMediaPlayer(int id) {
         AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(id);
         try {
             mediaPlayer.reset();
@@ -561,7 +576,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         this.game.unpauseTimer();
         this.beginUpdatingTime();
-        this.initMediaPlayer();
     }
 
     private void beginUpdatingTime() {
@@ -587,16 +601,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         updateTimeThread.start();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // Unregister all sensor listeners in this callback so they don't
-        // continue to use resources when the app is stopped.
-        mSensorManager.unregisterListener(this);
-        this.game.pauseTimer();
-        this.updateTimeThread.interrupt();
-        this.mediaPlayer.release();
-    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -847,7 +851,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void run() {
                     preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
                     if (mLightData <= DARKMODE_ENABLE_LIGHT && !isDarkTheme) {
                         runOnUiThread(new Runnable() {
                             @Override
@@ -856,7 +859,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                             }
                         });
                         isDarkTheme = true;
-                        editor.putBoolean(getResources().getString(R.string.dark_theme), isDarkTheme);
+                        preferencesHelper.setDarkTheme(isDarkTheme);
                         adapter.notifyDataSetChanged();
                     } else if (mLightData >= DARKMODE_DISABLE_LIGHT && isDarkTheme) {
                         runOnUiThread(new Runnable() {
@@ -866,10 +869,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                             }
                         });
                         isDarkTheme = false;
-                        editor.putBoolean(getResources().getString(R.string.dark_theme), isDarkTheme);
+                        preferencesHelper.setDarkTheme(isDarkTheme);
                         adapter.notifyDataSetChanged();
                     }
-                    editor.apply();
                 }
             });
         }
@@ -960,6 +962,17 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Unregister all sensor listeners in this callback so they don't
+        // continue to use resources when the app is stopped.
+        mSensorManager.unregisterListener(this);
+        this.game.pauseTimer();
+        this.updateTimeThread.interrupt();
+        this.mediaPlayer.release();
     }
 
 }

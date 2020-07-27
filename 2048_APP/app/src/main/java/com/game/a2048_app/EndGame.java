@@ -1,7 +1,6 @@
 package com.game.a2048_app;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +14,7 @@ public class EndGame extends AppCompatActivity {
 
     // TODO: 23.07.2020  Julia work list:
     //  - javaDoc
-    //  - https://stackoverflow.com/a/151940
+    //  - https://stackoverflow.com/a/151940 - authentication
     //  - testy testy testy (jeden jest prawdkopodobnie zepsuty, dodać testy do tego co dzisiaj zrobiłem)
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
     //  - zrobić animacje pojawiania się nowych klocków, no przejście z naszej animacji do po animacji
@@ -25,11 +24,14 @@ public class EndGame extends AppCompatActivity {
     private Boolean authentication;
     private EndGame endgame = this;
     private Button homePageButton;
+    MediaPlayer mediaPlayer;
+    private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
+        PreferencesHelper.initContext(this);
         score = intent.getStringExtra(getResources().getString(R.string.score));
         highScore = intent.getStringExtra(getResources().getString(R.string.high_score));
         authentication = Boolean.parseBoolean(intent.getStringExtra(String.valueOf(R.string.authentication)));
@@ -42,8 +44,7 @@ public class EndGame extends AppCompatActivity {
     }
 
     private void loadData() {
-        SharedPreferences preferences = getSharedPreferences(getResources().getString(R.string.settings), MODE_PRIVATE);
-        boolean isDarkTheme = preferences.getBoolean(getResources().getString(R.string.dark_theme), false);
+        boolean isDarkTheme = preferencesHelper.getDarkTheme();
         setTheme(isDarkTheme);
         setTextScoreText();
         setTextHighScoreText();
@@ -74,9 +75,11 @@ public class EndGame extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             homePageButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
-            MediaPlayer mediaPlayerStart = MediaPlayer.create(endgame, R.raw.slide_activities);
-            mediaPlayerStart.start();
-            mediaPlayerStart.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            mediaPlayer = MediaPlayer.create(endgame, R.raw.slide_activities);
+            int volume = preferencesHelper.getVolume();
+            mediaPlayer.setVolume(volume, volume);
+            mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
                 @Override
                 public void onCompletion(MediaPlayer mp) {
@@ -90,6 +93,12 @@ public class EndGame extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.mediaPlayer.release();
     }
 
 }

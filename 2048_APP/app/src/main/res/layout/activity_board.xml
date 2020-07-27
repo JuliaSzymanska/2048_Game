@@ -22,20 +22,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+
     <ImageView
         android:id="@+id/scoreBoard"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
         android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@id/gridView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.23"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/restartGameButton"
         app:layout_constraintWidth_percent="1.2"
         app:srcCompat="@drawable/score_board" />
-
 
     <Button
         android:id="@+id/restartGameButton"
@@ -58,6 +59,7 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         app:layout_constraintWidth_percent="0.6" />
 
     <GridView
@@ -129,8 +131,7 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/restartGameButton"
-        app:layout_constraintWidth_percent="0.09
-" />
+        app:layout_constraintWidth_percent="0.09" />
 
     <Button
         android:id="@+id/pausePlayButton"
@@ -154,17 +155,20 @@
         app:layout_constraintEnd_toStartOf="@+id/restartGameButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/darkThemeView"
+        app:layout_constraintBottom_toTopOf="@id/undoMoveButton"
         app:layout_constraintWidth_percent="0.09" />
 
     <Button
         android:id="@+id/undoMoveButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="23dp"
         android:layout_marginBottom="18dp"
         app:layout_constraintBottom_toTopOf="@+id/scoreBoard"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@+id/restartGameButton"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/muteButton"
         app:layout_constraintWidth_percent="0.07" />
 
 

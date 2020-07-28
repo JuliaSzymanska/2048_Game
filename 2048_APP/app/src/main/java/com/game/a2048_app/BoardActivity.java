@@ -52,7 +52,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private ArrayAdapter<Integer> adapter;
     private GridView gridView;
     private ImageView darkThemeView;
-    private ImageView scoreBoard;
     private Field[] fields;
     private Integer[] fieldsImages;
     private Integer[] fieldsBackground;
@@ -113,7 +112,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private final static double ANIM_SPEED_SECONDS = 0.15;
 
-    // znowu się spotykamy
     public final static int MOVE_UP = Game.MOVE_UP;
     public final static int MOVE_RIGHT = Game.MOVE_RIGHT;
     public final static int MOVE_DOWN = Game.MOVE_DOWN;
@@ -121,7 +119,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private boolean hasMoved = false;
 
-    // settings
     private boolean isDarkTheme = false;
     private int volume = 1;
     private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
@@ -135,7 +132,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     // https://developer.android.com/guide/components/activities/activity-lifecycle
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PreferencesHelper.initContext(this);
+        PreferencesHelper.initContext(boardActivity);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
         this.loadData();
@@ -148,7 +145,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         preferencesHelper.getChoosenSensors(this.choosenSensors);
         this.isDarkTheme = preferencesHelper.getDarkTheme();
         this.volume = preferencesHelper.getVolume();
-        this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(getResources().getString(R.string.authentication))), this);
+        this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(getResources().getString(R.string.authentication))), boardActivity);
         this.fields = game.getBoard().toArray(new Field[0]);
         this.fieldsImages = new Integer[fields.length];
         this.fieldsBackground = new Integer[fields.length];
@@ -185,14 +182,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.muteButton.setOnClickListener(muteListener);
         this.darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         this.setTheme();
-        this.scoreBoard = (ImageView) findViewById(R.id.scoreBoard);
         this.undoTextView = (TextView) findViewById(R.id.undoTextView);
         this.setUndoAmount();
         this.adapter.notifyDataSetChanged();
     }
 
     private void prepareGrid() {
-        this.adapter = new ArrayAdapter<Integer>(this,
+        this.adapter = new ArrayAdapter<Integer>(boardActivity,
                 android.R.layout.simple_list_item_1, fieldsImages) {
             @NonNull
             @Override
@@ -226,7 +222,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private void setupSwipeListener() {
-        onSwipeTouchListener = new OnSwipeTouchListener(this, this.gridView);
+        onSwipeTouchListener = new OnSwipeTouchListener(boardActivity, this.gridView);
         final BoardActivity boardActivity = this;
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
             @Override
@@ -294,7 +290,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         public void onClick(View v) {
             settingsButton.setBackgroundResource(R.drawable.settings_clicked);
             setMediaPlayer(R.raw.button_no_reverb);
-            AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this.boardActivity);
             builder.setMultiChoiceItems(R.array.sensors, choosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -414,6 +410,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private void setUndoAmount() {
         int undoAmount = BoardActivity.this.game.getAvaiableUndoAmount();
         if (undoAmount > 0) {
@@ -425,7 +422,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             undoTextView.setText(String.format("%d", undoAmount));
             undoButton.setEnabled(false);
         } else {
-            // TODO: 26.07.2020 tutaj jakis exception
+            throw new IllegalArgumentException("Undo amount has to be positive number. ");
         }
     }
 
@@ -443,19 +440,19 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         // Both listeners are registered with a "normal" amount of delay
         // (SENSOR_DELAY_NORMAL).
         if (mSensorAccelerometer != null) {
-            mSensorManager.registerListener(this, mSensorAccelerometer,
+            mSensorManager.registerListener(boardActivity, mSensorAccelerometer,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorMagnetometer != null) {
-            mSensorManager.registerListener(this, mSensorMagnetometer,
+            mSensorManager.registerListener(boardActivity, mSensorMagnetometer,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorLight != null) {
-            mSensorManager.registerListener(this, mSensorLight,
+            mSensorManager.registerListener(boardActivity, mSensorLight,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorProximity != null) {
-            mSensorManager.registerListener(this, mSensorProximity,
+            mSensorManager.registerListener(boardActivity, mSensorProximity,
                     SensorManager.SENSOR_DELAY_GAME);
         }
 
@@ -466,14 +463,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private static class ViewHolderItem {
         TextView textViewItem;
         ImageView imageViewItem;
-
-        public ImageView getImageViewItem() {
-            return imageViewItem;
-        }
-
-        public TextView getTextViewItem() {
-            return textViewItem;
-        }
     }
 
     private void setFieldsImagesToZeros() {
@@ -735,7 +724,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private void goalAchieved() {
         game.pauseTimer();
-        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this.boardActivity);
         builder.setMessage(R.string.goal_achieved_question)
                 .setPositiveButton(R.string.continue_game_dialog, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -752,7 +741,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private void changeToEndActivity() {
-        Intent i = new Intent(BoardActivity.this, EndGame.class);
+        Intent i = new Intent(BoardActivity.this.boardActivity, EndGame.class);
         i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getScore()));
         i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
         i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
@@ -768,6 +757,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         // is not available on the device.
         mSensorManager = (SensorManager) getSystemService(
                 Context.SENSOR_SERVICE);
+        assert mSensorManager != null;
         mSensorAccelerometer = mSensorManager.getDefaultSensor(
                 Sensor.TYPE_ACCELEROMETER);
         mSensorMagnetometer = mSensorManager.getDefaultSensor(
@@ -958,7 +948,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     @Override
     public void onBackPressed() {
         if (!game.isUserAuthenticated()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this.boardActivity);
             builder.setMessage(R.string.dialog_back_question)
                     .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -981,7 +971,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         super.onStop();
         // Unregister all sensor listeners in this callback so they don't
         // continue to use resources when the app is stopped.
-        mSensorManager.unregisterListener(this);
+        mSensorManager.unregisterListener(boardActivity);
         this.game.pauseTimer();
         this.updateTimeThread.interrupt();
         this.mediaPlayer.release();

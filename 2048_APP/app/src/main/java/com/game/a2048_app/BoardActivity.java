@@ -710,10 +710,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private void goalAchieved() {
+        game.pauseTimer();
         AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
         builder.setMessage(R.string.goal_achieved_question)
                 .setPositiveButton(R.string.continue_game_dialog, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        game.unpauseTimer();
                     }
                 })
                 .setNegativeButton(R.string.end_game_dialog, new DialogInterface.OnClickListener() {

@@ -39,6 +39,11 @@ public class Game {
 
     private Thread saveGameBackgroundThread;
 
+    /**
+     * Class constructor specifying if user is authenticated and context from activity.
+     * @param isUserAuthenticated whether the user is authenticated.
+     * @param context context from activity.
+     */
     public Game(boolean isUserAuthenticated, @Nullable Context context) {
         this.setUserAuthenticated(isUserAuthenticated);
         this.setContext(context);
@@ -55,21 +60,36 @@ public class Game {
         saveGameBackgroundThread = new Thread(this.saveGameBackgroundRunnable);
     }
 
+    /**
+     * Sets context.
+     * @param context passed in constructor.
+     */
     public void setContext(Context context) {
         if (context != null) {
             this.context = context.getApplicationContext();
         }
     }
 
+    /**
+     * @return copy of the board.
+     */
     public List<Field> getCopyOfTheBoard() {
         return gameBoard.getCopyBoard();
     }
 
-
+    /**
+     * @return board.
+     */
     public List<Field> getBoard() {
         return gameBoard.getBoard();
     }
 
+    /**
+     * Calls appropriate method from Board class to move board.
+     * @param direction of the move
+     * @throws GoalAchievedException when one or more fields have value equal or higher then 2048.
+     * @throws GameOverException when the game ended.
+     */
     public void move(int direction) throws GameOverException, GoalAchievedException {
         try {
             if (!this.isSuspended) {
@@ -104,6 +124,10 @@ public class Game {
         }
     }
 
+    /**
+     * Saves game.
+     * Called after moves.
+     */
     private Runnable saveGameOnce = new Runnable() {
         @Override
         public void run() {
@@ -111,6 +135,9 @@ public class Game {
         }
     };
 
+    /**
+     * Saves game every <i>SAVE_GAME_DELAY_SECONDS</i> seconds.
+     */
     // TODO: 21.07.2020 TEST ME! 
     private Runnable saveGameBackgroundRunnable = new Runnable() {
         @Override
@@ -127,14 +154,24 @@ public class Game {
         }
     };
 
+    /**
+     * Calls method from Board class to undo previous move.
+     */
     public void undoPreviousMove() {
         this.gameBoard.undoPreviousMove();
     }
 
+    /**
+     * Calls method from Board class to get available undo amount.
+     * @return available undo amount.
+     */
     public int getAvaiableUndoAmount() {
         return this.gameBoard.getAvaiableUndoAmount();
     }
 
+    /**
+     * Saves game using DAO.
+     */
     private void saveGame() {
         if (this.context != null && this.isUserAuthenticated) {
             try (Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
@@ -145,16 +182,27 @@ public class Game {
             }
         }
     }
+
+    /**
+     * @return list with amount of moves.
+     */
     public List<Integer> getAmountMovedList() {
         return this.gameBoard.getAmountMovedList();
     }
 
+    /**
+     * Load exception class.
+     */
     private static class LoadException extends Exception {
         LoadException(Exception e) {
             super(e);
         }
     }
 
+    /**
+     * Loads game using DAO.
+     * @throws LoadException when loading encounters a problem.
+     */
     public void loadGame() throws LoadException {
         if (this.context != null && this.isUserAuthenticated) {
             try (Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
@@ -169,18 +217,27 @@ public class Game {
         }
     }
 
+    /**
+     * Check if current score is higher than current high score, if yes high score is updated to current score.
+     */
     private void updateHighscore() {
         if (this.gameBoard.getScore() > this.highScore && this.isUserAuthenticated) {
             this.highScore = this.gameBoard.getScore();
         }
     }
 
+    /**
+     * Starts new game. Board and time are reset.
+     */
     public void startNewGame() {
         this.gameBoard.restartGame();
         this.gameBeginTime = System.nanoTime();
         this.unpauseTimer();
     }
 
+    /**
+     * Calls method to start new game and saves current state if user is authenticated.
+     */
     public void restartGame() {
         this.startNewGame();
         if (isUserAuthenticated) {
@@ -188,6 +245,9 @@ public class Game {
         }
     }
 
+    /**
+     * Pause game's timer.
+     */
     public void pauseTimer() {
         if (!this.isSuspended) {
             this.isSuspended = true;
@@ -196,6 +256,9 @@ public class Game {
         }
     }
 
+    /**
+     * Unpause game's timer.
+     */
     public void unpauseTimer() {
         if (this.isSuspended) {
             this.isSuspended = false;
@@ -208,10 +271,16 @@ public class Game {
         }
     }
 
+    /**
+     * @return if game is suspended.
+     */
     public boolean isSuspended() {
         return this.isSuspended;
     }
 
+    /**
+     * @return current game time in nanoseconds.
+     */
     public long getElapsedTime() {
         if (this.isSuspended) {
             return this.pausedTimeDuration;
@@ -219,6 +288,9 @@ public class Game {
         return System.nanoTime() - this.gameBeginTime;
     }
 
+    /**
+     * @return time as String in format: HH:MM:SS.
+     */
     public String getElapsedTimeToString() {
         long timeSeconds = TimeUnit.MILLISECONDS.convert(this.getElapsedTime(), TimeUnit.NANOSECONDS);
         String time = DurationFormatUtils.formatDurationHMS(timeSeconds);
@@ -226,23 +298,40 @@ public class Game {
     }
 
 
-    // TODO: 23.07.2020 usunac duplikaty
+    /**
+     * Calls Board class method to get current score.
+     * @return board's score.
+     */
     public int getScore() {
         return this.gameBoard.getScore();
     }
 
+    /**
+     * @return game's high score.
+     */
     public int getHighScore() {
         return highScore;
     }
 
+    /**
+     * @return if user is authenticated.
+     */
     public boolean isUserAuthenticated() {
         return isUserAuthenticated;
     }
 
+    /**
+     * Sets if user is authenticated.
+     * @param userAuthenticated if user is authenticated.
+     */
     public void setUserAuthenticated(boolean userAuthenticated) {
         this.isUserAuthenticated = userAuthenticated;
     }
 
+    /**
+     * @param o the object to check for equality.
+     * @return true if <i>this</i> is numerically equal to param.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -258,6 +347,9 @@ public class Game {
                 .isEquals();
     }
 
+    /**
+     * @return hash code for game.
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
@@ -267,6 +359,9 @@ public class Game {
                 .toHashCode();
     }
 
+    /**
+     * @return String representation of class.
+     */
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
@@ -276,6 +371,7 @@ public class Game {
                 .toString();
     }
 
+    // TODO: 28.07.2020 javadoc
     // W razie gdyby thread się nie przerwał, awaryjny
     @Override
     protected void finalize() throws Throwable {

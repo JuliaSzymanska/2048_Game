@@ -29,12 +29,19 @@ public class Board implements Serializable {
     private final static int FIELD_POSITION_MIN = 0;
     private final static int FIELD_POSITION_MAX = BOARD_DIMENSIONS - 1;
 
+    /**
+     * Default class constructor.
+     */
     public Board() {
         this.board = newFieldsList();
         this.amountMovedList = newAmountMovedList();
         this.resetBoard();
     }
 
+    /**
+     * Class constructor specifying fields of the board.
+     * @param integerList - list of int to put in the board.
+     */
     Board(List<Integer> integerList) {
         this.board = newFieldsList();
         this.amountMovedList = newAmountMovedList();
@@ -46,6 +53,9 @@ public class Board implements Serializable {
         this.setVariablesToDefault();
     }
 
+    /**
+     * Sets variables like score, previousBoards, previousScores, isGoalAchieved to default values.
+     */
     private void setVariablesToDefault() {
         this.score = 0;
         this.previousBoards = new ArrayList<>();
@@ -53,6 +63,9 @@ public class Board implements Serializable {
         this.isGoalAchieved = false;
     }
 
+    /**
+     * Restarts the game.
+     */
     void restartGame() {
         this.resetBoard();
         this.setVariablesToDefault();
@@ -60,7 +73,6 @@ public class Board implements Serializable {
 
     /**
      * Creates new fields list and set their values to 0.
-     *
      * @return List of fields.
      */
     private List<Field> newFieldsList() {
@@ -71,9 +83,12 @@ public class Board implements Serializable {
         return fieldList;
     }
 
+    /**
+     * Creates new list filled with 0 for checking amount moved fields.
+     * @return new list filled with 0.
+     */
     private List<Integer> newAmountMovedList() {
         List<Integer> amountMovedList = Arrays.asList(new Integer[BOARD_SIZE]);
-        // TODO: 26.07.2020 moze tak?
         java.util.Collections.fill(amountMovedList, 0);
         return amountMovedList;
     }
@@ -89,23 +104,37 @@ public class Board implements Serializable {
         try {
             this.addNewNonEmptyFieldAfterMove();
             this.addNewNonEmptyFieldAfterMove();
-        } catch (GameOverException | GoalAchievedException ignore) {
+        } catch (GoalAchievedException ignore) {
             // nie może się rzucić fizycznie ten wyjątek tutaj
         }
     }
 
+    /**
+     * @return board's score.
+     */
     int getScore() {
         return score;
     }
 
+    /**
+     * @return available undo amount.
+     */
     int getAvaiableUndoAmount() {
         return this.previousBoards.size();
     }
 
+    /**
+     * Updates score by adding param to current score.
+     * @param scoreDelta - number by which score have to be increased.
+     */
     private void updateScore(int scoreDelta) {
         this.score += scoreDelta;
     }
 
+    /**
+     * Creates new list of empty fields in board.
+     * @return - list of empty fields in board.
+     */
     private List<Field> getAllEmptyFields() {
         List<Field> listOfEmptyFields = new ArrayList<>();
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -120,13 +149,17 @@ public class Board implements Serializable {
      * Fills a random empty field in board with either 2 or 4 (9:1 probablility ratio).
      * Called after calling move methods.
      */
-    private void addNewNonEmptyFieldAfterMove() throws GameOverException, GoalAchievedException {
+    private void addNewNonEmptyFieldAfterMove() throws GoalAchievedException {
         this.isGoalAchieved();
         List<Field> allEmptyFields = getAllEmptyFields();
         Collections.shuffle(allEmptyFields);
         allEmptyFields.get(0).setValue(Math.random() >= .9 ? 4 : 2);
     }
 
+    /**
+     * Checks if there is field with a number higher or equal to 2048.
+     * @throws GoalAchievedException - exception is thrown when there is field with a number higher or equal to 2048.
+     */
     private void isGoalAchieved() throws GoalAchievedException {
         for (Field i : board) {
             if (i.getValue() >= 2048 && !this.isGoalAchieved) {
@@ -148,18 +181,16 @@ public class Board implements Serializable {
         return this.board.get(x + y * BOARD_DIMENSIONS); // od lewej do prawej, od dołu do góry
     }
 
+    /**
+     * @param x horizontal position.
+     * @param y vertical position.
+     * @return return the moved amount for field at x, y position.
+     */
     private Integer getAmountMovedByPos(int x, int y) {
         if ((x < FIELD_POSITION_MIN || x > FIELD_POSITION_MAX) || (y < FIELD_POSITION_MIN || y > FIELD_POSITION_MAX)) {
             throw new IndexOutOfBoundsException("Values have to be in range " + FIELD_POSITION_MIN + " - " + FIELD_POSITION_MAX);
         }
         return this.amountMovedList.get(x + y * BOARD_DIMENSIONS);
-    }
-
-    private void setAmountMovedByPos(int x, int y, int value) {
-        if ((x < FIELD_POSITION_MIN || x > FIELD_POSITION_MAX) || (y < FIELD_POSITION_MIN || y > FIELD_POSITION_MAX)) {
-            throw new IndexOutOfBoundsException("Values have to be in range " + FIELD_POSITION_MIN + " - " + FIELD_POSITION_MAX);
-        }
-        this.amountMovedList.set(x + y * BOARD_DIMENSIONS, value);
     }
 
     /**
@@ -186,6 +217,11 @@ public class Board implements Serializable {
                 this.getFieldByPos(col, 3));
     }
 
+    /**
+     *
+     * @param row row's number.
+     * @return fields at row's number.
+     */
     private List<Integer> getAmountMovedRow(int row) {
         return Arrays.asList(
                 this.getAmountMovedByPos(0, row),
@@ -194,6 +230,11 @@ public class Board implements Serializable {
                 this.getAmountMovedByPos(3, row));
     }
 
+    /**
+     *
+     * @param col column's number.
+     * @return fields at column's number.
+     */
     private List<Integer> getAmountMovedColumn(int col) {
         return Arrays.asList(
                 this.getAmountMovedByPos(col, 0),
@@ -202,18 +243,32 @@ public class Board implements Serializable {
                 this.getAmountMovedByPos(col, 3));
     }
 
-    private void setAmountMovedColumn(int col, List<Integer> amountMovedListColumn) {
-        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
-            this.amountMovedList.set(col + i * BOARD_DIMENSIONS, amountMovedListColumn.get(i));
-        }
-    }
-
+    /**
+     * Sets at class list specific row with row from list amountMovedListRow.
+     * @param row row's number.
+     * @param amountMovedListRow list of amount of moves for fields.
+     */
     private void setAmoutMovedRow(int row, List<Integer> amountMovedListRow) {
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             this.amountMovedList.set(i + row * BOARD_DIMENSIONS, amountMovedListRow.get(i));
         }
     }
 
+    /**
+     * Sets at class list specific column with column from list amountMovedListColumn.
+     * @param col column's number.
+     * @param amountMovedListColumn list of amount of moves for fields.
+     */
+    private void setAmountMovedColumn(int col, List<Integer> amountMovedListColumn) {
+        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
+            this.amountMovedList.set(col + i * BOARD_DIMENSIONS, amountMovedListColumn.get(i));
+        }
+    }
+
+    /**
+     * Saves current score and board to make undo available.
+     * Deletes first saved score and board when available amount of undo is exceeded.
+     */
     private void appendPreviousBoardToHistory() {
         this.previousBoards.add(this.getCopyBoard());
         this.previousScores.add(this.score);
@@ -223,6 +278,13 @@ public class Board implements Serializable {
         }
     }
 
+    /**
+     * @param listA first list to pair
+     * @param listB second list to pair
+     * @param <A> type of elements of listA
+     * @param <B> type of elements of listB
+     * @return pair of two list passed as params
+     */
     private static <A, B> List<Pair<A, B>> zip(List<A> listA, List<B> listB) {
         if (listA.size() != listB.size()) {
             throw new IllegalArgumentException("Lists must have same size");
@@ -236,7 +298,9 @@ public class Board implements Serializable {
         return pairList;
     }
 
-    // TODO: 24.07.2020 tutaj trzeba zrobic to z tym boolem isGoalAchieved
+    /**
+     * Restores the board and sthe score to the state it was in before the last move.
+     */
     void undoPreviousMove() {
         if (this.previousBoards.size() == 0) {
             return;
@@ -250,6 +314,11 @@ public class Board implements Serializable {
         this.previousScores.remove(this.previousScores.size() - 1);
     }
 
+    // TODO: 28.07.2020 sprawdz cyz poprawnie to opisalam
+    /**
+     * @param copyList previous state of board.
+     * @return if board has changed.
+     */
     private boolean checkIfBoardChanged(List<Field> copyList) {
         boolean hasChanged = false;
         for (Pair<Field, Field> item : zip(copyList, this.board)) {
@@ -265,6 +334,12 @@ public class Board implements Serializable {
         return hasChanged;
     }
 
+    /**
+     * Chceck if there is any available moves that will change board.
+     * @param copyList previous state of board.
+     * @throws GoalAchievedException when one or more fields have value equal or higher then 2048.
+     * @throws GameOverException when the game ended.
+     */
     private void testIfGameOver(List<Field> copyList) throws GoalAchievedException, GameOverException {
         for (Pair<Field, Field> item : zip(copyList, this.board)) {
             if (!item.getLeft().equals(item.getRight())) {
@@ -408,7 +483,10 @@ public class Board implements Serializable {
         }
     }
 
-    // TODO: 31.05.2020 dodaj tu komentarze bo ty to pisales
+    /**
+     * @param fieldsList list of moving fields in board where zero should be deleted.
+     * @return amount of zeros in param to delete during move.
+     */
     private int countZerosToDelete(List<Field> fieldsList) {
         int index = 0;
         int zero_count = 0;
@@ -426,13 +504,15 @@ public class Board implements Serializable {
         return zero_count - index;
     }
 
+    /**
+     * @return list with amount of moves.
+     */
     List<Integer> getAmountMovedList() {
         return amountMovedList;
     }
 
     /**
      * Removes zeros before others values.
-     *
      * @param fieldsList 2d list of fields in board as rows or columns.
      */
     // TODO: 25.07.2020 przy kazdym przejsciu algorytmu, wykonaniu ruchu, należy zinkrementować int na pozycjach na których się przesuneły pola usuwajac zero.
@@ -457,7 +537,11 @@ public class Board implements Serializable {
         }
     }
 
-    // TODO: 25.07.2020 trzeba podawac liste int tak samo jak przekazujemy liste fields
+    /**
+     * Moves right fields in row or column pass as param.
+     * @param fieldsList list of fields in row or column to move.
+     * @param moveCountList list with numbers of field's move.
+     */
     private void moveFieldsInRowOrColumn(List<Field> fieldsList, List<Integer> moveCountList) {
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
             //bool, ktorego wartosc oznacza czy zostala znaleziony inny field z ktorym field moze sie polaczyc
@@ -497,6 +581,9 @@ public class Board implements Serializable {
         removeZerosInMove(fieldsList, moveCountList);
     }
 
+    /**
+     * @return copy of the board.
+     */
     List<Field> getCopyBoard() {
         List<Field> cloneBoard = newFieldsList();
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -505,18 +592,16 @@ public class Board implements Serializable {
         return cloneBoard;
     }
 
-
+    /**
+     * @return board.
+     */
     public List<Field> getBoard() {
         return this.board;
     }
 
     /**
-     * Checks if game is over.
-     * CALL ONLY BEFORE TRYING TO ADD A NEW FIELD AFTER MOVE
-     *
-     * @throws Exception when there are no empty fields on the board
+     * @return String representation of class.
      */
-
     @Override
     public String toString() {
         ToStringBuilder toStringBuilder = new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE);
@@ -528,22 +613,10 @@ public class Board implements Serializable {
         return toStringBuilder.toString();
     }
 
-    private String testToString() {
-        ToStringBuilder toStringBuilder = new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE);
-        toStringBuilder.append("BOARD \n");
-
-        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
-            toStringBuilder.append(this.getRow(i));
-            toStringBuilder.append("\n");
-        }
-        toStringBuilder.append("MOVED AMOUNT \n");
-        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
-            toStringBuilder.append(this.getAmountMovedRow(i));
-            toStringBuilder.append("\n");
-        }
-        return toStringBuilder.toString();
-    }
-
+    /**
+     * @param o the object to check for equality.
+     * @return true if <i>this</i> is numerically equal to param.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -556,6 +629,9 @@ public class Board implements Serializable {
                 .isEquals();
     }
 
+    /**
+     * @return hash code for board.
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)

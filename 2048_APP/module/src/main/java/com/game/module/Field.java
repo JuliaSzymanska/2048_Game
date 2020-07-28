@@ -10,6 +10,10 @@ public class Field implements Serializable, Comparable<Field> {
 
     private int value;
 
+    /**
+     * Class constructor specifying field's value.
+     * @param value - field's value.
+     */
     public Field(int value) {
 
         if (isPowerOfTwo(value)) {
@@ -19,14 +23,39 @@ public class Field implements Serializable, Comparable<Field> {
         }
     }
 
+    /**
+     * Copy cosntructor.
+     * @param field field to copy value of.
+     */
     Field (Field field) {
         this.value = field.getValue();
     }
 
+    /**
+     * Default class constructor.
+     */
     Field() {
         value = 0;
     }
 
+    /**
+     * Doubles the field's value.
+     */
+    void setNextValue() {
+        this.value = this.value * 2;
+    }
+
+    /**
+     * @return field's value.
+     */
+    public int getValue() {
+        return value;
+    }
+
+    /**
+     * Sets field's value to param.
+     * @param value new field's value.
+     */
     void setValue(int value) {
         if (isPowerOfTwo(value)) {
             this.value = value;
@@ -35,10 +64,18 @@ public class Field implements Serializable, Comparable<Field> {
         }
     }
 
+    /**
+     * Checks if param is power of two.
+     * @param x value to check.
+     * @return if param is power of two.
+     */
     private boolean isPowerOfTwo(int x) {
         return (x & (x - 1)) == 0;
     }
 
+    /**
+     * @return String representation of class.
+     */
     @Override
     public String toString() {
         return new org.apache.commons.lang3.builder.ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE)
@@ -46,14 +83,10 @@ public class Field implements Serializable, Comparable<Field> {
                 .toString();
     }
 
-    void setNextValue() {
-        this.value = this.value * 2;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
+    /**
+     * @param o the object to check for equality.
+     * @return true if <i>this</i> is numerically equal to param.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,6 +99,9 @@ public class Field implements Serializable, Comparable<Field> {
                 .isEquals();
     }
 
+    /**
+     * @return hash code for board.
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17,  37)
@@ -73,6 +109,10 @@ public class Field implements Serializable, Comparable<Field> {
                 .toHashCode();
     }
 
+    /**
+     * @param o the object to check for compare.
+     * @return 1, 0 or -1 depending on which of the compared objects is larger
+     */
     @Override
     public int compareTo(Field o) {
         if (o == null) {

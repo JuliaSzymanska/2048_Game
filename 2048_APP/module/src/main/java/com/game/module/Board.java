@@ -104,7 +104,7 @@ public class Board implements Serializable {
         try {
             this.addNewNonEmptyFieldAfterMove();
             this.addNewNonEmptyFieldAfterMove();
-        } catch (GameOverException | GoalAchievedException ignore) {
+        } catch (GoalAchievedException ignore) {
             // nie może się rzucić fizycznie ten wyjątek tutaj
         }
     }
@@ -149,7 +149,7 @@ public class Board implements Serializable {
      * Fills a random empty field in board with either 2 or 4 (9:1 probablility ratio).
      * Called after calling move methods.
      */
-    private void addNewNonEmptyFieldAfterMove() throws GameOverException, GoalAchievedException {
+    private void addNewNonEmptyFieldAfterMove() throws GoalAchievedException {
         this.isGoalAchieved();
         List<Field> allEmptyFields = getAllEmptyFields();
         Collections.shuffle(allEmptyFields);
@@ -191,19 +191,6 @@ public class Board implements Serializable {
             throw new IndexOutOfBoundsException("Values have to be in range " + FIELD_POSITION_MIN + " - " + FIELD_POSITION_MAX);
         }
         return this.amountMovedList.get(x + y * BOARD_DIMENSIONS);
-    }
-
-    /**
-     *
-     * @param x horizontal position.
-     * @param y vertical position.
-     * @param value the moved amount for field at x, y position.
-     */
-    private void setAmountMovedByPos(int x, int y, int value) {
-        if ((x < FIELD_POSITION_MIN || x > FIELD_POSITION_MAX) || (y < FIELD_POSITION_MIN || y > FIELD_POSITION_MAX)) {
-            throw new IndexOutOfBoundsException("Values have to be in range " + FIELD_POSITION_MIN + " - " + FIELD_POSITION_MAX);
-        }
-        this.amountMovedList.set(x + y * BOARD_DIMENSIONS, value);
     }
 
     /**
@@ -311,7 +298,9 @@ public class Board implements Serializable {
         return pairList;
     }
 
-    // TODO: 24.07.2020 tutaj trzeba zrobic to z tym boolem isGoalAchieved
+    /**
+     * Restores the board and sthe score to the state it was in before the last move.
+     */
     void undoPreviousMove() {
         if (this.previousBoards.size() == 0) {
             return;
@@ -325,6 +314,11 @@ public class Board implements Serializable {
         this.previousScores.remove(this.previousScores.size() - 1);
     }
 
+    // TODO: 28.07.2020 sprawdz cyz poprawnie to opisalam
+    /**
+     * @param copyList previous state of board.
+     * @return if board has changed.
+     */
     private boolean checkIfBoardChanged(List<Field> copyList) {
         boolean hasChanged = false;
         for (Pair<Field, Field> item : zip(copyList, this.board)) {

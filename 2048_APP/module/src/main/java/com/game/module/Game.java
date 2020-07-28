@@ -135,6 +135,7 @@ public class Game {
         return this.gameBoard.getAvaiableUndoAmount();
     }
 
+    // TODO: 24.07.2020 tutaj trzeba zrobic to z tym boolem isGoalAchieved
     private void saveGame() {
         if (this.context != null && this.isUserAuthenticated) {
             try (Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {

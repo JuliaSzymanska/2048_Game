@@ -574,24 +574,29 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         List<Field> fieldsCopies = game.getCopyOfTheBoard();
         try {
             game.move(direction);
-            if (direction == MOVE_UP) {
-                animationUP(fieldsCopies);
-            } else if (direction == MOVE_DOWN) {
-                animationDown(fieldsCopies);
-            } else if (direction == MOVE_LEFT) {
-                animationLeft(fieldsCopies);
-            } else if (direction == MOVE_RIGHT) {
-                animationRight(fieldsCopies);
-            }
+            this.makeAnimation(fieldsCopies, direction);
         } catch (GameOverException e) {
             e.printStackTrace();
             changeToEndActivity();
         } catch (GoalAchievedException e) {
             e.printStackTrace();
+            makeAnimation(fieldsCopies, direction);
             goalAchieved();
         }
         this.setScoreTexts();
         setUndoAmount();
+    }
+
+    private void makeAnimation(List<Field> fieldsCopies, int direction){
+        if (direction == MOVE_UP) {
+            animationUP(fieldsCopies);
+        } else if (direction == MOVE_DOWN) {
+            animationDown(fieldsCopies);
+        } else if (direction == MOVE_LEFT) {
+            animationLeft(fieldsCopies);
+        } else if (direction == MOVE_RIGHT) {
+            animationRight(fieldsCopies);
+        }
     }
 
 

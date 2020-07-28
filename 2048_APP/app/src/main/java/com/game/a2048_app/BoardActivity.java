@@ -624,9 +624,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private void startAnimation(List<Field> fieldCopies, List<TranslateAnimation> translateAnimationList) {
-        List<Integer> amountsMoved = this.game.getAmountMovedList();
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
-            if (fieldCopies.get(i).getValue() != 0 || amountsMoved.get(i) == 0) {
+            if (fieldCopies.get(i).getValue() != 0) {
                 Animation translateAnimation = translateAnimationList.get(i);
                 translateAnimation.setAnimationListener(animationListener);
                 this.gridView.getChildAt(i).startAnimation(translateAnimation);
@@ -641,7 +640,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         List<Integer> amountsMoved = this.game.getAmountMovedList();
         for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
             this.gridView.setZ(i);
-            if (fieldCopies.get(i).getValue() != 0 || amountsMoved.get(i) == 0) {
+            if (fieldCopies.get(i).getValue() != 0) {
                 View viewBeingAnimated = this.gridView.getChildAt(i);
                 View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i) * 4);
                 translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
@@ -662,7 +661,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         List<Integer> amountsMoved = this.game.getAmountMovedList();
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
             this.gridView.setZ(i);
-            if (fieldCopies.get(i).getValue() != 0 || amountsMoved.get(i) == 0) {
+            if (fieldCopies.get(i).getValue() != 0) {
                 View viewBeingAnimated = this.gridView.getChildAt(i);
                 View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i) * 4);
                 translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
@@ -678,7 +677,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         List<Integer> amountsMoved = this.game.getAmountMovedList();
         for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
             this.gridView.setZ(i);
-            if (fieldCopies.get(i).getValue() != 0 || amountsMoved.get(i) == 0) {
+            if (fieldCopies.get(i).getValue() != 0) {
                 View viewBeingAnimated = this.gridView.getChildAt(i);
                 View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i));
                 translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
@@ -695,7 +694,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         List<Integer> amountsMoved = this.game.getAmountMovedList();
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
             this.gridView.setZ(i);
-            if (fieldCopies.get(i).getValue() != 0 || amountsMoved.get(i) == 0) {
+            if (fieldCopies.get(i).getValue() != 0) {
                 View viewBeingAnimated = this.gridView.getChildAt(i);
                 View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i));
                 translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));

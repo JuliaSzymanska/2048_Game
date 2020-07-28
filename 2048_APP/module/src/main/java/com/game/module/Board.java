@@ -29,12 +29,19 @@ public class Board implements Serializable {
     private final static int FIELD_POSITION_MIN = 0;
     private final static int FIELD_POSITION_MAX = BOARD_DIMENSIONS - 1;
 
+    /**
+     * Default class constructor.
+     */
     public Board() {
         this.board = newFieldsList();
         this.amountMovedList = newAmountMovedList();
         this.resetBoard();
     }
 
+    /**
+     * Class constructor specifying fields of the board.
+     * @param integerList - list of int to put in the board.
+     */
     Board(List<Integer> integerList) {
         this.board = newFieldsList();
         this.amountMovedList = newAmountMovedList();
@@ -46,6 +53,9 @@ public class Board implements Serializable {
         this.setVariablesToDefault();
     }
 
+    /**
+     * Sets variables like score, previousBoards, previousScores, isGoalAchieved to default values.
+     */
     private void setVariablesToDefault() {
         this.score = 0;
         this.previousBoards = new ArrayList<>();
@@ -53,6 +63,9 @@ public class Board implements Serializable {
         this.isGoalAchieved = false;
     }
 
+    /**
+     * Restarts the game.
+     */
     void restartGame() {
         this.resetBoard();
         this.setVariablesToDefault();
@@ -71,9 +84,12 @@ public class Board implements Serializable {
         return fieldList;
     }
 
+    /**
+     * Creates new list filled with 0 for checking amount moved fields.
+     * @return new list filled with 0.
+     */
     private List<Integer> newAmountMovedList() {
         List<Integer> amountMovedList = Arrays.asList(new Integer[BOARD_SIZE]);
-        // TODO: 26.07.2020 moze tak?
         java.util.Collections.fill(amountMovedList, 0);
         return amountMovedList;
     }
@@ -94,14 +110,26 @@ public class Board implements Serializable {
         }
     }
 
+    /**
+     * Return score.
+     * @return board's score.
+     */
     int getScore() {
         return score;
     }
 
+    /**
+     * Returns available undo amount.
+     * @return available undo amount.
+     */
     int getAvaiableUndoAmount() {
         return this.previousBoards.size();
     }
 
+    /**
+     * Updates score by adding param to current score.
+     * @param scoreDelta - number by which score have to be increased.
+     */
     private void updateScore(int scoreDelta) {
         this.score += scoreDelta;
     }

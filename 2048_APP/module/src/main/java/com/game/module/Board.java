@@ -600,34 +600,14 @@ public class Board implements Serializable {
     }
 
     /**
-     * Checks if game is over.
-     * CALL ONLY BEFORE TRYING TO ADD A NEW FIELD AFTER MOVE
-     *
-     * @throws Exception when there are no empty fields on the board
+     * @return String representation of class.
      */
-
     @Override
     public String toString() {
         ToStringBuilder toStringBuilder = new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE);
         toStringBuilder.append("");
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             toStringBuilder.append(this.getRow(i));
-            toStringBuilder.append("\n");
-        }
-        return toStringBuilder.toString();
-    }
-
-    private String testToString() {
-        ToStringBuilder toStringBuilder = new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE);
-        toStringBuilder.append("BOARD \n");
-
-        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
-            toStringBuilder.append(this.getRow(i));
-            toStringBuilder.append("\n");
-        }
-        toStringBuilder.append("MOVED AMOUNT \n");
-        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
-            toStringBuilder.append(this.getAmountMovedRow(i));
             toStringBuilder.append("\n");
         }
         return toStringBuilder.toString();

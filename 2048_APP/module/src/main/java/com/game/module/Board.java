@@ -256,18 +256,32 @@ public class Board implements Serializable {
                 this.getAmountMovedByPos(col, 3));
     }
 
-    private void setAmountMovedColumn(int col, List<Integer> amountMovedListColumn) {
-        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
-            this.amountMovedList.set(col + i * BOARD_DIMENSIONS, amountMovedListColumn.get(i));
-        }
-    }
-
+    /**
+     * Sets at class list specific row with row from list amountMovedListRow.
+     * @param row row's number.
+     * @param amountMovedListRow list of amount of moves for fields.
+     */
     private void setAmoutMovedRow(int row, List<Integer> amountMovedListRow) {
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             this.amountMovedList.set(i + row * BOARD_DIMENSIONS, amountMovedListRow.get(i));
         }
     }
 
+    /**
+     * Sets at class list specific column with column from list amountMovedListColumn.
+     * @param col column's number.
+     * @param amountMovedListColumn list of amount of moves for fields.
+     */
+    private void setAmountMovedColumn(int col, List<Integer> amountMovedListColumn) {
+        for (int i = 0; i < BOARD_DIMENSIONS; i++) {
+            this.amountMovedList.set(col + i * BOARD_DIMENSIONS, amountMovedListColumn.get(i));
+        }
+    }
+
+    /**
+     * Saves current score and board to make undo available.
+     * Deletes first saved score and board when available amount of undo is exceeded.
+     */
     private void appendPreviousBoardToHistory() {
         this.previousBoards.add(this.getCopyBoard());
         this.previousScores.add(this.score);
@@ -277,6 +291,13 @@ public class Board implements Serializable {
         }
     }
 
+    /**
+     * @param listA first list to pair
+     * @param listB second list to pair
+     * @param <A> type of elements of listA
+     * @param <B> type of elements of listB
+     * @return pair of two list passed as params
+     */
     private static <A, B> List<Pair<A, B>> zip(List<A> listA, List<B> listB) {
         if (listA.size() != listB.size()) {
             throw new IllegalArgumentException("Lists must have same size");

@@ -73,7 +73,6 @@ public class Board implements Serializable {
 
     /**
      * Creates new fields list and set their values to 0.
-     *
      * @return List of fields.
      */
     private List<Field> newFieldsList() {
@@ -111,7 +110,6 @@ public class Board implements Serializable {
     }
 
     /**
-     * Return score.
      * @return board's score.
      */
     int getScore() {
@@ -119,7 +117,6 @@ public class Board implements Serializable {
     }
 
     /**
-     * Returns available undo amount.
      * @return available undo amount.
      */
     int getAvaiableUndoAmount() {
@@ -184,6 +181,11 @@ public class Board implements Serializable {
         return this.board.get(x + y * BOARD_DIMENSIONS); // od lewej do prawej, od dołu do góry
     }
 
+    /**
+     * @param x horizontal position.
+     * @param y vertical position.
+     * @return return the moved amount for field at x, y position.
+     */
     private Integer getAmountMovedByPos(int x, int y) {
         if ((x < FIELD_POSITION_MIN || x > FIELD_POSITION_MAX) || (y < FIELD_POSITION_MIN || y > FIELD_POSITION_MAX)) {
             throw new IndexOutOfBoundsException("Values have to be in range " + FIELD_POSITION_MIN + " - " + FIELD_POSITION_MAX);
@@ -191,6 +193,12 @@ public class Board implements Serializable {
         return this.amountMovedList.get(x + y * BOARD_DIMENSIONS);
     }
 
+    /**
+     *
+     * @param x horizontal position.
+     * @param y vertical position.
+     * @param value the moved amount for field at x, y position.
+     */
     private void setAmountMovedByPos(int x, int y, int value) {
         if ((x < FIELD_POSITION_MIN || x > FIELD_POSITION_MAX) || (y < FIELD_POSITION_MIN || y > FIELD_POSITION_MAX)) {
             throw new IndexOutOfBoundsException("Values have to be in range " + FIELD_POSITION_MIN + " - " + FIELD_POSITION_MAX);
@@ -222,6 +230,11 @@ public class Board implements Serializable {
                 this.getFieldByPos(col, 3));
     }
 
+    /**
+     *
+     * @param row row's number.
+     * @return fields at row's number.
+     */
     private List<Integer> getAmountMovedRow(int row) {
         return Arrays.asList(
                 this.getAmountMovedByPos(0, row),
@@ -230,6 +243,11 @@ public class Board implements Serializable {
                 this.getAmountMovedByPos(3, row));
     }
 
+    /**
+     *
+     * @param col column's number.
+     * @return fields at column's number.
+     */
     private List<Integer> getAmountMovedColumn(int col) {
         return Arrays.asList(
                 this.getAmountMovedByPos(col, 0),

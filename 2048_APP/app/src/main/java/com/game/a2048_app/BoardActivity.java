@@ -55,6 +55,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private ImageView scoreBoard;
     private Field[] fields;
     private Integer[] fieldsImages;
+    private Integer[] fieldsBackground;
     private Integer mThumbIds = R.drawable.button_green;
 
     // System sensor manager instance.
@@ -150,7 +151,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(getResources().getString(R.string.authentication))), this);
         this.fields = game.getBoard().toArray(new Field[0]);
         this.fieldsImages = new Integer[fields.length];
+        this.fieldsBackground = new Integer[fields.length];
         Arrays.fill(fieldsImages, R.drawable.zero);
+        Arrays.fill(fieldsBackground, mThumbIds);
     }
 
     private void initMediaPlayer() {
@@ -205,7 +208,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 } else {
                     viewHolder = (ViewHolderItem) convertView.getTag();
                 }
-                viewHolder.textViewItem.setBackgroundResource(mThumbIds);
+                viewHolder.textViewItem.setBackgroundResource(fieldsBackground[position]);
                 viewHolder.imageViewItem.setTag(position);
                 viewHolder.imageViewItem.setImageResource(fieldsImages[position]);
                 return convertView;
@@ -215,6 +218,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             @Override
             public void notifyDataSetChanged() {
                 setFieldsImages();
+                setFieldsBackground();
                 super.notifyDataSetChanged();
             }
         };
@@ -540,6 +544,28 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    private void setFieldsBackground() {
+        int lightGreen = R.drawable.button_green_light;
+        int darkGreen = R.drawable.button_green;
+        int lightBlue = R.drawable.button_blue_light;
+        int darkBlue = R.drawable.button_blue;
+        for (int i = 0; i < fields.length; i++) {
+            if (fields[i].getValue() == 0) {
+                fieldsBackground[i] = mThumbIds;
+            } else {
+                if (mThumbIds == lightGreen) {
+                    fieldsBackground[i] = darkGreen;
+                } else if (mThumbIds == darkGreen) {
+                    fieldsBackground[i] = lightGreen;
+                } else if (mThumbIds == lightBlue) {
+                    fieldsBackground[i] = darkBlue;
+                } else if (mThumbIds == darkBlue) {
+                    fieldsBackground[i] = lightBlue;
+                }
+            }
+        }
+    }
+
     private void beginUpdatingTime() {
         updateTimeThread = new Thread() {
             @Override
@@ -586,7 +612,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         setUndoAmount();
     }
 
-    private void makeAnimation(List<Field> fieldsCopies, int direction){
+    private void makeAnimation(List<Field> fieldsCopies, int direction) {
         if (direction == MOVE_UP) {
             animationUP(fieldsCopies);
         } else if (direction == MOVE_DOWN) {
@@ -702,8 +728,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 View viewBeingAnimated = this.gridView.getChildAt(i);
                 View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i));
                 translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
-            }
-            else translateAnimationList.add(null);
+            } else translateAnimationList.add(null);
         }
         startAnimation(fieldCopies, translateAnimationList);
     }

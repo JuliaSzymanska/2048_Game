@@ -110,7 +110,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
 
-    private final static double ANIM_SPEED_SECONDS = 0.25;
+    private final static double ANIM_SPEED_SECONDS = 0.15;
 
     // znowu się spotykamy
     public final static int MOVE_UP = Game.MOVE_UP;
@@ -412,7 +412,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private void setUndoAmount() {
         int undoAmount = BoardActivity.this.game.getAvaiableUndoAmount();
-        System.out.println(undoAmount);
         if (undoAmount > 0) {
             undoButton.setBackgroundResource(R.drawable.undo);
             undoTextView.setText(String.format("%d", undoAmount));
@@ -640,10 +639,18 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         List<TranslateAnimation> translateAnimationList = new ArrayList<>();
         List<Integer> amountsMoved = this.game.getAmountMovedList();
         for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
-            this.gridView.setZ(i);
-            View viewBeingAnimated = this.gridView.getChildAt(i);
-            View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i) * 4);
-            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
+            if (fieldCopies.get(i).getValue() != 0) {
+                this.gridView.setZ(i);
+                View viewBeingAnimated = this.gridView.getChildAt(i);
+                View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i) * 4);
+                translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
+            } else {
+                // TODO: 28.07.2020 zrobiłem tak, że żeby nie potrzebnych animacji nie
+                //  obliczać tylko jeżeli jest to klocek którego nie animujemy to dodać mu null
+                //  chciałbym jeszcze sprawdzać czy animacja jest 'pusta' i jej też nie robić ani nie animować
+                //  może to jakoś sensownie wystarczająco przyśpieszy dzialanie
+                translateAnimationList.add(null);
+            }
         }
         Collections.reverse(translateAnimationList);
         startAnimation(fieldCopies, translateAnimationList);
@@ -653,10 +660,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         List<TranslateAnimation> translateAnimationList = new ArrayList<>();
         List<Integer> amountsMoved = this.game.getAmountMovedList();
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
-            this.gridView.setZ(i);
-            View viewBeingAnimated = this.gridView.getChildAt(i);
-            View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i) * 4);
-            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
+            if (fieldCopies.get(i).getValue() != 0) {
+                this.gridView.setZ(i);
+                View viewBeingAnimated = this.gridView.getChildAt(i);
+                View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i) * 4);
+                translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
+            } else {
+                translateAnimationList.add(null);
+            }
         }
         startAnimation(fieldCopies, translateAnimationList);
     }
@@ -665,10 +676,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         List<TranslateAnimation> translateAnimationList = new ArrayList<>();
         List<Integer> amountsMoved = this.game.getAmountMovedList();
         for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
-            this.gridView.setZ(i);
-            View viewBeingAnimated = this.gridView.getChildAt(i);
-            View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i));
-            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
+            if (fieldCopies.get(i).getValue() != 0) {
+                this.gridView.setZ(i);
+                View viewBeingAnimated = this.gridView.getChildAt(i);
+                View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i));
+                translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
+            } else {
+                translateAnimationList.add(null);
+            }
         }
         Collections.reverse(translateAnimationList);
         startAnimation(fieldCopies, translateAnimationList);
@@ -678,10 +693,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         List<TranslateAnimation> translateAnimationList = new ArrayList<>();
         List<Integer> amountsMoved = this.game.getAmountMovedList();
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
-            this.gridView.setZ(i);
-            View viewBeingAnimated = this.gridView.getChildAt(i);
-            View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i));
-            translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
+            if (fieldCopies.get(i).getValue() != 0) {
+                this.gridView.setZ(i);
+                View viewBeingAnimated = this.gridView.getChildAt(i);
+                View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i));
+                translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
+            }
+            else translateAnimationList.add(null);
         }
         startAnimation(fieldCopies, translateAnimationList);
     }

@@ -134,6 +134,10 @@ public class Board implements Serializable {
         this.score += scoreDelta;
     }
 
+    /**
+     * Creates new list of empty fields in board.
+     * @return - list of empty fields in board.
+     */
     private List<Field> getAllEmptyFields() {
         List<Field> listOfEmptyFields = new ArrayList<>();
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -155,6 +159,10 @@ public class Board implements Serializable {
         allEmptyFields.get(0).setValue(Math.random() >= .9 ? 4 : 2);
     }
 
+    /**
+     * Checks if there is field with a number higher or equal to 2048.
+     * @throws GoalAchievedException - exception is thrown when there is field with a number higher or equal to 2048.
+     */
     private void isGoalAchieved() throws GoalAchievedException {
         for (Field i : board) {
             if (i.getValue() >= 2048 && !this.isGoalAchieved) {

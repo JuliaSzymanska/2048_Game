@@ -38,14 +38,24 @@ public class Field implements Serializable, Comparable<Field> {
         value = 0;
     }
 
+    /**
+     * Doubles the field's value.
+     */
     void setNextValue() {
         this.value = this.value * 2;
     }
 
+    /**
+     * @return field's value.
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     * Sets field's value to param.
+     * @param value new field's value.
+     */
     void setValue(int value) {
         if (isPowerOfTwo(value)) {
             this.value = value;
@@ -54,6 +64,11 @@ public class Field implements Serializable, Comparable<Field> {
         }
     }
 
+    /**
+     * Checks if param is power of two.
+     * @param x value to check.
+     * @return if param is power of two.
+     */
     private boolean isPowerOfTwo(int x) {
         return (x & (x - 1)) == 0;
     }

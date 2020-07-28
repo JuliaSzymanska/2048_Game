@@ -334,6 +334,12 @@ public class Board implements Serializable {
         return hasChanged;
     }
 
+    /**
+     * Chceck if there is any available moves that will change board.
+     * @param copyList previous state of board.
+     * @throws GoalAchievedException when one or more fields have value equal or higher then 2048.
+     * @throws GameOverException when the game ended.
+     */
     private void testIfGameOver(List<Field> copyList) throws GoalAchievedException, GameOverException {
         for (Pair<Field, Field> item : zip(copyList, this.board)) {
             if (!item.getLeft().equals(item.getRight())) {
@@ -477,7 +483,10 @@ public class Board implements Serializable {
         }
     }
 
-    // TODO: 31.05.2020 dodaj tu komentarze bo ty to pisales
+    /**
+     * @param fieldsList list of moving fields in board where zero should be deleted.
+     * @return amount of zeros in param to delete during move.
+     */
     private int countZerosToDelete(List<Field> fieldsList) {
         int index = 0;
         int zero_count = 0;
@@ -495,13 +504,15 @@ public class Board implements Serializable {
         return zero_count - index;
     }
 
+    /**
+     * @return list with amount of moves.
+     */
     List<Integer> getAmountMovedList() {
         return amountMovedList;
     }
 
     /**
      * Removes zeros before others values.
-     *
      * @param fieldsList 2d list of fields in board as rows or columns.
      */
     // TODO: 25.07.2020 przy kazdym przejsciu algorytmu, wykonaniu ruchu, należy zinkrementować int na pozycjach na których się przesuneły pola usuwajac zero.
@@ -526,7 +537,11 @@ public class Board implements Serializable {
         }
     }
 
-    // TODO: 25.07.2020 trzeba podawac liste int tak samo jak przekazujemy liste fields
+    /**
+     * Moves right fields in row or column pass as param.
+     * @param fieldsList list of fields in row or column to move.
+     * @param moveCountList list with numbers of field's move.
+     */
     private void moveFieldsInRowOrColumn(List<Field> fieldsList, List<Integer> moveCountList) {
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
             //bool, ktorego wartosc oznacza czy zostala znaleziony inny field z ktorym field moze sie polaczyc
@@ -566,6 +581,9 @@ public class Board implements Serializable {
         removeZerosInMove(fieldsList, moveCountList);
     }
 
+    /**
+     * @return copy of the board.
+     */
     List<Field> getCopyBoard() {
         List<Field> cloneBoard = newFieldsList();
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -574,7 +592,9 @@ public class Board implements Serializable {
         return cloneBoard;
     }
 
-
+    /**
+     * @return board.
+     */
     public List<Field> getBoard() {
         return this.board;
     }
@@ -613,6 +633,10 @@ public class Board implements Serializable {
         return toStringBuilder.toString();
     }
 
+    /**
+     * @param o the object to check for equality.
+     * @return true if <i>this</i> is numerically equal to param.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -625,6 +649,9 @@ public class Board implements Serializable {
                 .isEquals();
     }
 
+    /**
+     * @return hash code for board.
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)

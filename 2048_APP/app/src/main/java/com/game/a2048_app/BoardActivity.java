@@ -633,12 +633,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         updateTimeThread = new Thread() {
             @Override
             public void run() {
-                String currentTime = "";
                 while (!isInterrupted()) {
                     try {
                         Thread.sleep(100);
-                        if (!currentTime.equals(game.getElapsedTimeToString())) {
-                            currentTime = game.getElapsedTimeToString();
+                        if (textTime.getText().length() == 0 || textTime.getText().subSequence(textTime.getText().length() - 8, textTime.getText().length()) != game.getElapsedTimeToString()) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -646,6 +644,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                                 }
                             });
                         }
+
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                         e.printStackTrace();

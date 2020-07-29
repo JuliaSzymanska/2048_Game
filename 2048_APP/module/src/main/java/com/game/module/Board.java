@@ -23,7 +23,7 @@ public class Board implements Serializable {
     private int score = 0;
     private boolean isGoalAchieved = false;
 
-    private final static int PREVIOUS_BOARDS_STORED_AMOUNT = 3;
+    private final static int PREVIOUS_BOARDS_STORED_NUMBER = 3;
     private final static int BOARD_DIMENSIONS = 4;
     private final static int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
     private final static int FIELD_POSITION_MIN = 0;
@@ -117,9 +117,9 @@ public class Board implements Serializable {
     }
 
     /**
-     * @return available undo amount.
+     * @return available number of available undo.
      */
-    int getAvaiableUndoAmount() {
+    int getAvaiableUndoNumber() {
         return this.previousBoards.size();
     }
 
@@ -272,7 +272,7 @@ public class Board implements Serializable {
     private void appendPreviousBoardToHistory() {
         this.previousBoards.add(this.getCopyBoard());
         this.previousScores.add(this.score);
-        if (this.previousBoards.size() > PREVIOUS_BOARDS_STORED_AMOUNT) {
+        if (this.previousBoards.size() > PREVIOUS_BOARDS_STORED_NUMBER) {
             this.previousBoards.remove(0);
             this.previousScores.remove(0);
         }

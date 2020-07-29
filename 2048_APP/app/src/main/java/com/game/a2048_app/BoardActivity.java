@@ -188,7 +188,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         this.setTheme();
         this.undoTextView = (TextView) findViewById(R.id.undoTextView);
-        this.setUndoAmount();
+        this.setUndoNumber();
         this.adapter.notifyDataSetChanged();
     }
 
@@ -378,7 +378,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    setUndoAmount();
+                    setUndoNumber();
                 }
 
             });
@@ -406,6 +406,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
+    /**
+     * Creates button on click listener to mute or unmute application.
+     * Play sound after click and change button's image.
+     */
     private View.OnClickListener muteListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -421,6 +425,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
+    /**
+     * Sets Media Player sound to param and play it.
+     * @param id id of sound in resources.
+     */
     private void setMediaPlayer(int id) {
         AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(id);
         try {
@@ -433,6 +441,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    /**
+     * Sets volume level - mute or unmute.
+     * Changes button's image.
+     */
     private void setMuteSettings() {
         if (volume == 1) {
             muteButton.setBackgroundResource(R.drawable.mute_off);
@@ -444,6 +456,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mediaPlayer.setVolume(volume, volume);
     }
 
+    /**
+     * Sets dark mode or light mode image resource.
+     */
     private void setTheme() {
         if (this.isDarkTheme) {
             darkThemeView.setImageResource(R.drawable.dark_theme_on);
@@ -452,19 +467,22 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    /**
+     * Sets undo's button's image and TextView with number of available undo.
+     */
     @SuppressLint("DefaultLocale")
-    private void setUndoAmount() {
-        int undoAmount = BoardActivity.this.game.getAvaiableUndoAmount();
-        if (undoAmount > 0) {
+    private void setUndoNumber() {
+        int undoNumber = BoardActivity.this.game.getAvaiableUndoNumber();
+        if (undoNumber > 0) {
             undoButton.setBackgroundResource(R.drawable.undo);
-            undoTextView.setText(String.format("%d", undoAmount));
+            undoTextView.setText(String.format("%d", undoNumber));
             undoButton.setEnabled(true);
-        } else if (undoAmount == 0) {
+        } else if (undoNumber == 0) {
             undoButton.setBackgroundResource(R.drawable.undo_clicked);
-            undoTextView.setText(String.format("%d", undoAmount));
+            undoTextView.setText(String.format("%d", undoNumber));
             undoButton.setEnabled(false);
         } else {
-            throw new IllegalArgumentException("Undo amount has to be positive number. ");
+            throw new IllegalArgumentException("Undo number has to be positive number. ");
         }
     }
 
@@ -640,7 +658,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             goalAchieved();
         }
         this.setScoreTexts();
-        setUndoAmount();
+        setUndoNumber();
     }
 
     private void makeAnimation(List<Field> fieldsCopies, int direction) {
@@ -980,7 +998,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
-        this.setUndoAmount();
+        this.setUndoNumber();
     }
 
     @Override

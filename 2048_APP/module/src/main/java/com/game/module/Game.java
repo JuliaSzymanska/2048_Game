@@ -162,11 +162,11 @@ public class Game {
     }
 
     /**
-     * Calls method from Board class to get available undo amount.
-     * @return available undo amount.
+     * Calls method from Board class to get number of available undo.
+     * @return number of available undo.
      */
-    public int getAvaiableUndoAmount() {
-        return this.gameBoard.getAvaiableUndoAmount();
+    public int getAvaiableUndoNumber() {
+        return this.gameBoard.getAvaiableUndoNumber();
     }
 
     /**

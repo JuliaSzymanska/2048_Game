@@ -74,8 +74,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private final boolean[] choosenSensors = new boolean[]{false, false, false, false};
 
-    // TODO: 15.07.2020 binding podwojny
-    //  https://developer.android.com/topic/libraries/data-binding/two-way?fbclid=IwAR3nCMsvlFlrsTQVVEvW-Sk9wxKMeOh2HJm_XUM9BJNlJW9ZFFeH-26kXFM
     private TextView textScore;
     private TextView textHighScore;
     private TextView textTime;
@@ -91,7 +89,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private final static int PROXIMITY_DISTANCE = 5;
 
-    // FIXME: 12.07.2020 bad naming
     private final static float RESET_PITCH = 0.2f;
     private final static float RESET_ROLL = 0.2f;
 
@@ -101,7 +98,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static double HORIZONTAL_PITCH_MAX = 0.5;
     private final static double HORIZONTAL_PITCH_MIN = -0.5;
 
-    // FIXME: 12.07.2020 bad naming
     private final static double changeColourAzimunthBreakpoint1 = 0.25;
     private final static double changeColourAzimunthBreakpoint2 = 1.25;
     private final static double changeColourAzimunthBreakpoint3 = 1.75;
@@ -141,6 +137,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.prepareSensors();
     }
 
+    /**
+     * Loads settings, game and grid drawable resources.
+     */
     private void loadData() {
         preferencesHelper.getChoosenSensors(this.choosenSensors);
         this.isDarkTheme = preferencesHelper.getDarkTheme();
@@ -153,6 +152,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         Arrays.fill(fieldsBackground, mThumbIds);
     }
 
+    /**
+     * Creates and initialize Media Player.
+     */
     private void initMediaPlayer() {
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioAttributes(
@@ -163,6 +165,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         );
     }
 
+    /**
+     * Prepares views like TextViews, Buttons, ImageViews, sets id and onClickListeners.
+     */
     private void prepareViews() {
         this.gridView = (GridView) findViewById(R.id.gridView);
         this.prepareGrid();
@@ -187,6 +192,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.adapter.notifyDataSetChanged();
     }
 
+    /**
+     * Prepares grid for game's board.
+     * Creates array adapter.
+     * Converts each textView to viewHolder and sets their background and numbers resources.
+     */
     private void prepareGrid() {
         this.adapter = new ArrayAdapter<Integer>(boardActivity,
                 android.R.layout.simple_list_item_1, fieldsImages) {
@@ -210,7 +220,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 return convertView;
             }
 
-
             @Override
             public void notifyDataSetChanged() {
                 setFieldsImages();
@@ -221,6 +230,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         gridView.setAdapter(adapter);
     }
 
+    /**
+     * Sets swipe touch listener.
+     * Each swipe is responsible for the appropriate movement in game.
+     */
     private void setupSwipeListener() {
         onSwipeTouchListener = new OnSwipeTouchListener(boardActivity, this.gridView);
         final BoardActivity boardActivity = this;
@@ -247,27 +260,43 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         };
     }
 
+    /**
+     * Prepares TextView to display current score.
+     */
     private void prepareScoreText() {
         textScore = (TextView) findViewById(R.id.score);
         this.setTextScoreText();
     }
 
+    /**
+     * Sets text to display current score.
+     */
     void setTextScoreText() {
         textScore.setText(String.format("%s:\n%s", getResources().getString(R.string.score), game.getScore()));
 
     }
 
+    /**
+     * Prepares TextView to display high score.
+     */
     private void prepareHighscoreText() {
         textHighScore = (TextView) findViewById(R.id.highScore);
         this.setTextHighScoreText();
     }
 
+    /**
+     * Sets text to display high score.
+     */
     void setTextHighScoreText() {
         if (game.isUserAuthenticated()) {
             textHighScore.setText(String.format("%s:\n%s", getResources().getString(R.string.high_score), game.getHighScore()));
         }
     }
 
+    /**
+     * Creates button on click listener to restart game.
+     * Play sound after click and change button's image.
+     */
     private View.OnClickListener restartGameListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -285,6 +314,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
+    /**
+     * Creates button on click listener to open settings dialog.
+     * Play sound after click and change button's image.
+     * Creates dialog to allow the user to turn sensors on or off.
+     */
     private View.OnClickListener settingsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -331,6 +365,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
+    /**
+     * Creates button on click listener to undo last move.
+     * Play sound after click and change button's image.
+     */
     private View.OnClickListener undoListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -350,6 +388,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
+    /**
+     * Creates button on click listener to pause or unpause game.
+     * Play sound after click and change button's image.
+     */
     private View.OnClickListener playPauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

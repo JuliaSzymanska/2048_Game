@@ -12,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class EndGame extends AppCompatActivity {
 
-    // TODO: 23.07.2020  Julia work list:
+    // TODO: 23.07.2020  Nasze work list:
     //  - javaDoc
-    //  - https://stackoverflow.com/a/151940 - authentication
+    //  - https://stackoverflow.com/a/151940 - authentication - to wgl nie działa i jakby nie wiadomo czemu. :(
     //  - testy testy testy (jeden jest prawdkopodobnie zepsuty, dodać testy do tego co dzisiaj zrobiłem)
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
     //  - wywalić moje zmiany w animacji i poprawic to jak działa animacja

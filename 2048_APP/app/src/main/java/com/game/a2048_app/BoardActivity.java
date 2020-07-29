@@ -427,6 +427,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     /**
      * Sets Media Player sound to param and play it.
+     *
      * @param id id of sound in resources.
      */
     private void setMediaPlayer(int id) {
@@ -520,17 +521,24 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.beginUpdatingTime();
     }
 
+    // TODO: 29.07.2020 nie wiem jak to ladnie opisac ಠ_ಠ
     private static class ViewHolderItem {
         TextView textViewItem;
         ImageView imageViewItem;
     }
 
+    /**
+     * Sets all field's images to transparent.
+     */
     private void setFieldsImagesToZeros() {
         for (int i = 0; i < fields.length; i++) {
             fieldsImages[i] = R.drawable.zero;
         }
     }
 
+    /**
+     * Sets field's image based on current field's value.
+     */
     private void setFieldsImages() {
         for (int i = 0; i < fields.length; i++) {
             switch (fields[i].getValue()) {
@@ -593,6 +601,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    /**
+     * Sets field's background based on current field's value.
+     */
     private void setFieldsBackground() {
         int lightGreen = R.drawable.button_green_light;
         int darkGreen = R.drawable.button_green;
@@ -615,19 +626,26 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    /**
+     * Updates game time every 100 milliseconds.
+     */
     private void beginUpdatingTime() {
         updateTimeThread = new Thread() {
             @Override
             public void run() {
+                String currentTime = "";
                 while (!isInterrupted()) {
                     try {
-                        Thread.sleep(200);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                textTime.setText(String.format("%s:\n%s", getResources().getString(R.string.time), game.getElapsedTimeToString()));
-                            }
-                        });
+                        Thread.sleep(100);
+                        if (!currentTime.equals(game.getElapsedTimeToString())) {
+                            currentTime = game.getElapsedTimeToString();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    textTime.setText(String.format("%s:\n%s", getResources().getString(R.string.time), game.getElapsedTimeToString()));
+                                }
+                            });
+                        }
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                         e.printStackTrace();
@@ -638,12 +656,19 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         updateTimeThread.start();
     }
 
-    // TODO: 16.07.2020 add binding so this is not needed
+    /**
+     * Calls methods to set TextViews for score and high score.
+     */
     void setScoreTexts() {
         this.setTextScoreText();
         this.setTextHighScoreText();
     }
 
+    /**
+     * Makes move in appropriate direction and calls move animation.
+     *
+     * @param direction of movement.
+     */
     private void move(int direction) {
         List<Field> fieldsCopies = game.getCopyOfTheBoard();
         try {
@@ -661,6 +686,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         setUndoNumber();
     }
 
+    /**
+     * Calls appropriate base on direction of movement.
+     *
+     * @param fieldsCopies
+     * @param direction
+     */
     private void makeAnimation(List<Field> fieldsCopies, int direction) {
         if (direction == MOVE_UP) {
             animationUP(fieldsCopies);

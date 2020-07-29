@@ -703,7 +703,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-
+    // TODO: 29.07.2020 zrob tutaj ladne javadoci
     private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
         @Override
         public void onAnimationStart(Animation arg0) {
@@ -812,6 +812,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         startAnimation(fieldCopies, translateAnimationList);
     }
 
+    /**
+     * If the game's goal is achieved, the dialog is shown asking whether the user wants to continue the game or end it.
+     */
     private void goalAchieved() {
         game.pauseTimer();
         AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this.boardActivity);
@@ -830,6 +833,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         dialog.show();
     }
 
+    /**
+     * Changes current activity to EndGameActivity.
+     * Saves score, high score and user authentication to next activity.
+     */
     private void changeToEndActivity() {
         Intent i = new Intent(BoardActivity.this.boardActivity, EndGame.class);
         i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getScore()));
@@ -949,6 +956,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    /**
+     * Sets dark or light mode depending on the light level.
+     */
     private class DarkMode implements Runnable {
         @Override
         public void run() {
@@ -982,6 +992,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    /**
+     * Pauses or unpauses game depending on proximity level.
+     */
     private class StopGameProximity implements Runnable {
         @Override
         public void run() {
@@ -996,6 +1009,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    /**
+     * Changes fields background colour depending on magnetometer value.
+     */
     private class ChangeColourMagnetometer implements Runnable {
         @Override
         public void run() {
@@ -1022,6 +1038,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    /**
+     * Restarts game and TextViews.
+     */
     private void restartGame() {
         this.game.restartGame();
         this.setTextScoreText();
@@ -1035,6 +1054,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
+    /**
+     * Listener on back buttons pressed.
+     * If the user is not authenticated dialogue is shown to warn the user that the game will not be saved.
+     */
     @Override
     public void onBackPressed() {
         if (!game.isUserAuthenticated()) {

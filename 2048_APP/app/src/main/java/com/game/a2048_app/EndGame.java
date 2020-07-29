@@ -28,6 +28,11 @@ public class EndGame extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
+    /**
+     * Loads theme, score and high score passed by previous activity.
+     * Sets buttons id.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,10 +43,13 @@ public class EndGame extends AppCompatActivity {
         authentication = Boolean.parseBoolean(intent.getStringExtra(getResources().getString(R.string.authentication)));
         setContentView(R.layout.activity_end_game);
         homePageButton = findViewById(R.id.homePage);
-        homePageButton.setOnClickListener(initializeBoardActivity);
+        homePageButton.setOnClickListener(initializeMainActivity);
         loadData();
     }
 
+    /**
+     * Calls method to set TextVIew texts.
+     */
     private void loadData() {
         boolean isDarkTheme = preferencesHelper.getDarkTheme();
         setTheme(isDarkTheme);
@@ -49,6 +57,10 @@ public class EndGame extends AppCompatActivity {
         setTextHighScoreText();
     }
 
+    /**
+     * Set dark or light theme.
+     * @param isDarkTheme is dark theme on.
+     */
     private void setTheme(boolean isDarkTheme) {
         ImageView darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         if (isDarkTheme) {
@@ -58,11 +70,17 @@ public class EndGame extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sets text to display score.
+     */
     void setTextScoreText() {
         TextView textScore = (TextView) findViewById(R.id.textScore);
         textScore.setText(String.format("%s:\n%s", getResources().getString(R.string.score), score));
     }
 
+    /**
+     * Sets text to display high score.
+     */
     void setTextHighScoreText() {
         if (authentication) {
             TextView textScore = (TextView) findViewById(R.id.textHighScore);
@@ -70,7 +88,11 @@ public class EndGame extends AppCompatActivity {
         }
     }
 
-    private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
+    /**
+     * Creates button on click listener to change to main activity.
+     * Play sound after click and change button's image.
+     */
+    private View.OnClickListener initializeMainActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             homePageButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
@@ -93,10 +115,16 @@ public class EndGame extends AppCompatActivity {
         }
     };
 
+    /**
+     * Pressing back button will not perform any action.
+     */
     @Override
     public void onBackPressed() {
     }
 
+    /**
+     * On activity stop media player is released.
+     */
     @Override
     protected void onStop() {
         super.onStop();

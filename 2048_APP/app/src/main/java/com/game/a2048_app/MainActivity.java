@@ -41,12 +41,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        // TODO: 27.07.2020 no chwilowo to nie dziala nie wiedziec czemu :(
-        isAuthenticated = Boolean.parseBoolean(intent.getStringExtra(getResources().getString(R.string.authentication)));
-        if(!isAuthenticated){
-            isAuthenticated = false;
-        }
         PreferencesHelper.initContext(this);
         setContentView(R.layout.activity_main);
         initButtons();
@@ -129,11 +123,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            // sound
-            // https://iznaut.itch.io/bfxr
-            // https://www.drpetter.se/project_sfxr.html
-            // TODO: 25.07.2020 ten jest mój ulubiony
-
             startGameButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
             mediaPlayer = MediaPlayer.create(mainActivity, R.raw.decline_call);
             mediaPlayer.setVolume(volume, volume);

@@ -108,9 +108,6 @@ public class EndGame extends AppCompatActivity {
                 }
 
             });
-            Intent i = new Intent(EndGame.this, MainActivity.class);
-            i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(EndGame.this.authentication));
-            startActivity(i);
             startActivity(new Intent(EndGame.this, MainActivity.class));
         }
     };

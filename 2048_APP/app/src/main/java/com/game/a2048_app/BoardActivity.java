@@ -1055,7 +1055,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
-     * Listener on back buttons pressed.
+     * Pressing back button will change current activity to main activity.
      * If the user is not authenticated dialogue is shown to warn the user that the game will not be saved.
      */
     @Override
@@ -1079,6 +1079,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    /**
+     * On activity stop media player is released, game is paused and updating time is stopped.
+     */
     @Override
     protected void onStop() {
         super.onStop();

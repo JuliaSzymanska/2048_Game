@@ -58,12 +58,20 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         return (manager != null && manager.isHardwareDetected() && manager.hasEnrolledFingerprints());
     }
 
+    /**
+     * Call method to set theme.
+     * Loads volume and current theme.
+     */
     private void loadData() {
         boolean isDarkTheme = preferencesHelper.getDarkTheme();
         setTheme(isDarkTheme);
         this.volume = preferencesHelper.getVolume();
     }
 
+    /**
+     * Set dark or light theme.
+     * @param isDarkTheme is dark theme on.
+     */
     // TODO: 19.07.2020 spojrzeć na te i podobne funkcje
     private void setTheme(boolean isDarkTheme) {
         ImageView darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
@@ -74,16 +82,27 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         }
     }
 
+    /**
+     * Calls method to initialize buttons.
+     */
     private void initButtons() {
         configureStartGameButton();
         configureAuthenticateButton();
     }
 
+    /**
+     * Initialize start game button.
+     * Sets its listener.
+     */
     private void configureStartGameButton() {
         startGameButton = (Button) findViewById(R.id.startGameButton);
         startGameButton.setOnClickListener(initializeBoardActivity);
     }
 
+    /**
+     * Initialize authentication button.
+     * Sets its listener.
+     */
     private void configureAuthenticateButton() {
         Button authenticationButton = (Button) findViewById(R.id.authenticateButton);
         if (isFingerPrintSensorAvailable(this)) {
@@ -93,6 +112,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         }
     }
 
+    /**
+     * Creates button on click listener to authenticate user.
+     */
     private View.OnClickListener authenticationListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -100,6 +122,10 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         }
     };
 
+    /**
+     * Creates button on click listener to start game.
+     * Play sound after click and change button's image.
+     */
     private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -126,6 +152,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         }
     };
 
+    /**
+     * Init fingerprint dialog to authenticate user.
+     */
     private void initFingerprintDialog() {
         if (FingerprintDialog.isAvailable(mainActivity)) {
             FingerprintDialog.initialize(mainActivity)
@@ -136,6 +165,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         }
     }
 
+    /**
+     * When user is authenticated successfully, local variable is sets to true.
+     */
     @Override
     public void onAuthenticationSucceeded() {
         this.isAuthenticated = true;
@@ -146,6 +178,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     }
 
+    /**
+     * Pressing back button will close application.
+     */
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
@@ -153,6 +188,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         System.exit(0);
     }
 
+    /**
+     * On activity stop media player is released.
+     */
     @Override
     protected void onStop() {
         super.onStop();

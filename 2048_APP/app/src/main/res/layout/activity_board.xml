@@ -41,7 +41,7 @@
     <Button
         android:id="@+id/restartGameButton"
         style="@android:style/Widget.Material.Light.Button"
-        android:layout_width="246dp"
+        android:layout_width="220dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="624dp"
@@ -131,7 +131,7 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/restartGameButton"
-        app:layout_constraintWidth_percent="0.09" />
+        app:layout_constraintWidth_percent="0.12" />
 
     <Button
         android:id="@+id/pausePlayButton"
@@ -143,7 +143,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/restartGameButton"
         app:layout_constraintTop_toTopOf="@+id/darkThemeView"
-        app:layout_constraintWidth_percent="0.09" />
+        app:layout_constraintWidth_percent="0.12" />
 
     <Button
         android:id="@+id/muteButton"
@@ -156,7 +156,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/darkThemeView"
         app:layout_constraintBottom_toTopOf="@id/undoMoveButton"
-        app:layout_constraintWidth_percent="0.09" />
+        app:layout_constraintWidth_percent="0.12" />
 
     <Button
         android:id="@+id/undoMoveButton"
@@ -169,7 +169,7 @@
         app:layout_constraintEnd_toStartOf="@+id/restartGameButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/muteButton"
-        app:layout_constraintWidth_percent="0.07" />
+        app:layout_constraintWidth_percent="0.10" />
 
 
     <TextView
@@ -178,6 +178,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:layout_marginTop="3dp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/undoMoveButton"
         app:layout_constraintEnd_toEndOf="@+id/undoMoveButton"

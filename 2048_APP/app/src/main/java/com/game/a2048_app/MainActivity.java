@@ -23,9 +23,6 @@ import me.aflak.libraries.dialog.FingerprintDialog;
 //  do czego zmierzam, pamiętać żeby to dodać jako biblioteka opensourcowa
 //  https://github.com/OmarAflak/Fingerprint
 
-
-// TODO: 19.07.2020 spojrzeć na bindingi
-
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback {
 
     private MainActivity mainActivity = this;

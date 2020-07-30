@@ -14,12 +14,11 @@ public class EndGame extends AppCompatActivity {
 
     // TODO: 23.07.2020  Nasze work list:
     //  - javaDoc
-    //  - https://stackoverflow.com/a/151940 - authentication - to wgl nie działa i jakby nie wiadomo czemu. :(
     //  - testy testy testy (jeden jest prawdkopodobnie zepsuty, dodać testy do tego co dzisiaj zrobiłem)
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
     //  - wywalić moje zmiany w animacji i poprawic to jak działa animacja
-    //  - bug zwiazany ze zmienianiem głownej apki w trakcie gry - rozwiązane - gdy apka sie zatrzymuje bo zmieniasz aplikacje,
-    //  wywłuje się destruktor dla Media Playera, potem gdy wracasz trzeba na nowo go zainicjalizować
+    //  - jak wyjde z apki i wejde jeszcze raz nie zamykając jej i będąc w activity gry, resetuje się głośność na 1,
+    //  podczas gdy przycisk wyciszenia wskazuje wyciszenie - trzeba by załadować poprzednią głośność
 
     private String score;
     private String highScore;

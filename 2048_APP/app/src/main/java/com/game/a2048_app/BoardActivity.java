@@ -434,9 +434,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void setMediaPlayer(int id) {
         AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(id);
         try {
-            //Sprawdz w END GAME ACITIVITY w liscie TODO
-            this.mediaPlayer.release();
-            this.initMediaPlayer();
+            try{
+                mediaPlayer.isPlaying();
+            } catch (IllegalStateException e) {
+                this.mediaPlayer.release();
+                this.initMediaPlayer();
+            }
             this.mediaPlayer.reset();
             this.mediaPlayer.setDataSource(assetFileDescriptor);
             this.mediaPlayer.prepare();

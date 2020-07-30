@@ -18,7 +18,8 @@ public class EndGame extends AppCompatActivity {
     //  - testy testy testy (jeden jest prawdkopodobnie zepsuty, dodać testy do tego co dzisiaj zrobiłem)
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
     //  - wywalić moje zmiany w animacji i poprawic to jak działa animacja
-    //  - bug zwiazany ze zmienianiem głownej apki w trakcie gry
+    //  - bug zwiazany ze zmienianiem głownej apki w trakcie gry - rozwiązane - gdy apka sie zatrzymuje bo zmieniasz aplikacje,
+    //  wywłuje się destruktor dla Media Playera, potem gdy wracasz trzeba na nowo go zainicjalizować
 
     private String score;
     private String highScore;

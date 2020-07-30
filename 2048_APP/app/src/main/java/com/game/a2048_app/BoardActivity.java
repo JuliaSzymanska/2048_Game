@@ -185,6 +185,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.pausePlayButton.setOnClickListener(playPauseListener);
         this.muteButton = (Button) findViewById(R.id.muteButton);
         this.muteButton.setOnClickListener(muteListener);
+        this.setMuteSettings();
         this.darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         this.setTheme();
         this.undoTextView = (TextView) findViewById(R.id.undoTextView);

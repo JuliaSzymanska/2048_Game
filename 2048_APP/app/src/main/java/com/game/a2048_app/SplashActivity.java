@@ -6,12 +6,16 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.a2048_app.helpers.Preloader;
+
 public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Preloader preloader = Preloader.getInstance();
+        Preloader.initContext(this);
+        preloader.loadAssets();
         int SPLASH_TIME_OUT = 1000;
         new Handler().postDelayed(new Runnable() {
 

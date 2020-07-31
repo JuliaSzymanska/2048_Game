@@ -40,7 +40,6 @@ public class EndGame extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         PreferencesHelper.initContext(this);

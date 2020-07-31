@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetFileDescriptor;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -33,6 +34,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.a2048_app.helpers.PreferencesHelper;
+import com.game.a2048_app.helpers.Preloader;
 import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.exceptions.GameOverException;
@@ -41,7 +43,6 @@ import com.game.module.exceptions.GoalAchievedException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class BoardActivity extends AppCompatActivity implements SensorEventListener {
@@ -56,7 +57,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Field[] fields;
     private Integer[] fieldsImages;
     private Integer[] fieldsBackground;
-    private Integer mThumbIds = R.drawable.button_green;
+    private Preloader preloader = Preloader.getInstance();
+    private Drawable mThumbIds = preloader.getButtonGreeen();
 
     // System sensor manager instance.
     private SensorManager mSensorManager;
@@ -148,7 +150,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.fields = game.getBoard().toArray(new Field[0]);
         this.fieldsImages = new Integer[fields.length];
         this.fieldsBackground = new Integer[fields.length];
-        Arrays.fill(fieldsImages, R.drawable.zero);
+        Arrays.fill(fieldsImages, preloader.getZero());
         Arrays.fill(fieldsBackground, mThumbIds);
     }
 
@@ -309,15 +311,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener restartGameListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            restartGameButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
+            restartGameButton.setBackground(preloader.getButtonRestartGameClicked());
             setMediaPlayer(R.raw.restart);
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    restartGameButton.setBackgroundResource(R.drawable.main_activity_button);
-                }
-
-            });
             restartGame();
         }
     };
@@ -330,7 +325,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener settingsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            settingsButton.setBackgroundResource(R.drawable.settings_clicked);
+            settingsButton.setBackground(preloader.getSetttingsClicked());
             setMediaPlayer(R.raw.button_no_reverb);
             AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this.boardActivity);
             builder.setMultiChoiceItems(R.array.sensors, choosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
@@ -345,7 +340,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     preferencesHelper.setChoosenSensors(choosenSensors);
-                    settingsButton.setBackgroundResource(R.drawable.settings);
+                    settingsButton.setBackground(preloader.getSetttings());
                 }
             });
             AlertDialog dialog = builder.create();
@@ -380,7 +375,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener undoListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            undoButton.setBackgroundResource(R.drawable.undo_clicked);
+            undoButton.setBackground(preloader.getUndoClicked());
             setMediaPlayer(R.raw.undo);
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
@@ -406,10 +401,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             setMediaPlayer(R.raw.pause);
             if (!game.isSuspended()) {
                 game.pauseTimer();
-                pausePlayButton.setBackgroundResource(R.drawable.pause_play_on);
+                pausePlayButton.setBackground(preloader.getPausePlayOn());
             } else {
                 game.unpauseTimer();
-                pausePlayButton.setBackgroundResource(R.drawable.pause_play);
+                pausePlayButton.setBackground(preloader.getPausePlayOff());
             }
         }
     };
@@ -447,6 +442,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void setMediaPlayer(int id) {
         AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(id);
         try {
+            if(this.mediaPlayer == null){
+                this.initMediaPlayer();
+            }
             try {
                 mediaPlayer.isPlaying();
             } catch (IllegalStateException e) {
@@ -468,9 +466,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     private void setMuteButtonImage() {
         if (volume == 1) {
-            muteButton.setBackgroundResource(R.drawable.mute_off);
+            muteButton.setBackground(preloader.getMuteOff());
         } else if (volume == 0) {
-            muteButton.setBackgroundResource(R.drawable.mute_on);
+            muteButton.setBackground(preloader.getMuteOn());
         } else {
             throw new IllegalArgumentException("Argument value should be 0 or 1");
         }
@@ -490,9 +488,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     private void setTheme() {
         if (this.isDarkTheme) {
-            darkThemeView.setImageResource(R.drawable.dark_theme_on);
+            darkThemeView.setImageDrawable(preloader.getDarkThemeOn());
         } else {
-            darkThemeView.setImageResource(R.drawable.dark_theme_off);
+            darkThemeView.setImageDrawable(preloader.getDarkThemeOff());
         }
     }
 
@@ -503,11 +501,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void setUndoNumber() {
         int undoNumber = BoardActivity.this.game.getAvaiableUndoNumber();
         if (undoNumber > 0) {
-            undoButton.setBackgroundResource(R.drawable.undo);
+            undoButton.setBackground(preloader.getUndo());
             undoTextView.setText(String.format("%d", undoNumber));
             undoButton.setEnabled(true);
         } else if (undoNumber == 0) {
-            undoButton.setBackgroundResource(R.drawable.undo_clicked);
+            undoButton.setBackground(preloader.getUndoClicked());
             undoTextView.setText(String.format("%d", undoNumber));
             undoButton.setEnabled(false);
         } else {
@@ -560,7 +558,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     private void setFieldsImagesToZeros() {
         for (int i = 0; i < fields.length; i++) {
-            fieldsImages[i] = R.drawable.zero;
+            fieldsImages[i] = preloader.getZero();
             fieldsBackground[i] = mThumbIds;
         }
     }
@@ -572,7 +570,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         for (int i = 0; i < fields.length; i++) {
             switch (fields[i].getValue()) {
                 case 0:
-                    fieldsImages[i] = R.drawable.zero;
+                    fieldsImages[i] = preloader.getZero();
                     break;
                 case 2:
                     fieldsImages[i] = R.drawable.two;
@@ -593,16 +591,16 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     fieldsImages[i] = R.drawable.sixty_four;
                     break;
                 case 128:
-                    fieldsImages[i] = R.drawable.one_hundred_twenty_eight;
+                    fieldsImages[i] = R.drawable.one_hundred;
                     break;
                 case 256:
-                    fieldsImages[i] = R.drawable.two_hundred_fifty_six;
+                    fieldsImages[i] = R.drawable.two_hundred;
                     break;
                 case 512:
-                    fieldsImages[i] = R.drawable.five_hundred_twelve;
+                    fieldsImages[i] = R.drawable.five_hundred;
                     break;
                 case 1024:
-                    fieldsImages[i] = R.drawable.thousand;
+                    fieldsImages[i] = R.drawable.one_thousand;
                     break;
                 case 2048:
                     fieldsImages[i] = R.drawable.two_thousands;

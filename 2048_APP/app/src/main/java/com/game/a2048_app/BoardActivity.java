@@ -428,7 +428,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 throw new IllegalArgumentException("Argument value should be 0 or 1");
             }
             preferencesHelper.setVolume(volume);
-            setMuteSettings();
+            try {
+                setMuteSettings();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+                initMediaPlayer();
+                setMuteSettings();
+            }
         }
     };
 
@@ -445,6 +451,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             } catch (IllegalStateException e) {
                 this.mediaPlayer.release();
                 this.initMediaPlayer();
+                this.setMuteSettings();
             }
             this.mediaPlayer.reset();
             this.mediaPlayer.setDataSource(assetFileDescriptor);
@@ -532,8 +539,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         this.game.unpauseTimer();
         this.beginUpdatingTime();
-        this.initMediaPlayer();
-        this.setMuteSettings();
     }
 
     // TODO: 29.07.2020 nie wiem jak to ladnie opisac ಠ_ಠ

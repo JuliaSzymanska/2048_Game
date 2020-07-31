@@ -23,6 +23,7 @@ public class EndGame extends AppCompatActivity {
     //  - poprawić dzialanie czujnikow - wywoluja notifyDatasetChanged(), co jesli wywola sie w trakcie animacji to psuje animacje
     //      ^ chyba trzeba dodać sprawdzanie czy aktualnie jest wylaczony dostep do ekrantu (ta flaga zabraniajaca ruchu), i jesli jest to nie pozwolic
     //      datasetchanged na dzialanie
+    //  - problem z zacinaniem sie, - https://stackoverflow.com/a/9814353 moze cos takiego
 
     private String score;
     private String highScore;

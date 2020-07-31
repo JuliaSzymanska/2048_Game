@@ -191,6 +191,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         this.muteButton = (Button) findViewById(R.id.muteButton);
         this.muteButton.setOnClickListener(muteListener);
+        this.setMuteButtonImage();
 
         this.darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         this.setTheme();
@@ -463,10 +464,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
-     * Sets volume level - mute or unmute.
-     * Changes button's image.
+     * Sets the appropriate mute button's image
      */
-    private void setMuteSettings() {
+    private void setMuteButtonImage() {
         if (volume == 1) {
             muteButton.setBackgroundResource(R.drawable.mute_off);
         } else if (volume == 0) {
@@ -474,6 +474,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         } else {
             throw new IllegalArgumentException("Argument value should be 0 or 1");
         }
+    }
+
+    /**
+     * Sets volume level - mute or unmute.
+     * Changes button's image.
+     */
+    private void setMuteSettings() {
+        setMuteButtonImage();
         mediaPlayer.setVolume(volume, volume);
     }
 

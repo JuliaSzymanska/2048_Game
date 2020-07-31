@@ -21,6 +21,8 @@ public class EndGame extends AppCompatActivity {
     //  - próbowałem zrobić żeby animacje się przerywały - co prawda udało się, ale następna animacja zostawała pominięta, l
     //      lub odtwarzała się, ale dokonany ruch już się wyświetlał, a przesuwały się puste klocki, nie umiem tego naprawić, zostawiam blokadę
     //  - poprawić dzialanie czujnikow - wywoluja notifyDatasetChanged(), co jesli wywola sie w trakcie animacji to psuje animacje
+    //      ^ chyba trzeba dodać sprawdzanie czy aktualnie jest wylaczony dostep do ekrantu (ta flaga zabraniajaca ruchu), i jesli jest to nie pozwolic
+    //      datasetchanged na dzialanie
 
     private String score;
     private String highScore;

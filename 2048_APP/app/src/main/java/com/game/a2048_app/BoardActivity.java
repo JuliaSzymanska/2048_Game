@@ -107,7 +107,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
 
-    private final static double ANIM_SPEED_SECONDS = 2;
+    private final static double ANIM_SPEED_SECONDS = 0.2;
 
     public final static int MOVE_UP = Game.MOVE_UP;
     public final static int MOVE_RIGHT = Game.MOVE_RIGHT;
@@ -722,10 +722,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
 
     private void startAnimation(List<Field> fieldCopies, List<TranslateAnimation> translateAnimationList) {
-        List<Integer> amountsMoved = this.game.getAmountMovedList();
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
             if (fieldCopies.get(i).getValue() != 0) {
-                System.out.println(i);
                 Animation translateAnimation = translateAnimationList.get(i);
                 translateAnimation.setAnimationListener(animationListener);
                 this.gridView.getChildAt(i).startAnimation(translateAnimation);

@@ -10,33 +10,56 @@ import com.game.a2048_app.helpers.Preloader;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private final static int SPLASH_TIME_OUT = 1000;
+
+    private Runnable loadImagesRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Preloader preloader = Preloader.getInstance();
+            Preloader.initContext(SplashActivity.this);
+            preloader.loadAssets();
+        }
+    };
+
+    private Thread loadImagesThread;
+
+    private Runnable waitForLoadImagesThreadRunnable = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                loadImagesThread.join();
+            } catch (InterruptedException ignored) {
+
+            } finally {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new Handler().postDelayed(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                                startActivity(i);
+                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                finish();
+                            }
+                        }, SPLASH_TIME_OUT);
+                    }
+                });
+            }
+        }
+    };
+
+    // król nazewnictwa
+    private Thread waitForLoadImagesThreadThread;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Thread loadImagesThread = new Thread() {
-            @Override
-            public void run() {
-                Preloader preloader = Preloader.getInstance();
-                Preloader.initContext(SplashActivity.this);
-                preloader.loadAssets();
-
-            }
-
-        };
-        loadImagesThread.start();
-        while(loadImagesThread.isAlive()){
-        }
-        int SPLASH_TIME_OUT = 1000;
-        new Handler().postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        Intent i = new Intent(SplashActivity.this, MainActivity.class);
-                        startActivity(i);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                        finish();
-                    }
-                }, SPLASH_TIME_OUT);
-
+        this.loadImagesThread = new Thread(this.loadImagesRunnable);
+        this.loadImagesThread.start();
+        this.waitForLoadImagesThreadThread = new Thread(this.waitForLoadImagesThreadRunnable);
+        this.waitForLoadImagesThreadThread.start();
     }
 }

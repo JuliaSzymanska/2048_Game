@@ -108,7 +108,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
 
-    private final static double ANIM_SPEED_SECONDS = 1.15;
+    private final static double ANIM_SPEED_SECONDS = 2;
 
     public final static int MOVE_UP = Game.MOVE_UP;
     public final static int MOVE_RIGHT = Game.MOVE_RIGHT;
@@ -276,7 +276,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     void setTextScoreText() {
         textScore.setText(String.format("%s:\n%s", getResources().getString(R.string.score), game.getScore()));
-
     }
 
     /**
@@ -306,7 +305,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             restartGameButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
             setMediaPlayer(R.raw.restart);
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     restartGameButton.setBackgroundResource(R.drawable.main_activity_button);

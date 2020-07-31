@@ -20,7 +20,9 @@ public class EndGame extends AppCompatActivity {
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
     //  - wywalić moje zmiany w animacji i poprawic to jak działa animacja
     //  - jak wyjde z apki i wejde jeszcze raz nie zamykając jej i będąc w activity gry, resetuje się głośność na 1,
-    //  podczas gdy przycisk wyciszenia wskazuje wyciszenie - trzeba by załadować poprzednią głośność
+    //  - podczas gdy przycisk wyciszenia wskazuje wyciszenie - trzeba by załadować poprzednią głośność
+    //  - próbowałem zrobić żeby animacje się przerywały - co prawda udało się, ale następna animacja zostawała pominięta, l
+    //      lub odtwarzała się, ale dokonany ruch już się wyświetlał, a przesuwały się puste klocki, nie umiem tego naprawić, zostawiam blokadę
 
     private String score;
     private String highScore;

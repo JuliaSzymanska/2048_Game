@@ -832,6 +832,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         restartGame();
     }
 
+
     private void prepareSensors() {
         // Get accelerometer and magnetometer sensors from the sensor manager.
         // The getDefaultSensor() method returns null if the sensor
@@ -848,6 +849,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onSensorChanged(SensorEvent event) {
         int sensorType = event.sensor.getType();

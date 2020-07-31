@@ -1,13 +1,11 @@
 package com.game.module.dao;
 
 import android.content.Context;
-import android.util.Pair;
 
 import androidx.annotation.Nullable;
 
 import com.game.module.Board;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Triple;
 
 import java.io.FileInputStream;
@@ -15,7 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +27,7 @@ class GameSaveDao implements Dao<Board, Integer, Long> {
         this.context = context;
     }
 
-    // TODO: 24.07.2020 PAMIĘTAJ O MNIE PRZEMKU
+    // TODO: 24.07.2020 PAMIETAJ O MNIE PRZEMKU
     @Nullable
     @Override
     public Triple<Board, Integer, Long> read() throws IOException, ClassNotFoundException, NullPointerException {

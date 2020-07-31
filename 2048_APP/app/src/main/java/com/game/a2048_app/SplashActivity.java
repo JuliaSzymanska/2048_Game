@@ -50,7 +50,13 @@ public class SplashActivity extends AppCompatActivity {
         }
     };
 
-
+    /**
+     * Called when the activity is starting.
+     * Calls method to load images.
+     * @param savedInstanceState if the activity is being re-initialized after previously being shut down
+     *                           then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
+     *                           Otherwise is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

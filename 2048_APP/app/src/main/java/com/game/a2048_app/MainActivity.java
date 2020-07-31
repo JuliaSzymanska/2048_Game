@@ -37,6 +37,13 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
 
+    /**
+     * Called when the activity is starting.
+     * Calls methods to load data and initialize buttons.
+     * @param savedInstanceState if the activity is being re-initialized after previously being shut down
+     *                           then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
+     *                           Otherwise is null.
+     */
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +55,11 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         loadData();
     }
 
-    private boolean isFingerPrintSensorAvailable(Context context) {
+    /**
+     * @param context current context.
+     * @return if fingerprint sensor is available.
+     */
+    private boolean isFingerprintSensorAvailable(Context context) {
         FingerprintManager manager = (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
         return (manager != null && manager.isHardwareDetected() && manager.hasEnrolledFingerprints());
     }
@@ -100,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      */
     private void configureAuthenticateButton() {
         Button authenticationButton = (Button) findViewById(R.id.authenticateButton);
-        if (isFingerPrintSensorAvailable(this)) {
+        if (isFingerprintSensorAvailable(this)) {
             authenticationButton.setOnClickListener(authenticationListener);
         } else {
             authenticationButton.setVisibility(View.GONE);
@@ -156,13 +167,16 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     }
 
     /**
-     * When user is authenticated successfully, local variable is sets to true.
+     * Called when user is authenticated successfully, local variable is sets to true.
      */
     @Override
     public void onAuthenticationSucceeded() {
         this.isAuthenticated = true;
     }
 
+    /**
+     * Called when user authentication false.
+     */
     @Override
     public void onAuthenticationCancel() {
 

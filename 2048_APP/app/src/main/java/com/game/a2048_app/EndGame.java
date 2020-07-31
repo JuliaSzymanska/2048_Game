@@ -32,9 +32,12 @@ public class EndGame extends AppCompatActivity {
     private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
     /**
+     * Called when the activity is starting.
      * Loads theme, score and high score passed by previous activity.
      * Sets buttons id.
-     * @param savedInstanceState
+     * @param savedInstanceState if the activity is being re-initialized after previously being shut down
+     *      *                           then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
+     *      *                           Otherwise is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

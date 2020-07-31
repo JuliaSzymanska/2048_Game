@@ -117,7 +117,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private boolean hasMoved = false;
 
     private boolean isDarkTheme = false;
-    private int volume = 1;
+    private int volume;
     private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
     private BoardActivity boardActivity = this;
@@ -769,8 +769,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         startAnimation(fieldCopies, translateAnimationList);
     }
 
-
-
     /**
      * If the game's goal is achieved, the dialog is shown asking whether the user wants to continue the game or end it.
      */
@@ -803,7 +801,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
         i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
         startActivity(i);
-        // FIXME: 23.07.2020 TO JEST TAKIE XD ale no działa i dzięki temu się nie psuje display po koncu gry xD
         this.adapter = null;
         restartGame();
     }

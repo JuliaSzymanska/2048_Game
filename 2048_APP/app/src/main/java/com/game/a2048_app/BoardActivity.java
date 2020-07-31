@@ -133,7 +133,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
         this.loadData();
-        this.initMediaPlayer();
         this.prepareViews();
         this.prepareSensors();
     }
@@ -173,24 +172,32 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.gridView = (GridView) findViewById(R.id.gridView);
         this.prepareGrid();
         this.setupSwipeListener();
+
         this.textTime = (TextView) findViewById(R.id.time);
         this.prepareScoreText();
         this.prepareHighscoreText();
+
         this.restartGameButton = (Button) findViewById(R.id.restartGameButton);
         this.restartGameButton.setOnClickListener(restartGameListener);
+
         this.settingsButton = (Button) findViewById(R.id.settingsButton);
         this.settingsButton.setOnClickListener(settingsListener);
+
         this.undoButton = (Button) findViewById(R.id.undoMoveButton);
         this.undoButton.setOnClickListener(undoListener);
+
         this.pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
         this.pausePlayButton.setOnClickListener(playPauseListener);
+
         this.muteButton = (Button) findViewById(R.id.muteButton);
         this.muteButton.setOnClickListener(muteListener);
-        this.setMuteSettings();
+
         this.darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         this.setTheme();
+
         this.undoTextView = (TextView) findViewById(R.id.undoTextView);
         this.setUndoNumber();
+
         this.adapter.notifyDataSetChanged();
     }
 
@@ -525,6 +532,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         this.game.unpauseTimer();
         this.beginUpdatingTime();
+        this.initMediaPlayer();
+        this.setMuteSettings();
     }
 
     // TODO: 29.07.2020 nie wiem jak to ladnie opisac ಠ_ಠ

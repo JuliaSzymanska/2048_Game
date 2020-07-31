@@ -20,6 +20,7 @@ public class EndGame extends AppCompatActivity {
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
     //  - próbowałem zrobić żeby animacje się przerywały - co prawda udało się, ale następna animacja zostawała pominięta, l
     //      lub odtwarzała się, ale dokonany ruch już się wyświetlał, a przesuwały się puste klocki, nie umiem tego naprawić, zostawiam blokadę
+    //  - poprawić dzialanie czujnikow - wywoluja notifyDatasetChanged(), co jesli wywola sie w trakcie animacji to psuje animacje
 
     private String score;
     private String highScore;

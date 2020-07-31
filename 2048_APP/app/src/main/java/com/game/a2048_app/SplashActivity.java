@@ -24,7 +24,10 @@ public class SplashActivity extends AppCompatActivity {
 
         };
         loadImagesThread.start();
-        while(loadImagesThread.isAlive()){
+        try {
+            loadImagesThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         int SPLASH_TIME_OUT = 1000;
         new Handler().postDelayed(new Runnable() {

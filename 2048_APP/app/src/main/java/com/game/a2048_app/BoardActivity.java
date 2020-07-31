@@ -430,7 +430,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             preferencesHelper.setVolume(volume);
             try {
                 setMuteSettings();
-            } catch (IllegalStateException e) {
+            } catch (IllegalStateException | NullPointerException e) {
                 e.printStackTrace();
                 initMediaPlayer();
                 setMuteSettings();

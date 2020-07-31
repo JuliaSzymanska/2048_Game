@@ -28,6 +28,10 @@ public class PreferencesHelper {
         return INSTANCE;
     }
 
+    /**
+     * Initialized context for class.
+     * @param context context passed by activity.
+     */
     @SuppressLint("CommitPrefEdits")
     public static void initContext(Context context) {
         if (PreferencesHelper.context == null) {

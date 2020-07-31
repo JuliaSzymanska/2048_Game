@@ -11,6 +11,9 @@ public class Preloader {
     private static Preloader instance = new Preloader();
     private static Context context;
 
+    /**
+     * Default class constructor.
+     */
     private Preloader() {
     }
 
@@ -49,7 +52,10 @@ public class Preloader {
     private Drawable sixtyFiveThousands;
     private Drawable oneHundredThousands;
 
-
+    /**
+     * Initialized context for class.
+     * @param context context passed by activity.
+     */
     @SuppressLint("CommitPrefEdits")
     public static void initContext(Context context) {
         if (Preloader.context == null) {
@@ -57,6 +63,9 @@ public class Preloader {
         }
     }
 
+    /**
+     * Loads Drawable images from R.drawable.
+     */
     public void loadAssets() {
         this.buttonGreeen = context.getDrawable(R.drawable.button_green);
         this.buttonGreeenLight = context.getDrawable(R.drawable.button_green_light);
@@ -94,142 +103,247 @@ public class Preloader {
         this.oneHundredThousands = context.getDrawable(R.drawable.one_hundred_thousands);
     }
 
+    /**
+     * @return instance of class.
+     */
     public static Preloader getInstance() {
         return instance;
     }
 
+    /**
+     * @return clicked undo button's image.
+     */
     public Drawable getUndoClicked() {
         return undoClicked;
     }
 
-    public Drawable getPausePlayOn() {
-        return pausePlayOn;
-    }
-
-    public Drawable getPausePlayOff() {
-        return pausePlayOff;
-    }
-
-    public Drawable getMuteOn() {
-        return muteOn;
-    }
-
-    public Drawable getMuteOff() {
-        return muteOff;
-    }
-
+    /**
+     * @return undo button's image.
+     */
     public Drawable getUndo() {
         return undo;
     }
 
+    /**
+     * @return pause and play on button's image.
+     */
+    public Drawable getPausePlayOn() {
+        return pausePlayOn;
+    }
+
+    /**
+     * @return pause and play off button's image.
+     */
+    public Drawable getPausePlayOff() {
+        return pausePlayOff;
+    }
+
+    /**
+     * @return mute on button's image.
+     */
+    public Drawable getMuteOn() {
+        return muteOn;
+    }
+
+    /**
+     * @return mute off button's image.
+     */
+    public Drawable getMuteOff() {
+        return muteOff;
+    }
+
+    /**
+     * @return dark theme on image.
+     */
     public Drawable getDarkThemeOn() {
         return darkThemeOn;
     }
 
+    /**
+     * @return dark theme off image.
+     */
     public Drawable getDarkThemeOff() {
         return darkThemeOff;
     }
 
+    /**
+     * @return settings button's image.
+     */
     public Drawable getSetttings() {
         return setttings;
     }
 
+    /**
+     * @return settings clicked button's image.
+     */
     public Drawable getSetttingsClicked() {
         return setttingsClicked;
     }
 
-    public Drawable getZero() {
-        return zero;
-    }
-
-    public Drawable getButtonGreeen() {
-        return buttonGreeen;
-    }
-
+    /**
+     * @return main button's clicked image.
+     */
     public Drawable getMainButtonClicked() {
         return mainButtonClicked;
     }
 
+    /**
+     * @return main button's image.
+     */
     public Drawable getMainButton() {
         return mainButton;
     }
 
+    /**
+     * @return field's image for 0 value.
+     */
+    public Drawable getZero() {
+        return zero;
+    }
+
+    /**
+     * @return field's image for 2 value.
+     */
     public Drawable getTwo() {
         return two;
     }
 
+    /**
+     * @return field's image for 4 value.
+     */
     public Drawable getFour() {
         return four;
     }
 
+    /**
+     * @return field's image for 8 value.
+     */
     public Drawable getEight() {
         return eight;
     }
 
+    /**
+     * @return field's image for 16 value.
+     */
     public Drawable getSixteen() {
         return sixteen;
     }
 
+    /**
+     * @return field's image for 32 value.
+     */
     public Drawable getThirtyTwo() {
         return thirtyTwo;
     }
 
+    /**
+     * @return field's image for 64 value.
+     */
     public Drawable getSixtyFour() {
         return sixtyFour;
     }
 
+    /**
+     * @return field's image for 128 value.
+     */
     public Drawable getOneHundred() {
         return oneHundred;
     }
 
+    /**
+     * @return field's image for 256 value.
+     */
     public Drawable getTwoHundreds() {
         return twoHundreds;
     }
 
+    /**
+     * @return field's image for 512 value.
+     */
     public Drawable getFiveHundreds() {
         return fiveHundreds;
     }
 
+    /**
+     * @return field's image for 1 024 value.
+     */
     public Drawable getOneThousand() {
         return oneThousand;
     }
 
+    /**
+     * @return field's image for 2 048 value.
+     */
     public Drawable getTwoThousands() {
         return twoThousands;
     }
 
+    /**
+     * @return field's image for 4 096 value.
+     */
     public Drawable getFourThousands() {
         return fourThousands;
     }
 
+    /**
+     * @return field's image for 8 192 value.
+     */
     public Drawable getEightThousands() {
         return eightThousands;
     }
 
+    /**
+     * @return field's image for 16 384 value.
+     */
     public Drawable getSixteenThousands() {
         return sixteenThousands;
     }
 
+    /**
+     * @return field's image for 32 768 value.
+     */
     public Drawable getThirtyTwoThousands() {
         return thirtyTwoThousands;
     }
 
+    /**
+     * @return field's image for 65 536 value.
+     */
     public Drawable getSixtyFiveThousands() {
         return sixtyFiveThousands;
     }
 
+    /**
+     * @return field's image for 131 072 value.
+     */
     public Drawable getOneHundredThousands() {
         return oneHundredThousands;
     }
 
+    /**
+     * @return green field's background image.
+     */
+    public Drawable getButtonGreeen() {
+        return buttonGreeen;
+    }
+
+    /**
+     * @return light green field's background image.
+     */
     public Drawable getButtonGreeenLight() {
         return buttonGreeenLight;
     }
 
+    /**
+     * @return blue field's background image.
+     */
     public Drawable getButtonBlue() {
         return buttonBlue;
     }
 
+    /**
+     * @return light blue field's background image.
+     */
     public Drawable getButtonBlueLight() {
         return buttonBlueLight;
     }

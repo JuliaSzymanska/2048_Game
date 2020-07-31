@@ -542,6 +542,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void setFieldsImagesToZeros() {
         for (int i = 0; i < fields.length; i++) {
             fieldsImages[i] = R.drawable.zero;
+            fieldsBackground[i] = mThumbIds;
         }
     }
 
@@ -614,26 +615,25 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Sets field's background based on current field's value.
      */
     private void setFieldsBackground() {
-        return;
-//        int lightGreen = R.drawable.button_green_light;
-//        int darkGreen = R.drawable.button_green;
-//        int lightBlue = R.drawable.button_blue_light;
-//        int darkBlue = R.drawable.button_blue;
-//        for (int i = 0; i < fields.length; i++) {
-//            if (fields[i].getValue() == 0) {
-//                fieldsBackground[i] = mThumbIds;
-//            } else {
-//                if (mThumbIds == lightGreen) {
-//                    fieldsBackground[i] = darkGreen;
-//                } else if (mThumbIds == darkGreen) {
-//                    fieldsBackground[i] = lightGreen;
-//                } else if (mThumbIds == lightBlue) {
-//                    fieldsBackground[i] = darkBlue;
-//                } else if (mThumbIds == darkBlue) {
-//                    fieldsBackground[i] = lightBlue;
-//                }
-//            }
-//        }
+        int lightGreen = R.drawable.button_green_light;
+        int darkGreen = R.drawable.button_green;
+        int lightBlue = R.drawable.button_blue_light;
+        int darkBlue = R.drawable.button_blue;
+        for (int i = 0; i < fields.length; i++) {
+            if (fields[i].getValue() == 0) {
+                fieldsBackground[i] = mThumbIds;
+            } else {
+                if (mThumbIds == lightGreen) {
+                    fieldsBackground[i] = darkGreen;
+                } else if (mThumbIds == darkGreen) {
+                    fieldsBackground[i] = lightGreen;
+                } else if (mThumbIds == lightBlue) {
+                    fieldsBackground[i] = darkBlue;
+                } else if (mThumbIds == darkBlue) {
+                    fieldsBackground[i] = lightBlue;
+                }
+            }
+        }
     }
 
     /**
@@ -717,10 +717,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
         @Override
         public void onAnimationStart(Animation arg0) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
 
         @Override
         public void onAnimationEnd(Animation arg0) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             adapter.notifyDataSetChanged();
         }
 

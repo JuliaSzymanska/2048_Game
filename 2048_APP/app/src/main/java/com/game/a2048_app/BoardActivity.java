@@ -32,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.a2048_app.helpers.GenericHelper;
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.module.Field;
 import com.game.module.Game;
@@ -107,7 +108,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
 
-    private final static double ANIM_SPEED_SECONDS = 0.15;
+    private final static double ANIM_SPEED_SECONDS = 1.15;
 
     public final static int MOVE_UP = Game.MOVE_UP;
     public final static int MOVE_RIGHT = Game.MOVE_RIGHT;
@@ -613,25 +614,26 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Sets field's background based on current field's value.
      */
     private void setFieldsBackground() {
-        int lightGreen = R.drawable.button_green_light;
-        int darkGreen = R.drawable.button_green;
-        int lightBlue = R.drawable.button_blue_light;
-        int darkBlue = R.drawable.button_blue;
-        for (int i = 0; i < fields.length; i++) {
-            if (fields[i].getValue() == 0) {
-                fieldsBackground[i] = mThumbIds;
-            } else {
-                if (mThumbIds == lightGreen) {
-                    fieldsBackground[i] = darkGreen;
-                } else if (mThumbIds == darkGreen) {
-                    fieldsBackground[i] = lightGreen;
-                } else if (mThumbIds == lightBlue) {
-                    fieldsBackground[i] = darkBlue;
-                } else if (mThumbIds == darkBlue) {
-                    fieldsBackground[i] = lightBlue;
-                }
-            }
-        }
+        return;
+//        int lightGreen = R.drawable.button_green_light;
+//        int darkGreen = R.drawable.button_green;
+//        int lightBlue = R.drawable.button_blue_light;
+//        int darkBlue = R.drawable.button_blue;
+//        for (int i = 0; i < fields.length; i++) {
+//            if (fields[i].getValue() == 0) {
+//                fieldsBackground[i] = mThumbIds;
+//            } else {
+//                if (mThumbIds == lightGreen) {
+//                    fieldsBackground[i] = darkGreen;
+//                } else if (mThumbIds == darkGreen) {
+//                    fieldsBackground[i] = lightGreen;
+//                } else if (mThumbIds == lightBlue) {
+//                    fieldsBackground[i] = darkBlue;
+//                } else if (mThumbIds == darkBlue) {
+//                    fieldsBackground[i] = lightBlue;
+//                }
+//            }
+//        }
     }
 
     /**
@@ -715,13 +717,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
         @Override
         public void onAnimationStart(Animation arg0) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
 
         @Override
         public void onAnimationEnd(Animation arg0) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             adapter.notifyDataSetChanged();
         }
 
@@ -740,12 +739,16 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         return translateAnimation;
     }
 
+    private List<View> previousAnimatedViews = new ArrayList<>();
+
     private void startAnimation(List<Field> fieldCopies, List<TranslateAnimation> translateAnimationList) {
+        previousAnimatedViews = new ArrayList<>();
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
             if (fieldCopies.get(i).getValue() != 0) {
                 Animation translateAnimation = translateAnimationList.get(i);
                 translateAnimation.setAnimationListener(animationListener);
                 this.gridView.getChildAt(i).startAnimation(translateAnimation);
+                previousAnimatedViews.add(this.gridView.getChildAt(i));
             }
         }
         this.prepareGrid();
@@ -772,6 +775,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         Collections.reverse(translateAnimationList);
         startAnimation(fieldCopies, translateAnimationList);
     }
+
 
     private void animationUP(List<Field> fieldCopies) {
         List<TranslateAnimation> translateAnimationList = new ArrayList<>();
@@ -840,6 +844,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
 
     /**
      * Changes current activity to EndGameActivity.

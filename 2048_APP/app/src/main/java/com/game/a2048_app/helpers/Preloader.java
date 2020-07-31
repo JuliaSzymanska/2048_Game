@@ -11,10 +11,13 @@ public class Preloader {
     private static Preloader instance = new Preloader();
     private static Context context;
 
-    private Preloader(){}
+    private Preloader() {
+    }
 
-    private Drawable backgorund;
     private Drawable buttonGreeen;
+    private Drawable buttonGreeenLight;
+    private Drawable buttonBlue;
+    private Drawable buttonBlueLight;
     private Drawable buttonRestartGameClicked;
     private Drawable setttingsClicked;
     private Drawable setttings;
@@ -41,10 +44,9 @@ public class Preloader {
     private Drawable fourThousands;
     private Drawable eightThousands;
     private Drawable sixteenThousands;
-    private Drawable thirtyTwoThousand;
-    private Drawable sixtyFiveThousand;
-    private Drawable oneHundredThousand;
-
+    private Drawable thirtyTwoThousands;
+    private Drawable sixtyFiveThousands;
+    private Drawable oneHundredThousands;
 
 
     @SuppressLint("CommitPrefEdits")
@@ -54,14 +56,16 @@ public class Preloader {
         }
     }
 
-    public void loadAssets(){
-        this.backgorund = context.getDrawable(R.drawable.background);
+    public void loadAssets() {
         this.buttonGreeen = context.getDrawable(R.drawable.button_green);
+        this.buttonGreeenLight = context.getDrawable(R.drawable.button_green_light);
+        this.buttonBlue = context.getDrawable(R.drawable.button_blue);
+        this.buttonBlueLight = context.getDrawable(R.drawable.button_blue_light);
         this.buttonRestartGameClicked = context.getDrawable(R.drawable.main_activity_button_clicked);
         this.setttingsClicked = context.getDrawable(R.drawable.settings_clicked);
         this.setttings = context.getDrawable(R.drawable.settings);
         this.undoClicked = context.getDrawable(R.drawable.undo_clicked);
-        this.undoClicked = context.getDrawable(R.drawable.undo);
+        this.undo = context.getDrawable(R.drawable.undo);
         this.pausePlayOn = context.getDrawable(R.drawable.pause_play_on);
         this.pausePlayOff = context.getDrawable(R.drawable.pause_play);
         this.muteOn = context.getDrawable(R.drawable.mute_on);
@@ -76,16 +80,19 @@ public class Preloader {
         this.thirtyTwo = context.getDrawable(R.drawable.thirty_two);
         this.sixtyFour = context.getDrawable(R.drawable.sixty_four);
         this.oneHundred = context.getDrawable(R.drawable.one_hundred);
-        this.twoHundreds = context.getDrawable(R.drawable.two_hundred);
-        this.fiveHundreds = context.getDrawable(R.drawable.five_hundred);
+        this.twoHundreds = context.getDrawable(R.drawable.two_hundreds);
+        this.fiveHundreds = context.getDrawable(R.drawable.five_hundreds);
         this.oneThousand = context.getDrawable(R.drawable.one_thousand);
         this.twoThousands = context.getDrawable(R.drawable.two_thousands);
         this.fourThousands = context.getDrawable(R.drawable.four_thousands);
         this.eightThousands = context.getDrawable(R.drawable.eight_thousands);
         this.sixteenThousands = context.getDrawable(R.drawable.sixteen_thousands);
+        this.thirtyTwoThousands = context.getDrawable(R.drawable.thirty_two_thousands);
+        this.sixtyFiveThousands = context.getDrawable(R.drawable.sixty_five_thousands);
+        this.oneHundredThousands = context.getDrawable(R.drawable.one_hundred_thousands);
     }
 
-    public static Preloader getInstance(){
+    public static Preloader getInstance() {
         return instance;
     }
 
@@ -133,12 +140,93 @@ public class Preloader {
         return zero;
     }
 
-    public Drawable getButtonGreeen(){
+    public Drawable getButtonGreeen() {
         return buttonGreeen;
     }
 
-    public Drawable getButtonRestartGameClicked(){
+    public Drawable getButtonRestartGameClicked() {
         return buttonRestartGameClicked;
+    }
+
+
+    public Drawable getTwo() {
+        return two;
+    }
+
+    public Drawable getFour() {
+        return four;
+    }
+
+    public Drawable getEight() {
+        return eight;
+    }
+
+    public Drawable getSixteen() {
+        return sixteen;
+    }
+
+    public Drawable getThirtyTwo() {
+        return thirtyTwo;
+    }
+
+    public Drawable getSixtyFour() {
+        return sixtyFour;
+    }
+
+    public Drawable getOneHundred() {
+        return oneHundred;
+    }
+
+    public Drawable getTwoHundreds() {
+        return twoHundreds;
+    }
+
+    public Drawable getFiveHundreds() {
+        return fiveHundreds;
+    }
+
+    public Drawable getOneThousand() {
+        return oneThousand;
+    }
+
+    public Drawable getTwoThousands() {
+        return twoThousands;
+    }
+
+    public Drawable getFourThousands() {
+        return fourThousands;
+    }
+
+    public Drawable getEightThousands() {
+        return eightThousands;
+    }
+
+    public Drawable getSixteenThousands() {
+        return sixteenThousands;
+    }
+
+    public Drawable getThirtyTwoThousands() {
+        return thirtyTwoThousands;
+    }
+
+    public Drawable getSixtyFiveThousands() {
+        return sixtyFiveThousands;
+    }
+
+    public Drawable getOneHundredThousands() {
+        return oneHundredThousands;
+    }
+
+    public Drawable getButtonGreeenLight() {
+        return buttonGreeenLight;
+    }
+
+    public Drawable getButtonBlue() {
+        return buttonBlue;
+    }
+
+    public Drawable getButtonBlueLight() {
+        return buttonBlueLight;
     }
 
 }

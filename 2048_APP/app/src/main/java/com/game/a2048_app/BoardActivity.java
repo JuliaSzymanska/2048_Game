@@ -51,12 +51,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     OnSwipeTouchListener onSwipeTouchListener;
 
     private Game game;
-    private ArrayAdapter<Integer> adapter;
+    private ArrayAdapter<Drawable> adapter;
     private GridView gridView;
     private ImageView darkThemeView;
     private Field[] fields;
-    private Integer[] fieldsImages;
-    private Integer[] fieldsBackground;
+    private Drawable[] fieldsImages;
+    private Drawable[] fieldsBackground;
     private Preloader preloader = Preloader.getInstance();
     private Drawable mThumbIds = preloader.getButtonGreeen();
 
@@ -148,8 +148,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.volume = preferencesHelper.getVolume();
         this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(getResources().getString(R.string.authentication))), boardActivity);
         this.fields = game.getBoard().toArray(new Field[0]);
-        this.fieldsImages = new Integer[fields.length];
-        this.fieldsBackground = new Integer[fields.length];
+        this.fieldsImages = new Drawable[fields.length];
+        this.fieldsBackground = new Drawable[fields.length];
         Arrays.fill(fieldsImages, preloader.getZero());
         Arrays.fill(fieldsBackground, mThumbIds);
     }
@@ -210,7 +210,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Converts each textView to viewHolder and sets their background and numbers resources.
      */
     private void prepareGrid() {
-        this.adapter = new ArrayAdapter<Integer>(boardActivity,
+        this.adapter = new ArrayAdapter<Drawable>(boardActivity,
                 android.R.layout.simple_list_item_1, fieldsImages) {
             @NonNull
             @Override
@@ -226,9 +226,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 } else {
                     viewHolder = (ViewHolderItem) convertView.getTag();
                 }
-                viewHolder.textViewItem.setBackgroundResource(fieldsBackground[position]);
+                viewHolder.textViewItem.setBackground(fieldsBackground[position]);
                 viewHolder.imageViewItem.setTag(position);
-                viewHolder.imageViewItem.setImageResource(fieldsImages[position]);
+                viewHolder.imageViewItem.setImageDrawable(fieldsImages[position]);
                 return convertView;
             }
 
@@ -573,55 +573,55 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     fieldsImages[i] = preloader.getZero();
                     break;
                 case 2:
-                    fieldsImages[i] = R.drawable.two;
+                    fieldsImages[i] = preloader.getTwo();
                     break;
                 case 4:
-                    fieldsImages[i] = R.drawable.four;
+                    fieldsImages[i] = preloader.getFour();
                     break;
                 case 8:
-                    fieldsImages[i] = R.drawable.eight;
+                    fieldsImages[i] = preloader.getEight();
                     break;
                 case 16:
-                    fieldsImages[i] = R.drawable.sixteen;
+                    fieldsImages[i] = preloader.getSixteen();
                     break;
                 case 32:
-                    fieldsImages[i] = R.drawable.thirty_two;
+                    fieldsImages[i] = preloader.getThirtyTwo();
                     break;
                 case 64:
-                    fieldsImages[i] = R.drawable.sixty_four;
+                    fieldsImages[i] = preloader.getSixtyFour();
                     break;
                 case 128:
-                    fieldsImages[i] = R.drawable.one_hundred;
+                    fieldsImages[i] = preloader.getOneHundred();
                     break;
                 case 256:
-                    fieldsImages[i] = R.drawable.two_hundred;
+                    fieldsImages[i] = preloader.getTwoHundreds();
                     break;
                 case 512:
-                    fieldsImages[i] = R.drawable.five_hundred;
+                    fieldsImages[i] = preloader.getFiveHundreds();
                     break;
                 case 1024:
-                    fieldsImages[i] = R.drawable.one_thousand;
+                    fieldsImages[i] = preloader.getOneThousand();
                     break;
                 case 2048:
-                    fieldsImages[i] = R.drawable.two_thousands;
+                    fieldsImages[i] = preloader.getTwoThousands();
                     break;
                 case 4096:
-                    fieldsImages[i] = R.drawable.four_thousands;
+                    fieldsImages[i] = preloader.getFourThousands();
                     break;
                 case 8192:
-                    fieldsImages[i] = R.drawable.eight_thousands;
+                    fieldsImages[i] = preloader.getEightThousands();
                     break;
                 case 16384:
-                    fieldsImages[i] = R.drawable.sixteen_thousands;
+                    fieldsImages[i] = preloader.getSixteenThousands();
                     break;
                 case 32768:
-                    fieldsImages[i] = R.drawable.thirty_two_thousands;
+                    fieldsImages[i] = preloader.getThirtyTwoThousands();
                     break;
                 case 65536:
-                    fieldsImages[i] = R.drawable.sixty_five_thousands;
+                    fieldsImages[i] = preloader.getSixtyFiveThousands();
                     break;
                 case 131072:
-                    fieldsImages[i] = R.drawable.one_hundred_thousands;
+                    fieldsImages[i] = preloader.getOneHundredThousands();
                     break;
             }
 
@@ -632,22 +632,18 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Sets field's background based on current field's value.
      */
     private void setFieldsBackground() {
-        int lightGreen = R.drawable.button_green_light;
-        int darkGreen = R.drawable.button_green;
-        int lightBlue = R.drawable.button_blue_light;
-        int darkBlue = R.drawable.button_blue;
         for (int i = 0; i < fields.length; i++) {
             if (fields[i].getValue() == 0) {
                 fieldsBackground[i] = mThumbIds;
             } else {
-                if (mThumbIds == lightGreen) {
-                    fieldsBackground[i] = darkGreen;
-                } else if (mThumbIds == darkGreen) {
-                    fieldsBackground[i] = lightGreen;
-                } else if (mThumbIds == lightBlue) {
-                    fieldsBackground[i] = darkBlue;
-                } else if (mThumbIds == darkBlue) {
-                    fieldsBackground[i] = lightBlue;
+                if (mThumbIds == preloader.getButtonGreeenLight()) {
+                    fieldsBackground[i] = preloader.getButtonGreeen();
+                } else if (mThumbIds ==  preloader.getButtonGreeen()) {
+                    fieldsBackground[i] = preloader.getButtonGreeenLight();
+                } else if (mThumbIds == preloader.getButtonBlueLight()) {
+                    fieldsBackground[i] = preloader.getButtonBlue();
+                } else if (mThumbIds == preloader.getButtonBlue()) {
+                    fieldsBackground[i] = preloader.getButtonBlueLight();
                 }
             }
         }
@@ -947,7 +943,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                darkThemeView.setImageResource(R.drawable.dark_theme_on);
+                                darkThemeView.setImageDrawable(preloader.getDarkThemeOn());
                             }
                         });
                         isDarkTheme = true;
@@ -957,7 +953,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                darkThemeView.setImageResource(R.drawable.dark_theme_off);
+                                darkThemeView.setImageDrawable(preloader.getDarkThemeOff());
                             }
                         });
                         isDarkTheme = false;
@@ -1000,13 +996,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 public void run() {
                     if (pitch > HORIZONTAL_PITCH_MIN && pitch < HORIZONTAL_PITCH_MAX) {
                         if (azimuth >= changeColourAzimunthBreakpoint1 && azimuth < changeColourAzimunthBreakpoint2) {
-                            mThumbIds = R.drawable.button_green;
+                            mThumbIds = preloader.getButtonGreeen();
                         } else if (azimuth >= changeColourAzimunthBreakpoint3 && azimuth < changeColourAzimunthBreakpoint4) {
-                            mThumbIds = R.drawable.button_green_light;
+                            mThumbIds = preloader.getButtonGreeenLight();
                         } else if (azimuth >= -changeColourAzimunthBreakpoint4 && azimuth < -changeColourAzimunthBreakpoint3) {
-                            mThumbIds = R.drawable.button_blue;
+                            mThumbIds = preloader.getButtonBlue();
                         } else if (azimuth > -changeColourAzimunthBreakpoint2 && azimuth < -changeColourAzimunthBreakpoint1) {
-                            mThumbIds = R.drawable.button_blue_light;
+                            mThumbIds = preloader.getButtonBlueLight();
                         }
                         adapter.notifyDataSetChanged();
                     }

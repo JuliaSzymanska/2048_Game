@@ -435,7 +435,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void setMediaPlayer(int id) {
         AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(id);
         try {
-            try{
+            try {
                 mediaPlayer.isPlaying();
             } catch (IllegalStateException e) {
                 this.mediaPlayer.release();
@@ -1051,11 +1051,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     private void restartGame() {
         this.game.restartGame();
-        this.setTextScoreText();
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
-        this.setUndoNumber();
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 
     @Override
@@ -1097,10 +1096,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         // continue to use resources when the app is stopped.
         mSensorManager.unregisterListener(boardActivity);
         this.game.pauseTimer();
-        this.updateTimeThread.interrupt();
+        if (!this.updateTimeThread.isInterrupted()) {
+            this.updateTimeThread.interrupt();
+        }
         this.mediaPlayer.release();
     }
-
 }
 
 

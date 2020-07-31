@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     }
 
     /**
-     * Called when user authentication false.
+     * {@inheritDoc}
      */
     @Override
     public void onAuthenticationCancel() {
@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     }
 
     /**
-     * Pressing back button will close application.
+     * {@inheritDoc}
      */
     @Override
     public void onBackPressed() {
@@ -193,7 +193,8 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     }
 
     /**
-     * On activity stop media player is released.
+     * {@inheritDoc}
+     * Media player is released.
      */
     @Override
     protected void onStop() {

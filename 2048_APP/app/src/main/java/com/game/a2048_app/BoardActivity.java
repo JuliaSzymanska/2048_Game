@@ -127,11 +127,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private MediaPlayer mediaPlayer;
 
     /**
-     * Called when the activity is starting.
-     * Calls methods to load data and prepare views, sensors, buttons.
-     * @param savedInstanceState if the activity is being re-initialized after previously being shut down
-     *                           then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
-     *                           Otherwise is null.
+     * {@inheritDoc}
      */
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -220,11 +216,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.adapter = new ArrayAdapter<Drawable>(boardActivity,
                 android.R.layout.simple_list_item_1, fieldsImages) {
             /**
-             * Displays the data at the specified position in the data set.
-             * @param position The position of the item within the adapter's data set of the item whose view we want.
-             * @param convertView The old view to reuse, if possible.
-             * @param parent The parent that this view will eventually be attached to.
-             * @return A View corresponding to the data at the specified position.
+             * {@inheritDoc}
              */
             @NonNull
             @Override

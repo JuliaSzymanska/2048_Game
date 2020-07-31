@@ -15,9 +15,15 @@ public class PreferencesHelper {
     private static SharedPreferences sharedPreferencesSettings;
     private static SharedPreferences.Editor sharedPreferencesEditor;
 
+    /**
+     * Default class constructor.
+     */
     private PreferencesHelper() {
     }
 
+    /**
+     * @return instance of class.
+     */
     public static PreferencesHelper getInstance() {
         return INSTANCE;
     }
@@ -33,6 +39,10 @@ public class PreferencesHelper {
         }
     }
 
+    /**
+     * Loads if dark theme is on/off and return it.
+     * @return if dark theme is on/off.
+     */
     public boolean getDarkTheme() {
         if (PreferencesHelper.context == null) {
             throw new NullPointerException("Null context. ");
@@ -41,6 +51,9 @@ public class PreferencesHelper {
                 getBoolean(PreferencesHelper.context.getResources().getString(R.string.dark_theme), false);
     }
 
+    /**
+     * @return volume loaded from shared preferences settings.
+     */
     public int getVolume() {
         if (PreferencesHelper.context == null) {
             throw new NullPointerException("Null context. ");
@@ -50,6 +63,9 @@ public class PreferencesHelper {
 
     }
 
+    /**
+     * @return choosen sensors by user loaded from shared preferences settings.
+     */
     public void getChoosenSensors(boolean[] choosenSensors) {
         if (PreferencesHelper.context == null) {
             throw new NullPointerException("Null context. ");
@@ -60,6 +76,10 @@ public class PreferencesHelper {
         }
     }
 
+    /**
+     * Sets setting about dark theme to shared preferences settings.
+     * @param isDarkTheme if dark theme is on/off.
+     */
     public void setDarkTheme(boolean isDarkTheme) {
         if (PreferencesHelper.context == null) {
             throw new NullPointerException("Null context. ");
@@ -68,6 +88,10 @@ public class PreferencesHelper {
         sharedPreferencesEditor.apply();
     }
 
+    /**
+     * Sets volume to shared preferences settings.
+     * @param volume value of application volume.
+     */
     public void setVolume(int volume) {
         if (PreferencesHelper.context == null) {
             throw new NullPointerException("Null context. ");
@@ -76,6 +100,10 @@ public class PreferencesHelper {
         sharedPreferencesEditor.apply();
     }
 
+    /**
+     * Sets choosen sensors to shared preferences settings.
+     * @param choosenSensors user's choosen sensors.
+     */
     public void setChoosenSensors(boolean[] choosenSensors) {
         if (PreferencesHelper.context == null) {
             throw new NullPointerException("Null context. ");

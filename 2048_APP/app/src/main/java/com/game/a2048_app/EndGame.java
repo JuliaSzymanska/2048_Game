@@ -32,12 +32,7 @@ public class EndGame extends AppCompatActivity {
     private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
     /**
-     * Called when the activity is starting.
-     * Loads theme, score and high score passed by previous activity.
-     * Sets buttons id.
-     * @param savedInstanceState if the activity is being re-initialized after previously being shut down
-     *      *                           then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
-     *      *                           Otherwise is null.
+     * {@inheritDoc}
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +49,7 @@ public class EndGame extends AppCompatActivity {
     }
 
     /**
-     * Calls method to set TextVIew texts.
+     * Calls method to set TextView texts.
      */
     private void loadData() {
         boolean isDarkTheme = preferencesHelper.getDarkTheme();
@@ -126,7 +121,8 @@ public class EndGame extends AppCompatActivity {
     }
 
     /**
-     * On activity stop media player is released.
+     * {@inheritDoc}
+     * Media player is released.
      */
     @Override
     protected void onStop() {

@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         loadData();
     }
 
-    public static boolean isFingerPrintSensorAvailable(Context context) {
+    private boolean isFingerPrintSensorAvailable(Context context) {
         FingerprintManager manager = (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
         return (manager != null && manager.isHardwareDetected() && manager.hasEnrolledFingerprints());
     }

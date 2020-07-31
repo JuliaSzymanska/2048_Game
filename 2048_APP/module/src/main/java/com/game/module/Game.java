@@ -6,6 +6,8 @@ import androidx.annotation.Nullable;
 
 import com.game.module.dao.Dao;
 import com.game.module.dao.GameSaveDaoFactory;
+import com.game.module.exceptions.GameOverException;
+import com.game.module.exceptions.GoalAchievedException;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

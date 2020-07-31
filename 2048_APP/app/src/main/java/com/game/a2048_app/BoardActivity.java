@@ -34,8 +34,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.module.Field;
 import com.game.module.Game;
-import com.game.module.GameOverException;
-import com.game.module.GoalAchievedException;
+import com.game.module.exceptions.GameOverException;
+import com.game.module.exceptions.GoalAchievedException;
 
 import java.io.IOException;
 import java.util.ArrayList;

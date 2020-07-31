@@ -311,7 +311,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener restartGameListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            restartGameButton.setBackground(preloader.getButtonRestartGameClicked());
+            restartGameButton.setBackground(preloader.getMainButtonClicked());
             setMediaPlayer(R.raw.restart);
             restartGame();
         }

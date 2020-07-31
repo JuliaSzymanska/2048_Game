@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.a2048_app.helpers.PreferencesHelper;
+import com.game.a2048_app.helpers.Preloader;
 
 import me.aflak.libraries.callback.FingerprintDialogCallback;
 import me.aflak.libraries.dialog.FingerprintDialog;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private Button startGameButton;
     private int volume = 1;
     MediaPlayer mediaPlayer;
+    private Preloader preloader = Preloader.getInstance();
     private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
 
@@ -69,9 +71,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private void setTheme(boolean isDarkTheme) {
         ImageView darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         if (isDarkTheme) {
-            darkThemeView.setImageResource(R.drawable.dark_theme_on);
+            darkThemeView.setImageDrawable(preloader.getDarkThemeOn());
         } else {
-            darkThemeView.setImageResource(R.drawable.dark_theme_off);
+            darkThemeView.setImageDrawable(preloader.getDarkThemeOff());
         }
     }
 
@@ -122,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            startGameButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
+            startGameButton.setBackground(preloader.getMainButtonClicked());
             mediaPlayer = MediaPlayer.create(mainActivity, R.raw.decline_call);
             mediaPlayer.setVolume(volume, volume);
             mediaPlayer.start();
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    startGameButton.setBackgroundResource(R.drawable.main_activity_button);
+                    startGameButton.setBackground(preloader.getMainButton());
                 }
 
             });

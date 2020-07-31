@@ -50,7 +50,7 @@
     <Button
         android:id="@+id/startGameButton"
         style="@android:style/Widget.Material.Light.Button"
-        android:background="@drawable/main_activity_button"
+        android:background="@drawable/main_button"
         android:fadingEdge="horizontal"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/start_game"

@@ -46,7 +46,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="624dp"
-        android:background="@drawable/main_activity_button"
+        android:background="@drawable/main_button"
         android:fadingEdge="horizontal"
         android:fontFamily="sans-serif-condensed-medium"
         android:paddingHorizontal="20dp"

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.a2048_app.helpers.PreferencesHelper;
+import com.game.a2048_app.helpers.Preloader;
 
 public class EndGame extends AppCompatActivity {
 
@@ -31,6 +32,7 @@ public class EndGame extends AppCompatActivity {
     private EndGame endgame = this;
     private Button homePageButton;
     MediaPlayer mediaPlayer;
+    private Preloader preloader = Preloader.getInstance();
     private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
     /**
@@ -69,9 +71,9 @@ public class EndGame extends AppCompatActivity {
     private void setTheme(boolean isDarkTheme) {
         ImageView darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         if (isDarkTheme) {
-            darkThemeView.setImageResource(R.drawable.dark_theme_on);
+            darkThemeView.setImageDrawable(preloader.getDarkThemeOn());
         } else {
-            darkThemeView.setImageResource(R.drawable.dark_theme_off);
+            darkThemeView.setImageDrawable(preloader.getDarkThemeOff());
         }
     }
 
@@ -100,7 +102,7 @@ public class EndGame extends AppCompatActivity {
     private View.OnClickListener initializeMainActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            homePageButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
+            homePageButton.setBackground(preloader.getMainButtonClicked());
             mediaPlayer = MediaPlayer.create(endgame, R.raw.slide_activities);
             int volume = preferencesHelper.getVolume();
             mediaPlayer.setVolume(volume, volume);
@@ -109,7 +111,7 @@ public class EndGame extends AppCompatActivity {
 
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    homePageButton.setBackgroundResource(R.drawable.main_activity_button);
+                    homePageButton.setBackground(preloader.getMainButton());
                 }
 
             });

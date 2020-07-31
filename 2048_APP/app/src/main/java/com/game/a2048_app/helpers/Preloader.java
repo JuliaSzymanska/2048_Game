@@ -18,7 +18,8 @@ public class Preloader {
     private Drawable buttonGreeenLight;
     private Drawable buttonBlue;
     private Drawable buttonBlueLight;
-    private Drawable buttonRestartGameClicked;
+    private Drawable mainButtonClicked;
+    private Drawable mainButton;
     private Drawable setttingsClicked;
     private Drawable setttings;
     private Drawable undoClicked;
@@ -61,7 +62,8 @@ public class Preloader {
         this.buttonGreeenLight = context.getDrawable(R.drawable.button_green_light);
         this.buttonBlue = context.getDrawable(R.drawable.button_blue);
         this.buttonBlueLight = context.getDrawable(R.drawable.button_blue_light);
-        this.buttonRestartGameClicked = context.getDrawable(R.drawable.main_activity_button_clicked);
+        this.mainButtonClicked = context.getDrawable(R.drawable.main_button_clicked);
+        this.mainButton = context.getDrawable(R.drawable.main_button);
         this.setttingsClicked = context.getDrawable(R.drawable.settings_clicked);
         this.setttings = context.getDrawable(R.drawable.settings);
         this.undoClicked = context.getDrawable(R.drawable.undo_clicked);
@@ -144,10 +146,13 @@ public class Preloader {
         return buttonGreeen;
     }
 
-    public Drawable getButtonRestartGameClicked() {
-        return buttonRestartGameClicked;
+    public Drawable getMainButtonClicked() {
+        return mainButtonClicked;
     }
 
+    public Drawable getMainButton() {
+        return mainButton;
+    }
 
     public Drawable getTwo() {
         return two;

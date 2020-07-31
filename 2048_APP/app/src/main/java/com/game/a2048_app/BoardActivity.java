@@ -32,10 +32,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.module.Field;
 import com.game.module.Game;
-import com.game.module.GameOverException;
-import com.game.module.GoalAchievedException;
+import com.game.module.exceptions.GameOverException;
+import com.game.module.exceptions.GoalAchievedException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -106,7 +107,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
 
-    private final static double ANIM_SPEED_SECONDS = 0.15;
+    private final static double ANIM_SPEED_SECONDS = 0.2;
 
     public final static int MOVE_UP = Game.MOVE_UP;
     public final static int MOVE_RIGHT = Game.MOVE_RIGHT;
@@ -116,7 +117,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private boolean hasMoved = false;
 
     private boolean isDarkTheme = false;
-    private int volume = 1;
+    private int volume;
     private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
     private BoardActivity boardActivity = this;
@@ -132,7 +133,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
         this.loadData();
-        this.initMediaPlayer();
         this.prepareViews();
         this.prepareSensors();
     }
@@ -172,24 +172,33 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.gridView = (GridView) findViewById(R.id.gridView);
         this.prepareGrid();
         this.setupSwipeListener();
+
         this.textTime = (TextView) findViewById(R.id.time);
         this.prepareScoreText();
         this.prepareHighscoreText();
+
         this.restartGameButton = (Button) findViewById(R.id.restartGameButton);
         this.restartGameButton.setOnClickListener(restartGameListener);
+
         this.settingsButton = (Button) findViewById(R.id.settingsButton);
         this.settingsButton.setOnClickListener(settingsListener);
+
         this.undoButton = (Button) findViewById(R.id.undoMoveButton);
         this.undoButton.setOnClickListener(undoListener);
+
         this.pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
         this.pausePlayButton.setOnClickListener(playPauseListener);
+
         this.muteButton = (Button) findViewById(R.id.muteButton);
         this.muteButton.setOnClickListener(muteListener);
-        this.setMuteSettings();
+        this.setMuteButtonImage();
+
         this.darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         this.setTheme();
+
         this.undoTextView = (TextView) findViewById(R.id.undoTextView);
         this.setUndoNumber();
+
         this.adapter.notifyDataSetChanged();
     }
 
@@ -274,7 +283,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     void setTextScoreText() {
         textScore.setText(String.format("%s:\n%s", getResources().getString(R.string.score), game.getScore()));
-
     }
 
     /**
@@ -304,7 +312,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             restartGameButton.setBackgroundResource(R.drawable.main_activity_button_clicked);
             setMediaPlayer(R.raw.restart);
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     restartGameButton.setBackgroundResource(R.drawable.main_activity_button);
@@ -422,7 +429,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 throw new IllegalArgumentException("Argument value should be 0 or 1");
             }
             preferencesHelper.setVolume(volume);
-            setMuteSettings();
+            try {
+                setMuteSettings();
+            } catch (IllegalStateException | NullPointerException e) {
+                e.printStackTrace();
+                initMediaPlayer();
+                setMuteSettings();
+            }
         }
     };
 
@@ -434,11 +447,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void setMediaPlayer(int id) {
         AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(id);
         try {
-            try{
+            try {
                 mediaPlayer.isPlaying();
             } catch (IllegalStateException e) {
                 this.mediaPlayer.release();
                 this.initMediaPlayer();
+                this.setMuteSettings();
             }
             this.mediaPlayer.reset();
             this.mediaPlayer.setDataSource(assetFileDescriptor);
@@ -450,10 +464,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
-     * Sets volume level - mute or unmute.
-     * Changes button's image.
+     * Sets the appropriate mute button's image
      */
-    private void setMuteSettings() {
+    private void setMuteButtonImage() {
         if (volume == 1) {
             muteButton.setBackgroundResource(R.drawable.mute_off);
         } else if (volume == 0) {
@@ -461,6 +474,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         } else {
             throw new IllegalArgumentException("Argument value should be 0 or 1");
         }
+    }
+
+    /**
+     * Sets volume level - mute or unmute.
+     * Changes button's image.
+     */
+    private void setMuteSettings() {
+        setMuteButtonImage();
         mediaPlayer.setVolume(volume, volume);
     }
 
@@ -540,6 +561,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void setFieldsImagesToZeros() {
         for (int i = 0; i < fields.length; i++) {
             fieldsImages[i] = R.drawable.zero;
+            fieldsBackground[i] = mThumbIds;
         }
     }
 
@@ -679,35 +701,16 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         List<Field> fieldsCopies = game.getCopyOfTheBoard();
         try {
             game.move(direction);
-            this.makeAnimation(fieldsCopies, direction);
         } catch (GameOverException e) {
             e.printStackTrace();
             changeToEndActivity();
         } catch (GoalAchievedException e) {
             e.printStackTrace();
-            makeAnimation(fieldsCopies, direction);
             goalAchieved();
         }
+        this.animate(fieldsCopies, direction);
         this.setScoreTexts();
         setUndoNumber();
-    }
-
-    /**
-     * Calls appropriate base on direction of movement.
-     *
-     * @param fieldsCopies
-     * @param direction
-     */
-    private void makeAnimation(List<Field> fieldsCopies, int direction) {
-        if (direction == MOVE_UP) {
-            animationUP(fieldsCopies);
-        } else if (direction == MOVE_DOWN) {
-            animationDown(fieldsCopies);
-        } else if (direction == MOVE_LEFT) {
-            animationLeft(fieldsCopies);
-        } else if (direction == MOVE_RIGHT) {
-            animationRight(fieldsCopies);
-        }
     }
 
     // TODO: 29.07.2020 zrob tutaj ladne javadoci
@@ -739,6 +742,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         return translateAnimation;
     }
 
+
     private void startAnimation(List<Field> fieldCopies, List<TranslateAnimation> translateAnimationList) {
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
             if (fieldCopies.get(i).getValue() != 0) {
@@ -751,70 +755,38 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         setFieldsImagesToZeros();
     }
 
-    private void animationDown(List<Field> fieldCopies) {
-        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
-        List<Integer> amountsMoved = this.game.getAmountMovedList();
-        for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
-            this.gridView.setZ(i);
-            if (fieldCopies.get(i).getValue() != 0) {
-                View viewBeingAnimated = this.gridView.getChildAt(i);
-                View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i) * 4);
-                translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
-            } else {
-                // TODO: 28.07.2020 zrobiłem tak, że żeby nie potrzebnych animacji nie
-                //  obliczać tylko jeżeli jest to klocek którego nie animujemy to dodać mu null
-                //  chciałbym jeszcze sprawdzać czy animacja jest 'pusta' i jej też nie robić ani nie animować
-                //  może to jakoś sensownie wystarczająco przyśpieszy dzialanie
-                translateAnimationList.add(null);
-            }
+    private View getViewBeingAnimatedTo(int direction, int viewBeingAnimatedIndex, int amountMoved) {
+        View returnView;
+        switch (direction) {
+            case Game.MOVE_RIGHT:
+                returnView = this.gridView.getChildAt(viewBeingAnimatedIndex + amountMoved);
+                break;
+            case Game.MOVE_DOWN:
+                returnView = this.gridView.getChildAt(viewBeingAnimatedIndex + amountMoved * 4);
+                break;
+            case Game.MOVE_LEFT:
+                returnView = this.gridView.getChildAt(viewBeingAnimatedIndex - amountMoved);
+                break;
+            case Game.MOVE_UP:
+                returnView = this.gridView.getChildAt(viewBeingAnimatedIndex - amountMoved * 4);
+                break;
+            default:
+                throw new IllegalArgumentException("Value can only be equal to 0, 1, 2 or 3");
         }
-        Collections.reverse(translateAnimationList);
-        startAnimation(fieldCopies, translateAnimationList);
+        return returnView;
     }
 
-    private void animationUP(List<Field> fieldCopies) {
+    private void animate(List<Field> fieldCopies, int direction) {
         List<TranslateAnimation> translateAnimationList = new ArrayList<>();
         List<Integer> amountsMoved = this.game.getAmountMovedList();
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
-            this.gridView.setZ(i);
             if (fieldCopies.get(i).getValue() != 0) {
                 View viewBeingAnimated = this.gridView.getChildAt(i);
-                View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i) * 4);
+                View viewBeingAnimatedTo =  getViewBeingAnimatedTo(direction, i, amountsMoved.get(i));
                 translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
             } else {
                 translateAnimationList.add(null);
             }
-        }
-        startAnimation(fieldCopies, translateAnimationList);
-    }
-
-    private void animationLeft(List<Field> fieldCopies) {
-        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
-        List<Integer> amountsMoved = this.game.getAmountMovedList();
-        for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
-            this.gridView.setZ(i);
-            if (fieldCopies.get(i).getValue() != 0) {
-                View viewBeingAnimated = this.gridView.getChildAt(i);
-                View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i));
-                translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
-            } else {
-                translateAnimationList.add(null);
-            }
-        }
-        Collections.reverse(translateAnimationList);
-        startAnimation(fieldCopies, translateAnimationList);
-    }
-
-    private void animationRight(List<Field> fieldCopies) {
-        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
-        List<Integer> amountsMoved = this.game.getAmountMovedList();
-        for (int i = 0; i < this.gridView.getChildCount(); i++) {
-            this.gridView.setZ(i);
-            if (fieldCopies.get(i).getValue() != 0) {
-                View viewBeingAnimated = this.gridView.getChildAt(i);
-                View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i));
-                translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
-            } else translateAnimationList.add(null);
         }
         startAnimation(fieldCopies, translateAnimationList);
     }
@@ -840,6 +812,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         dialog.show();
     }
 
+
     /**
      * Changes current activity to EndGameActivity.
      * Saves score, high score and user authentication to next activity.
@@ -850,7 +823,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
         i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
         startActivity(i);
-        // FIXME: 23.07.2020 TO JEST TAKIE XD ale no działa i dzięki temu się nie psuje display po koncu gry xD
         this.adapter = null;
         restartGame();
     }
@@ -1050,11 +1022,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     private void restartGame() {
         this.game.restartGame();
-        this.setTextScoreText();
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
-        this.setUndoNumber();
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 
     @Override
@@ -1096,10 +1067,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         // continue to use resources when the app is stopped.
         mSensorManager.unregisterListener(boardActivity);
         this.game.pauseTimer();
-        this.updateTimeThread.interrupt();
+        if (!this.updateTimeThread.isInterrupted()) {
+            this.updateTimeThread.interrupt();
+        }
         this.mediaPlayer.release();
     }
-
 }
 
 

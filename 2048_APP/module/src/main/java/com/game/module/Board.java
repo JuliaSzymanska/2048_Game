@@ -1,5 +1,8 @@
 package com.game.module;
 
+import com.game.module.exceptions.GameOverException;
+import com.game.module.exceptions.GoalAchievedException;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 

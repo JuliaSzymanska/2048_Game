@@ -1,4 +1,4 @@
-package com.game.module;
+package com.game.module.exceptions;
 
 public class GoalAchievedException extends Exception {
 

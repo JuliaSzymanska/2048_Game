@@ -11,12 +11,10 @@ import com.game.module.Game;
 
 public class OnSwipeTouchListener implements View.OnTouchListener {
     private final GestureDetector gestureDetector;
-    private Context context;
 
     OnSwipeTouchListener(Context ctx, View mainView) {
         gestureDetector = new GestureDetector(ctx, new GestureListener());
         mainView.setOnTouchListener(this);
-        context = ctx;
     }
 
     @Override

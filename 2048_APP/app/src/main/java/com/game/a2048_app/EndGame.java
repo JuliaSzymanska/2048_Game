@@ -10,15 +10,20 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.a2048_app.helpers.PreferencesHelper;
+
 public class EndGame extends AppCompatActivity {
 
     // TODO: 23.07.2020  Nasze work list:
     //  - javaDoc
     //  - testy testy testy (jeden jest prawdkopodobnie zepsuty, dodać testy do tego co dzisiaj zrobiłem)
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
-    //  - wywalić moje zmiany w animacji i poprawic to jak działa animacja
-    //  - jak wyjde z apki i wejde jeszcze raz nie zamykając jej i będąc w activity gry, resetuje się głośność na 1,
-    //  podczas gdy przycisk wyciszenia wskazuje wyciszenie - trzeba by załadować poprzednią głośność
+    //  - próbowałem zrobić żeby animacje się przerywały - co prawda udało się, ale następna animacja zostawała pominięta, l
+    //      lub odtwarzała się, ale dokonany ruch już się wyświetlał, a przesuwały się puste klocki, nie umiem tego naprawić, zostawiam blokadę
+    //  - poprawić dzialanie czujnikow - wywoluja notifyDatasetChanged(), co jesli wywola sie w trakcie animacji to psuje animacje
+    //      ^ chyba trzeba dodać sprawdzanie czy aktualnie jest wylaczony dostep do ekrantu (ta flaga zabraniajaca ruchu), i jesli jest to nie pozwolic
+    //      datasetchanged na dzialanie
+    //  - problem z zacinaniem sie, - https://stackoverflow.com/a/9814353 moze cos takiego
 
     private String score;
     private String highScore;

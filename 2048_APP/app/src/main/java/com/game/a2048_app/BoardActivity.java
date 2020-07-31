@@ -234,9 +234,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
             @Override
             public void notifyDataSetChanged() {
-                setFieldsImages();
-                setFieldsBackground();
-                super.notifyDataSetChanged();
+                if ((getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE) == 0) {
+                    setFieldsImages();
+                    setFieldsBackground();
+                    super.notifyDataSetChanged();
+                }
             }
         };
         gridView.setAdapter(adapter);
@@ -442,7 +444,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void setMediaPlayer(int id) {
         AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(id);
         try {
-            if(this.mediaPlayer == null){
+            if (this.mediaPlayer == null) {
                 this.initMediaPlayer();
             }
             try {
@@ -638,7 +640,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             } else {
                 if (mThumbIds == preloader.getButtonGreeenLight()) {
                     fieldsBackground[i] = preloader.getButtonGreeen();
-                } else if (mThumbIds ==  preloader.getButtonGreeen()) {
+                } else if (mThumbIds == preloader.getButtonGreeen()) {
                     fieldsBackground[i] = preloader.getButtonGreeenLight();
                 } else if (mThumbIds == preloader.getButtonBlueLight()) {
                     fieldsBackground[i] = preloader.getButtonBlue();
@@ -776,7 +778,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
             if (fieldCopies.get(i).getValue() != 0) {
                 View viewBeingAnimated = this.gridView.getChildAt(i);
-                View viewBeingAnimatedTo =  getViewBeingAnimatedTo(direction, i, amountsMoved.get(i));
+                View viewBeingAnimatedTo = getViewBeingAnimatedTo(direction, i, amountsMoved.get(i));
                 translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
             } else {
                 translateAnimationList.add(null);

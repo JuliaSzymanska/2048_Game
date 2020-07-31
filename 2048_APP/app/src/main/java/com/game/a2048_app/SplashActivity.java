@@ -50,16 +50,14 @@ public class SplashActivity extends AppCompatActivity {
         }
     };
 
-    // król nazewnictwa
-    private Thread waitForLoadImagesThreadThread;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.loadImagesThread = new Thread(this.loadImagesRunnable);
         this.loadImagesThread.start();
-        this.waitForLoadImagesThreadThread = new Thread(this.waitForLoadImagesThreadRunnable);
-        this.waitForLoadImagesThreadThread.start();
+        // król nazewnictwa
+        Thread waitForLoadImagesThreadThread = new Thread(this.waitForLoadImagesThreadRunnable);
+        waitForLoadImagesThreadThread.start();
     }
 }

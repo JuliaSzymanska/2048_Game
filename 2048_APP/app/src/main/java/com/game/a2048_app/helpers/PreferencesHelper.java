@@ -1,8 +1,10 @@
-package com.game.a2048_app;
+package com.game.a2048_app.helpers;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.game.a2048_app.R;
 
 // TODO: 27.07.2020 FINISH ME
 

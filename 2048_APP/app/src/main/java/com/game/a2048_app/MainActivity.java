@@ -14,6 +14,8 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.a2048_app.helpers.PreferencesHelper;
+
 import me.aflak.libraries.callback.FingerprintDialogCallback;
 import me.aflak.libraries.dialog.FingerprintDialog;
 

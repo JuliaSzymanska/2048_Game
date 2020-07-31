@@ -37,7 +37,7 @@ public class Game {
     public final static int MOVE_LEFT = 3;
 
     private final static String GAME_SAVE_NAME = "GameSave";
-    private final static int SAVE_GAME_DELAY_SECONDS = 2;
+    private final static int SAVE_GAME_DELAY_SECONDS = 5;
 
     private Thread saveGameBackgroundThread;
 
@@ -59,7 +59,7 @@ public class Game {
                 this.startNewGame();
             }
         }
-        saveGameBackgroundThread = new Thread(this.saveGameBackgroundRunnable);
+        this.saveGameBackgroundThread = new Thread(this.saveGameBackgroundRunnable);
     }
 
     /**

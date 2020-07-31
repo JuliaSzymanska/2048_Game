@@ -32,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.exceptions.GameOverException;

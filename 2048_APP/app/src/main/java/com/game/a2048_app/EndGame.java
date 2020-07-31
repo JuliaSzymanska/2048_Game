@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.a2048_app.helpers.PreferencesHelper;
+
 public class EndGame extends AppCompatActivity {
 
     // TODO: 23.07.2020  Nasze work list:

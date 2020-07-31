@@ -679,35 +679,16 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         List<Field> fieldsCopies = game.getCopyOfTheBoard();
         try {
             game.move(direction);
-            this.makeAnimation(fieldsCopies, direction);
         } catch (GameOverException e) {
             e.printStackTrace();
             changeToEndActivity();
         } catch (GoalAchievedException e) {
             e.printStackTrace();
-            makeAnimation(fieldsCopies, direction);
             goalAchieved();
         }
+        this.animate(fieldsCopies, direction);
         this.setScoreTexts();
         setUndoNumber();
-    }
-
-    /**
-     * Calls appropriate base on direction of movement.
-     *
-     * @param fieldsCopies
-     * @param direction
-     */
-    private void makeAnimation(List<Field> fieldsCopies, int direction) {
-        if (direction == MOVE_UP) {
-            animationUp(fieldsCopies);
-        } else if (direction == MOVE_DOWN) {
-            animationDown(fieldsCopies);
-        } else if (direction == MOVE_LEFT) {
-            animationLeft(fieldsCopies);
-        } else if (direction == MOVE_RIGHT) {
-            animationRight(fieldsCopies);
-        }
     }
 
     // TODO: 29.07.2020 zrob tutaj ladne javadoci
@@ -754,61 +735,34 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         setFieldsImagesToZeros();
     }
 
-    private void animationDown(List<Field> fieldCopies) {
-        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
-        List<Integer> amountsMoved = this.game.getAmountMovedList();
-        for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
-            if (fieldCopies.get(i).getValue() != 0) {
-                View viewBeingAnimated = this.gridView.getChildAt(i);
-                View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i) * 4);
-                translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
-            } else { ;
-                translateAnimationList.add(null);
-            }
+    private View getViewBeingAnimatedTo(int direction, int viewBeingAnimatedIndex, int amountMoved) {
+        View returnView;
+        switch (direction) {
+            case Game.MOVE_RIGHT:
+                returnView = this.gridView.getChildAt(viewBeingAnimatedIndex + amountMoved);
+                break;
+            case Game.MOVE_DOWN:
+                returnView = this.gridView.getChildAt(viewBeingAnimatedIndex + amountMoved * 4);
+                break;
+            case Game.MOVE_LEFT:
+                returnView = this.gridView.getChildAt(viewBeingAnimatedIndex - amountMoved);
+                break;
+            case Game.MOVE_UP:
+                returnView = this.gridView.getChildAt(viewBeingAnimatedIndex - amountMoved * 4);
+                break;
+            default:
+                throw new IllegalArgumentException("Value can only be equal to 0, 1, 2 or 3");
         }
-        Collections.reverse(translateAnimationList);
-        startAnimation(fieldCopies, translateAnimationList);
+        return returnView;
     }
 
-
-    private void animationUp(List<Field> fieldCopies) {
-        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
-        List<Integer> amountsMoved = this.game.getAmountMovedList();
-        for (int i = 0; i < this.gridView.getChildCount(); i++) {
-            if (fieldCopies.get(i).getValue() != 0) {
-                View viewBeingAnimated = this.gridView.getChildAt(i);
-                View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i) * 4);
-                translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
-            } else {
-                translateAnimationList.add(null);
-            }
-        }
-        startAnimation(fieldCopies, translateAnimationList);
-    }
-
-    private void animationLeft(List<Field> fieldCopies) {
-        List<TranslateAnimation> translateAnimationList = new ArrayList<>();
-        List<Integer> amountsMoved = this.game.getAmountMovedList();
-        for (int i = this.gridView.getChildCount() - 1; i >= 0; i--) {
-            if (fieldCopies.get(i).getValue() != 0) {
-                View viewBeingAnimated = this.gridView.getChildAt(i);
-                View viewBeingAnimatedTo = this.gridView.getChildAt(i - amountsMoved.get(i));
-                translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
-            } else {
-                translateAnimationList.add(null);
-            }
-        }
-        Collections.reverse(translateAnimationList);
-        startAnimation(fieldCopies, translateAnimationList);
-    }
-
-    private void animationRight(List<Field> fieldCopies) {
+    private void animate(List<Field> fieldCopies, int direction) {
         List<TranslateAnimation> translateAnimationList = new ArrayList<>();
         List<Integer> amountsMoved = this.game.getAmountMovedList();
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
             if (fieldCopies.get(i).getValue() != 0) {
                 View viewBeingAnimated = this.gridView.getChildAt(i);
-                View viewBeingAnimatedTo = this.gridView.getChildAt(i + amountsMoved.get(i));
+                View viewBeingAnimatedTo =  getViewBeingAnimatedTo(direction, i, amountsMoved.get(i));
                 translateAnimationList.add(prepareTranslateAnimation(viewBeingAnimated, viewBeingAnimatedTo));
             } else {
                 translateAnimationList.add(null);
@@ -816,6 +770,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
         startAnimation(fieldCopies, translateAnimationList);
     }
+
+
 
     /**
      * If the game's goal is achieved, the dialog is shown asking whether the user wants to continue the game or end it.

@@ -180,7 +180,7 @@ public class Game {
     }
 
     /**
-     * Saves game using DAO.
+     * Saves game calling {@link com.game.module.dao.Dao#write(Object, Object, Object)}.
      */
     private void saveGame() {
         if (this.context != null && this.isUserAuthenticated) {
@@ -211,7 +211,7 @@ public class Game {
     }
 
     /**
-     * Loads game using DAO.
+     * Loads game using {@link Dao#read()}.
      * @throws LoadException when loading encounters a problem.
      */
     public void loadGame() throws LoadException {
@@ -230,6 +230,7 @@ public class Game {
 
     /**
      * Check if current score is higher than current high score, if yes high score is updated to current score.
+     * To get current score calls {@link Board#getScore()} method.
      */
     private void updateHighscore() {
         if (this.gameBoard.getScore() > this.highScore && this.isUserAuthenticated) {
@@ -238,7 +239,7 @@ public class Game {
     }
 
     /**
-     * Starts new game. Board and time are reset.
+     * Starts new game by calling {@link Board#restartGame()}. Time is reset.
      */
     public void startNewGame() {
         this.gameBoard.restartGame();
@@ -247,7 +248,7 @@ public class Game {
     }
 
     /**
-     * Calls method to start new game and saves current state if user is authenticated.
+     * Calls method to start new game ({@link Game#startNewGame()}) and saves current state if user is authenticated.
      */
     public void restartGame() {
         this.startNewGame();

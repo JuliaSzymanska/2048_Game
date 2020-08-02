@@ -387,15 +387,16 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             undoButton.setBackground(preloader.getUndoClicked());
-            setMediaPlayer(R.raw.undo);
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            setMediaPlayer(R.raw.undo,
+                    new MediaPlayer.OnCompletionListener() {
 
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    setUndoNumber();
-                }
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            setUndoNumber();
+                            mediaPlayer.release();
+                        }
 
-            });
+                    });
             game.undoPreviousMove();
             adapter.notifyDataSetChanged();
             setScoreTexts();
@@ -439,18 +440,20 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 setMuteSettings();
             } catch (IllegalStateException | NullPointerException e) {
                 e.printStackTrace();
-                initMediaPlayer();
-                setMuteSettings();
             }
         }
     };
+
+    private void setMediaPlayer(int id) {
+        setMediaPlayer(id, this.onCompletionListener);
+    }
 
     /**
      * Sets Media Player sound to param and play it.
      *
      * @param id id of sound in resources.
      */
-    private void setMediaPlayer(int id) {
+    private void setMediaPlayer(int id, MediaPlayer.OnCompletionListener onCompletion) {
         AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(id);
         try {
             if (this.mediaPlayer == null) {
@@ -467,10 +470,18 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             this.mediaPlayer.setDataSource(assetFileDescriptor);
             this.mediaPlayer.prepare();
             this.mediaPlayer.start();
+            this.mediaPlayer.setOnCompletionListener(onCompletion);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            mediaPlayer.release();
+        }
+    };
 
     /**
      * Sets the appropriate mute button's image
@@ -1067,7 +1078,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
-     * On activity stop media player is released, game is paused and updating time is stopped.
+     * On activity stop game is paused and updating time is stopped.
      */
     @Override
     protected void onStop() {
@@ -1079,7 +1090,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         if (!this.updateTimeThread.isInterrupted()) {
             this.updateTimeThread.interrupt();
         }
-        this.mediaPlayer.release();
     }
 }
 

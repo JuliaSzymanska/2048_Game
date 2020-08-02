@@ -106,6 +106,7 @@ public class EndGame extends AppCompatActivity {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     homePageButton.setBackground(preloader.getMainButton());
+                    mediaPlayer.release();
                 }
 
             });
@@ -122,12 +123,10 @@ public class EndGame extends AppCompatActivity {
 
     /**
      * {@inheritDoc}
-     * Media player is released.
      */
     @Override
     protected void onStop() {
         super.onStop();
-        this.mediaPlayer.release();
     }
 
 }

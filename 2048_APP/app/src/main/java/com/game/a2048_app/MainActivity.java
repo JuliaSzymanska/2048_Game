@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     startGameButton.setBackground(preloader.getMainButton());
+                    mediaPlayer.release();
                 }
 
             });
@@ -226,14 +227,10 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     /**
      * {@inheritDoc}
-     * Media player is released.
      */
     @Override
     protected void onStop() {
         super.onStop();
-        if (this.mediaPlayer != null) {
-            this.mediaPlayer.release();
-        }
     }
 }
 

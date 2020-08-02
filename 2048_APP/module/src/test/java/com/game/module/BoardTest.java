@@ -61,24 +61,24 @@ public class BoardTest {
     private List<Integer> gameOverIntegers = new ArrayList<Integer>() {
         {
             add(2);
+            add(4);
             add(2);
-            add(2);
-            add(2);
+            add(4);
 
             add(4);
+            add(2);
             add(4);
-            add(4);
-            add(4);
-
-            add(8);
-            add(8);
-            add(8);
-            add(8);
+            add(2);
 
             add(16);
-            add(16);
-            add(16);
-            add(16);
+            add(32);
+            add(64);
+            add(128);
+
+            add(2);
+            add(4);
+            add(2);
+            add(4);
         }
     };
 
@@ -477,6 +477,47 @@ public class BoardTest {
         Board board2 = new Board();
         if (board1.hashCode() != board2.hashCode())
             assertNotEquals(board1, board2);
+    }
+
+    private List<Integer> moveUpAmountsMoved = new ArrayList<Integer>() {
+        {
+            add(0);
+            add(0);
+            add(0);
+            add(0);
+
+            add(1);
+            add(0);
+            add(1);
+            add(0);
+
+            add(2);
+            add(2);
+            add(1);
+            add(2);
+
+            add(0);
+            add(0);
+            add(1);
+            add(0);
+        }
+    };
+
+    @Test
+    public void amountMovedTest() {
+        Board board = new Board(integers);
+        try {
+            board.moveUp();
+        } catch (GameOverException | GoalAchievedException ignore) {
+            Assert.fail();
+        }
+        int counter = 0;
+        for (Pair<Integer, Integer> item : zip(moveUpAmountsMoved, board.getAmountMovedList())) {
+            if(integers.get(counter) != 0) {
+                Assert.assertEquals(item.getLeft(), item.getRight());
+            }
+            counter++;
+        }
     }
 
 }

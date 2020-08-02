@@ -529,22 +529,27 @@ public class Board implements Serializable {
     }
 
     /**
-     * @return list with amount of moves.
+     * @return 1d list of Integers. Indexes of the list correspond with indexes in {@link Board#board}.
+     * Each integer in the list reflects the amount the corresponding field in {@link Board#board} was moved in the previous move.
      */
     List<Integer> getAmountMovedList() {
         return amountMovedList;
     }
 
     /**
-     * Removes zeros before others values.
-     *
-     * @param fieldsList 2d list of fields in board as rows or columns.
+     * This method is responsible for moving rows or columns,
+     * where after all possible fields have already been combined there still remain fields,
+     * that have not been moved the maximum possible distance (so there are fields with value '0', or in other words empty fields
+     * left between the fields and their expected destinations).
+     * This method also does part of the work of counting the amount the Board's fields moved in each move.
+     * @param fieldsList list of fields, of size equal to {@link Board#BOARD_DIMENSIONS}.
+     * @see {@link Board#moveFieldsPositions(List, int, List)}
      */
     // TODO: 25.07.2020 przy kazdym przejsciu algorytmu, wykonaniu ruchu, należy zinkrementować int na pozycjach na których się przesuneły pola usuwajac zero.
     //  Ostatecznie dla pól na których były 0 resetujemy int
     private void removeZerosInMove(List<Field> fieldsList, List<Integer> moveCountList) {
         int countMoves = countZerosToDelete(fieldsList);
-        // TODO: 26.07.2020 tutaj jest sprawdzanie o ile się ruszyło
+
         for (int i = 1; i < fieldsList.size(); i++) {
             if (fieldsList.get(i).getValue() == 0) {
                 for (int j = i - 1; j >= 0; j--) {
@@ -552,6 +557,7 @@ public class Board implements Serializable {
                 }
             }
         }
+
         for (int i = 0; i < countMoves; i++) {
             for (int j = BOARD_DIMENSIONS - 1; j >= 0; j--) {
                 //jesli wartosc jest rowna 0 to przesun od tej pozycji w prawo o 1
@@ -563,10 +569,16 @@ public class Board implements Serializable {
     }
 
     /**
-     * Moves right fields in row or column pass as param.
-     *
-     * @param fieldsList    list of fields in row or column to move.
-     * @param moveCountList list with numbers of field's move.
+     * This method checks whether there exist any fields in a given row / column
+     * that should be moved and/or combined and moves and / or combines them.
+     * @param fieldsList    List of fields in row or column to move.
+     *                      The passed param should be a list of length equal to {@link Board#BOARD_DIMENSIONS}.
+     *                      The param represents a row or a column from the Board.
+     *                      When imagining the board as a 2d object the method is capable of performing a move on a column or a row,
+     *                      only if the move is left to right for a row or top to bottom for a column.
+     *                      For this reason, in order to do a right to left or a bottom to top move the list has to be reversed before passing it to the method.
+     * @param moveCountList List of corresponding indexes from the {@link Board#amountMovedList}.
+     *                      If the list of fields was reverted before passing it to the method, this list will also need to be reverted the same way.
      */
     private void moveFieldsInRowOrColumn(List<Field> fieldsList, List<Integer> moveCountList) {
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {

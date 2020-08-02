@@ -120,7 +120,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private boolean isDarkTheme = false;
     private int volume;
-    private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
+    private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
     private BoardActivity boardActivity = this;
 

@@ -341,10 +341,16 @@ public class Board implements Serializable {
                 hasChanged = true;
             }
         }
-        if (hasChanged) {
+        return hasChanged;
+    }
+
+    private boolean checkIfBoardChangedAndRestoreBoard(List<Field> copyList) {
+        boolean hasChanged = true;
+        if (!checkIfBoardChanged(copyList)) {
             for (Pair<Field, Field> item : zip(copyList, this.board)) {
                 item.getRight().setValue(item.getLeft().getValue());
             }
+            hasChanged = false;
         }
         return hasChanged;
     }
@@ -361,11 +367,9 @@ public class Board implements Serializable {
      * @throws GameOverException     when {@link Board#board} hasn't any fields with zero value adn there isn't any available moves that will change {@link Board#board}.
      */
     private void testIfGameOver(List<Field> copyList) throws GoalAchievedException, GameOverException {
-        for (Pair<Field, Field> item : zip(copyList, this.board)) {
-            if (!item.getLeft().equals(item.getRight())) {
-                this.addNewNonEmptyFieldAfterMove();
-                return;
-            }
+        if (this.checkIfBoardChanged(copyList)) {
+            this.addNewNonEmptyFieldAfterMove();
+            return;
         }
         if (this.getAllEmptyFields().size() != 0) {
             return;
@@ -373,25 +377,25 @@ public class Board implements Serializable {
         int score_before_test = this.score;
         this.moveDownAndDontTestIfGameOver();
         this.amountMovedList = newAmountMovedList();
-        if (this.checkIfBoardChanged(copyList)) {
+        if (this.checkIfBoardChangedAndRestoreBoard(copyList)) {
             this.score = score_before_test;
             return;
         }
         this.moveLeftAndDontTestIfGameOver();
         this.amountMovedList = newAmountMovedList();
-        if (this.checkIfBoardChanged(copyList)) {
+        if (this.checkIfBoardChangedAndRestoreBoard(copyList)) {
             this.score = score_before_test;
             return;
         }
         this.moveUpAndDontTestIfGameOver();
         this.amountMovedList = newAmountMovedList();
-        if (this.checkIfBoardChanged(copyList)) {
+        if (this.checkIfBoardChangedAndRestoreBoard(copyList)) {
             this.score = score_before_test;
             return;
         }
         this.moveRightAndDontTestIfGameOver();
         this.amountMovedList = newAmountMovedList();
-        if (this.checkIfBoardChanged(copyList)) {
+        if (this.checkIfBoardChangedAndRestoreBoard(copyList)) {
             this.score = score_before_test;
             return;
         }

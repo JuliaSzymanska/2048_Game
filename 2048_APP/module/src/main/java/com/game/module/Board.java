@@ -122,7 +122,7 @@ public class Board implements Serializable {
     /**
      * @return available number of available undo.
      */
-    int getAvaiableUndoNumber() {
+    int getAvailableUndoNumber() {
         return this.previousBoards.size();
     }
 

@@ -12,7 +12,7 @@ public class Preloader {
     private static Context context;
 
     /**
-     * Default class constructor.
+     * Empty default class constructor.
      */
     private Preloader() {
     }
@@ -104,245 +104,245 @@ public class Preloader {
     }
 
     /**
-     * @return instance of class.
+     * @return instance of class ({@link Preloader#instance}).
      */
     public static Preloader getInstance() {
         return instance;
     }
 
     /**
-     * @return clicked undo button's image.
+     * @return clicked undo button's image ({@link Preloader#undoClicked}).
      */
     public Drawable getUndoClicked() {
         return undoClicked;
     }
 
     /**
-     * @return undo button's image.
+     * @return undo button's image ({@link Preloader#undo}).
      */
     public Drawable getUndo() {
         return undo;
     }
 
     /**
-     * @return pause and play on button's image.
+     * @return pause and play on button's image ({@link Preloader#pausePlayOn}).
      */
     public Drawable getPausePlayOn() {
         return pausePlayOn;
     }
 
     /**
-     * @return pause and play off button's image.
+     * @return pause and play off button's image ({@link Preloader#pausePlayOff}).
      */
     public Drawable getPausePlayOff() {
         return pausePlayOff;
     }
 
     /**
-     * @return mute on button's image.
+     * @return mute on button's image ({@link Preloader#muteOn}).
      */
     public Drawable getMuteOn() {
         return muteOn;
     }
 
     /**
-     * @return mute off button's image.
+     * @return mute off button's image ({@link Preloader#muteOff}).
      */
     public Drawable getMuteOff() {
         return muteOff;
     }
 
     /**
-     * @return dark theme on image.
+     * @return dark theme on image ({@link Preloader#darkThemeOn}).
      */
     public Drawable getDarkThemeOn() {
         return darkThemeOn;
     }
 
     /**
-     * @return dark theme off image.
+     * @return dark theme off image ({@link Preloader#darkThemeOff}).
      */
     public Drawable getDarkThemeOff() {
         return darkThemeOff;
     }
 
     /**
-     * @return settings button's image.
+     * @return settings button's image ({@link Preloader#setttings}).
      */
     public Drawable getSetttings() {
         return setttings;
     }
 
     /**
-     * @return settings clicked button's image.
+     * @return settings clicked button's image ({@link Preloader#setttingsClicked}).
      */
     public Drawable getSetttingsClicked() {
         return setttingsClicked;
     }
 
     /**
-     * @return main button's clicked image.
+     * @return main button's clicked image ({@link Preloader#mainButtonClicked}).
      */
     public Drawable getMainButtonClicked() {
         return mainButtonClicked;
     }
 
     /**
-     * @return main button's image.
+     * @return main button's image ({@link Preloader#mainButton}).
      */
     public Drawable getMainButton() {
         return mainButton;
     }
 
     /**
-     * @return field's image for 0 value.
+     * @return field's image for 0 value ({@link Preloader#zero}).
      */
     public Drawable getZero() {
         return zero;
     }
 
     /**
-     * @return field's image for 2 value.
+     * @return field's image for 2 value ({@link Preloader#two}).
      */
     public Drawable getTwo() {
         return two;
     }
 
     /**
-     * @return field's image for 4 value.
+     * @return field's image for 4 value ({@link Preloader#four}).
      */
     public Drawable getFour() {
         return four;
     }
 
     /**
-     * @return field's image for 8 value.
+     * @return field's image for 8 value ({@link Preloader#eight}).
      */
     public Drawable getEight() {
         return eight;
     }
 
     /**
-     * @return field's image for 16 value.
+     * @return field's image for 16 value ({@link Preloader#sixteen}).
      */
     public Drawable getSixteen() {
         return sixteen;
     }
 
     /**
-     * @return field's image for 32 value.
+     * @return field's image for 32 value ({@link Preloader#thirtyTwo}).
      */
     public Drawable getThirtyTwo() {
         return thirtyTwo;
     }
 
     /**
-     * @return field's image for 64 value.
+     * @return field's image for 64 value ({@link Preloader#sixtyFour}).
      */
     public Drawable getSixtyFour() {
         return sixtyFour;
     }
 
     /**
-     * @return field's image for 128 value.
+     * @return field's image for 128 value ({@link Preloader#oneHundred}).
      */
     public Drawable getOneHundred() {
         return oneHundred;
     }
 
     /**
-     * @return field's image for 256 value.
+     * @return field's image for 256 value ({@link Preloader#twoHundreds}).
      */
     public Drawable getTwoHundreds() {
         return twoHundreds;
     }
 
     /**
-     * @return field's image for 512 value.
+     * @return field's image for 512 value ({@link Preloader#fiveHundreds}).
      */
     public Drawable getFiveHundreds() {
         return fiveHundreds;
     }
 
     /**
-     * @return field's image for 1 024 value.
+     * @return field's image for 1 024 value({@link Preloader#oneThousand}).
      */
     public Drawable getOneThousand() {
         return oneThousand;
     }
 
     /**
-     * @return field's image for 2 048 value.
+     * @return field's image for 2 048 value ({@link Preloader#twoThousands}).
      */
     public Drawable getTwoThousands() {
         return twoThousands;
     }
 
     /**
-     * @return field's image for 4 096 value.
+     * @return field's image for 4 096 value ({@link Preloader#fourThousands}).
      */
     public Drawable getFourThousands() {
         return fourThousands;
     }
 
     /**
-     * @return field's image for 8 192 value.
+     * @return field's image for 8 192 value ({@link Preloader#eightThousands}).
      */
     public Drawable getEightThousands() {
         return eightThousands;
     }
 
     /**
-     * @return field's image for 16 384 value.
+     * @return field's image for 16 384 value ({@link Preloader#sixteenThousands}).
      */
     public Drawable getSixteenThousands() {
         return sixteenThousands;
     }
 
     /**
-     * @return field's image for 32 768 value.
+     * @return field's image for 32 768 value ({@link Preloader#thirtyTwoThousands}).
      */
     public Drawable getThirtyTwoThousands() {
         return thirtyTwoThousands;
     }
 
     /**
-     * @return field's image for 65 536 value.
+     * @return field's image for 65 536 value ({@link Preloader#sixtyFiveThousands}).
      */
     public Drawable getSixtyFiveThousands() {
         return sixtyFiveThousands;
     }
 
     /**
-     * @return field's image for 131 072 value.
+     * @return field's image for 131 072 value ({@link Preloader#oneHundredThousands}).
      */
     public Drawable getOneHundredThousands() {
         return oneHundredThousands;
     }
 
     /**
-     * @return green field's background image.
+     * @return green field's background image ({@link Preloader#buttonGreeen}).
      */
     public Drawable getButtonGreeen() {
         return buttonGreeen;
     }
 
     /**
-     * @return light green field's background image.
+     * @return light green field's background image ({@link Preloader#buttonGreeenLight}).
      */
     public Drawable getButtonGreeenLight() {
         return buttonGreeenLight;
     }
 
     /**
-     * @return blue field's background image.
+     * @return blue field's background image ({@link Preloader#buttonBlue}).
      */
     public Drawable getButtonBlue() {
         return buttonBlue;
     }
 
     /**
-     * @return light blue field's background image.
+     * @return light blue field's background image ({@link Preloader#buttonBlueLight}).
      */
     public Drawable getButtonBlueLight() {
         return buttonBlueLight;

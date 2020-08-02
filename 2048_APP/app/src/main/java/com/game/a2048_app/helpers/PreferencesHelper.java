@@ -16,13 +16,13 @@ public class PreferencesHelper {
     private static SharedPreferences.Editor sharedPreferencesEditor;
 
     /**
-     * Default class constructor.
+     * Empty default class constructor.
      */
     private PreferencesHelper() {
     }
 
     /**
-     * @return instance of class.
+     * @return instance of class {@link PreferencesHelper#INSTANCE}.
      */
     public static PreferencesHelper getInstance() {
         return INSTANCE;
@@ -31,6 +31,8 @@ public class PreferencesHelper {
     /**
      * Initialized context for class.
      * @param context context passed by activity.
+     * Assigns {@link PreferencesHelper#sharedPreferencesSettings} instance of {@link SharedPreferences} class for accessing and modifying preference data.
+     * Assigns  {@link PreferencesHelper#sharedPreferencesEditor} a new instance of the {@link SharedPreferences.Editor} interface.
      */
     @SuppressLint("CommitPrefEdits")
     public static void initContext(Context context) {

@@ -42,7 +42,9 @@ public class Game {
     private Thread saveGameBackgroundThread;
 
     /**
-     * Class constructor specifying if user is authenticated and context from activity.
+     * Class constructor specifying if user is authenticated ({@link Game#isUserAuthenticated}) and context from activity ({@link Game#context}).
+     * Starts new game if user is not authenticated, otherwise calls {@link Game#loadGame()}.
+     * Creates new thread ({@link Game#saveGameBackgroundThread}) for saving game in background while playing.
      * @param isUserAuthenticated whether the user is authenticated.
      * @param context context from activity.
      */
@@ -51,7 +53,6 @@ public class Game {
         this.setContext(context);
         this.startNewGame();
         if (this.isUserAuthenticated) {
-            // unikam konieczności używania boola
             try {
                 this.loadGame();
             } catch (LoadException e) {
@@ -63,7 +64,7 @@ public class Game {
     }
 
     /**
-     * Sets context.
+     * Sets {@link Game#context}.
      * @param context passed in constructor.
      */
     public void setContext(Context context) {
@@ -73,6 +74,7 @@ public class Game {
     }
 
     /**
+     * Calls {@link Board#getCopyBoard()} method.
      * @return copy of the board.
      */
     public List<Field> getCopyOfTheBoard() {
@@ -80,7 +82,8 @@ public class Game {
     }
 
     /**
-     * @return board.
+     * Calls {@link Board#getBoard()} method.
+     * @return game's board.
      */
     public List<Field> getBoard() {
         return gameBoard.getBoard();
@@ -88,7 +91,12 @@ public class Game {
 
     /**
      * Calls appropriate method from Board class to move board.
-     * @param direction of the move
+     * To move up: {@link Board#moveUp()}.
+     * To move right: {@link Board#moveRight()}.
+     * To move down: {@link Board#moveDown()}.
+     * To move left: {@link Board#moveLeft()}.
+     * Updates game's high score by calling {@link Game#updateHighscore()}
+     * @param direction of the move.
      * @throws GoalAchievedException when one or more fields have value equal or higher then 2048.
      * @throws GameOverException when the game ended.
      */
@@ -127,8 +135,8 @@ public class Game {
     }
 
     /**
-     * Saves game.
-     * Called after moves.
+     * Anonymous implementation of Runnable that saves game.
+     * Called after moves in {@link Game#move(int)} method.
      */
     private Runnable saveGameOnce = new Runnable() {
         @Override
@@ -138,7 +146,7 @@ public class Game {
     };
 
     /**
-     * Saves game every <i>SAVE_GAME_DELAY_SECONDS</i> seconds.
+     * Anonymous implementation of Runnable that saves game every {@link Game#SAVE_GAME_DELAY_SECONDS} seconds at the background.
      */
     // TODO: 21.07.2020 TEST ME! 
     private Runnable saveGameBackgroundRunnable = new Runnable() {
@@ -157,18 +165,18 @@ public class Game {
     };
 
     /**
-     * Calls method from Board class to undo previous move.
+     * Calls {@link Board#undoPreviousMove()} method to undo previous move.
      */
     public void undoPreviousMove() {
         this.gameBoard.undoPreviousMove();
     }
 
     /**
-     * Calls method from Board class to get number of available undo.
+     * Calls {@link Board#getAvailableUndoNumber()} method to get number of available undo.
      * @return number of available undo.
      */
-    public int getAvaiableUndoNumber() {
-        return this.gameBoard.getAvaiableUndoNumber();
+    public int getAvailableUndoNumber() {
+        return this.gameBoard.getAvailableUndoNumber();
     }
 
     /**
@@ -186,6 +194,7 @@ public class Game {
     }
 
     /**
+     * Calls {@link Board#getAmountMovedList()} method.
      * @return list with amount of moves.
      */
     public List<Integer> getAmountMovedList() {

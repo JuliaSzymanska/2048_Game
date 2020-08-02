@@ -33,6 +33,7 @@ public class Field implements Serializable, Comparable<Field> {
 
     /**
      * Default class constructor.
+     * Sets field's value to 0.
      */
     Field() {
         value = 0;
@@ -74,7 +75,8 @@ public class Field implements Serializable, Comparable<Field> {
     }
 
     /**
-     * @return String representation of class.
+     * {@inheritDoc}
+     * Take into consideration: field's value.
      */
     @Override
     public String toString() {
@@ -84,8 +86,8 @@ public class Field implements Serializable, Comparable<Field> {
     }
 
     /**
-     * @param o the object to check for equality.
-     * @return true if <i>this</i> is numerically equal to param.
+     * {@inheritDoc}
+     * Take into consideration: field's value.
      */
     @Override
     public boolean equals(Object o) {
@@ -100,7 +102,8 @@ public class Field implements Serializable, Comparable<Field> {
     }
 
     /**
-     * @return hash code for board.
+     * {@inheritDoc}
+     * Take into consideration: field's value.
      */
     @Override
     public int hashCode() {
@@ -110,8 +113,8 @@ public class Field implements Serializable, Comparable<Field> {
     }
 
     /**
-     * @param o the object to check for compare.
-     * @return 1, 0 or -1 depending on which of the compared objects is larger
+     * {@inheritDoc}
+     * Take into consideration: field's value.
      */
     @Override
     public int compareTo(Field o) {

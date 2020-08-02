@@ -343,8 +343,8 @@ public class Game {
     }
 
     /**
-     * @param o the object to check for equality.
-     * @return true if <i>this</i> is numerically equal to param.
+     * {@inheritDoc}
+     * Take into consideration: Board class object, game's high score, game's begin time.
      */
     @Override
     public boolean equals(Object o) {
@@ -362,7 +362,8 @@ public class Game {
     }
 
     /**
-     * @return hash code for game.
+     * {@inheritDoc}
+     * Take into consideration: Board class object, game's high score, game's begin time.
      */
     @Override
     public int hashCode() {
@@ -374,7 +375,8 @@ public class Game {
     }
 
     /**
-     * @return String representation of {@link Game} class.
+     * {@inheritDoc}
+     * Take into consideration: Board class object, game's high score, game's begin time.
      */
     @Override
     public String toString() {

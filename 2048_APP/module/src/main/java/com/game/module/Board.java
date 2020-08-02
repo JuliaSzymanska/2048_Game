@@ -603,7 +603,8 @@ public class Board implements Serializable {
     }
 
     /**
-     * @return String representation of class.
+     * {@inheritDoc}
+     * Take into consideration: board.
      */
     @Override
     public String toString() {
@@ -617,8 +618,8 @@ public class Board implements Serializable {
     }
 
     /**
-     * @param o the object to check for equality.
-     * @return true if <i>this</i> is numerically equal to param.
+     * {@inheritDoc}
+     * Take into consideration: board.
      */
     @Override
     public boolean equals(Object o) {
@@ -633,7 +634,8 @@ public class Board implements Serializable {
     }
 
     /**
-     * @return hash code for board.
+     * {@inheritDoc}
+     * Take into consideration: board.
      */
     @Override
     public int hashCode() {

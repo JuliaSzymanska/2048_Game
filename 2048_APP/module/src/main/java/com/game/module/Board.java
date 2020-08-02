@@ -344,13 +344,18 @@ public class Board implements Serializable {
         return hasChanged;
     }
 
+    /**
+     * Calls {@link Board#checkIfBoardChanged(List)} and if it returns false restores {@link Board#board} state to param.
+     *
+     * @param copyList previous state of {@link Board#board}.
+     * @return if board has changed.
+     */
     private boolean checkIfBoardChangedAndRestoreBoard(List<Field> copyList) {
-        boolean hasChanged = true;
-        if (!checkIfBoardChanged(copyList)) {
+        boolean hasChanged;
+        if (!(hasChanged = checkIfBoardChanged(copyList))) {
             for (Pair<Field, Field> item : zip(copyList, this.board)) {
                 item.getRight().setValue(item.getLeft().getValue());
             }
-            hasChanged = false;
         }
         return hasChanged;
     }
@@ -402,6 +407,10 @@ public class Board implements Serializable {
         throw new GameOverException("Game lost");
     }
 
+    /**
+     * Makes right move calling {@link Board#moveFieldsInRowOrColumn(List, List)} for every row at board.
+     * Adds current state before move to history calling {@link Board#appendPreviousBoardToHistory()}.
+     */
     private void moveRightAndDontTestIfGameOver() {
         this.appendPreviousBoardToHistory();
         this.amountMovedList = this.newAmountMovedList();
@@ -415,12 +424,23 @@ public class Board implements Serializable {
         }
     }
 
+    /**
+     * Calls {@link Board#moveRightAndDontTestIfGameOver()} method to make right move
+     * and calls {@link Board#testIfGameOver(List)} method to check where the game is ended.
+     *
+     * @throws GoalAchievedException when the goal is achieved.
+     * @throws GameOverException     when game is ended.
+     */
     void moveRight() throws GameOverException, GoalAchievedException {
         List<Field> copyList = this.getCopyBoard();
         this.moveRightAndDontTestIfGameOver();
         testIfGameOver(copyList);
     }
 
+    /**
+     * Makes left move calling {@link Board#moveFieldsInRowOrColumn(List, List)} for every row at board.
+     * Adds current state before move to history calling {@link Board#appendPreviousBoardToHistory()}.
+     */
     private void moveLeftAndDontTestIfGameOver() {
         this.appendPreviousBoardToHistory();
         this.amountMovedList = this.newAmountMovedList();
@@ -437,12 +457,23 @@ public class Board implements Serializable {
         }
     }
 
+    /**
+     * Calls {@link Board#moveLeftAndDontTestIfGameOver()} method to make left move
+     * and calls {@link Board#testIfGameOver(List)} method to check where the game is ended.
+     *
+     * @throws GoalAchievedException when the goal is achieved.
+     * @throws GameOverException     when game is ended.
+     */
     void moveLeft() throws GameOverException, GoalAchievedException {
         List<Field> copyList = this.getCopyBoard();
         this.moveLeftAndDontTestIfGameOver();
         this.testIfGameOver(copyList);
     }
 
+    /**
+     * Makes down move calling {@link Board#moveFieldsInRowOrColumn(List, List)} for every column at board.
+     * Adds current state before move to history calling {@link Board#appendPreviousBoardToHistory()}.
+     */
     private void moveDownAndDontTestIfGameOver() {
         this.appendPreviousBoardToHistory();
         this.amountMovedList = this.newAmountMovedList();
@@ -456,12 +487,23 @@ public class Board implements Serializable {
         }
     }
 
+    /**
+     * Calls {@link Board#moveDownAndDontTestIfGameOver()} method to make down move
+     * and calls {@link Board#testIfGameOver(List)} method to check where the game is ended.
+     *
+     * @throws GoalAchievedException when the goal is achieved.
+     * @throws GameOverException     when game is ended.
+     */
     void moveDown() throws GameOverException, GoalAchievedException {
         List<Field> copyList = this.getCopyBoard();
         this.moveDownAndDontTestIfGameOver();
         this.testIfGameOver(copyList);
     }
 
+    /**
+     * Makes up move calling {@link Board#moveFieldsInRowOrColumn(List, List)} for every column at board.
+     * Adds current state before move to history calling {@link Board#appendPreviousBoardToHistory()}.
+     */
     private void moveUpAndDontTestIfGameOver() {
         this.appendPreviousBoardToHistory();
         this.amountMovedList = this.newAmountMovedList();
@@ -478,6 +520,13 @@ public class Board implements Serializable {
         }
     }
 
+    /**
+     * Calls {@link Board#moveUpAndDontTestIfGameOver()} method to make up move
+     * and calls {@link Board#testIfGameOver(List)} method to check where the game is ended.
+     *
+     * @throws GoalAchievedException when the goal is achieved.
+     * @throws GameOverException     when game is ended.
+     */
     void moveUp() throws GameOverException, GoalAchievedException {
         List<Field> copyList = this.getCopyBoard();
         this.moveUpAndDontTestIfGameOver();
@@ -503,10 +552,6 @@ public class Board implements Serializable {
                 //jesli to jest ostatni element to ustawiamy wartosc na 0
                 fieldsList.get(i).setValue(0);
             }
-//            if (i != index) {
-//                moveCountList.set(i, moveCountList.get(i) + 1);
-//                amountCalled++;
-//            }
         }
     }
 

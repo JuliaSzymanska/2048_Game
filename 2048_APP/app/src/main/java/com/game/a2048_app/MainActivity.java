@@ -200,7 +200,8 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     }
 
     /**
-     * Called when user is authenticated successfully, local variable is sets to true.
+     * {@inheritDoc}
+     * {@link #isAuthenticated} is set to true
      */
     @Override
     public void onAuthenticationSucceeded() {

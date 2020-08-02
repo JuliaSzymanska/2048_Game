@@ -34,6 +34,9 @@ public class Board implements Serializable {
 
     /**
      * Default class constructor.
+     * Calls {@link Board#newFieldsList()}.
+     * Calls {@link Board#newAmountMovedList()}.
+     * Calls {@link Board#resetBoard()}.
      */
     public Board() {
         this.board = newFieldsList();
@@ -42,8 +45,12 @@ public class Board implements Serializable {
     }
 
     /**
-     * Class constructor specifying fields of the board.
+     * Class constructor specifying fields of the board with the param.
+     *
      * @param integerList - list of int to put in the board.
+     *                    Calls {@link Board#newFieldsList()}.
+     *                    Calls {@link Board#newAmountMovedList()}.
+     *                    Calls  {@link Board#setVariablesToDefault()} to reset class variables.
      */
     Board(List<Integer> integerList) {
         this.board = newFieldsList();
@@ -57,7 +64,7 @@ public class Board implements Serializable {
     }
 
     /**
-     * Sets variables like score, previousBoards, previousScores, isGoalAchieved to default values.
+     * Sets variables like {@link Board#score},  {@link Board#previousBoards},  {@link Board#previousScores},  {@link Board#isGoalAchieved} to default values.
      */
     private void setVariablesToDefault() {
         this.score = 0;
@@ -67,7 +74,7 @@ public class Board implements Serializable {
     }
 
     /**
-     * Restarts the game.
+     * Restarts the game by calling  {@link Board#resetBoard()} and  {@link Board#setVariablesToDefault()}.
      */
     void restartGame() {
         this.resetBoard();
@@ -76,6 +83,7 @@ public class Board implements Serializable {
 
     /**
      * Creates new fields list and set their values to 0.
+     *
      * @return List of fields.
      */
     private List<Field> newFieldsList() {
@@ -88,6 +96,7 @@ public class Board implements Serializable {
 
     /**
      * Creates new list filled with 0 for checking amount moved fields.
+     *
      * @return new list filled with 0.
      */
     private List<Integer> newAmountMovedList() {
@@ -98,6 +107,7 @@ public class Board implements Serializable {
 
     /**
      * Reset board variable by creating new fields list.
+     * Adds new fields with values other than zero by calling {@link Board#addNewNonEmptyFieldAfterMove()}.
      */
     private void resetBoard() {
         for (Field i : board) {
@@ -128,6 +138,7 @@ public class Board implements Serializable {
 
     /**
      * Updates score by adding param to current score.
+     *
      * @param scoreDelta - number by which score have to be increased.
      */
     private void updateScore(int scoreDelta) {
@@ -136,6 +147,7 @@ public class Board implements Serializable {
 
     /**
      * Creates new list of empty fields in board.
+     *
      * @return - list of empty fields in board.
      */
     private List<Field> getAllEmptyFields() {
@@ -161,6 +173,7 @@ public class Board implements Serializable {
 
     /**
      * Checks if there is field with a number higher or equal to 2048.
+     *
      * @throws GoalAchievedException - exception is thrown when there is field with a number higher or equal to 2048.
      */
     private void isGoalAchieved() throws GoalAchievedException {
@@ -175,7 +188,7 @@ public class Board implements Serializable {
     /**
      * @param x horizontal position.
      * @param y vertical position.
-     * @return return field at x, y position.
+     * @return return field at x, y position in {@link Board#board}.
      */
     private Field getFieldByPos(int x, int y) {
         if ((x < FIELD_POSITION_MIN || x > FIELD_POSITION_MAX) || (y < FIELD_POSITION_MIN || y > FIELD_POSITION_MAX)) {
@@ -198,7 +211,7 @@ public class Board implements Serializable {
 
     /**
      * @param row row's number.
-     * @return row at row's number position.
+     * @return row at row's number position in {@link Board#board}.
      */
     private List<Field> getRow(int row) {
         return Arrays.asList(
@@ -210,7 +223,7 @@ public class Board implements Serializable {
 
     /**
      * @param col column's number.
-     * @return column at column's position
+     * @return column at column's position in {@link Board#board}.
      */
     private List<Field> getColumn(int col) {
         return Arrays.asList(
@@ -221,7 +234,6 @@ public class Board implements Serializable {
     }
 
     /**
-     *
      * @param row row's number.
      * @return fields at row's number.
      */
@@ -234,7 +246,6 @@ public class Board implements Serializable {
     }
 
     /**
-     *
      * @param col column's number.
      * @return fields at column's number.
      */
@@ -247,8 +258,9 @@ public class Board implements Serializable {
     }
 
     /**
-     * Sets at class list specific row with row from list amountMovedListRow.
-     * @param row row's number.
+     * Sets at class list specific row with row from list {@link Board#board}.
+     *
+     * @param row                row's number.
      * @param amountMovedListRow list of amount of moves for fields.
      */
     private void setAmoutMovedRow(int row, List<Integer> amountMovedListRow) {
@@ -259,7 +271,8 @@ public class Board implements Serializable {
 
     /**
      * Sets at class list specific column with column from list amountMovedListColumn.
-     * @param col column's number.
+     *
+     * @param col                   column's number.
      * @param amountMovedListColumn list of amount of moves for fields.
      */
     private void setAmountMovedColumn(int col, List<Integer> amountMovedListColumn) {
@@ -269,7 +282,7 @@ public class Board implements Serializable {
     }
 
     /**
-     * Saves current score and board to make undo available.
+     * Saves {@link Board#score} and {@link Board#board} to make undo available.
      * Deletes first saved score and board when available amount of undo is exceeded.
      */
     private void appendPreviousBoardToHistory() {
@@ -284,8 +297,8 @@ public class Board implements Serializable {
     /**
      * @param listA first list to pair
      * @param listB second list to pair
-     * @param <A> type of elements of listA
-     * @param <B> type of elements of listB
+     * @param <A>   type of elements of listA
+     * @param <B>   type of elements of listB
      * @return pair of two list passed as params
      */
     private static <A, B> List<Pair<A, B>> zip(List<A> listA, List<B> listB) {
@@ -318,6 +331,7 @@ public class Board implements Serializable {
     }
 
     // TODO: 28.07.2020 sprawdz cyz poprawnie to opisalam
+
     /**
      * @param copyList previous state of board.
      * @return if board has changed.
@@ -339,9 +353,10 @@ public class Board implements Serializable {
 
     /**
      * Chceck if there is any available moves that will change board.
+     *
      * @param copyList previous state of board.
      * @throws GoalAchievedException when one or more fields have value equal or higher then 2048.
-     * @throws GameOverException when the game ended.
+     * @throws GameOverException     when the game ended.
      */
     private void testIfGameOver(List<Field> copyList) throws GoalAchievedException, GameOverException {
         for (Pair<Field, Field> item : zip(copyList, this.board)) {
@@ -516,6 +531,7 @@ public class Board implements Serializable {
 
     /**
      * Removes zeros before others values.
+     *
      * @param fieldsList 2d list of fields in board as rows or columns.
      */
     // TODO: 25.07.2020 przy kazdym przejsciu algorytmu, wykonaniu ruchu, należy zinkrementować int na pozycjach na których się przesuneły pola usuwajac zero.
@@ -523,9 +539,9 @@ public class Board implements Serializable {
     private void removeZerosInMove(List<Field> fieldsList, List<Integer> moveCountList) {
         int countMoves = countZerosToDelete(fieldsList);
         // TODO: 26.07.2020 tutaj jest sprawdzanie o ile się ruszyło
-        for(int i = 1; i < fieldsList.size(); i++) {
-            if(fieldsList.get(i).getValue() == 0) {
-                for(int j = i - 1; j >= 0; j--) {
+        for (int i = 1; i < fieldsList.size(); i++) {
+            if (fieldsList.get(i).getValue() == 0) {
+                for (int j = i - 1; j >= 0; j--) {
                     moveCountList.set(j, moveCountList.get(j) + 1);
                 }
             }
@@ -542,7 +558,8 @@ public class Board implements Serializable {
 
     /**
      * Moves right fields in row or column pass as param.
-     * @param fieldsList list of fields in row or column to move.
+     *
+     * @param fieldsList    list of fields in row or column to move.
      * @param moveCountList list with numbers of field's move.
      */
     private void moveFieldsInRowOrColumn(List<Field> fieldsList, List<Integer> moveCountList) {

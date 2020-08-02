@@ -12,6 +12,7 @@ public class Field implements Serializable, Comparable<Field> {
 
     /**
      * Class constructor specifying field's value.
+     *
      * @param value - field's value.
      */
     public Field(int value) {
@@ -25,9 +26,10 @@ public class Field implements Serializable, Comparable<Field> {
 
     /**
      * Copy cosntructor.
+     *
      * @param field field to copy value of.
      */
-    Field (Field field) {
+    Field(Field field) {
         this.value = field.getValue();
     }
 
@@ -55,6 +57,7 @@ public class Field implements Serializable, Comparable<Field> {
 
     /**
      * Sets field's value to param.
+     *
      * @param value new field's value.
      */
     void setValue(int value) {
@@ -67,6 +70,7 @@ public class Field implements Serializable, Comparable<Field> {
 
     /**
      * Checks if param is power of two.
+     *
      * @param x value to check.
      * @return if param is power of two.
      */
@@ -107,7 +111,7 @@ public class Field implements Serializable, Comparable<Field> {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17,  37)
+        return new HashCodeBuilder(17, 37)
                 .append(this.value)
                 .toHashCode();
     }

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
@@ -36,6 +37,10 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private Preloader preloader = Preloader.getInstance();
     private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
+    private ConstraintLayout constraintLayout;
+
+    private OnSwipeTouchListener onSwipeTouchListener;
+
 
     /**
      * Called when the activity is starting.
@@ -53,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         setContentView(R.layout.activity_main);
         initButtons();
         loadData();
+        this.constraintLayout = findViewById(R.id.constraintLayoutMainActivity);
+        this.setupSwipeListener();
     }
 
     /**
@@ -166,6 +173,31 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         }
     }
 
+    private void setupSwipeListener() {
+        onSwipeTouchListener = new OnSwipeTouchListener(this, constraintLayout);
+        final MainActivity mainActivity = this;
+        onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
+            @Override
+            public void swipeRight() {
+            }
+
+            @Override
+            public void swipeTop() {
+                // TODO: 02.08.2020 dodać odpowiedni transition
+                //overridePendingTransition();
+                startActivity(new Intent(mainActivity, Credits.class));
+            }
+
+            @Override
+            public void swipeBottom() {
+            }
+
+            @Override
+            public void swipeLeft() {
+            }
+        };
+    }
+
     /**
      * Called when user is authenticated successfully, local variable is sets to true.
      */
@@ -199,8 +231,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     @Override
     protected void onStop() {
         super.onStop();
-        this.mediaPlayer.release();
+        if (this.mediaPlayer != null) {
+            this.mediaPlayer.release();
+        }
     }
-
 }
 

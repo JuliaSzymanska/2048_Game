@@ -258,7 +258,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Each swipe is responsible for the appropriate movement in game.
      */
     private void setupSwipeListener() {
-        onSwipeTouchListener = new OnSwipeTouchListener(boardActivity, this.gridView);
+        onSwipeTouchListener = new OnSwipeTouchListener(this, this.gridView);
         final BoardActivity boardActivity = this;
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
             @Override

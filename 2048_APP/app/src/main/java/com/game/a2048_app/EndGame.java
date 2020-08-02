@@ -21,6 +21,10 @@ public class EndGame extends AppCompatActivity {
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
     //  - próbowałem zrobić żeby animacje się przerywały - co prawda udało się, ale następna animacja zostawała pominięta, l
     //      lub odtwarzała się, ale dokonany ruch już się wyświetlał, a przesuwały się puste klocki, nie umiem tego naprawić, zostawiam blokadę
+    //  - https://stackoverflow.com/questions/5465204/how-can-i-set-up-multiple-listeners-for-one-event
+    //      użyć żeby zrobić klasę dla dzwieku i dwa konstruktory - domyślny ze sciezka dzwiekowa, i drugi z sciezka i z listenerem.
+    //      automatycznie ma byc listener który usuwa media player, ale można dolaczyć swój żeby coś się stało
+    //      może uda się zejść ponizej 1000 linii wtedy
 
     private String score;
     private String highScore;

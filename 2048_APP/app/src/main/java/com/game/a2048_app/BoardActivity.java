@@ -731,18 +731,28 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     // TODO: 29.07.2020 zrob tutaj ladne javadoci
     private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void onAnimationStart(Animation arg0) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void onAnimationEnd(Animation arg0) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             adapter.notifyDataSetChanged();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void onAnimationRepeat(Animation animation) {
         }

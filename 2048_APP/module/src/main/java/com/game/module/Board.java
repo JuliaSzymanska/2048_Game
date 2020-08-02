@@ -408,8 +408,7 @@ public class Board implements Serializable {
     }
 
     /**
-     * Makes right move calling {@link Board#moveFieldsInRowOrColumn(List, List)} for every row at board.
-     * Adds current state before move to history calling {@link Board#appendPreviousBoardToHistory()}.
+     * @see #moveDownAndDontTestIfGameOver()
      */
     private void moveRightAndDontTestIfGameOver() {
         this.appendPreviousBoardToHistory();
@@ -425,11 +424,7 @@ public class Board implements Serializable {
     }
 
     /**
-     * Calls {@link Board#moveRightAndDontTestIfGameOver()} method to make right move
-     * and calls {@link Board#testIfGameOver(List)} method to check where the game is ended.
-     *
-     * @throws GoalAchievedException when the goal is achieved.
-     * @throws GameOverException     when game is ended.
+     * @see #moveDown()
      */
     void moveRight() throws GameOverException, GoalAchievedException {
         List<Field> copyList = this.getCopyBoard();
@@ -438,8 +433,7 @@ public class Board implements Serializable {
     }
 
     /**
-     * Makes left move calling {@link Board#moveFieldsInRowOrColumn(List, List)} for every row at board.
-     * Adds current state before move to history calling {@link Board#appendPreviousBoardToHistory()}.
+     * @see #moveDownAndDontTestIfGameOver()
      */
     private void moveLeftAndDontTestIfGameOver() {
         this.appendPreviousBoardToHistory();
@@ -458,11 +452,7 @@ public class Board implements Serializable {
     }
 
     /**
-     * Calls {@link Board#moveLeftAndDontTestIfGameOver()} method to make left move
-     * and calls {@link Board#testIfGameOver(List)} method to check where the game is ended.
-     *
-     * @throws GoalAchievedException when the goal is achieved.
-     * @throws GameOverException     when game is ended.
+     * @see #moveDown()
      */
     void moveLeft() throws GameOverException, GoalAchievedException {
         List<Field> copyList = this.getCopyBoard();
@@ -471,7 +461,7 @@ public class Board implements Serializable {
     }
 
     /**
-     * Makes down move calling {@link Board#moveFieldsInRowOrColumn(List, List)} for every column at board.
+     * Makes down move calling {@link Board#moveFieldsInRowOrColumn(List, List)} for every column composing the full board.
      * Adds current state before move to history calling {@link Board#appendPreviousBoardToHistory()}.
      */
     private void moveDownAndDontTestIfGameOver() {
@@ -488,11 +478,12 @@ public class Board implements Serializable {
     }
 
     /**
+     * Performs the full operation of moving the fields on the board and checking if the game is over.
      * Calls {@link Board#moveDownAndDontTestIfGameOver()} method to make down move
      * and calls {@link Board#testIfGameOver(List)} method to check where the game is ended.
      *
-     * @throws GoalAchievedException when the goal is achieved.
-     * @throws GameOverException     when game is ended.
+     * @throws GoalAchievedException if the move accomplished the goal (reaching the value 2048 by default)
+     * @throws GameOverException     if the game has been lost.
      */
     void moveDown() throws GameOverException, GoalAchievedException {
         List<Field> copyList = this.getCopyBoard();
@@ -501,8 +492,7 @@ public class Board implements Serializable {
     }
 
     /**
-     * Makes up move calling {@link Board#moveFieldsInRowOrColumn(List, List)} for every column at board.
-     * Adds current state before move to history calling {@link Board#appendPreviousBoardToHistory()}.
+     * @see #moveDownAndDontTestIfGameOver()
      */
     private void moveUpAndDontTestIfGameOver() {
         this.appendPreviousBoardToHistory();
@@ -521,11 +511,7 @@ public class Board implements Serializable {
     }
 
     /**
-     * Calls {@link Board#moveUpAndDontTestIfGameOver()} method to make up move
-     * and calls {@link Board#testIfGameOver(List)} method to check where the game is ended.
-     *
-     * @throws GoalAchievedException when the goal is achieved.
-     * @throws GameOverException     when game is ended.
+     * @see #moveDown()
      */
     void moveUp() throws GameOverException, GoalAchievedException {
         List<Field> copyList = this.getCopyBoard();

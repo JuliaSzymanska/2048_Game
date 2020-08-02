@@ -259,6 +259,7 @@ public class Game {
 
     /**
      * Pause game's timer.
+     * Stops game saving at the background.
      */
     public void pauseTimer() {
         if (!this.isSuspended) {
@@ -270,6 +271,7 @@ public class Game {
 
     /**
      * Unpause game's timer.
+     * Resumes saving the game.
      */
     public void unpauseTimer() {
         if (this.isSuspended) {
@@ -311,7 +313,7 @@ public class Game {
 
 
     /**
-     * Calls Board class method to get current score.
+     * Calls {@link Board#getScore()} method to get current score.
      * @return board's score.
      */
     public int getScore() {
@@ -372,7 +374,7 @@ public class Game {
     }
 
     /**
-     * @return String representation of class.
+     * @return String representation of {@link Game} class.
      */
     @Override
     public String toString() {
@@ -383,8 +385,10 @@ public class Game {
                 .toString();
     }
 
-    // TODO: 28.07.2020 javadoc
-    // W razie gdyby thread się nie przerwał, awaryjny
+    /**
+     * {@inheritDoc}
+     * Stops saving game at the background.
+     */
     @Override
     protected void finalize() throws Throwable {
         // TODO: 21.07.2020 nie jestem pewien czy to np może być tutaj null i się wywalić?

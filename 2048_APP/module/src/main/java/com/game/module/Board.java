@@ -351,20 +351,20 @@ public class Board implements Serializable {
      * @return if board has changed.
      */
     private boolean checkIfBoardChangedAndRestoreBoard(List<Field> copyList) {
-        boolean hasChanged;
-        if (!(hasChanged = checkIfBoardChanged(copyList))) {
+        if (checkIfBoardChanged(copyList)) {
             for (Pair<Field, Field> item : zip(copyList, this.board)) {
                 item.getRight().setValue(item.getLeft().getValue());
             }
+            return true;
         }
-        return hasChanged;
+        return false;
     }
 
     /**
-     * Check if there is any available moves that will change {@link Board#board} after adding two non .
+     * Check if there is any available moves that will change {@link Board#board}.
      * If state of the {@link Board#board} before and after move changed, calls {@link Board#addNewNonEmptyFieldAfterMove()} and ends the method.
-     * If {@link Board#board} didn't changed and there are still fields with zero value ends the method.
-     * If {@link Board#board} didn't changed and there aren't any fields with zero value checks if there is any available moves that will change {@link Board#board}.
+     * If {@link Board#board} didn't change and there are still fields with zero value ends the method.
+     * If {@link Board#board} didn't change and there aren't any fields with zero value checks if there is any available moves that will change {@link Board#board}.
      * Testing available moves will not change {@link Board#board} state.
      *
      * @param copyList previous state of board.

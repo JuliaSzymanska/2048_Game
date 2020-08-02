@@ -510,7 +510,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     @SuppressLint("DefaultLocale")
     private void setUndoNumber() {
-        int undoNumber = BoardActivity.this.game.getAvaiableUndoNumber();
+        int undoNumber = BoardActivity.this.game.getAvailableUndoNumber();
         if (undoNumber > 0) {
             undoButton.setBackground(preloader.getUndo());
             undoTextView.setText(String.format("%d", undoNumber));

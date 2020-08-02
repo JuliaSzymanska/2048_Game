@@ -315,7 +315,7 @@ public class Board implements Serializable {
     }
 
     /**
-     * Restores the board and sthe score to the state it was in before the last move.
+     * Restores the {@link Board#board} and the {@link Board#score} to the state it was in before the last move.
      */
     void undoPreviousMove() {
         if (this.previousBoards.size() == 0) {
@@ -330,10 +330,8 @@ public class Board implements Serializable {
         this.previousScores.remove(this.previousScores.size() - 1);
     }
 
-    // TODO: 28.07.2020 sprawdz cyz poprawnie to opisalam
-
     /**
-     * @param copyList previous state of board.
+     * @param copyList previous state of {@link Board#board}.
      * @return if board has changed.
      */
     private boolean checkIfBoardChanged(List<Field> copyList) {
@@ -352,11 +350,15 @@ public class Board implements Serializable {
     }
 
     /**
-     * Chceck if there is any available moves that will change board.
+     * Check if there is any available moves that will change {@link Board#board} after adding two non .
+     * If state of the {@link Board#board} before and after move changed, calls {@link Board#addNewNonEmptyFieldAfterMove()} and ends the method.
+     * If {@link Board#board} didn't changed and there are still fields with zero value ends the method.
+     * If {@link Board#board} didn't changed and there aren't any fields with zero value checks if there is any available moves that will change {@link Board#board}.
+     * Testing available moves will not change {@link Board#board} state.
      *
      * @param copyList previous state of board.
      * @throws GoalAchievedException when one or more fields have value equal or higher then 2048.
-     * @throws GameOverException     when the game ended.
+     * @throws GameOverException     when {@link Board#board} hasn't any fields with zero value adn there isn't any available moves that will change {@link Board#board}.
      */
     private void testIfGameOver(List<Field> copyList) throws GoalAchievedException, GameOverException {
         for (Pair<Field, Field> item : zip(copyList, this.board)) {

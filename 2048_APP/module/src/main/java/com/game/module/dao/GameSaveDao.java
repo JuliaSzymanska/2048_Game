@@ -71,6 +71,9 @@ class GameSaveDao implements Dao<Board, Integer, Long> {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
 
     @Override
     public void close() {

@@ -13,6 +13,10 @@ public class GameSaveDaoFactory implements AutoCloseable {
         return new GameSaveDao(fileName, context);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+
     @Override
     public void close() {
 

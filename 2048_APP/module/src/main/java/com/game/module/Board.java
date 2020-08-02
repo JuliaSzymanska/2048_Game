@@ -540,7 +540,7 @@ public class Board implements Serializable {
      * This method should only ever be called by the method {@link Board#moveFieldsInRowOrColumn(List, List)}
      * @param fieldsList 2d list of fields in board as rows or columns.
      * @param index      index of the field to start with.
-     * @see {@link Board#removeZerosInMove(List, List)}
+     * @see #removeZerosInMove(List, List)
      */
     // TODO: 25.07.2020 w liscie trzeba inkrementowac dla indeksow dla pol ktore się przesuenly
     private void moveFieldsPositions(List<Field> fieldsList, int index, List<Integer> moveCountList) {
@@ -595,7 +595,7 @@ public class Board implements Serializable {
      * left between the fields and their expected destinations).
      * This method also does part of the work of counting the amount the Board's fields moved in each move.
      * @param fieldsList list of fields, of size equal to {@link Board#BOARD_DIMENSIONS}.
-     * @see {@link Board#moveFieldsPositions(List, int, List)}
+     * @see #moveFieldsPositions(List, int, List)
      */
     // TODO: 25.07.2020 przy kazdym przejsciu algorytmu, wykonaniu ruchu, należy zinkrementować int na pozycjach na których się przesuneły pola usuwajac zero.
     //  Ostatecznie dla pól na których były 0 resetujemy int

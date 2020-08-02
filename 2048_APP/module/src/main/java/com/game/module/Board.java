@@ -483,12 +483,15 @@ public class Board implements Serializable {
         this.moveUpAndDontTestIfGameOver();
         testIfGameOver(copyList);
     }
+    
 
     /**
-     * Moves fields to right side and set last fields value to 0.
-     *
+     * This method is responsible for moving rows or columns,
+     * where there exist fields that can be 'combined'. 
+     * This method should only ever be called by the method {@link Board#moveFieldsInRowOrColumn(List, List)}
      * @param fieldsList 2d list of fields in board as rows or columns.
      * @param index      index of the field to start with.
+     * @see {@link Board#removeZerosInMove(List, List)}
      */
     // TODO: 25.07.2020 w liscie trzeba inkrementowac dla indeksow dla pol ktore się przesuenly
     private void moveFieldsPositions(List<Field> fieldsList, int index, List<Integer> moveCountList) {
@@ -508,6 +511,10 @@ public class Board implements Serializable {
     }
 
     /**
+     * Being given a row or column from the board,
+     * the method is able to determine how many times does the method
+     * {@link Board#removeZerosInMove(List, List)} have to pass through the corresponding row or column in order to complete a move.
+     * This method should only ever be called by the method {@link Board#removeZerosInMove(List, List)}
      * @param fieldsList list of moving fields in board where zero should be deleted.
      * @return amount of zeros in param to delete during move.
      */

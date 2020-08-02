@@ -13,6 +13,9 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         mainView.setOnTouchListener(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         return gestureDetector.onTouchEvent(event);
@@ -24,11 +27,17 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         private static final int SWIPE_VELOCITY_THRESHOLD = 10;
 
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean onDown(MotionEvent e) {
             return true;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             boolean result = false;

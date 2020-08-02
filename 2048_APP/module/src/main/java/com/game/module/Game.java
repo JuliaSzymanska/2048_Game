@@ -146,9 +146,8 @@ public class Game {
     };
 
     /**
-     * Anonymous implementation of Runnable that saves game every {@link Game#SAVE_GAME_DELAY_SECONDS} seconds at the background.
+     * Anonymous implementation of Runnable that saves game every {@link Game#SAVE_GAME_DELAY_SECONDS} seconds.
      */
-    // TODO: 21.07.2020 TEST ME! 
     private Runnable saveGameBackgroundRunnable = new Runnable() {
         @Override
         public void run() {
@@ -181,13 +180,14 @@ public class Game {
 
     /**
      * Saves game calling {@link com.game.module.dao.Dao#write(Object, Object, Object)}.
+     * The game is saved in a file called {@link #GAME_SAVE_NAME}.
+     * The game is only saved for authenticated users.
      */
     private void saveGame() {
         if (this.context != null && this.isUserAuthenticated) {
             try (Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
                 daoBoard.write(this.gameBoard, this.highScore, System.nanoTime() - this.gameBeginTime);
             } catch (IOException e) {
-                // FIXME: 20.07.2020
                 e.printStackTrace();
             }
         }

@@ -1048,7 +1048,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
-     * Restarts game and TextViews.
+     * Restarts game and reloads activity.
      */
     private void restartGame() {
         this.game.restartGame();
@@ -1063,8 +1063,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
+     * {@inheritDoc}
      * Pressing back button will change current activity to main activity.
-     * If the user is not authenticated dialogue is shown to warn the user that the game will not be saved.
+     * If the user is not authenticated a dialogue is shown to warn the user that the game will not be saved.
      */
     @Override
     public void onBackPressed() {
@@ -1088,6 +1089,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
+     * {@inheritDoc}
      * On activity stop game is paused and updating time is stopped.
      */
     @Override

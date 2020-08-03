@@ -104,7 +104,7 @@ public class SoundPlayer {
     }
 
     /**
-     * A simple class to be able to combine multiple listeners into one
+     * A simple class used in order to combine multiple listeners into one
      */
     private class CompositeMediaPlayerOnCompletionListener implements MediaPlayer.OnCompletionListener {
 

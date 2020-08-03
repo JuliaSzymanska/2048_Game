@@ -24,4 +24,7 @@
     <string name="goal_achieved_question">"Osiągnąłęś cel gry.\nChcesz kontynuować? "</string>
     <string name="continue_game_dialog">Kontynuuj</string>
     <string name="end_game_dialog">Zakończ</string>
+    <string name="Credits_Title">Autorzy</string>
+    <string name="Author_Julia">Julia Szymańska</string>
+    <string name="Author_Przemek">Przemysław Zdrzalik</string>
 </resources>

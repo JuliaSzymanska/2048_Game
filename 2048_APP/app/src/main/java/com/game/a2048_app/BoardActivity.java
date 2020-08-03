@@ -35,6 +35,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
+import com.game.a2048_app.helpers.SoundPlayer;
 import com.game.module.Field;
 import com.game.module.Game;
 import com.game.module.exceptions.GameOverException;
@@ -124,7 +125,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private BoardActivity boardActivity = this;
 
-    private MediaPlayer mediaPlayer;
 
     /**
      * {@inheritDoc}
@@ -157,18 +157,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         Arrays.fill(fieldsBackground, mThumbIds);
     }
 
-    /**
-     * Creates and initialize Media Player.
-     */
-    private void initMediaPlayer() {
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioAttributes(
-                new AudioAttributes.Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .build()
-        );
-    }
 
     /**
      * Prepares views like TextViews, Buttons, ImageViews, sets id and onClickListeners.
@@ -323,7 +311,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             restartGameButton.setBackground(preloader.getMainButtonClicked());
-            setMediaPlayer(R.raw.restart);
+            SoundPlayer soundPlayer = SoundPlayer.getInstance();
+            soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.restart));
             restartGame();
         }
     };
@@ -337,7 +326,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             settingsButton.setBackground(preloader.getSetttingsClicked());
-            setMediaPlayer(R.raw.button_no_reverb);
+            SoundPlayer soundPlayer = SoundPlayer.getInstance();
+            soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.button_no_reverb));
             AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this.boardActivity);
             builder.setMultiChoiceItems(R.array.sensors, choosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
@@ -379,6 +369,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
+    MediaPlayer.OnCompletionListener setUndoAmountListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            setUndoNumber();
+        }
+    };
+
     /**
      * Creates button on click listener to undo last move.
      * Play sound after click and change button's image.
@@ -387,16 +384,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onClick(View v) {
             undoButton.setBackground(preloader.getUndoClicked());
-            setMediaPlayer(R.raw.undo,
-                    new MediaPlayer.OnCompletionListener() {
-
-                        @Override
-                        public void onCompletion(MediaPlayer mp) {
-                            setUndoNumber();
-                            mediaPlayer.release();
-                        }
-
-                    });
+            SoundPlayer soundPlayer = SoundPlayer.getInstance();
+            soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.undo), setUndoAmountListener);
             game.undoPreviousMove();
             adapter.notifyDataSetChanged();
             setScoreTexts();
@@ -410,7 +399,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener playPauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            setMediaPlayer(R.raw.pause);
+            SoundPlayer soundPlayer = SoundPlayer.getInstance();
+            soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.pause));
             if (!game.isSuspended()) {
                 game.pauseTimer();
                 pausePlayButton.setBackground(preloader.getPausePlayOn());
@@ -444,45 +434,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
-    private void setMediaPlayer(int id) {
-        setMediaPlayer(id, this.onCompletionListener);
-    }
-
-    /**
-     * Sets Media Player sound to param and play it.
-     *
-     * @param id id of sound in resources.
-     */
-    private void setMediaPlayer(int id, MediaPlayer.OnCompletionListener onCompletion) {
-        AssetFileDescriptor assetFileDescriptor = getApplicationContext().getResources().openRawResourceFd(id);
-        try {
-            if (this.mediaPlayer == null) {
-                this.initMediaPlayer();
-            }
-            try {
-                mediaPlayer.isPlaying();
-            } catch (IllegalStateException e) {
-                this.mediaPlayer.release();
-                this.initMediaPlayer();
-                this.setMuteSettings();
-            }
-            this.mediaPlayer.reset();
-            this.mediaPlayer.setDataSource(assetFileDescriptor);
-            this.mediaPlayer.prepare();
-            this.mediaPlayer.start();
-            this.mediaPlayer.setOnCompletionListener(onCompletion);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            mediaPlayer.release();
-        }
-    };
-
     /**
      * Sets the appropriate mute button's image
      */
@@ -502,7 +453,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     private void setMuteSettings() {
         setMuteButtonImage();
-        mediaPlayer.setVolume(volume, volume);
+        SoundPlayer.getInstance().setVolume(volume);
     }
 
     /**

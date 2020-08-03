@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
+import com.game.a2048_app.helpers.SoundPlayer;
 
 public class EndGame extends AppCompatActivity {
 
@@ -29,9 +30,7 @@ public class EndGame extends AppCompatActivity {
     private String score;
     private String highScore;
     private Boolean authentication;
-    private EndGame endgame = this;
     private Button homePageButton;
-    MediaPlayer mediaPlayer;
     private Preloader preloader = Preloader.getInstance();
     private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
@@ -93,6 +92,13 @@ public class EndGame extends AppCompatActivity {
         }
     }
 
+    MediaPlayer.OnCompletionListener setHomePageButtonBackgroundListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            homePageButton.setBackground(preloader.getMainButton());
+        }
+    };
+
     /**
      * Creates button on click listener to change to main activity.
      * Play sound after click and change button's image.
@@ -101,19 +107,8 @@ public class EndGame extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             homePageButton.setBackground(preloader.getMainButtonClicked());
-            mediaPlayer = MediaPlayer.create(endgame, R.raw.slide_activities);
-            int volume = preferencesHelper.getVolume();
-            mediaPlayer.setVolume(volume, volume);
-            mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    homePageButton.setBackground(preloader.getMainButton());
-                    mediaPlayer.release();
-                }
-
-            });
+            SoundPlayer soundPlayer = SoundPlayer.getInstance();
+            soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.slide_activities), setHomePageButtonBackgroundListener);
             startActivity(new Intent(EndGame.this, MainActivity.class));
         }
     };

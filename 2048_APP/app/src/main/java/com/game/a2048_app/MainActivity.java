@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.AssetFileDescriptor;
 import android.hardware.fingerprint.FingerprintManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
+import com.game.a2048_app.helpers.SoundPlayer;
 
 import me.aflak.libraries.callback.FingerprintDialogCallback;
 import me.aflak.libraries.dialog.FingerprintDialog;
@@ -32,8 +34,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private MainActivity mainActivity = this;
     private Boolean isAuthenticated = false;
     private Button startGameButton;
-    private int volume = 1;
-    MediaPlayer mediaPlayer;
     private Preloader preloader = Preloader.getInstance();
     private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private void loadData() {
         boolean isDarkTheme = preferencesHelper.getDarkTheme();
         setTheme(isDarkTheme);
-        this.volume = preferencesHelper.getVolume();
     }
 
     /**
@@ -139,22 +138,20 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      * Creates button on click listener to start game.
      * Play sound after click and change button's image.
      */
+
+    private MediaPlayer.OnCompletionListener setStartGameBackgroundListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            startGameButton.setBackground(preloader.getMainButton());
+        }
+    };
+
     private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             startGameButton.setBackground(preloader.getMainButtonClicked());
-            mediaPlayer = MediaPlayer.create(mainActivity, R.raw.decline_call);
-            mediaPlayer.setVolume(volume, volume);
-            mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    startGameButton.setBackground(preloader.getMainButton());
-                    mediaPlayer.release();
-                }
-
-            });
+            SoundPlayer soundPlayer = SoundPlayer.getInstance();
+            soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.decline_call), setStartGameBackgroundListener);
             Intent i = new Intent(MainActivity.this, BoardActivity.class);
             i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(isAuthenticated));
             startActivity(i);

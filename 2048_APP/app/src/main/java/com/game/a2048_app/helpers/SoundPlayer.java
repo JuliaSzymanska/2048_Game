@@ -37,10 +37,10 @@ public class SoundPlayer {
     }
 
     public void playSound(@NonNull AssetFileDescriptor assetFileDescriptor, @NonNull MediaPlayer.OnCompletionListener onCompletionListener) {
-        CompositeListener compositeListener = new CompositeListener();
-        compositeListener.registerListener(this.onCompletionListener);
-        compositeListener.registerListener(onCompletionListener);
-        setMediaPlayer(assetFileDescriptor, compositeListener);
+        CompositeMediaPlayerOnCompletionListener compositeMediaPlayerOnCompletionListener = new CompositeMediaPlayerOnCompletionListener();
+        compositeMediaPlayerOnCompletionListener.registerListener(this.onCompletionListener);
+        compositeMediaPlayerOnCompletionListener.registerListener(onCompletionListener);
+        setMediaPlayer(assetFileDescriptor, compositeMediaPlayerOnCompletionListener);
     }
 
     private SoundPlayer() {
@@ -68,7 +68,7 @@ public class SoundPlayer {
         return mediaPlayer;
     }
 
-    private class CompositeListener implements MediaPlayer.OnCompletionListener {
+    private class CompositeMediaPlayerOnCompletionListener implements MediaPlayer.OnCompletionListener {
 
         private List<MediaPlayer.OnCompletionListener> registeredListeners = new ArrayList<>();
 

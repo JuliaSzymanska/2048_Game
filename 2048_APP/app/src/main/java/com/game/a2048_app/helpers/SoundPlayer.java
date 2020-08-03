@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * This class is intended to simplify the process of playing sound clips in our application.
  * The purpose of the class is to automatize the process of  playing a given sound once and releasing the resources.
+ * The class in it's current form doesn't provide any way to mute already started sound clips.
  */
 
 public class SoundPlayer {

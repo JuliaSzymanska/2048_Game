@@ -7,13 +7,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.AssetFileDescriptor;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -41,7 +39,6 @@ import com.game.module.Game;
 import com.game.module.exceptions.GameOverException;
 import com.game.module.exceptions.GoalAchievedException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,7 +56,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Drawable[] fieldsImages;
     private Drawable[] fieldsBackground;
     private Preloader preloader = Preloader.getInstance();
-    private Drawable mThumbIds = preloader.getButtonGreeen();
+    private Drawable mThumbIds = preloader.getButtonGreen();
 
     // System sensor manager instance.
     private SensorManager mSensorManager;
@@ -325,7 +322,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private View.OnClickListener settingsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            settingsButton.setBackground(preloader.getSetttingsClicked());
+            settingsButton.setBackground(preloader.getSettingsClicked());
             SoundPlayer soundPlayer = SoundPlayer.getInstance();
             soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.button_no_reverb));
             AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this.boardActivity);
@@ -341,7 +338,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     preferencesHelper.setChoosenSensors(choosenSensors);
-                    settingsButton.setBackground(preloader.getSetttings());
+                    settingsButton.setBackground(preloader.getSettings());
                 }
             });
             AlertDialog dialog = builder.create();
@@ -609,10 +606,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             if (fields[i].getValue() == 0) {
                 fieldsBackground[i] = mThumbIds;
             } else {
-                if (mThumbIds == preloader.getButtonGreeenLight()) {
-                    fieldsBackground[i] = preloader.getButtonGreeen();
-                } else if (mThumbIds == preloader.getButtonGreeen()) {
-                    fieldsBackground[i] = preloader.getButtonGreeenLight();
+                if (mThumbIds == preloader.getButtonGreenLight()) {
+                    fieldsBackground[i] = preloader.getButtonGreen();
+                } else if (mThumbIds == preloader.getButtonGreen()) {
+                    fieldsBackground[i] = preloader.getButtonGreenLight();
                 } else if (mThumbIds == preloader.getButtonBlueLight()) {
                     fieldsBackground[i] = preloader.getButtonBlue();
                 } else if (mThumbIds == preloader.getButtonBlue()) {
@@ -983,9 +980,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 public void run() {
                     if (pitch > HORIZONTAL_PITCH_MIN && pitch < HORIZONTAL_PITCH_MAX) {
                         if (azimuth >= changeColourAzimunthBreakpoint1 && azimuth < changeColourAzimunthBreakpoint2) {
-                            mThumbIds = preloader.getButtonGreeen();
+                            mThumbIds = preloader.getButtonGreen();
                         } else if (azimuth >= changeColourAzimunthBreakpoint3 && azimuth < changeColourAzimunthBreakpoint4) {
-                            mThumbIds = preloader.getButtonGreeenLight();
+                            mThumbIds = preloader.getButtonGreenLight();
                         } else if (azimuth >= -changeColourAzimunthBreakpoint4 && azimuth < -changeColourAzimunthBreakpoint3) {
                             mThumbIds = preloader.getButtonBlue();
                         } else if (azimuth > -changeColourAzimunthBreakpoint2 && azimuth < -changeColourAzimunthBreakpoint1) {

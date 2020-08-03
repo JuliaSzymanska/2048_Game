@@ -17,14 +17,14 @@ public class Preloader {
     private Preloader() {
     }
 
-    private Drawable buttonGreeen;
-    private Drawable buttonGreeenLight;
+    private Drawable buttonGreen;
+    private Drawable buttonGreenLight;
     private Drawable buttonBlue;
     private Drawable buttonBlueLight;
     private Drawable mainButtonClicked;
     private Drawable mainButton;
-    private Drawable setttingsClicked;
-    private Drawable setttings;
+    private Drawable settingsClicked;
+    private Drawable settings;
     private Drawable undoClicked;
     private Drawable undo;
     private Drawable pausePlayOn;
@@ -67,14 +67,14 @@ public class Preloader {
      * Loads Drawable images from R.drawable.
      */
     public void loadAssets() {
-        this.buttonGreeen = context.getDrawable(R.drawable.button_green);
-        this.buttonGreeenLight = context.getDrawable(R.drawable.button_green_light);
+        this.buttonGreen = context.getDrawable(R.drawable.button_green);
+        this.buttonGreenLight = context.getDrawable(R.drawable.button_green_light);
         this.buttonBlue = context.getDrawable(R.drawable.button_blue);
         this.buttonBlueLight = context.getDrawable(R.drawable.button_blue_light);
         this.mainButtonClicked = context.getDrawable(R.drawable.main_button_clicked);
         this.mainButton = context.getDrawable(R.drawable.main_button);
-        this.setttingsClicked = context.getDrawable(R.drawable.settings_clicked);
-        this.setttings = context.getDrawable(R.drawable.settings);
+        this.settingsClicked = context.getDrawable(R.drawable.settings_clicked);
+        this.settings = context.getDrawable(R.drawable.settings);
         this.undoClicked = context.getDrawable(R.drawable.undo_clicked);
         this.undo = context.getDrawable(R.drawable.undo);
         this.pausePlayOn = context.getDrawable(R.drawable.pause_play_on);
@@ -167,17 +167,17 @@ public class Preloader {
     }
 
     /**
-     * @return settings button's image ({@link Preloader#setttings}).
+     * @return settings button's image ({@link Preloader#settings}).
      */
-    public Drawable getSetttings() {
-        return setttings;
+    public Drawable getSettings() {
+        return settings;
     }
 
     /**
-     * @return settings clicked button's image ({@link Preloader#setttingsClicked}).
+     * @return settings clicked button's image ({@link Preloader#settingsClicked}).
      */
-    public Drawable getSetttingsClicked() {
-        return setttingsClicked;
+    public Drawable getSettingsClicked() {
+        return settingsClicked;
     }
 
     /**
@@ -321,17 +321,17 @@ public class Preloader {
     }
 
     /**
-     * @return green field's background image ({@link Preloader#buttonGreeen}).
+     * @return green field's background image ({@link Preloader#buttonGreen}).
      */
-    public Drawable getButtonGreeen() {
-        return buttonGreeen;
+    public Drawable getButtonGreen() {
+        return buttonGreen;
     }
 
     /**
-     * @return light green field's background image ({@link Preloader#buttonGreeenLight}).
+     * @return light green field's background image ({@link Preloader#buttonGreenLight}).
      */
-    public Drawable getButtonGreeenLight() {
-        return buttonGreeenLight;
+    public Drawable getButtonGreenLight() {
+        return buttonGreenLight;
     }
 
     /**

@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 
 import com.game.a2048_app.R;
 
-// TODO: 27.07.2020 FINISH ME
-
 public class PreferencesHelper {
 
     private static final PreferencesHelper INSTANCE = new PreferencesHelper();

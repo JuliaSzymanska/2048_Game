@@ -11,6 +11,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is intended to simplify the process of playing sound clips in our application.
+ * The purpose of the class is to automatize the process of  playing a given sound once and releasing the resources.
+ */
+
 public class SoundPlayer {
 
     // TODO: 03.08.2020  czy to powinien być singleton? chyba nie ale narazie jest lul
@@ -20,6 +25,11 @@ public class SoundPlayer {
         return instance;
     }
 
+    /**
+     * Sets the volume variable and saves the setting in SharedPreferences using {@link PreferencesHelper#setVolume(int)}.
+     * @param volume Value of volume. Must be equal to 0 or 1
+     * @throws IllegalArgumentException if given volume is not equal to 0 or 1
+     */
     public void setVolume(float volume) {
         if(!(volume == 0 || volume == 1)) {
             throw new IllegalArgumentException("volume 0 or 1 (mute or not)");
@@ -28,19 +38,36 @@ public class SoundPlayer {
         PreferencesHelper.getInstance().setVolume((int) this.volume);
     }
 
+    /**
+     * Helper method intended to make passing the {@link AssetFileDescriptor} to the methods 
+     * {@link #playSound(AssetFileDescriptor)} and {@link #playSound(AssetFileDescriptor, MediaPlayer.OnCompletionListener)} easier.
+     * @param context Application context.
+     * @param id Int representing the given asset
+     * @return {@link AssetFileDescriptor} from a given id.
+     */
     public AssetFileDescriptor getAsset(Context context, int id) {
         return context.getApplicationContext().getResources().openRawResourceFd(id);
     }
 
+    /**
+     * @see #playSound(AssetFileDescriptor, MediaPlayer.OnCompletionListener) 
+     */
     public void playSound(@NonNull AssetFileDescriptor assetFileDescriptor) {
-        setMediaPlayer(assetFileDescriptor, this.onCompletionListener);
+        prepareAndRunMediaplayer(assetFileDescriptor, this.onCompletionListener);
     }
 
+    /**
+     * This method plays a given sound clip and sets user defined onCompletionListener on the MediaPlayer instance used to play the clip,
+     * and releases the MediaPlayer instance after it's done playing.
+     * Use {@link #playSound(AssetFileDescriptor)} to achieve the same functionality without using your own custom listener.
+     * @param assetFileDescriptor Selected sound clip.
+     * @param onCompletionListener User given listener, set to run on the end of the given soundclip.
+     */
     public void playSound(@NonNull AssetFileDescriptor assetFileDescriptor, @NonNull MediaPlayer.OnCompletionListener onCompletionListener) {
         CompositeMediaPlayerOnCompletionListener compositeMediaPlayerOnCompletionListener = new CompositeMediaPlayerOnCompletionListener();
         compositeMediaPlayerOnCompletionListener.registerListener(this.onCompletionListener);
         compositeMediaPlayerOnCompletionListener.registerListener(onCompletionListener);
-        setMediaPlayer(assetFileDescriptor, compositeMediaPlayerOnCompletionListener);
+        prepareAndRunMediaplayer(assetFileDescriptor, compositeMediaPlayerOnCompletionListener);
     }
 
     private SoundPlayer() {
@@ -85,7 +112,7 @@ public class SoundPlayer {
     }
 
 
-    private void setMediaPlayer(AssetFileDescriptor assetFileDescriptor, MediaPlayer.OnCompletionListener onCompletion) {
+    private void prepareAndRunMediaplayer(AssetFileDescriptor assetFileDescriptor, MediaPlayer.OnCompletionListener onCompletion) {
             MediaPlayer mediaPlayer = this.initMediaPlayer();
             try {
             mediaPlayer.setDataSource(assetFileDescriptor);

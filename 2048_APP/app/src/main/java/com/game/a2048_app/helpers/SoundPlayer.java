@@ -21,6 +21,8 @@ public class SoundPlayer {
     // TODO: 03.08.2020  czy to powinien być singleton? chyba nie ale narazie jest lul
     private static SoundPlayer instance = new SoundPlayer();
 
+    private float volume;
+
     public static SoundPlayer getInstance() {
         return instance;
     }
@@ -50,7 +52,7 @@ public class SoundPlayer {
     }
 
     /**
-     * @see #playSound(AssetFileDescriptor, MediaPlayer.OnCompletionListener) 
+     * @see #playSound(AssetFileDescriptor, MediaPlayer.OnCompletionListener)
      */
     public void playSound(@NonNull AssetFileDescriptor assetFileDescriptor) {
         prepareAndRunMediaplayer(assetFileDescriptor, this.onCompletionListener);
@@ -74,8 +76,9 @@ public class SoundPlayer {
         this.volume = PreferencesHelper.getInstance().getVolume();
     }
 
-    private float volume;
-
+    /**
+     * Default onCompletionListener for {@link MediaPlayer} instances, calls {@link MediaPlayer#release()} on the MediaPlayer instance.
+     */
     private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
@@ -83,6 +86,10 @@ public class SoundPlayer {
         }
     };
 
+    /**
+     * Initializes the MediaPlayer instances to correct {@link AudioAttributes} and volume.
+     * @return Initialized MediaPlayer instance.
+     */
     private MediaPlayer initMediaPlayer() {
         MediaPlayer mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioAttributes(
@@ -111,14 +118,18 @@ public class SoundPlayer {
         }
     }
 
-
+    /**
+     * Prepares and runs the {@link MediaPlayer} instance. Uses {@link #initMediaPlayer()} to initialize the {@link MediaPlayer}.
+     * @param assetFileDescriptor {@link AssetFileDescriptor} describing the audio file.
+     * @param onCompletion Listener to run after the MediaPlayer instance stops playing its sound. By default {@link #onCompletionListener}.
+     */
     private void prepareAndRunMediaplayer(AssetFileDescriptor assetFileDescriptor, MediaPlayer.OnCompletionListener onCompletion) {
             MediaPlayer mediaPlayer = this.initMediaPlayer();
             try {
             mediaPlayer.setDataSource(assetFileDescriptor);
+            mediaPlayer.setOnCompletionListener(onCompletion);
             mediaPlayer.prepare();
             mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(onCompletion);
         } catch (IOException e) {
             e.printStackTrace();
         }

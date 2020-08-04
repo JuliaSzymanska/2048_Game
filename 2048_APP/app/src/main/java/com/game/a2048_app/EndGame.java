@@ -22,6 +22,7 @@ public class EndGame extends AppCompatActivity {
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
     //  - próbowałem zrobić żeby animacje się przerywały - co prawda udało się, ale następna animacja zostawała pominięta, l
     //      lub odtwarzała się, ale dokonany ruch już się wyświetlał, a przesuwały się puste klocki, nie umiem tego naprawić, zostawiam blokadę
+    //  - zbugowany score w koncu gry, kiedy gralem jako nie authenticated
 
     private String score;
     private String highScore;

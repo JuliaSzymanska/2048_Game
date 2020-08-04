@@ -30,7 +30,7 @@ public class EndGame extends AppCompatActivity {
     private Boolean authentication;
     private Button homePageButton;
     private Preloader preloader = Preloader.getInstance();
-    private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
+    private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
     /**
      * {@inheritDoc}

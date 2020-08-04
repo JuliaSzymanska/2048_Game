@@ -23,6 +23,7 @@ public class EndGame extends AppCompatActivity {
     //  - próbowałem zrobić żeby animacje się przerywały - co prawda udało się, ale następna animacja zostawała pominięta, l
     //      lub odtwarzała się, ale dokonany ruch już się wyświetlał, a przesuwały się puste klocki, nie umiem tego naprawić, zostawiam blokadę
     //  - zbugowany score w koncu gry, kiedy gralem jako nie authenticated
+    //  - https://developer.android.com/training/transitions/start-activity - credits?
 
     private String score;
     private String highScore;

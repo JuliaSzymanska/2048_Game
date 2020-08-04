@@ -67,6 +67,7 @@ public class Preloader {
     /**
      * Loads Drawable images from R.drawable.
      */
+    // TODO: 04.08.2020 ustawic alfabetycznie
     public void loadAssets() {
         loadUndoClicked();
         loadUndo();
@@ -77,13 +78,13 @@ public class Preloader {
         loadMuteOff();
         loadDarkThemeOn();
         loadDarkThemeOff();
+        loadSettings();
+        loadSettingsClicked();
+        loadMainButton();
+        loadMainButtonClicked();
         buttonGreenLight = context.getDrawable(R.drawable.button_green_light);
         buttonBlue = context.getDrawable(R.drawable.button_blue);
         buttonBlueLight = context.getDrawable(R.drawable.button_blue_light);
-        mainButtonClicked = context.getDrawable(R.drawable.main_button_clicked);
-        mainButton = context.getDrawable(R.drawable.main_button);
-        settingsClicked = context.getDrawable(R.drawable.settings_clicked);
-        settings = context.getDrawable(R.drawable.settings);
         zero = context.getDrawable(R.drawable.zero);
         two = context.getDrawable(R.drawable.two);
         four = context.getDrawable(R.drawable.four);
@@ -111,6 +112,7 @@ public class Preloader {
         return instance;
     }
 
+    // TODO: 04.08.2020 ustawic alfabetycznie
     /**
      * @return clicked undo button's image ({@link Preloader#undoClicked}).
      */
@@ -220,28 +222,52 @@ public class Preloader {
      * @return settings button's image ({@link Preloader#settings}).
      */
     public Drawable getSettings() {
+        if (settings == null)
+            loadSettings();
         return settings;
+    }
+
+    private void loadSettings() {
+        settings = context.getDrawable(R.drawable.settings);
     }
 
     /**
      * @return settings clicked button's image ({@link Preloader#settingsClicked}).
      */
     public Drawable getSettingsClicked() {
+        if (settingsClicked == null)
+            loadSettingsClicked();
         return settingsClicked;
+    }
+
+    private void loadSettingsClicked() {
+        settingsClicked = context.getDrawable(R.drawable.settings_clicked);
     }
 
     /**
      * @return main button's clicked image ({@link Preloader#mainButtonClicked}).
      */
     public Drawable getMainButtonClicked() {
+        if (mainButtonClicked == null)
+            loadMainButtonClicked();
         return mainButtonClicked;
+    }
+
+    private void loadMainButtonClicked() {
+        mainButtonClicked = context.getDrawable(R.drawable.main_button_clicked);
     }
 
     /**
      * @return main button's image ({@link Preloader#mainButton}).
      */
     public Drawable getMainButton() {
+        if (mainButton == null)
+            loadMainButton();
         return mainButton;
+    }
+
+    private void loadMainButton() {
+        mainButton = context.getDrawable(R.drawable.main_button);
     }
 
     /**

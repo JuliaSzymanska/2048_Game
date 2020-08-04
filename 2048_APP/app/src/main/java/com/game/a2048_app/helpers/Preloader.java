@@ -71,16 +71,22 @@ public class Preloader {
     public void loadAssets() {
         loadUndoClicked();
         loadUndo();
+
         loadPausePlayOn();
         loadPausePlayOff();
+
         loadMuteOn();
         loadMuteOff();
+
         loadDarkThemeOn();
         loadDarkThemeOff();
+
         loadSettings();
         loadSettingsClicked();
+
         loadMainButton();
         loadMainButtonClicked();
+
         loadZero();
         loadTwo();
         loadFour();
@@ -99,10 +105,11 @@ public class Preloader {
         loadThirtyTwoThousand();
         loadSixtyFiveThousand();
         loadOneHundredThousand();
-        buttonGreenLight = context.getDrawable(R.drawable.button_green_light);
-        buttonBlue = context.getDrawable(R.drawable.button_blue);
-        buttonBlueLight = context.getDrawable(R.drawable.button_blue_light);
+
         loadButtonGreen();
+        loadButtonGreenLight();
+        loadButtonBlue();
+        loadButtonBlueLight();
     }
 
     /**
@@ -509,7 +516,7 @@ public class Preloader {
      * @return green field's background image ({@link Preloader#buttonGreen}).
      */
     public Drawable getButtonGreen() {
-        if (buttonGreen != null)
+        if (buttonGreen == null)
             loadButtonGreen();
         return buttonGreen;
     }
@@ -518,26 +525,43 @@ public class Preloader {
         buttonGreen = context.getDrawable(R.drawable.button_green);
     }
 
-
     /**
      * @return light green field's background image ({@link Preloader#buttonGreenLight}).
      */
     public Drawable getButtonGreenLight() {
+        if (buttonGreenLight == null)
+            loadButtonGreenLight();
         return buttonGreenLight;
+    }
+
+    private void loadButtonGreenLight() {
+        buttonGreenLight = context.getDrawable(R.drawable.button_green_light);
     }
 
     /**
      * @return blue field's background image ({@link Preloader#buttonBlue}).
      */
     public Drawable getButtonBlue() {
+        if (buttonBlue == null)
+            loadButtonBlue();
         return buttonBlue;
+    }
+
+    private void loadButtonBlue() {
+        buttonBlue = context.getDrawable(R.drawable.button_blue);
     }
 
     /**
      * @return light blue field's background image ({@link Preloader#buttonBlueLight}).
      */
     public Drawable getButtonBlueLight() {
+        if (buttonBlueLight == null)
+            loadButtonBlueLight();
         return buttonBlueLight;
+    }
+
+    private void loadButtonBlueLight() {
+        buttonBlueLight = context.getDrawable(R.drawable.button_green_light);
     }
 
 }

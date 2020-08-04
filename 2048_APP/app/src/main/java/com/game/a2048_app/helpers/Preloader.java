@@ -41,10 +41,10 @@ public class Preloader {
     private static Drawable thirtyTwo;
     private static Drawable sixtyFour;
     private static Drawable oneHundred;
-    private static Drawable twoHundreds;
-    private static Drawable fiveHundreds;
+    private static Drawable twoHundred;
+    private static Drawable fiveHundred;
     private static Drawable oneThousand;
-    private static Drawable twoThousands;
+    private static Drawable twoThousand;
     private static Drawable fourThousands;
     private static Drawable eightThousands;
     private static Drawable sixteenThousands;
@@ -81,21 +81,21 @@ public class Preloader {
         loadSettingsClicked();
         loadMainButton();
         loadMainButtonClicked();
+        loadZero();
+        loadTwo();
+        loadFour();
+        loadEight();
+        loadSixteen();
+        loadThirtyTwo();
+        loadSixtyFour();
+        loadOneHundred();
+        loadTwoHundred();
+        loadFiveHundred();
+        loadOneThousand();
+        loadTwoThousand();
         buttonGreenLight = context.getDrawable(R.drawable.button_green_light);
         buttonBlue = context.getDrawable(R.drawable.button_blue);
         buttonBlueLight = context.getDrawable(R.drawable.button_blue_light);
-        zero = context.getDrawable(R.drawable.zero);
-        two = context.getDrawable(R.drawable.two);
-        four = context.getDrawable(R.drawable.four);
-        eight = context.getDrawable(R.drawable.eight);
-        sixteen = context.getDrawable(R.drawable.sixteen);
-        thirtyTwo = context.getDrawable(R.drawable.thirty_two);
-        sixtyFour = context.getDrawable(R.drawable.sixty_four);
-        oneHundred = context.getDrawable(R.drawable.one_hundred);
-        twoHundreds = context.getDrawable(R.drawable.two_hundreds);
-        fiveHundreds = context.getDrawable(R.drawable.five_hundreds);
-        oneThousand = context.getDrawable(R.drawable.one_thousand);
-        twoThousands = context.getDrawable(R.drawable.two_thousands);
         fourThousands = context.getDrawable(R.drawable.four_thousands);
         eightThousands = context.getDrawable(R.drawable.eight_thousands);
         sixteenThousands = context.getDrawable(R.drawable.sixteen_thousands);
@@ -366,35 +366,65 @@ public class Preloader {
      * @return field's image for 128 value ({@link Preloader#oneHundred}).
      */
     public Drawable getOneHundred() {
+        if (oneHundred == null)
+            loadOneHundred();
         return oneHundred;
     }
 
-    /**
-     * @return field's image for 256 value ({@link Preloader#twoHundreds}).
-     */
-    public Drawable getTwoHundreds() {
-        return twoHundreds;
+    private void loadOneHundred() {
+        oneHundred = context.getDrawable(R.drawable.one_hundred);
     }
 
     /**
-     * @return field's image for 512 value ({@link Preloader#fiveHundreds}).
+     * @return field's image for 256 value ({@link Preloader#twoHundred}).
      */
-    public Drawable getFiveHundreds() {
-        return fiveHundreds;
+    public Drawable getTwoHundred() {
+        if (twoHundred == null)
+            loadTwoHundred();
+        return twoHundred;
+    }
+
+    private void loadTwoHundred() {
+        twoHundred = context.getDrawable(R.drawable.two_hundred);
+    }
+
+    /**
+     * @return field's image for 512 value ({@link Preloader#fiveHundred}).
+     */
+    public Drawable getFiveHundred() {
+        if (fiveHundred == null)
+            loadFiveHundred();
+        return fiveHundred;
+    }
+
+    private void loadFiveHundred() {
+        fiveHundred = context.getDrawable(R.drawable.five_hundred);
     }
 
     /**
      * @return field's image for 1 024 value({@link Preloader#oneThousand}).
      */
     public Drawable getOneThousand() {
+        if (oneThousand == null)
+            loadOneThousand();
         return oneThousand;
     }
 
+    private void loadOneThousand() {
+        oneThousand = context.getDrawable(R.drawable.one_thousand);
+    }
+
     /**
-     * @return field's image for 2 048 value ({@link Preloader#twoThousands}).
+     * @return field's image for 2 048 value ({@link Preloader#twoThousand}).
      */
-    public Drawable getTwoThousands() {
-        return twoThousands;
+    public Drawable getTwoThousand() {
+        if (twoThousand == null)
+            loadTwoThousand();
+        return twoThousand;
+    }
+
+    private void loadTwoThousand() {
+        twoThousand = context.getDrawable(R.drawable.two_thousand);
     }
 
     /**

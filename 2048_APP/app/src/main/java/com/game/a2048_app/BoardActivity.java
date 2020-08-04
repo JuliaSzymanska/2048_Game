@@ -564,16 +564,16 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     fieldsImages[i] = preloader.getOneHundred();
                     break;
                 case 256:
-                    fieldsImages[i] = preloader.getTwoHundreds();
+                    fieldsImages[i] = preloader.getTwoHundred();
                     break;
                 case 512:
-                    fieldsImages[i] = preloader.getFiveHundreds();
+                    fieldsImages[i] = preloader.getFiveHundred();
                     break;
                 case 1024:
                     fieldsImages[i] = preloader.getOneThousand();
                     break;
                 case 2048:
-                    fieldsImages[i] = preloader.getTwoThousands();
+                    fieldsImages[i] = preloader.getTwoThousand();
                     break;
                 case 4096:
                     fieldsImages[i] = preloader.getFourThousands();

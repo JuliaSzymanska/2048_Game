@@ -17,40 +17,40 @@ public class Preloader {
     private Preloader() {
     }
 
-    private Drawable buttonGreen;
-    private Drawable buttonGreenLight;
-    private Drawable buttonBlue;
-    private Drawable buttonBlueLight;
-    private Drawable mainButtonClicked;
-    private Drawable mainButton;
-    private Drawable settingsClicked;
-    private Drawable settings;
-    private Drawable undoClicked;
-    private Drawable undo;
-    private Drawable pausePlayOn;
-    private Drawable pausePlayOff;
-    private Drawable muteOn;
-    private Drawable muteOff;
-    private Drawable darkThemeOn;
-    private Drawable darkThemeOff;
-    private Drawable zero;
-    private Drawable two;
-    private Drawable four;
-    private Drawable eight;
-    private Drawable sixteen;
-    private Drawable thirtyTwo;
-    private Drawable sixtyFour;
-    private Drawable oneHundred;
-    private Drawable twoHundreds;
-    private Drawable fiveHundreds;
-    private Drawable oneThousand;
-    private Drawable twoThousands;
-    private Drawable fourThousands;
-    private Drawable eightThousands;
-    private Drawable sixteenThousands;
-    private Drawable thirtyTwoThousands;
-    private Drawable sixtyFiveThousands;
-    private Drawable oneHundredThousands;
+    private static Drawable buttonGreen;
+    private static Drawable buttonGreenLight;
+    private static Drawable buttonBlue;
+    private static Drawable buttonBlueLight;
+    private static Drawable mainButtonClicked;
+    private static Drawable mainButton;
+    private static Drawable settingsClicked;
+    private static Drawable settings;
+    private static Drawable undoClicked;
+    private static Drawable undo;
+    private static Drawable pausePlayOn;
+    private static Drawable pausePlayOff;
+    private static Drawable muteOn;
+    private static Drawable muteOff;
+    private static Drawable darkThemeOn;
+    private static Drawable darkThemeOff;
+    private static Drawable zero;
+    private static Drawable two;
+    private static Drawable four;
+    private static Drawable eight;
+    private static Drawable sixteen;
+    private static Drawable thirtyTwo;
+    private static Drawable sixtyFour;
+    private static Drawable oneHundred;
+    private static Drawable twoHundreds;
+    private static Drawable fiveHundreds;
+    private static Drawable oneThousand;
+    private static Drawable twoThousands;
+    private static Drawable fourThousands;
+    private static Drawable eightThousands;
+    private static Drawable sixteenThousands;
+    private static Drawable thirtyTwoThousands;
+    private static Drawable sixtyFiveThousands;
+    private static Drawable oneHundredThousands;
 
     /**
      * Initialized context for class.
@@ -67,40 +67,40 @@ public class Preloader {
      * Loads Drawable images from R.drawable.
      */
     public void loadAssets() {
-        this.buttonGreen = context.getDrawable(R.drawable.button_green);
-        this.buttonGreenLight = context.getDrawable(R.drawable.button_green_light);
-        this.buttonBlue = context.getDrawable(R.drawable.button_blue);
-        this.buttonBlueLight = context.getDrawable(R.drawable.button_blue_light);
-        this.mainButtonClicked = context.getDrawable(R.drawable.main_button_clicked);
-        this.mainButton = context.getDrawable(R.drawable.main_button);
-        this.settingsClicked = context.getDrawable(R.drawable.settings_clicked);
-        this.settings = context.getDrawable(R.drawable.settings);
-        this.undoClicked = context.getDrawable(R.drawable.undo_clicked);
-        this.undo = context.getDrawable(R.drawable.undo);
-        this.pausePlayOn = context.getDrawable(R.drawable.pause_play_on);
-        this.pausePlayOff = context.getDrawable(R.drawable.pause_play);
-        this.muteOn = context.getDrawable(R.drawable.mute_on);
-        this.muteOff = context.getDrawable(R.drawable.mute_off);
-        this.darkThemeOn = context.getDrawable(R.drawable.dark_theme_on);
-        this.darkThemeOff = context.getDrawable(R.drawable.dark_theme_off);
-        this.zero = context.getDrawable(R.drawable.zero);
-        this.two = context.getDrawable(R.drawable.two);
-        this.four = context.getDrawable(R.drawable.four);
-        this.eight = context.getDrawable(R.drawable.eight);
-        this.sixteen = context.getDrawable(R.drawable.sixteen);
-        this.thirtyTwo = context.getDrawable(R.drawable.thirty_two);
-        this.sixtyFour = context.getDrawable(R.drawable.sixty_four);
-        this.oneHundred = context.getDrawable(R.drawable.one_hundred);
-        this.twoHundreds = context.getDrawable(R.drawable.two_hundreds);
-        this.fiveHundreds = context.getDrawable(R.drawable.five_hundreds);
-        this.oneThousand = context.getDrawable(R.drawable.one_thousand);
-        this.twoThousands = context.getDrawable(R.drawable.two_thousands);
-        this.fourThousands = context.getDrawable(R.drawable.four_thousands);
-        this.eightThousands = context.getDrawable(R.drawable.eight_thousands);
-        this.sixteenThousands = context.getDrawable(R.drawable.sixteen_thousands);
-        this.thirtyTwoThousands = context.getDrawable(R.drawable.thirty_two_thousands);
-        this.sixtyFiveThousands = context.getDrawable(R.drawable.sixty_five_thousands);
-        this.oneHundredThousands = context.getDrawable(R.drawable.one_hundred_thousands);
+        undoClicked = loadUndoClicked();
+        undo = loadUndo();
+        buttonGreen = loadButtonGreen();
+        pausePlayOn = loadPausePlayOn();
+        pausePlayOff = loadPausePlayOff();
+        buttonGreenLight = context.getDrawable(R.drawable.button_green_light);
+        buttonBlue = context.getDrawable(R.drawable.button_blue);
+        buttonBlueLight = context.getDrawable(R.drawable.button_blue_light);
+        mainButtonClicked = context.getDrawable(R.drawable.main_button_clicked);
+        mainButton = context.getDrawable(R.drawable.main_button);
+        settingsClicked = context.getDrawable(R.drawable.settings_clicked);
+        settings = context.getDrawable(R.drawable.settings);
+        muteOn = context.getDrawable(R.drawable.mute_on);
+        muteOff = context.getDrawable(R.drawable.mute_off);
+        darkThemeOn = context.getDrawable(R.drawable.dark_theme_on);
+        darkThemeOff = context.getDrawable(R.drawable.dark_theme_off);
+        zero = context.getDrawable(R.drawable.zero);
+        two = context.getDrawable(R.drawable.two);
+        four = context.getDrawable(R.drawable.four);
+        eight = context.getDrawable(R.drawable.eight);
+        sixteen = context.getDrawable(R.drawable.sixteen);
+        thirtyTwo = context.getDrawable(R.drawable.thirty_two);
+        sixtyFour = context.getDrawable(R.drawable.sixty_four);
+        oneHundred = context.getDrawable(R.drawable.one_hundred);
+        twoHundreds = context.getDrawable(R.drawable.two_hundreds);
+        fiveHundreds = context.getDrawable(R.drawable.five_hundreds);
+        oneThousand = context.getDrawable(R.drawable.one_thousand);
+        twoThousands = context.getDrawable(R.drawable.two_thousands);
+        fourThousands = context.getDrawable(R.drawable.four_thousands);
+        eightThousands = context.getDrawable(R.drawable.eight_thousands);
+        sixteenThousands = context.getDrawable(R.drawable.sixteen_thousands);
+        thirtyTwoThousands = context.getDrawable(R.drawable.thirty_two_thousands);
+        sixtyFiveThousands = context.getDrawable(R.drawable.sixty_five_thousands);
+        oneHundredThousands = context.getDrawable(R.drawable.one_hundred_thousands);
     }
 
     /**
@@ -114,28 +114,53 @@ public class Preloader {
      * @return clicked undo button's image ({@link Preloader#undoClicked}).
      */
     public Drawable getUndoClicked() {
+        if (undoClicked == null )
+            undoClicked = loadUndoClicked();
         return undoClicked;
+    }
+
+    private Drawable loadUndoClicked() {
+        return context.getDrawable(R.drawable.undo_clicked);
     }
 
     /**
      * @return undo button's image ({@link Preloader#undo}).
      */
     public Drawable getUndo() {
+        if (undo == null)
+            undo = loadUndo();
         return undo;
     }
+
+    private Drawable loadUndo() {
+        return context.getDrawable(R.drawable.undo);
+    }
+
 
     /**
      * @return pause and play on button's image ({@link Preloader#pausePlayOn}).
      */
     public Drawable getPausePlayOn() {
+        if(pausePlayOn == null)
+            pausePlayOn = loadPausePlayOn();
         return pausePlayOn;
+    }
+
+    private Drawable loadPausePlayOn() {
+        return context.getDrawable(R.drawable.pause_play_on);
     }
 
     /**
      * @return pause and play off button's image ({@link Preloader#pausePlayOff}).
      */
     public Drawable getPausePlayOff() {
+        if (pausePlayOff == null)
+            pausePlayOff = loadPausePlayOff();
         return pausePlayOff;
+    }
+
+    private Drawable loadPausePlayOff() {
+        return context.getDrawable(R.drawable.pause_play);
     }
 
     /**
@@ -324,8 +349,15 @@ public class Preloader {
      * @return green field's background image ({@link Preloader#buttonGreen}).
      */
     public Drawable getButtonGreen() {
-        return buttonGreen;
+        if (buttonGreen != null)
+            return buttonGreen;
+        return loadButtonGreen();
     }
+
+    private Drawable loadButtonGreen() {
+        return context.getDrawable(R.drawable.button_green);
+    }
+
 
     /**
      * @return light green field's background image ({@link Preloader#buttonGreenLight}).

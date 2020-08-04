@@ -792,12 +792,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Saves score, high score and user authentication to next activity.
      */
     private void changeToEndActivity() {
-        this.adapter = null;
-        this.game.restartGame();
         Intent i = new Intent(BoardActivity.this.boardActivity, EndGame.class);
         i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getScore()));
         i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
         i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
+        this.adapter = null;
+        this.game.restartGame();
         startActivity(i);
     }
 

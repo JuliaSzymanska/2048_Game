@@ -24,7 +24,7 @@ public class Game {
     private Board gameBoard = new Board();
     private Context context;
 
-    private int highScore;
+    private int highScore = 0;
     private boolean isUserAuthenticated = false;
 
     private long gameBeginTime;

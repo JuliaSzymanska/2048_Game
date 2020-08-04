@@ -71,7 +71,6 @@ public class Preloader {
     public void loadAssets() {
         loadUndoClicked();
         loadUndo();
-        loadButtonGreen();
         loadPausePlayOn();
         loadPausePlayOff();
         loadMuteOn();
@@ -103,6 +102,7 @@ public class Preloader {
         thirtyTwoThousands = context.getDrawable(R.drawable.thirty_two_thousands);
         sixtyFiveThousands = context.getDrawable(R.drawable.sixty_five_thousands);
         oneHundredThousands = context.getDrawable(R.drawable.one_hundred_thousands);
+        loadButtonGreen();
     }
 
     /**
@@ -113,6 +113,7 @@ public class Preloader {
     }
 
     // TODO: 04.08.2020 ustawic alfabetycznie
+
     /**
      * @return clicked undo button's image ({@link Preloader#undoClicked}).
      */
@@ -274,49 +275,91 @@ public class Preloader {
      * @return field's image for 0 value ({@link Preloader#zero}).
      */
     public Drawable getZero() {
+        if (zero == null)
+            loadZero();
         return zero;
+    }
+
+    private void loadZero() {
+        zero = context.getDrawable(R.drawable.zero);
     }
 
     /**
      * @return field's image for 2 value ({@link Preloader#two}).
      */
     public Drawable getTwo() {
+        if (two == null)
+            loadTwo();
         return two;
+    }
+
+    private void loadTwo() {
+        two = context.getDrawable(R.drawable.two);
     }
 
     /**
      * @return field's image for 4 value ({@link Preloader#four}).
      */
     public Drawable getFour() {
+        if (four == null)
+            loadFour();
         return four;
+    }
+
+    private void loadFour() {
+        four = context.getDrawable(R.drawable.four);
     }
 
     /**
      * @return field's image for 8 value ({@link Preloader#eight}).
      */
     public Drawable getEight() {
+        if (eight == null)
+            loadEight();
         return eight;
+    }
+
+    private void loadEight() {
+        eight = context.getDrawable(R.drawable.eight);
     }
 
     /**
      * @return field's image for 16 value ({@link Preloader#sixteen}).
      */
     public Drawable getSixteen() {
+        if (sixteen == null)
+            loadSixteen();
         return sixteen;
+    }
+
+    private void loadSixteen() {
+        sixteen = context.getDrawable(R.drawable.sixteen);
     }
 
     /**
      * @return field's image for 32 value ({@link Preloader#thirtyTwo}).
      */
     public Drawable getThirtyTwo() {
+        if (thirtyTwo == null)
+            loadThirtyTwo();
         return thirtyTwo;
+    }
+
+    private void loadThirtyTwo() {
+        thirtyTwo = context.getDrawable(R.drawable.thirty_two);
     }
 
     /**
      * @return field's image for 64 value ({@link Preloader#sixtyFour}).
      */
     public Drawable getSixtyFour() {
+        if (sixtyFour == null)
+            loadSixtyFour();
         return sixtyFour;
+    }
+
+    private void loadSixtyFour() {
+        sixtyFour = context.getDrawable(R.drawable.sixty_four);
     }
 
     /**
@@ -401,12 +444,12 @@ public class Preloader {
      */
     public Drawable getButtonGreen() {
         if (buttonGreen != null)
-            return buttonGreen;
-        return loadButtonGreen();
+            loadButtonGreen();
+        return buttonGreen;
     }
 
-    private Drawable loadButtonGreen() {
-        return context.getDrawable(R.drawable.button_green);
+    private void loadButtonGreen() {
+        buttonGreen = context.getDrawable(R.drawable.button_green);
     }
 
 

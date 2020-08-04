@@ -45,12 +45,12 @@ public class Preloader {
     private static Drawable fiveHundred;
     private static Drawable oneThousand;
     private static Drawable twoThousand;
-    private static Drawable fourThousands;
-    private static Drawable eightThousands;
-    private static Drawable sixteenThousands;
-    private static Drawable thirtyTwoThousands;
-    private static Drawable sixtyFiveThousands;
-    private static Drawable oneHundredThousands;
+    private static Drawable fourThousand;
+    private static Drawable eightThousand;
+    private static Drawable sixteenThousand;
+    private static Drawable thirtyTwoThousand;
+    private static Drawable sixtyFiveThousand;
+    private static Drawable oneHundredThousand;
 
     /**
      * Initialized context for class.
@@ -93,15 +93,15 @@ public class Preloader {
         loadFiveHundred();
         loadOneThousand();
         loadTwoThousand();
+        loadFourThousand();
+        loadEightThousand();
+        loadSixteenThousand();
+        loadThirtyTwoThousand();
+        loadSixtyFiveThousand();
+        loadOneHundredThousand();
         buttonGreenLight = context.getDrawable(R.drawable.button_green_light);
         buttonBlue = context.getDrawable(R.drawable.button_blue);
         buttonBlueLight = context.getDrawable(R.drawable.button_blue_light);
-        fourThousands = context.getDrawable(R.drawable.four_thousands);
-        eightThousands = context.getDrawable(R.drawable.eight_thousands);
-        sixteenThousands = context.getDrawable(R.drawable.sixteen_thousands);
-        thirtyTwoThousands = context.getDrawable(R.drawable.thirty_two_thousands);
-        sixtyFiveThousands = context.getDrawable(R.drawable.sixty_five_thousands);
-        oneHundredThousands = context.getDrawable(R.drawable.one_hundred_thousands);
         loadButtonGreen();
     }
 
@@ -428,45 +428,81 @@ public class Preloader {
     }
 
     /**
-     * @return field's image for 4 096 value ({@link Preloader#fourThousands}).
+     * @return field's image for 4 096 value ({@link Preloader#fourThousand}).
      */
-    public Drawable getFourThousands() {
-        return fourThousands;
+    public Drawable getFourThousand() {
+        if (fourThousand == null)
+            loadFourThousand();
+        return fourThousand;
+    }
+
+    private void loadFourThousand() {
+        fourThousand = context.getDrawable(R.drawable.four_thousand);
     }
 
     /**
-     * @return field's image for 8 192 value ({@link Preloader#eightThousands}).
+     * @return field's image for 8 192 value ({@link Preloader#eightThousand}).
      */
-    public Drawable getEightThousands() {
-        return eightThousands;
+    public Drawable getEightThousand() {
+        if (eightThousand == null)
+            loadEightThousand();
+        return eightThousand;
+    }
+
+    private void loadEightThousand() {
+        eightThousand = context.getDrawable(R.drawable.eight_thousand);
     }
 
     /**
-     * @return field's image for 16 384 value ({@link Preloader#sixteenThousands}).
+     * @return field's image for 16 384 value ({@link Preloader#sixteenThousand}).
      */
-    public Drawable getSixteenThousands() {
-        return sixteenThousands;
+    public Drawable getSixteenThousand() {
+        if (sixteenThousand == null)
+            loadSixteenThousand();
+        return sixteenThousand;
+    }
+
+    private void loadSixteenThousand() {
+        sixteenThousand = context.getDrawable(R.drawable.sixteen_thousand);
     }
 
     /**
-     * @return field's image for 32 768 value ({@link Preloader#thirtyTwoThousands}).
+     * @return field's image for 32 768 value ({@link Preloader#thirtyTwoThousand}).
      */
-    public Drawable getThirtyTwoThousands() {
-        return thirtyTwoThousands;
+    public Drawable getThirtyTwoThousand() {
+        if (thirtyTwoThousand == null)
+            loadThirtyTwoThousand();
+        return thirtyTwoThousand;
+    }
+
+    private void loadThirtyTwoThousand() {
+        thirtyTwoThousand = context.getDrawable(R.drawable.thirty_two_thousand);
     }
 
     /**
-     * @return field's image for 65 536 value ({@link Preloader#sixtyFiveThousands}).
+     * @return field's image for 65 536 value ({@link Preloader#sixtyFiveThousand}).
      */
-    public Drawable getSixtyFiveThousands() {
-        return sixtyFiveThousands;
+    public Drawable getSixtyFiveThousand() {
+        if (sixtyFiveThousand == null)
+            loadSixtyFiveThousand();
+        return sixtyFiveThousand;
+    }
+
+    private void loadSixtyFiveThousand() {
+        sixtyFiveThousand = context.getDrawable(R.drawable.sixty_five_thousand);
     }
 
     /**
-     * @return field's image for 131 072 value ({@link Preloader#oneHundredThousands}).
+     * @return field's image for 131 072 value ({@link Preloader#oneHundredThousand}).
      */
-    public Drawable getOneHundredThousands() {
-        return oneHundredThousands;
+    public Drawable getOneHundredThousand() {
+        if (oneHundredThousand == null)
+            loadOneHundredThousand();
+        return oneHundredThousand;
+    }
+
+    private void loadOneHundredThousand() {
+        oneHundredThousand = context.getDrawable(R.drawable.one_hundred_thousand);
     }
 
     /**

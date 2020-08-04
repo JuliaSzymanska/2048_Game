@@ -54,6 +54,7 @@ public class Preloader {
 
     /**
      * Initialized context for class.
+     *
      * @param context context passed by activity.
      */
     @SuppressLint("CommitPrefEdits")
@@ -67,11 +68,15 @@ public class Preloader {
      * Loads Drawable images from R.drawable.
      */
     public void loadAssets() {
-        undoClicked = loadUndoClicked();
-        undo = loadUndo();
-        buttonGreen = loadButtonGreen();
-        pausePlayOn = loadPausePlayOn();
-        pausePlayOff = loadPausePlayOff();
+        loadUndoClicked();
+        loadUndo();
+        loadButtonGreen();
+        loadPausePlayOn();
+        loadPausePlayOff();
+        loadMuteOn();
+        loadMuteOff();
+        loadDarkThemeOn();
+        loadDarkThemeOff();
         buttonGreenLight = context.getDrawable(R.drawable.button_green_light);
         buttonBlue = context.getDrawable(R.drawable.button_blue);
         buttonBlueLight = context.getDrawable(R.drawable.button_blue_light);
@@ -79,10 +84,6 @@ public class Preloader {
         mainButton = context.getDrawable(R.drawable.main_button);
         settingsClicked = context.getDrawable(R.drawable.settings_clicked);
         settings = context.getDrawable(R.drawable.settings);
-        muteOn = context.getDrawable(R.drawable.mute_on);
-        muteOff = context.getDrawable(R.drawable.mute_off);
-        darkThemeOn = context.getDrawable(R.drawable.dark_theme_on);
-        darkThemeOff = context.getDrawable(R.drawable.dark_theme_off);
         zero = context.getDrawable(R.drawable.zero);
         two = context.getDrawable(R.drawable.two);
         four = context.getDrawable(R.drawable.four);
@@ -114,13 +115,13 @@ public class Preloader {
      * @return clicked undo button's image ({@link Preloader#undoClicked}).
      */
     public Drawable getUndoClicked() {
-        if (undoClicked == null )
-            undoClicked = loadUndoClicked();
+        if (undoClicked == null)
+            loadUndoClicked();
         return undoClicked;
     }
 
-    private Drawable loadUndoClicked() {
-        return context.getDrawable(R.drawable.undo_clicked);
+    private void loadUndoClicked() {
+        undoClicked = context.getDrawable(R.drawable.undo_clicked);
     }
 
     /**
@@ -128,12 +129,12 @@ public class Preloader {
      */
     public Drawable getUndo() {
         if (undo == null)
-            undo = loadUndo();
+            loadUndo();
         return undo;
     }
 
-    private Drawable loadUndo() {
-        return context.getDrawable(R.drawable.undo);
+    private void loadUndo() {
+        undo = context.getDrawable(R.drawable.undo);
     }
 
 
@@ -141,13 +142,13 @@ public class Preloader {
      * @return pause and play on button's image ({@link Preloader#pausePlayOn}).
      */
     public Drawable getPausePlayOn() {
-        if(pausePlayOn == null)
-            pausePlayOn = loadPausePlayOn();
+        if (pausePlayOn == null)
+            loadPausePlayOn();
         return pausePlayOn;
     }
 
-    private Drawable loadPausePlayOn() {
-        return context.getDrawable(R.drawable.pause_play_on);
+    private void loadPausePlayOn() {
+        pausePlayOn = context.getDrawable(R.drawable.pause_play_on);
     }
 
     /**
@@ -155,40 +156,64 @@ public class Preloader {
      */
     public Drawable getPausePlayOff() {
         if (pausePlayOff == null)
-            pausePlayOff = loadPausePlayOff();
+            loadPausePlayOff();
         return pausePlayOff;
     }
 
-    private Drawable loadPausePlayOff() {
-        return context.getDrawable(R.drawable.pause_play);
+    private void loadPausePlayOff() {
+        pausePlayOff = context.getDrawable(R.drawable.pause_play);
     }
 
     /**
      * @return mute on button's image ({@link Preloader#muteOn}).
      */
     public Drawable getMuteOn() {
+        if (muteOn == null)
+            loadMuteOn();
         return muteOn;
+    }
+
+    private void loadMuteOn() {
+        muteOn = context.getDrawable(R.drawable.mute_on);
     }
 
     /**
      * @return mute off button's image ({@link Preloader#muteOff}).
      */
     public Drawable getMuteOff() {
+        if (muteOff == null)
+            loadMuteOff();
         return muteOff;
+    }
+
+    private void loadMuteOff() {
+        muteOff = context.getDrawable(R.drawable.mute_off);
     }
 
     /**
      * @return dark theme on image ({@link Preloader#darkThemeOn}).
      */
     public Drawable getDarkThemeOn() {
+        if (darkThemeOn == null)
+            loadDarkThemeOn();
         return darkThemeOn;
+    }
+
+    private void loadDarkThemeOn() {
+        darkThemeOn = context.getDrawable(R.drawable.dark_theme_on);
     }
 
     /**
      * @return dark theme off image ({@link Preloader#darkThemeOff}).
      */
     public Drawable getDarkThemeOff() {
+        if (darkThemeOff == null)
+            loadDarkThemeOff();
         return darkThemeOff;
+    }
+
+    private void loadDarkThemeOff() {
+        darkThemeOff = context.getDrawable(R.drawable.dark_theme_off);
     }
 
     /**

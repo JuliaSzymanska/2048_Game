@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private Preloader preloader = Preloader.getInstance();
     private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
     private OnSwipeTouchListener onSwipeTouchListener;
+    private ActivityMainBinding binding;
 
     /**
      * Called when the activity is starting.
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         PreferencesHelper.initContext(this);
-        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initButtons();
         loadData();
         this.setupSwipeListener();

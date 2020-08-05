@@ -19,6 +19,7 @@ buildscript {
 
 }
 
+
 apply plugin: 'checkstyle'
 
 allprojects {

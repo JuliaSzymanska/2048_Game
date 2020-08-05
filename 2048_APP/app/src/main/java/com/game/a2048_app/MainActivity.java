@@ -14,7 +14,9 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.databinding.DataBindingUtil;
 
+import com.game.a2048_app.databinding.ActivityMainBinding;
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
@@ -30,16 +32,11 @@ import me.aflak.libraries.dialog.FingerprintDialog;
 
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback {
 
-    private MainActivity mainActivity = this;
     private Boolean isAuthenticated = false;
     private Button startGameButton;
     private Preloader preloader = Preloader.getInstance();
-    private static final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
-
-    private ConstraintLayout constraintLayout;
-
+    private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
     private OnSwipeTouchListener onSwipeTouchListener;
-
 
     /**
      * Called when the activity is starting.
@@ -54,11 +51,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         PreferencesHelper.initContext(this);
-        setContentView(R.layout.activity_main);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initButtons();
         loadData();
-
-        this.constraintLayout = findViewById(R.id.constraintLayoutMainActivity);
         this.setupSwipeListener();
     }
 
@@ -99,20 +94,8 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      */
     private void initButtons() {
         startGameButton = (Button) findViewById(R.id.startGameButton);
-        configureAuthenticateButton();
+        binding.setIsFingerprintSensorAvailable(isFingerprintSensorAvailable(this));
     }
-
-
-    /**
-     * Initialize authentication button.
-     */
-    private void configureAuthenticateButton() {
-        Button authenticationButton = (Button) findViewById(R.id.authenticateButton);
-        if (!isFingerprintSensorAvailable(this)) {
-            authenticationButton.setVisibility(View.GONE);
-        }
-    }
-
 
     /**
      * Creates button on click listener to start game.
@@ -139,17 +122,17 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      * Init fingerprint dialog to authenticate user.
      */
     public void authenticationButtonOnClick(View v) {
-        if (FingerprintDialog.isAvailable(mainActivity)) {
-            FingerprintDialog.initialize(mainActivity)
+        if (FingerprintDialog.isAvailable(this)) {
+            FingerprintDialog.initialize(this)
                     .title(R.string.fingerprint_title)
                     .message(R.string.fingerprint_message)
-                    .callback(mainActivity)
+                    .callback(this)
                     .show();
         }
     }
 
     private void setupSwipeListener() {
-        onSwipeTouchListener = new OnSwipeTouchListener(this, constraintLayout);
+        onSwipeTouchListener = new OnSwipeTouchListener(this, findViewById(R.id.constraintLayoutMainActivity));
         final MainActivity mainActivity = this;
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
             @Override

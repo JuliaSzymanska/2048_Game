@@ -105,26 +105,14 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     /**
      * Initialize authentication button.
-     * Sets its listener.
      */
     private void configureAuthenticateButton() {
         Button authenticationButton = (Button) findViewById(R.id.authenticateButton);
-        if (isFingerprintSensorAvailable(this)) {
-            authenticationButton.setOnClickListener(authenticationListener);
-        } else {
+        if (!isFingerprintSensorAvailable(this)) {
             authenticationButton.setVisibility(View.GONE);
         }
     }
 
-    /**
-     * Creates button on click listener to authenticate user.
-     */
-    private View.OnClickListener authenticationListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            initFingerprintDialog();
-        }
-    };
 
     /**
      * Creates button on click listener to start game.
@@ -150,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     /**
      * Init fingerprint dialog to authenticate user.
      */
-    private void initFingerprintDialog() {
+    public void authenticationButtonOnClick(View v) {
         if (FingerprintDialog.isAvailable(mainActivity)) {
             FingerprintDialog.initialize(mainActivity)
                     .title(R.string.fingerprint_title)

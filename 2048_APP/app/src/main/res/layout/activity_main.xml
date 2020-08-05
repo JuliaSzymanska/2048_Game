@@ -33,7 +33,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintTop_toBottomOf="@+id/startGameButton" />
+        app:layout_constraintTop_toBottomOf="@+id/startGameButton"
+        android:onClick="authenticationButtonOnClick"/>
 
     <ImageView
         android:id="@+id/logo"

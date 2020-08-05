@@ -8,7 +8,6 @@
     android:background="@drawable/background"
     tools:context=".BoardActivity">
 
-
     <ImageView
         android:id="@+id/darkThemeView"
         android:layout_width="match_parent"

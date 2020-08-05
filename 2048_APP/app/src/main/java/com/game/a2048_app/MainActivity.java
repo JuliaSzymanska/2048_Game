@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.AssetFileDescriptor;
 import android.hardware.fingerprint.FingerprintManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -58,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         setContentView(R.layout.activity_main);
         initButtons();
         loadData();
+
         this.constraintLayout = findViewById(R.id.constraintLayoutMainActivity);
         this.setupSwipeListener();
     }

@@ -98,18 +98,10 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      * Calls method to initialize buttons.
      */
     private void initButtons() {
-        configureStartGameButton();
+        startGameButton = (Button) findViewById(R.id.startGameButton);
         configureAuthenticateButton();
     }
 
-    /**
-     * Initialize start game button.
-     * Sets its listener.
-     */
-    private void configureStartGameButton() {
-        startGameButton = (Button) findViewById(R.id.startGameButton);
-        startGameButton.setOnClickListener(initializeBoardActivity);
-    }
 
     /**
      * Initialize authentication button.
@@ -146,17 +138,14 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         }
     };
 
-    private View.OnClickListener initializeBoardActivity = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            startGameButton.setBackground(preloader.getMainButtonClicked());
-            SoundPlayer soundPlayer = SoundPlayer.getInstance();
-            soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.decline_call), setStartGameBackgroundListener);
-            Intent i = new Intent(MainActivity.this, BoardActivity.class);
-            i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(isAuthenticated));
-            startActivity(i);
-        }
-    };
+    public void mainActivityMainButtonOnClick(View v) {
+        startGameButton.setBackground(preloader.getMainButtonClicked());
+        SoundPlayer soundPlayer = SoundPlayer.getInstance();
+        soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.decline_call), setStartGameBackgroundListener);
+        Intent i = new Intent(MainActivity.this, BoardActivity.class);
+        i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(isAuthenticated));
+        startActivity(i);
+    }
 
     /**
      * Init fingerprint dialog to authenticate user.
@@ -230,5 +219,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     protected void onStop() {
         super.onStop();
     }
+
 }
 

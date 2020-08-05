@@ -1,78 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayoutMainActivity"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayoutMainActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".MainActivity">
+
+
+    <ImageView
+        android:id="@+id/darkThemeView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background"
-        tools:context=".MainActivity"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+        android:elevation="4dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/authenticateButton"
+        style="@android:style/Widget.Material.Light.Button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/fingerprint"
+        android:fadingEdge="horizontal"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:onClick="authenticationButtonOnClick"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startGameButton"
+        app:layout_constraintWidth_percent="0.20" />
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/main_activity_icon"
+        app:layout_constraintBottom_toTopOf="@+id/startGameButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.7"
+        tools:ignore="ContentDescription,MissingConstraints" />
 
-        <ImageView
-            android:id="@+id/darkThemeView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="4dp"
-            android:scaleType="fitXY"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/startGameButton"
+        style="@android:style/Widget.Material.Light.Button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/main_button"
+        android:fadingEdge="horizontal"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:onClick="mainActivityMainButtonOnClick"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text="@string/start_game"
+        android:textColor="#075275"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/authenticateButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.11"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:layout_constraintWidth_percent="0.7" />
 
-        <Button
-            android:id="@+id/authenticateButton"
-            style="@android:style/Widget.Material.Light.Button"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/fingerprint"
-            android:fadingEdge="horizontal"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:onClick="authenticationButtonOnClick"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/startGameButton"
-            app:layout_constraintWidth_percent="0.20" />
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/main_activity_icon"
-            app:layout_constraintBottom_toTopOf="@+id/startGameButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.7"
-            tools:ignore="ContentDescription,MissingConstraints" />
-
-        <Button
-            android:id="@+id/startGameButton"
-            style="@android:style/Widget.Material.Light.Button"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/main_button"
-            android:fadingEdge="horizontal"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:onClick="mainActivityMainButtonOnClick"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="10dp"
-            android:text="@string/start_game"
-            android:textColor="#075275"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toTopOf="@+id/authenticateButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.11"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo"
-            app:layout_constraintWidth_percent="0.7" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

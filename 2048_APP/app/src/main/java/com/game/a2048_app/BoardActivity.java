@@ -168,7 +168,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.prepareHighscoreText();
 
         this.restartGameButton = (Button) findViewById(R.id.restartGameButton);
-        this.restartGameButton.setOnClickListener(restartGameListener);
 
         this.settingsButton = (Button) findViewById(R.id.settingsButton);
         this.settingsButton.setOnClickListener(settingsListener);
@@ -303,15 +302,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Creates button on click listener to restart game.
      * Play sound after click and change button's image.
      */
-    private View.OnClickListener restartGameListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            restartGameButton.setBackground(preloader.getMainButtonClicked());
-            SoundPlayer soundPlayer = SoundPlayer.getInstance();
-            soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.restart));
-            restartGame();
-        }
-    };
+
+    public void restartGameButtonOnClick(View v) {
+        restartGameButton.setBackground(preloader.getMainButtonClicked());
+        SoundPlayer soundPlayer = SoundPlayer.getInstance();
+        soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.restart));
+        restartGame();
+    }
 
     /**
      * Creates button on click listener to open settings dialog.

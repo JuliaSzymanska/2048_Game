@@ -180,7 +180,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.pausePlayButton.setOnClickListener(playPauseListener);
 
         this.muteButton = (Button) findViewById(R.id.muteButton);
-        this.muteButton.setOnClickListener(muteListener);
         this.setMuteButtonImage();
 
         this.darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
@@ -412,24 +411,21 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Creates button on click listener to mute or unmute application.
      * Play sound after click and change button's image.
      */
-    private View.OnClickListener muteListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (volume == 0) {
-                volume = 1;
-            } else if (volume == 1) {
-                volume = 0;
-            } else {
-                throw new IllegalArgumentException("Argument value should be 0 or 1");
-            }
-            preferencesHelper.setVolume(volume);
-            try {
-                setMuteSettings();
-            } catch (IllegalStateException | NullPointerException e) {
-                e.printStackTrace();
-            }
+    public void muteButtonOnClick(View v) {
+        if (volume == 0) {
+            volume = 1;
+        } else if (volume == 1) {
+            volume = 0;
+        } else {
+            throw new IllegalArgumentException("Argument value should be 0 or 1");
         }
-    };
+        preferencesHelper.setVolume(volume);
+        try {
+            setMuteSettings();
+        } catch (IllegalStateException | NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Sets the appropriate mute button's image

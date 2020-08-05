@@ -156,7 +156,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/darkThemeView"
         app:layout_constraintBottom_toTopOf="@id/undoMoveButton"
-        app:layout_constraintWidth_percent="0.12" />
+        app:layout_constraintWidth_percent="0.12"
+        android:onClick="muteButtonOnClick"/>
 
     <Button
         android:id="@+id/undoMoveButton"

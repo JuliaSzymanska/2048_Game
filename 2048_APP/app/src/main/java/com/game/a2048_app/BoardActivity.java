@@ -99,10 +99,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static double HORIZONTAL_PITCH_MAX = 0.5;
     private final static double HORIZONTAL_PITCH_MIN = -0.5;
 
-    private final static double changeColourAzimunthBreakpoint1 = 0.25;
-    private final static double changeColourAzimunthBreakpoint2 = 1.25;
-    private final static double changeColourAzimunthBreakpoint3 = 1.75;
-    private final static double changeColourAzimunthBreakpoint4 = 2.75;
+    private final static double changeColourAzimuthBreakpoint1 = 0.25;
+    private final static double changeColourAzimuthBreakpoint2 = 1.25;
+    private final static double changeColourAzimuthBreakpoint3 = 1.75;
+    private final static double changeColourAzimuthBreakpoint4 = 2.75;
 
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
@@ -972,13 +972,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 @Override
                 public void run() {
                     if (pitch > HORIZONTAL_PITCH_MIN && pitch < HORIZONTAL_PITCH_MAX) {
-                        if (azimuth >= changeColourAzimunthBreakpoint1 && azimuth < changeColourAzimunthBreakpoint2) {
+                        if (azimuth >= changeColourAzimuthBreakpoint1 && azimuth < changeColourAzimuthBreakpoint2) {
                             mThumbIds = preloader.getButtonGreen();
-                        } else if (azimuth >= changeColourAzimunthBreakpoint3 && azimuth < changeColourAzimunthBreakpoint4) {
+                        } else if (azimuth >= changeColourAzimuthBreakpoint3 && azimuth < changeColourAzimuthBreakpoint4) {
                             mThumbIds = preloader.getButtonGreenLight();
-                        } else if (azimuth >= -changeColourAzimunthBreakpoint4 && azimuth < -changeColourAzimunthBreakpoint3) {
+                        } else if (azimuth >= -changeColourAzimuthBreakpoint4 && azimuth < -changeColourAzimuthBreakpoint3) {
                             mThumbIds = preloader.getButtonBlue();
-                        } else if (azimuth > -changeColourAzimunthBreakpoint2 && azimuth < -changeColourAzimunthBreakpoint1) {
+                        } else if (azimuth > -changeColourAzimuthBreakpoint2 && azimuth < -changeColourAzimuthBreakpoint1) {
                             mThumbIds = preloader.getButtonBlueLight();
                         }
                         adapter.notifyDataSetChanged();

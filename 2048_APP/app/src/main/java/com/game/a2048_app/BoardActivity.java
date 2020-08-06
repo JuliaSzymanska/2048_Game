@@ -54,6 +54,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private ImageView darkThemeView;
     private Field[] fields;
     private Drawable[] fieldsImages;
+    private List<Drawable> fieldImagesDrawablesList = new ArrayList<>();
     private Drawable[] fieldsBackground;
     private Preloader preloader = Preloader.getInstance();
     private Drawable mThumbIds = preloader.getButtonGreen();
@@ -463,7 +464,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             undoTextView.setText(String.format("%d", undoNumber));
             undoButton.setEnabled(false);
         } else {
-            throw new IllegalArgumentException("Undo number has to be positive number. ");
+            throw new IllegalArgumentException("Undo number has to be positive number.");
         }
     }
 
@@ -517,68 +518,54 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    private void fillFieldImagesDrawablesList() {
+        fieldImagesDrawablesList.add(preloader.getZero());
+        fieldImagesDrawablesList.add(preloader.getTwo());
+        fieldImagesDrawablesList.add(preloader.getFour());
+        fieldImagesDrawablesList.add(preloader.getEight());
+        fieldImagesDrawablesList.add(preloader.getSixteen());
+        fieldImagesDrawablesList.add(preloader.getThirtyTwo());
+        fieldImagesDrawablesList.add(preloader.getSixtyFour());
+        fieldImagesDrawablesList.add(preloader.getOneHundred());
+        fieldImagesDrawablesList.add(preloader.getTwoHundred());
+        fieldImagesDrawablesList.add(preloader.getFiveHundred());
+        fieldImagesDrawablesList.add(preloader.getOneThousand());
+        fieldImagesDrawablesList.add(preloader.getTwoThousand());
+        fieldImagesDrawablesList.add(preloader.getFourThousand());
+        fieldImagesDrawablesList.add(preloader.getEightThousand());
+        fieldImagesDrawablesList.add(preloader.getSixteenThousand());
+        fieldImagesDrawablesList.add(preloader.getThirtyTwoThousand());
+        fieldImagesDrawablesList.add(preloader.getSixtyFiveThousand());
+        fieldImagesDrawablesList.add(preloader.getOneHundredThousand());
+    }
+
+
+    /**
+     * Checks if param is power of two.
+     *
+     * @param x value to check.
+     * @return if param is power of two.
+     */
+    private boolean isPowerOfTwo(int x) {
+        return (x & (x - 1)) == 0;
+    }
+
     /**
      * Sets field's image based on current field's value.
      */
     private void setFieldsImages() {
+        if(fieldImagesDrawablesList.size() == 0) {
+            this.fillFieldImagesDrawablesList();
+        }
         for (int i = 0; i < fields.length; i++) {
-            switch (fields[i].getValue()) {
-                case 0:
-                    fieldsImages[i] = preloader.getZero();
-                    break;
-                case 2:
-                    fieldsImages[i] = preloader.getTwo();
-                    break;
-                case 4:
-                    fieldsImages[i] = preloader.getFour();
-                    break;
-                case 8:
-                    fieldsImages[i] = preloader.getEight();
-                    break;
-                case 16:
-                    fieldsImages[i] = preloader.getSixteen();
-                    break;
-                case 32:
-                    fieldsImages[i] = preloader.getThirtyTwo();
-                    break;
-                case 64:
-                    fieldsImages[i] = preloader.getSixtyFour();
-                    break;
-                case 128:
-                    fieldsImages[i] = preloader.getOneHundred();
-                    break;
-                case 256:
-                    fieldsImages[i] = preloader.getTwoHundred();
-                    break;
-                case 512:
-                    fieldsImages[i] = preloader.getFiveHundred();
-                    break;
-                case 1024:
-                    fieldsImages[i] = preloader.getOneThousand();
-                    break;
-                case 2048:
-                    fieldsImages[i] = preloader.getTwoThousand();
-                    break;
-                case 4096:
-                    fieldsImages[i] = preloader.getFourThousand();
-                    break;
-                case 8192:
-                    fieldsImages[i] = preloader.getEightThousand();
-                    break;
-                case 16384:
-                    fieldsImages[i] = preloader.getSixteenThousand();
-                    break;
-                case 32768:
-                    fieldsImages[i] = preloader.getThirtyTwoThousand();
-                    break;
-                case 65536:
-                    fieldsImages[i] = preloader.getSixtyFiveThousand();
-                    break;
-                case 131072:
-                    fieldsImages[i] = preloader.getOneHundredThousand();
-                    break;
+            int fieldValue = fields[i].getValue();
+            if (isPowerOfTwo(fieldValue)) {
+                if (fieldValue == 0) {
+                    fieldsImages[i] = fieldImagesDrawablesList.get(0);
+                } else {
+                    fieldsImages[i] = fieldImagesDrawablesList.get((int) (Math.log(fieldValue) / Math.log(2)));
+                }
             }
-
         }
     }
 

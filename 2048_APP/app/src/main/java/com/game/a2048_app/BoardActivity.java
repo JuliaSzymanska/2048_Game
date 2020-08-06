@@ -174,7 +174,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.undoButton = (Button) findViewById(R.id.undoMoveButton);
 
         this.pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
-        this.pausePlayButton.setOnClickListener(playPauseListener);
 
         this.muteButton = (Button) findViewById(R.id.muteButton);
         this.setMuteButtonImage();
@@ -383,20 +382,18 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Creates button on click listener to pause or unpause game.
      * Play sound after click and change button's image.
      */
-    private View.OnClickListener playPauseListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            SoundPlayer soundPlayer = SoundPlayer.getInstance();
-            soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.pause));
-            if (!game.isSuspended()) {
-                game.pauseTimer();
-                pausePlayButton.setBackground(preloader.getPausePlayOn());
-            } else {
-                game.unpauseTimer();
-                pausePlayButton.setBackground(preloader.getPausePlayOff());
-            }
+    public void playPauseButtonOnClick(View v) {
+        SoundPlayer soundPlayer = SoundPlayer.getInstance();
+        soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.pause));
+        if (!game.isSuspended()) {
+            game.pauseTimer();
+            pausePlayButton.setBackground(preloader.getPausePlayOn());
+        } else {
+            game.unpauseTimer();
+            pausePlayButton.setBackground(preloader.getPausePlayOff());
         }
-    };
+
+    }
 
     /**
      * Creates button on click listener to mute or unmute application.

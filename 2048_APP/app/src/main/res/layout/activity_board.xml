@@ -145,7 +145,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/restartGameButton"
         app:layout_constraintTop_toTopOf="@+id/darkThemeView"
-        app:layout_constraintWidth_percent="0.12" />
+        app:layout_constraintWidth_percent="0.12"
+        android:onClick="playPauseButtonOnClick"/>
 
     <Button
         android:id="@+id/muteButton"

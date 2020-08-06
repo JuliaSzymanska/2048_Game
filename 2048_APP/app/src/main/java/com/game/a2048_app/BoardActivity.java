@@ -172,7 +172,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.settingsButton = (Button) findViewById(R.id.settingsButton);
 
         this.undoButton = (Button) findViewById(R.id.undoMoveButton);
-        this.undoButton.setOnClickListener(undoListener);
 
         this.pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
         this.pausePlayButton.setOnClickListener(playPauseListener);
@@ -371,17 +370,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Creates button on click listener to undo last move.
      * Play sound after click and change button's image.
      */
-    private View.OnClickListener undoListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            undoButton.setBackground(preloader.getUndoClicked());
-            SoundPlayer soundPlayer = SoundPlayer.getInstance();
-            soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.undo), setUndoAmountListener);
-            game.undoPreviousMove();
-            adapter.notifyDataSetChanged();
-            setScoreTexts();
-        }
-    };
+    public void undoButtonOnClick(View v) {
+        undoButton.setBackground(preloader.getUndoClicked());
+        SoundPlayer soundPlayer = SoundPlayer.getInstance();
+        soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.undo), setUndoAmountListener);
+        game.undoPreviousMove();
+        adapter.notifyDataSetChanged();
+        setScoreTexts();
+    }
 
     /**
      * Creates button on click listener to pause or unpause game.

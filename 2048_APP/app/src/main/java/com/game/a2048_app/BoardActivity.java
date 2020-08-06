@@ -170,7 +170,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.restartGameButton = (Button) findViewById(R.id.restartGameButton);
 
         this.settingsButton = (Button) findViewById(R.id.settingsButton);
-        this.settingsButton.setOnClickListener(settingsListener);
 
         this.undoButton = (Button) findViewById(R.id.undoMoveButton);
         this.undoButton.setOnClickListener(undoListener);
@@ -315,50 +314,49 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Play sound after click and change button's image.
      * Creates dialog to allow the user to turn sensors on or off.
      */
-    private View.OnClickListener settingsListener = new View.OnClickListener() {
+    public void settingsButtonOnClick(View v) {
+        settingsButton.setBackground(preloader.getSettingsClicked());
+        SoundPlayer soundPlayer = SoundPlayer.getInstance();
+        soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.button_no_reverb));
+        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this.boardActivity);
+        builder.setMultiChoiceItems(R.array.sensors, choosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                choosenSensors[which] = isChecked;
+            }
+        });
+        builder.setCancelable(false);
+        builder.setTitle(R.string.settings_menu_title);
+        builder.setPositiveButton(getResources().getString(R.string.dialog_accept), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                preferencesHelper.setChoosenSensors(choosenSensors);
+                settingsButton.setBackground(preloader.getSettings());
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(disableUnavailableSensorsInDialog);
+        dialog.show();
+    }
+
+    private DialogInterface.OnShowListener disableUnavailableSensorsInDialog = new DialogInterface.OnShowListener() {
         @Override
-        public void onClick(View v) {
-            settingsButton.setBackground(preloader.getSettingsClicked());
-            SoundPlayer soundPlayer = SoundPlayer.getInstance();
-            soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.button_no_reverb));
-            AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this.boardActivity);
-            builder.setMultiChoiceItems(R.array.sensors, choosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                    choosenSensors[which] = isChecked;
+        public void onShow(DialogInterface dialog) {
+            final ListView alertDialogList = ((AlertDialog) dialog).getListView();
+            for (int position = 0; position < alertDialogList.getChildCount(); position++) {
+                // TODO: 23.07.2020 Zobaczyć czy dziala
+                if ((mSensorAccelerometer == null && getResources().getStringArray(R.array.sensors)[position]
+                        .equals(getResources().getString(R.string.Gyroscope_And_Accelerometer_Settings))
+                        || (mSensorMagnetometer == null && getResources().getStringArray(R.array.sensors)[position]
+                        .equals(getResources().getString(R.string.Magnetometer_Settings))
+                        || mSensorLight == null && getResources().getStringArray(R.array.sensors)[position]
+                        .equals(getResources().getString(R.string.Light_Sensor_Settings))
+                        || mSensorProximity == null && getResources().getStringArray(R.array.sensors)[position]
+                        .equals(getResources().getString(R.string.Proximity_Sensor_Settings))))) {
+                    alertDialogList.getChildAt(position).setEnabled(false);
+                    alertDialogList.getChildAt(position).setOnClickListener(null);
                 }
-            });
-            builder.setCancelable(false);
-            builder.setTitle(R.string.settings_menu_title);
-            builder.setPositiveButton(getResources().getString(R.string.dialog_accept), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    preferencesHelper.setChoosenSensors(choosenSensors);
-                    settingsButton.setBackground(preloader.getSettings());
-                }
-            });
-            AlertDialog dialog = builder.create();
-            final ListView alertDialogList = dialog.getListView();
-            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialog) {
-                    for (int position = 0; position < alertDialogList.getChildCount(); position++) {
-                        // TODO: 23.07.2020 Zobaczyć czy dziala
-                        if ((mSensorAccelerometer == null && getResources().getStringArray(R.array.sensors)[position]
-                                .equals(getResources().getString(R.string.Gyroscope_And_Accelerometer_Settings))
-                                || (mSensorMagnetometer == null && getResources().getStringArray(R.array.sensors)[position]
-                                .equals(getResources().getString(R.string.Magnetometer_Settings))
-                                || mSensorLight == null && getResources().getStringArray(R.array.sensors)[position]
-                                .equals(getResources().getString(R.string.Light_Sensor_Settings))
-                                || mSensorProximity == null && getResources().getStringArray(R.array.sensors)[position]
-                                .equals(getResources().getString(R.string.Proximity_Sensor_Settings))))) {
-                            alertDialogList.getChildAt(position).setEnabled(false);
-                            alertDialogList.getChildAt(position).setOnClickListener(null);
-                        }
-                    }
-                }
-            });
-            dialog.show();
+            }
         }
     };
 

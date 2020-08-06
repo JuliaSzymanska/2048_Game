@@ -393,7 +393,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             game.unpauseTimer();
             pausePlayButton.setBackground(preloader.getPausePlayOff());
         }
-
     }
 
     /**
@@ -643,9 +642,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             e.printStackTrace();
             goalAchieved();
         }
-        this.animate(fieldsCopies, direction);
-        this.setScoreTexts();
-        setUndoNumber();
+        finally {
+            this.animate(fieldsCopies, direction);
+            this.setScoreTexts();
+            setUndoNumber();
+        }
     }
 
     // TODO: 29.07.2020 zrob tutaj ladne javadoci

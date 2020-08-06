@@ -45,7 +45,6 @@ public class EndGame extends AppCompatActivity {
         authentication = Boolean.parseBoolean(intent.getStringExtra(getResources().getString(R.string.authentication)));
         setContentView(R.layout.activity_end_game);
         homePageButton = findViewById(R.id.homePage);
-        homePageButton.setOnClickListener(initializeMainActivity);
         loadData();
     }
 
@@ -101,15 +100,12 @@ public class EndGame extends AppCompatActivity {
      * Creates button on click listener to change to main activity.
      * Play sound after click and change button's image.
      */
-    private View.OnClickListener initializeMainActivity = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            homePageButton.setBackground(preloader.getMainButtonClicked());
-            SoundPlayer soundPlayer = SoundPlayer.getInstance();
-            soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.slide_activities), setHomePageButtonBackgroundListener);
-            startActivity(new Intent(EndGame.this, MainActivity.class));
-        }
-    };
+    public void homePageButtonOnClick(View v) {
+        homePageButton.setBackground(preloader.getMainButtonClicked());
+        SoundPlayer soundPlayer = SoundPlayer.getInstance();
+        soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.slide_activities), setHomePageButtonBackgroundListener);
+        startActivity(new Intent(EndGame.this, MainActivity.class));
+    }
 
     /**
      * Pressing back button will not perform any action.

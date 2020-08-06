@@ -48,7 +48,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/darkThemeView"
         app:layout_constraintVertical_bias="0.77"
-        app:layout_constraintWidth_percent="0.6" />
+        app:layout_constraintWidth_percent="0.6"
+        android:onClick="homePageButtonOnClick"/>
 
     <TextView
         android:id="@+id/textScore"

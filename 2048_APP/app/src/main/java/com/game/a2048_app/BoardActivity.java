@@ -358,7 +358,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
-    MediaPlayer.OnCompletionListener setUndoAmountListener = new MediaPlayer.OnCompletionListener() {
+    private MediaPlayer.OnCompletionListener setUndoAmountListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
             setUndoNumber();

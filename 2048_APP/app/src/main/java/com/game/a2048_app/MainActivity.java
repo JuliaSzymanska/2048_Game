@@ -56,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         initButtons();
         loadData();
         this.setupSwipeListener();
+        if (binding.getIsFingerprintSensorAvailable()) {
+            this.authenticationButtonOnClick(findViewById(R.id.authenticateButton));
+        }
     }
 
     /**

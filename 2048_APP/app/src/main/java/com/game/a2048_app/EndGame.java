@@ -52,8 +52,7 @@ public class EndGame extends AppCompatActivity {
      * Calls method to set TextView texts.
      */
     private void loadData() {
-        boolean isDarkTheme = preferencesHelper.getDarkTheme();
-        setTheme(isDarkTheme);
+        setTheme(preferencesHelper.getDarkTheme());
         setTextScoreText();
         setTextHighScoreText();
     }
@@ -89,7 +88,7 @@ public class EndGame extends AppCompatActivity {
         }
     }
 
-    MediaPlayer.OnCompletionListener setHomePageButtonBackgroundListener = new MediaPlayer.OnCompletionListener() {
+    private MediaPlayer.OnCompletionListener setHomePageButtonBackgroundListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
             homePageButton.setBackground(preloader.getMainButton());

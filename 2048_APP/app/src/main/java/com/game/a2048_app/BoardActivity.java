@@ -554,7 +554,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Sets field's image based on current field's value.
      */
     private void setFieldsImages() {
-        if(fieldImagesDrawablesList.size() == 0) {
+        if (fieldImagesDrawablesList.size() == 0) {
             this.fillFieldImagesDrawablesList();
         }
         for (int i = 0; i < fields.length; i++) {

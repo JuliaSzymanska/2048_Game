@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 
 import com.game.a2048_app.databinding.ActivityMainBinding;
@@ -60,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
             this.authenticationButtonOnClick(findViewById(R.id.authenticateButton));
         }
     }
+
 
     /**
      * @param context current context.

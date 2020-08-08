@@ -24,6 +24,8 @@ public class EndGame extends AppCompatActivity {
     //      lub odtwarzała się, ale dokonany ruch już się wyświetlał, a przesuwały się puste klocki, nie umiem tego naprawić, zostawiam blokadę
     //  - zbugowany score w koncu gry, kiedy gralem jako nie authenticated
     //  - https://developer.android.com/training/transitions/start-activity - credits?
+    //  - bug gdzie kiedy gra jest spauzwana i próbujemy ruszyć to gra się animuje mimo to
+    //  - przenieść przynajmniej przycisk undo, settings, pause i mute do innej klasy
 
     private String score;
     private String highScore;

@@ -17,12 +17,8 @@ import com.game.a2048_app.helpers.SoundPlayer;
 public class EndGame extends AppCompatActivity {
 
     // TODO: 23.07.2020  Nasze work list:
-    //  - javaDoc
-    //  - testy testy testy (jeden jest prawdkopodobnie zepsuty, dodać testy do tego co dzisiaj zrobiłem)
+    //  - java doc
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
-    //  - próbowałem zrobić żeby animacje się przerywały - co prawda udało się, ale następna animacja zostawała pominięta, l
-    //      lub odtwarzała się, ale dokonany ruch już się wyświetlał, a przesuwały się puste klocki, nie umiem tego naprawić, zostawiam blokadę
-    //  - zbugowany score w koncu gry, kiedy gralem jako nie authenticated
     //  - https://developer.android.com/training/transitions/start-activity - credits?
     //  - bug gdzie kiedy gra jest spauzwana i próbujemy ruszyć to gra się animuje mimo to
     //  - przenieść przynajmniej przycisk undo, settings, pause i mute do innej klasy

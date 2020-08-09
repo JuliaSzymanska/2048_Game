@@ -263,7 +263,7 @@ public class Preloader {
     }
 
     /**
-     * @return field's image for 0 value ({@link Preloader#zero}).
+     * @return field's image for the value 0 (null).
      */
     public Drawable getZero() {
         return null;

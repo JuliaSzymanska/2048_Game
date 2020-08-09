@@ -95,13 +95,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final static float DETECT_MOVE_PITCH = 0.7f;
     private final static float DETECT_MOVE_ROLL = 0.7f;
 
-    private final static double HORIZONTAL_PITCH_MAX = 0.5;
-    private final static double HORIZONTAL_PITCH_MIN = -0.5;
-
-    private final static double changeColourAzimuthBreakpoint1 = 0.25;
-    private final static double changeColourAzimuthBreakpoint2 = 1.25;
-    private final static double changeColourAzimuthBreakpoint3 = 1.75;
-    private final static double changeColourAzimuthBreakpoint4 = 2.75;
 
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
@@ -367,6 +360,46 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    @Override
+    public void callback(String result) {
+        if (result.equals(getString(R.string.Button_Green))) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mThumbIds = preloader.getButtonGreen();
+                }
+            });
+        } else if (result.equals(getString(R.string.Button_Green_Light))) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mThumbIds = preloader.getButtonGreenLight();
+                }
+            });
+        } else if (result.equals(getString(R.string.Button_Blue))) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mThumbIds = preloader.getButtonBlue();
+                }
+            });
+        } else if (result.equals(getString(R.string.Button_Blue_Light))) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mThumbIds = preloader.getButtonBlueLight();
+                }
+            });
+        } else if (result.equals(getString(R.string.Notify_Adapter))) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
     // TODO: 29.07.2020 nie wiem jak to ladnie opisac ಠ_ಠ
     private static class ViewHolderItem {
         TextView textViewItem;
@@ -509,8 +542,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         } catch (GoalAchievedException e) {
             e.printStackTrace();
             goalAchieved();
-        }
-        finally {
+        } finally {
             this.animate(fieldsCopies, direction);
             this.setScoreTexts();
             undoButton.setUndoNumber();
@@ -678,7 +710,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             case Sensor.TYPE_MAGNETIC_FIELD:
                 mMagnetometerData = event.values.clone();
                 if (chosenSensors[1]) {
-                    new Thread(new ChangeColourMagnetometer()).start();
+                    new Thread(new ChangeColourMagnetometer(this, mAccelerometerData, mMagnetometerData)).start();
                 }
                 break;
             case Sensor.TYPE_LIGHT:
@@ -702,7 +734,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private float[] magnetometerSetup() {
         float[] rotationMatrix = new float[9];
         boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
-                null, mAccelerometerData, mMagnetometerData);
+                null, mAccelerometerData, new float[3]);
         float[] orientationValues = new float[3];
         if (rotationOK) {
             SensorManager.getOrientation(rotationMatrix, orientationValues);
@@ -809,34 +841,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-    /**
-     * Changes fields background colour depending on magnetometer value.
-     */
-    private class ChangeColourMagnetometer implements Runnable {
-        @Override
-        public void run() {
-            float[] orientationValues = magnetometerSetup();
-            final float azimuth = orientationValues[0];
-            final float pitch = orientationValues[1];
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (pitch > HORIZONTAL_PITCH_MIN && pitch < HORIZONTAL_PITCH_MAX) {
-                        if (azimuth >= changeColourAzimuthBreakpoint1 && azimuth < changeColourAzimuthBreakpoint2) {
-                            mThumbIds = preloader.getButtonGreen();
-                        } else if (azimuth >= changeColourAzimuthBreakpoint3 && azimuth < changeColourAzimuthBreakpoint4) {
-                            mThumbIds = preloader.getButtonGreenLight();
-                        } else if (azimuth >= -changeColourAzimuthBreakpoint4 && azimuth < -changeColourAzimuthBreakpoint3) {
-                            mThumbIds = preloader.getButtonBlue();
-                        } else if (azimuth > -changeColourAzimuthBreakpoint2 && azimuth < -changeColourAzimuthBreakpoint1) {
-                            mThumbIds = preloader.getButtonBlueLight();
-                        }
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            });
-        }
-    }
 
     /**
      * Restarts game and reloads activity.

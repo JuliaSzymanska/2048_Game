@@ -8,7 +8,7 @@ import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
 
 public class PositionGyroscope implements Runnable {
 
-    public PositionGyroscope(Context context, float[]  mAccelerometerData, float[] mMagnetometerData, boolean hasMoved) {
+    public PositionGyroscope(Context context, float[] mAccelerometerData, float[] mMagnetometerData, boolean hasMoved) {
         this.context = context;
         this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;
         this.mAccelerometerData = mAccelerometerData;
@@ -64,15 +64,15 @@ public class PositionGyroscope implements Runnable {
 
         if (!hasMoved && (Math.abs(pitch) >= DETECT_MOVE_PITCH || Math.abs(roll) >= DETECT_MOVE_ROLL)) {
             if (pitch >= DETECT_MOVE_PITCH) {
-                        ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveUP));
-                    } else if (pitch <= -DETECT_MOVE_PITCH) {
-                        ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveDown));
-                    } else if (roll >= DETECT_MOVE_ROLL) {
-                        ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveRight));
-                    } else if (roll <= -DETECT_MOVE_ROLL) {
-                        ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveLeft));
-                    }
-                    ourCustomListenerFIXMERenameME.callback(context.getString(R.string.HasMovedTrue));
+                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveUP));
+            } else if (pitch <= -DETECT_MOVE_PITCH) {
+                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveDown));
+            } else if (roll >= DETECT_MOVE_ROLL) {
+                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveRight));
+            } else if (roll <= -DETECT_MOVE_ROLL) {
+                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveLeft));
+            }
+            ourCustomListenerFIXMERenameME.callback(context.getString(R.string.HasMovedTrue));
         }
         if (Math.abs(pitch) < RESET_PITCH && Math.abs(roll) < RESET_ROLL) {
             ourCustomListenerFIXMERenameME.callback(context.getString(R.string.HasMovedFalse));

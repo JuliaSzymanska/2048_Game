@@ -43,4 +43,5 @@
     <string name="MoveLeft">MoveLeft</string>
     <string name="HasMovedTrue">HasMovedTrue</string>
     <string name="HasMovedFalse">HasMovedFalse</string>
+    <string name="SetTheme">SetTheme</string>
 </resources>

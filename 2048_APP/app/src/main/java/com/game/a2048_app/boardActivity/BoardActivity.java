@@ -72,7 +72,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private float[] mAccelerometerData = new float[3];
     private float[] mMagnetometerData = new float[3];
-    private float mLightData;
 
     private TextView textScore;
     private TextView textHighScore;
@@ -84,17 +83,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private Thread updateTimeThread;
 
-    private final static int DARKMODE_ENABLE_LIGHT = 30;
-    private final static int DARKMODE_DISABLE_LIGHT = 50;
-
     private final static double ANIM_SPEED_SECONDS = 0.2;
 
     private boolean hasMoved = false;
 
-    private boolean isDarkTheme = false;
     private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
-    private BoardActivity boardActivity = this;
 
 
     /**
@@ -105,7 +99,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     // https://developer.android.com/guide/components/activities/activity-lifecycle
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PreferencesHelper.initContext(boardActivity);
+        PreferencesHelper.initContext(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
         this.loadData();
@@ -118,8 +112,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     private void loadData() {
         preferencesHelper.getChoosenSensors(chosenSensors);
-        this.isDarkTheme = preferencesHelper.getDarkTheme();
-        this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(getResources().getString(R.string.authentication))), boardActivity);
+        this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(getResources().getString(R.string.authentication))), this);
         this.fields = game.getBoard().toArray(new Field[0]);
         this.fieldsImages = new Drawable[fields.length];
         this.fieldsBackground = new Drawable[fields.length];
@@ -151,7 +144,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         this.setTheme();
 
-
         this.adapter.notifyDataSetChanged();
     }
 
@@ -161,7 +153,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Converts each textView to viewHolder and sets their background and numbers resources.
      */
     private void prepareGrid() {
-        this.adapter = new ArrayAdapter<Drawable>(boardActivity,
+        this.adapter = new ArrayAdapter<Drawable>(this,
                 android.R.layout.simple_list_item_1, fieldsImages) {
             /**
              * {@inheritDoc}
@@ -296,7 +288,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Sets dark mode or light mode image resource.
      */
     private void setTheme() {
-        if (this.isDarkTheme) {
+        if (preferencesHelper.getDarkTheme()) {
             darkThemeView.setImageDrawable(preloader.getDarkThemeOn());
         } else {
             darkThemeView.setImageDrawable(null);
@@ -318,19 +310,19 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         // Both listeners are registered with a "normal" amount of delay
         // (SENSOR_DELAY_NORMAL).
         if (mSensorAccelerometer != null) {
-            mSensorManager.registerListener(boardActivity, mSensorAccelerometer,
+            mSensorManager.registerListener(this, mSensorAccelerometer,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorMagnetometer != null) {
-            mSensorManager.registerListener(boardActivity, mSensorMagnetometer,
+            mSensorManager.registerListener(this, mSensorMagnetometer,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorLight != null) {
-            mSensorManager.registerListener(boardActivity, mSensorLight,
+            mSensorManager.registerListener(this, mSensorLight,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorProximity != null) {
-            mSensorManager.registerListener(boardActivity, mSensorProximity,
+            mSensorManager.registerListener(this, mSensorProximity,
                     SensorManager.SENSOR_DELAY_GAME);
         }
 
@@ -417,6 +409,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             this.hasMoved = false;
         } else if(result.equals(getString(R.string.HasMovedTrue))) {
             this.hasMoved = true;
+        } else if(result.equals(getString(R.string.SetTheme))) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setTheme();
+                }
+            });
         }
     }
 
@@ -665,7 +664,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     private void goalAchieved() {
         game.pauseTimer();
-        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this.boardActivity);
+        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
         builder.setMessage(R.string.goal_achieved_question)
                 .setPositiveButton(R.string.continue_game_dialog, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -687,7 +686,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Saves score, high score and user authentication to next activity.
      */
     private void changeToEndActivity() {
-        Intent i = new Intent(BoardActivity.this.boardActivity, EndGame.class);
+        Intent i = new Intent(BoardActivity.this, EndGame.class);
         i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getScore()));
         i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
         i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
@@ -734,9 +733,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 }
                 break;
             case Sensor.TYPE_LIGHT:
-                mLightData = event.values[0];
+                float mLightData = event.values[0];
                 if (chosenSensors[2]) {
-                    new Thread(new DarkMode()).start();
+                    new Thread(new DarkMode(mLightData, this)).start();
                 }
                 break;
             case Sensor.TYPE_PROXIMITY:
@@ -748,42 +747,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             default:
                 // FIXME: 15.07.2020, nie powinno być runtime ale nie chce dodawać throws wszędzie dla placeholdera
                 throw new RuntimeException("PLACEHOLDER, onSensorChanged");
-        }
-    }
-
-    /**
-     * Sets dark or light mode depending on the light level.
-     */
-    private class DarkMode implements Runnable {
-        @Override
-        public void run() {
-            // Light Sensor - gdy jest ciemno włącza się dark mode
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (mLightData <= DARKMODE_ENABLE_LIGHT && !isDarkTheme) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                darkThemeView.setImageDrawable(preloader.getDarkThemeOn());
-                            }
-                        });
-                        isDarkTheme = true;
-                        preferencesHelper.setDarkTheme(isDarkTheme);
-                        adapter.notifyDataSetChanged();
-                    } else if (mLightData >= DARKMODE_DISABLE_LIGHT && isDarkTheme) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                darkThemeView.setImageDrawable(null);
-                            }
-                        });
-                        isDarkTheme = false;
-                        preferencesHelper.setDarkTheme(isDarkTheme);
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            });
         }
     }
 
@@ -810,7 +773,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     @Override
     public void onBackPressed() {
         if (!game.isUserAuthenticated()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this.boardActivity);
+            AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
             builder.setMessage(R.string.dialog_back_question)
                     .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -837,7 +800,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         super.onStop();
         // Unregister all sensor listeners in this callback so they don't
         // continue to use resources when the app is stopped.
-        mSensorManager.unregisterListener(boardActivity);
+        mSensorManager.unregisterListener(this);
         this.game.pauseTimer();
         if (!this.updateTimeThread.isInterrupted()) {
             this.updateTimeThread.interrupt();

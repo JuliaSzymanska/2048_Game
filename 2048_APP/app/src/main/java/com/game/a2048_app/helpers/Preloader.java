@@ -32,7 +32,6 @@ public class Preloader {
     private static Drawable muteOn;
     private static Drawable muteOff;
     private static Drawable darkThemeOn;
-    private static Drawable darkThemeOff;
     private static Drawable zero;
     private static Drawable two;
     private static Drawable four;
@@ -79,7 +78,6 @@ public class Preloader {
         loadMuteOff();
 
         loadDarkThemeOn();
-        loadDarkThemeOff();
 
         loadSettings();
         loadSettingsClicked();
@@ -213,18 +211,6 @@ public class Preloader {
         darkThemeOn = context.getDrawable(R.drawable.dark_theme_on);
     }
 
-    /**
-     * @return dark theme off image ({@link Preloader#darkThemeOff}).
-     */
-    public Drawable getDarkThemeOff() {
-        if (darkThemeOff == null)
-            loadDarkThemeOff();
-        return darkThemeOff;
-    }
-
-    private void loadDarkThemeOff() {
-        darkThemeOff = context.getDrawable(R.drawable.dark_theme_off);
-    }
 
     /**
      * @return settings button's image ({@link Preloader#settings}).

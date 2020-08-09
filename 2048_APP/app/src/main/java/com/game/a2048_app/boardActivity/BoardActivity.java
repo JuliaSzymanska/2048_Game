@@ -299,7 +299,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         if (this.isDarkTheme) {
             darkThemeView.setImageDrawable(preloader.getDarkThemeOn());
         } else {
-            darkThemeView.setImageDrawable(preloader.getDarkThemeOff());
+            darkThemeView.setImageDrawable(null);
         }
     }
 
@@ -775,7 +775,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                darkThemeView.setImageDrawable(preloader.getDarkThemeOff());
+                                darkThemeView.setImageDrawable(null);
                             }
                         });
                         isDarkTheme = false;

@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         if (isDarkTheme) {
             darkThemeView.setImageDrawable(preloader.getDarkThemeOn());
         } else {
-            darkThemeView.setImageDrawable(preloader.getDarkThemeOff());
+            darkThemeView.setImageDrawable(null);
         }
     }
 

@@ -21,7 +21,6 @@ public class EndGame extends AppCompatActivity {
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
     //  - https://developer.android.com/training/transitions/start-activity - credits?
     //  - bug gdzie kiedy gra jest spauzwana i próbujemy ruszyć to gra się animuje mimo to
-    //  - przenieść przynajmniej przycisk undo, settings, pause i mute do innej klasy
 
     private String score;
     private String highScore;
@@ -64,7 +63,7 @@ public class EndGame extends AppCompatActivity {
         if (isDarkTheme) {
             darkThemeView.setImageDrawable(preloader.getDarkThemeOn());
         } else {
-            darkThemeView.setImageDrawable(preloader.getDarkThemeOff());
+            darkThemeView.setImageDrawable(null);
         }
     }
 

@@ -176,8 +176,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         this.pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
 
-        this.muteButton = (Button) findViewById(R.id.muteButton);
-        this.setMuteButtonImage();
+        this.muteButton = (MuteButton) findViewById(R.id.muteButton);
 
         this.darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         this.setTheme();
@@ -393,47 +392,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             game.unpauseTimer();
             pausePlayButton.setBackground(preloader.getPausePlayOff());
         }
-    }
-
-    /**
-     * Creates button on click listener to mute or unmute application.
-     * Play sound after click and change button's image.
-     */
-    public void muteButtonOnClick(View v) {
-        if (preferencesHelper.getVolume() == 0) {
-            preferencesHelper.setVolume(1);
-        } else if (preferencesHelper.getVolume() == 1) {
-            preferencesHelper.setVolume(0);
-        } else {
-            throw new IllegalArgumentException("Argument value should be 0 or 1");
-        }
-        try {
-            setMuteSettings();
-        } catch (IllegalStateException | NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Sets the appropriate mute button's image
-     */
-    private void setMuteButtonImage() {
-        if (preferencesHelper.getVolume() == 1) {
-            muteButton.setBackground(preloader.getMuteOff());
-        } else if (preferencesHelper.getVolume() == 0) {
-            muteButton.setBackground(preloader.getMuteOn());
-        } else {
-            throw new IllegalArgumentException("Argument value should be 0 or 1");
-        }
-    }
-
-    /**
-     * Sets volume level - mute or unmute.
-     * Changes button's image.
-     */
-    private void setMuteSettings() {
-        setMuteButtonImage();
-        SoundPlayer.getInstance().setVolume(preferencesHelper.getVolume());
     }
 
     /**

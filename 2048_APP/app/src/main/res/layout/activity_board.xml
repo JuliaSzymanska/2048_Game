@@ -148,7 +148,7 @@
         app:layout_constraintWidth_percent="0.12"
         android:onClick="playPauseButtonOnClick"/>
 
-    <Button
+    <com.game.a2048_app.boardActivity.MuteButton
         android:id="@+id/muteButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -159,8 +159,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/darkThemeView"
         app:layout_constraintBottom_toTopOf="@id/undoMoveButton"
-        app:layout_constraintWidth_percent="0.12"
-        android:onClick="muteButtonOnClick"/>
+        app:layout_constraintWidth_percent="0.12" />
 
     <Button
         android:id="@+id/undoMoveButton"

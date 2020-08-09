@@ -44,4 +44,6 @@
     <string name="HasMovedTrue">HasMovedTrue</string>
     <string name="HasMovedFalse">HasMovedFalse</string>
     <string name="SetTheme">SetTheme</string>
+    <string name="IsAuthenticated">IsAuthenticated</string>
+    <string name="firstRun">FirstRun</string>
 </resources>

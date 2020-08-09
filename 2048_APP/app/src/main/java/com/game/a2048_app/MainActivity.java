@@ -39,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private OnSwipeTouchListener onSwipeTouchListener;
     private ActivityMainBinding binding;
 
+    private static boolean isFirstRun = true;
+    // jesli nie pierwszy raz odpalony activity - nie pytamy o authentication
+
     /**
      * Called when the activity is starting.
      * Calls methods to load data and initialize buttons.
@@ -56,11 +59,11 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         initButtons();
         loadData();
         this.setupSwipeListener();
-        if (binding.getIsFingerprintSensorAvailable()) {
+        if (binding.getIsFingerprintSensorAvailable() && isFirstRun) {
             this.authenticationButtonOnClick(findViewById(R.id.authenticateButton));
         }
+        isFirstRun = false;
     }
-
 
     /**
      * @param context current context.

@@ -6,24 +6,4 @@
         <item>@string/Light_Sensor_Settings</item>
         <item>@string/Proximity_Sensor_Settings</item>
     </string-array>
-    <integer-array name="gameValueDrawables">
-        <item>@drawable/zero</item>
-        <item>@drawable/two</item>
-        <item>@drawable/four</item>
-        <item>@drawable/eight</item>
-        <item>@drawable/sixteen</item>
-        <item>@drawable/thirty_two</item>
-        <item>@drawable/sixty_four</item>
-        <item>@drawable/one_hundred</item>
-        <item>@drawable/two_hundred</item>
-        <item>@drawable/five_hundred</item>
-        <item>@drawable/one_thousand</item>
-        <item>@drawable/two_thousand</item>
-        <item>@drawable/four_thousand</item>
-        <item>@drawable/eight_thousand</item>
-        <item>@drawable/sixteen_thousand</item>
-        <item>@drawable/thirty_two_thousand</item>
-        <item>@drawable/sixty_five_thousand</item>
-        <item>@drawable/one_hundred_thousand</item>
-    </integer-array>
 </resources>

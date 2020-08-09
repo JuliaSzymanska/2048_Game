@@ -53,7 +53,6 @@ import java.util.List;
 import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
 
 public class BoardActivity extends AppCompatActivity implements SensorEventListener, OurCustomListenerFIXMERenameME {
-    OnSwipeTouchListener onSwipeTouchListener;
 
     private Game game;
     private ArrayAdapter<Drawable> adapter;
@@ -200,7 +199,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Each swipe is responsible for the appropriate movement in game.
      */
     private void setupSwipeListener() {
-        onSwipeTouchListener = new OnSwipeTouchListener(this, this.gridView);
+        OnSwipeTouchListener onSwipeTouchListener = new OnSwipeTouchListener(this, this.gridView);
         final BoardActivity boardActivity = this;
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
             @Override

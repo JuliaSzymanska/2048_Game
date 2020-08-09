@@ -952,5 +952,3 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 }
-
-

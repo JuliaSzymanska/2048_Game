@@ -31,9 +31,8 @@ public class Credits extends AppCompatActivity {
 
             @Override
             public void swipeBottom() {
-                // TODO: 02.08.2020 dodać odpowiedni transition
-                //overridePendingTransition();
                 startActivity(new Intent(credits, MainActivity.class));
+                overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
             }
 
             @Override

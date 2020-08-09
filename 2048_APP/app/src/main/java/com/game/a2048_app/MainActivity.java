@@ -150,9 +150,8 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
             @Override
             public void swipeTop() {
-                // TODO: 02.08.2020 dodać odpowiedni transition
-                //overridePendingTransition();
                 startActivity(new Intent(mainActivity, Credits.class));
+                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
             }
 
             @Override

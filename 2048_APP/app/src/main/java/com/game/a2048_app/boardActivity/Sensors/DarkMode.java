@@ -20,7 +20,7 @@ public class DarkMode implements Runnable {
     private Context context;
 
     private PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
-    OurCustomListenerFIXMERenameME ourCustomListenerFIXMERenameME;
+    private OurCustomListenerFIXMERenameME ourCustomListenerFIXMERenameME;
     private float mLightData;
 
     private final static int DARK_MODE_ENABLE_LIGHT = 30;

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.game.a2048_app.boardActivity.BoardActivity;
 import com.game.a2048_app.databinding.ActivityMainBinding;
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;

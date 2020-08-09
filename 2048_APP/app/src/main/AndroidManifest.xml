@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".EndGame" />
-        <activity android:name=".BoardActivity" />
+        <activity android:name=".boardActivity.BoardActivity" />
         <activity android:name=".MainActivity" />
 
         <meta-data

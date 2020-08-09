@@ -1,4 +1,4 @@
-package com.game.a2048_app;
+package com.game.a2048_app.boardActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -31,6 +31,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.a2048_app.EndGame;
+import com.game.a2048_app.OnSwipeTouchListener;
+import com.game.a2048_app.R;
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;

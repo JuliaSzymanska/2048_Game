@@ -723,6 +723,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     private void animate(List<Field> fieldCopies, int direction) {
+        if (this.game.isSuspended()) {
+            return;
+        }
         List<TranslateAnimation> translateAnimationList = new ArrayList<>();
         List<Integer> amountsMoved = this.game.getAmountMovedList();
         for (int i = 0; i < this.gridView.getChildCount(); i++) {

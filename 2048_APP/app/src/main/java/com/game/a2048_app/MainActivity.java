@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      * Loads volume and current theme.
      */
     private void loadData() {
-        boolean isDarkTheme = preferencesHelper.getDarkTheme();
         DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
     }
 

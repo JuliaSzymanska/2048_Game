@@ -95,7 +95,7 @@ public class Game {
      * To move right: {@link Board#moveRight()}.
      * To move down: {@link Board#moveDown()}.
      * To move left: {@link Board#moveLeft()}.
-     * Updates game's high score by calling {@link Game#updateHighscore()}
+     * Updates game's high score by calling {@link Game#updateHighScore()}
      * @param direction of the move.
      * @throws GoalAchievedException when one or more fields have value equal or higher then 2048.
      * @throws GameOverException when the game ended.
@@ -119,9 +119,9 @@ public class Game {
                     default:
                         throw new IllegalArgumentException("Value can only be equal to 0, 1, 2 or 3");
                 }
-                this.updateHighscore();
+                this.updateHighScore();
                 if (this.isUserAuthenticated) {
-                    Thread t = new Thread(this.saveGameOnce);
+                    Thread t = new Thread(this.saveGameOnceRunnable);
                     t.start();
                 }
             }
@@ -138,7 +138,7 @@ public class Game {
      * Anonymous implementation of Runnable that saves game.
      * Called after moves in {@link Game#move(int)} method.
      */
-    private Runnable saveGameOnce = new Runnable() {
+    private Runnable saveGameOnceRunnable = new Runnable() {
         @Override
         public void run() {
             saveGame();
@@ -232,7 +232,7 @@ public class Game {
      * Check if current score is higher than current high score, if yes high score is updated to current score.
      * To get current score calls {@link Board#getScore()} method.
      */
-    private void updateHighscore() {
+    private void updateHighScore() {
         if (this.gameBoard.getScore() > this.highScore && this.isUserAuthenticated) {
             this.highScore = this.gameBoard.getScore();
         }
@@ -244,7 +244,7 @@ public class Game {
     public void startNewGame() {
         this.gameBoard.restartGame();
         this.gameBeginTime = System.nanoTime();
-        this.unpauseTimer();
+        this.unPauseTimer();
     }
 
     /**
@@ -273,7 +273,7 @@ public class Game {
      * Unpause game's timer.
      * Resumes saving the game.
      */
-    public void unpauseTimer() {
+    public void unPauseTimer() {
         if (this.isSuspended) {
             this.isSuspended = false;
             this.gameBeginTime = System.nanoTime() - this.pausedTimeDuration;

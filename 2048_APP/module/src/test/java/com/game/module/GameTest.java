@@ -46,7 +46,7 @@ public class GameTest {
         } catch (GameOverException | GoalAchievedException e) {
             Assert.fail();
         }
-        game.unpauseTimer();
+        game.unPauseTimer();
         try {
             game.move(5);
         } catch (GameOverException | GoalAchievedException ignore) {
@@ -82,7 +82,7 @@ public class GameTest {
         long time_passed = game.getElapsedTime();
         TimeUnit.MILLISECONDS.sleep(10);
         Assert.assertEquals(time_passed, game.getElapsedTime());
-        game.unpauseTimer();
+        game.unPauseTimer();
         TimeUnit.MILLISECONDS.sleep(10);
         Assert.assertTrue(game.getElapsedTime() > time_passed);
     }
@@ -167,7 +167,7 @@ public class GameTest {
         game.pauseTimer();
         assertTrue(game.isSuspended());
         TimeUnit.MILLISECONDS.sleep(10);
-        game.unpauseTimer();
+        game.unPauseTimer();
         assertFalse(game.isSuspended());
     }
 
@@ -179,7 +179,7 @@ public class GameTest {
         long time_passed = game.getElapsedTime();
         TimeUnit.MILLISECONDS.sleep(10);
         Assert.assertEquals(time_passed, game.getElapsedTime());
-        game.unpauseTimer();
+        game.unPauseTimer();
         TimeUnit.MILLISECONDS.sleep(10);
         Assert.assertTrue(game.getElapsedTime() > time_passed);
     }

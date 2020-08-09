@@ -24,7 +24,7 @@ public class StopGameProximity implements Runnable {
                 game.pauseTimer();
             }
         } else if (game.isSuspended()) {
-            game.unpauseTimer();
+            game.unPauseTimer();
         }
     }
 }

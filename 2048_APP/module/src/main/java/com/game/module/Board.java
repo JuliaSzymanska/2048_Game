@@ -589,8 +589,6 @@ public class Board implements Serializable {
      * @param fieldsList list of fields, of size equal to {@link Board#BOARD_DIMENSIONS}.
      * @see #moveFieldsPositions(List, int, List)
      */
-    // TODO: 25.07.2020 przy kazdym przejsciu algorytmu, wykonaniu ruchu, należy zinkrementować int na pozycjach na których się przesuneły pola usuwajac zero.
-    //  Ostatecznie dla pól na których były 0 resetujemy int
     private void removeZerosInMove(List<Field> fieldsList, List<Integer> moveCountList) {
         int countMoves = countZerosToDelete(fieldsList);
 
@@ -677,7 +675,7 @@ public class Board implements Serializable {
     /**
      * @return board.
      */
-    public List<Field> getBoard() {
+    List<Field> getBoard() {
         return this.board;
     }
 

@@ -281,7 +281,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             game.pauseTimer();
             pausePlayButton.setBackground(preloader.getPausePlayOn());
         } else {
-            game.unpauseTimer();
+            game.unPauseTimer();
             pausePlayButton.setBackground(preloader.getPausePlayOff());
         }
     }
@@ -316,7 +316,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     SensorManager.SENSOR_DELAY_GAME);
         }
 
-        this.game.unpauseTimer();
+        this.game.unPauseTimer();
         this.beginUpdatingTime();
     }
 
@@ -660,7 +660,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         builder.setMessage(R.string.goal_achieved_question)
                 .setPositiveButton(R.string.continue_game_dialog, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        game.unpauseTimer();
+                        game.unPauseTimer();
                     }
                 })
                 .setNegativeButton(R.string.end_game_dialog, new DialogInterface.OnClickListener() {

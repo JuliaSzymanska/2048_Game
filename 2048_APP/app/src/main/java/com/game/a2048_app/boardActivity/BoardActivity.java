@@ -86,7 +86,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Button pausePlayButton;
     private Button undoButton;
     private Button settingsButton;
-    private Button muteButton;
     private TextView undoTextView;
 
     private Thread updateTimeThread;
@@ -175,8 +174,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.undoButton = (Button) findViewById(R.id.undoMoveButton);
 
         this.pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
-
-        this.muteButton = (MuteButton) findViewById(R.id.muteButton);
 
         this.darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         this.setTheme();

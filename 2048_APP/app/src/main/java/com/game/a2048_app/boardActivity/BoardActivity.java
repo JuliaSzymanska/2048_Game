@@ -57,7 +57,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private ImageView darkThemeView;
     private Field[] fields;
     private Drawable[] fieldsImages;
-    private List<Drawable> fieldImagesDrawablesList = new ArrayList<>();
     private Drawable[] fieldsBackground;
     private Preloader preloader = Preloader.getInstance();
     private Drawable mThumbIds = preloader.getButtonGreen();
@@ -520,26 +519,28 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-    private void fillFieldImagesDrawablesList() {
-        fieldImagesDrawablesList.add(preloader.getZero());
-        fieldImagesDrawablesList.add(preloader.getTwo());
-        fieldImagesDrawablesList.add(preloader.getFour());
-        fieldImagesDrawablesList.add(preloader.getEight());
-        fieldImagesDrawablesList.add(preloader.getSixteen());
-        fieldImagesDrawablesList.add(preloader.getThirtyTwo());
-        fieldImagesDrawablesList.add(preloader.getSixtyFour());
-        fieldImagesDrawablesList.add(preloader.getOneHundred());
-        fieldImagesDrawablesList.add(preloader.getTwoHundred());
-        fieldImagesDrawablesList.add(preloader.getFiveHundred());
-        fieldImagesDrawablesList.add(preloader.getOneThousand());
-        fieldImagesDrawablesList.add(preloader.getTwoThousand());
-        fieldImagesDrawablesList.add(preloader.getFourThousand());
-        fieldImagesDrawablesList.add(preloader.getEightThousand());
-        fieldImagesDrawablesList.add(preloader.getSixteenThousand());
-        fieldImagesDrawablesList.add(preloader.getThirtyTwoThousand());
-        fieldImagesDrawablesList.add(preloader.getSixtyFiveThousand());
-        fieldImagesDrawablesList.add(preloader.getOneHundredThousand());
-    }
+
+    private final List<Drawable> fieldImagesDrawablesList = new ArrayList<>(
+            Arrays.asList(
+                    preloader.getZero(),
+                    preloader.getTwo(),
+                    preloader.getFour(),
+                    preloader.getEight(),
+                    preloader.getSixteen(),
+                    preloader.getThirtyTwo(),
+                    preloader.getSixtyFour(),
+                    preloader.getOneHundred(),
+                    preloader.getTwoHundred(),
+                    preloader.getFiveHundred(),
+                    preloader.getOneThousand(),
+                    preloader.getTwoThousand(),
+                    preloader.getFourThousand(),
+                    preloader.getEightThousand(),
+                    preloader.getSixteenThousand(),
+                    preloader.getThirtyTwoThousand(),
+                    preloader.getSixtyFiveThousand(),
+                    preloader.getOneHundredThousand())
+    );
 
 
     /**
@@ -556,9 +557,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Sets field's image based on current field's value.
      */
     private void setFieldsImages() {
-        if (fieldImagesDrawablesList.size() == 0) {
-            this.fillFieldImagesDrawablesList();
-        }
         for (int i = 0; i < fields.length; i++) {
             int fieldValue = fields[i].getValue();
             if (isPowerOfTwo(fieldValue)) {

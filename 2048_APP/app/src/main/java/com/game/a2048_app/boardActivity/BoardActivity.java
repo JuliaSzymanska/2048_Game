@@ -84,9 +84,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private Button restartGameButton;
     private Button pausePlayButton;
-    private Button undoButton;
+    private UndoButton undoButton;
     private Button settingsButton;
-    private TextView undoTextView;
 
     private Thread updateTimeThread;
 
@@ -171,15 +170,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         this.settingsButton = (Button) findViewById(R.id.settingsButton);
 
-        this.undoButton = (Button) findViewById(R.id.undoMoveButton);
+        this.undoButton = (UndoButton) findViewById(R.id.undoMoveButton);
+        this.undoButton.setGame(this.game);
 
         this.pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
 
         this.darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
         this.setTheme();
 
-        this.undoTextView = (TextView) findViewById(R.id.undoTextView);
-        this.setUndoNumber();
 
         this.adapter.notifyDataSetChanged();
     }
@@ -355,27 +353,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
-    private MediaPlayer.OnCompletionListener setUndoAmountListener = new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            setUndoNumber();
-        }
-    };
-
-
-    /**
-     * Creates button on click listener to undo last move.
-     * Play sound after click and change button's image.
-     */
-    public void undoButtonOnClick(View v) {
-        undoButton.setBackground(preloader.getUndoClicked());
-        SoundPlayer soundPlayer = SoundPlayer.getInstance();
-        soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.undo), setUndoAmountListener);
-        game.undoPreviousMove();
-        adapter.notifyDataSetChanged();
-        setScoreTexts();
-    }
-
     /**
      * Creates button on click listener to pause or unpause game.
      * Play sound after click and change button's image.
@@ -403,24 +380,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-    /**
-     * Sets undo's button's image and TextView with number of available undo.
-     */
-    @SuppressLint("DefaultLocale")
-    private void setUndoNumber() {
-        int undoNumber = BoardActivity.this.game.getAvailableUndoNumber();
-        if (undoNumber > 0) {
-            undoButton.setBackground(preloader.getUndo());
-            undoTextView.setText(String.format("%d", undoNumber));
-            undoButton.setEnabled(true);
-        } else if (undoNumber == 0) {
-            undoButton.setBackground(preloader.getUndoClicked());
-            undoTextView.setText(String.format("%d", undoNumber));
-            undoButton.setEnabled(false);
-        } else {
-            throw new IllegalArgumentException("Undo number has to be positive number.");
-        }
-    }
 
     /**
      * Listeners for the sensors are registered in this callback so that
@@ -611,7 +570,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         finally {
             this.animate(fieldsCopies, direction);
             this.setScoreTexts();
-            setUndoNumber();
+            undoButton.setUndoNumber();
         }
     }
 

@@ -23,6 +23,7 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
     private TextView undoTextView;
     private Preloader preloader = Preloader.getInstance();
     private Context context;
+    private OurCustomListenerFIXMERenameME ourCustomListenerFIXMERenameME;
 
     private OnClickListener onClickListener = new OnClickListener() {
         /**
@@ -39,6 +40,8 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
     private void setupButton(Context context) {
         this.context = context;
         this.setOnClickListener(this.onClickListener);
+        this.undoTextView = findViewById(R.id.undoMoveButton);
+        this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;
     }
 
     public UndoButton(Context context) {
@@ -59,6 +62,7 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
     // TODO: 09.08.2020 Cos tak czulem zeby zostawic singleton ehh
     void setGame(Game game) {
         this.game = game;
+        this.setUndoNumber();
     }
 
     private MediaPlayer.OnCompletionListener setUndoAmountListener = new MediaPlayer.OnCompletionListener() {
@@ -73,13 +77,14 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
         SoundPlayer soundPlayer = SoundPlayer.getInstance();
         soundPlayer.playSound(soundPlayer.getAsset(this.context, R.raw.undo), setUndoAmountListener);
         game.undoPreviousMove();
+        ourCustomListenerFIXMERenameME.callback(this, context.getString(R.string.Undo_Succeed));
     }
 
     /**
      * Sets undo's button's image and TextView with number of available undo.
      */
     @SuppressLint("DefaultLocale")
-    private void setUndoNumber() {
+    void setUndoNumber() {
         int undoNumber = this.game.getAvailableUndoNumber();
         if (undoNumber > 0) {
             this.setBackground(preloader.getUndo());

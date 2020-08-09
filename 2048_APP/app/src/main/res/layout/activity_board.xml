@@ -161,7 +161,7 @@
         app:layout_constraintBottom_toTopOf="@id/undoMoveButton"
         app:layout_constraintWidth_percent="0.12" />
 
-    <Button
+    <com.game.a2048_app.boardActivity.UndoButton
         android:id="@+id/undoMoveButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -172,8 +172,7 @@
         app:layout_constraintEnd_toStartOf="@+id/restartGameButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/muteButton"
-        app:layout_constraintWidth_percent="0.10"
-        android:onClick="undoButtonOnClick"/>
+        app:layout_constraintWidth_percent="0.10" />
 
 
     <TextView

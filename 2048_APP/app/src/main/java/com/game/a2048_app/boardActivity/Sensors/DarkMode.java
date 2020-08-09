@@ -16,6 +16,7 @@ public class DarkMode implements Runnable {
         this.context = context;
         this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;
     }
+
     private Context context;
 
     private PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
@@ -31,7 +32,6 @@ public class DarkMode implements Runnable {
         if (mLightData <= DARK_MODE_ENABLE_LIGHT && !preferencesHelper.getDarkTheme()) {
             preferencesHelper.setDarkTheme(true);
             ourCustomListenerFIXMERenameME.callback(context.getString(R.string.SetTheme));
-
         } else if (mLightData >= DARK_MODE_DISABLE_LIGHT && preferencesHelper.getDarkTheme()) {
             preferencesHelper.setDarkTheme(false);
             ourCustomListenerFIXMERenameME.callback(context.getString(R.string.SetTheme));

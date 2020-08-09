@@ -63,15 +63,13 @@ public class PositionGyroscope implements Runnable {
 
 
         if (!hasMoved && (Math.abs(pitch) >= DETECT_MOVE_PITCH || Math.abs(roll) >= DETECT_MOVE_ROLL)) {
-            final float finalPitch = pitch;
-            final float finalRoll = roll;
-                    if (finalPitch >= DETECT_MOVE_PITCH) {
+            if (pitch >= DETECT_MOVE_PITCH) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveUP));
-                    } else if (finalPitch <= -DETECT_MOVE_PITCH) {
+                    } else if (pitch <= -DETECT_MOVE_PITCH) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveDown));
-                    } else if (finalRoll >= DETECT_MOVE_ROLL) {
+                    } else if (roll >= DETECT_MOVE_ROLL) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveRight));
-                    } else if (finalRoll <= -DETECT_MOVE_ROLL) {
+                    } else if (roll <= -DETECT_MOVE_ROLL) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveLeft));
                     }
                     ourCustomListenerFIXMERenameME.callback(context.getString(R.string.HasMovedTrue));

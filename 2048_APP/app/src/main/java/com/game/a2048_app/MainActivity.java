@@ -17,6 +17,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.game.a2048_app.boardActivity.BoardActivity;
 import com.game.a2048_app.databinding.ActivityMainBinding;
+import com.game.a2048_app.helpers.DarkModeHelper;
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
@@ -80,22 +81,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      */
     private void loadData() {
         boolean isDarkTheme = preferencesHelper.getDarkTheme();
-        setTheme(isDarkTheme);
+        DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
     }
 
-    /**
-     * Set dark or light theme.
-     * @param isDarkTheme is dark theme on.
-     */
-    // TODO: 19.07.2020 spojrzeć na te i podobne funkcje
-    private void setTheme(boolean isDarkTheme) {
-        ImageView darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
-        if (isDarkTheme) {
-            darkThemeView.setImageDrawable(preloader.getDarkThemeOn());
-        } else {
-            darkThemeView.setImageDrawable(null);
-        }
-    }
 
     /**
      * Calls method to initialize buttons.

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.a2048_app.helpers.DarkModeHelper;
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
@@ -36,36 +37,27 @@ public class EndGame extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
         PreferencesHelper.initContext(this);
-        score = intent.getStringExtra(getResources().getString(R.string.score));
-        highScore = intent.getStringExtra(getResources().getString(R.string.high_score));
-        authentication = Boolean.parseBoolean(intent.getStringExtra(getResources().getString(R.string.authentication)));
+        getExtrasFromIntent();
         setContentView(R.layout.activity_end_game);
         homePageButton = findViewById(R.id.homePage);
         loadData();
+    }
+
+    private void getExtrasFromIntent() {
+        Intent intent = getIntent();
+        this.score = intent.getStringExtra(getResources().getString(R.string.score));
+        this.highScore = intent.getStringExtra(getResources().getString(R.string.high_score));
+        this.authentication = Boolean.parseBoolean(intent.getStringExtra(getResources().getString(R.string.authentication)));
     }
 
     /**
      * Calls method to set TextView texts.
      */
     private void loadData() {
-        setTheme(preferencesHelper.getDarkTheme());
+        DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
         setTextScoreText();
         setTextHighScoreText();
-    }
-
-    /**
-     * Set dark or light theme.
-     * @param isDarkTheme is dark theme on.
-     */
-    private void setTheme(boolean isDarkTheme) {
-        ImageView darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
-        if (isDarkTheme) {
-            darkThemeView.setImageDrawable(preloader.getDarkThemeOn());
-        } else {
-            darkThemeView.setImageDrawable(null);
-        }
     }
 
     /**

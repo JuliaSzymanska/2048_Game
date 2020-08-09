@@ -37,6 +37,7 @@ import com.game.a2048_app.boardActivity.Sensors.DarkMode;
 import com.game.a2048_app.boardActivity.Sensors.PositionGyroscope;
 import com.game.a2048_app.boardActivity.Sensors.StopGameProximity;
 import com.game.a2048_app.boardActivity.buttons.UndoButton;
+import com.game.a2048_app.helpers.DarkModeHelper;
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
@@ -57,7 +58,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Game game;
     private ArrayAdapter<Drawable> adapter;
     private GridView gridView;
-    private ImageView darkThemeView;
     private Field[] fields;
     private Drawable[] fieldsImages;
     private Drawable[] fieldsBackground;
@@ -145,8 +145,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         this.pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
 
-        this.darkThemeView = (ImageView) findViewById(R.id.darkThemeView);
-        this.setTheme();
+        DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
 
         this.adapter.notifyDataSetChanged();
     }
@@ -288,18 +287,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
-     * Sets dark mode or light mode image resource.
-     */
-    private void setTheme() {
-        if (preferencesHelper.getDarkTheme()) {
-            darkThemeView.setImageDrawable(preloader.getDarkThemeOn());
-        } else {
-            darkThemeView.setImageDrawable(null);
-        }
-    }
-
-
-    /**
      * Listeners for the sensors are registered in this callback so that
      * they can be unregistered in onStop().
      */
@@ -418,7 +405,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    setTheme();
+                    DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
                 }
             });
         }

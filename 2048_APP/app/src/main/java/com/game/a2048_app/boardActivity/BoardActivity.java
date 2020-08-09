@@ -271,7 +271,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         restartGame();
     }
 
-
     /**
      * Creates button on click listener to pause or unpause game.
      * Play sound after click and change button's image.

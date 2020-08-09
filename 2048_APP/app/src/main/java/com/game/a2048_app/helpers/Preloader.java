@@ -32,7 +32,6 @@ public class Preloader {
     private static Drawable muteOn;
     private static Drawable muteOff;
     private static Drawable darkThemeOn;
-    private static Drawable zero;
     private static Drawable two;
     private static Drawable four;
     private static Drawable eight;
@@ -85,7 +84,6 @@ public class Preloader {
         loadMainButton();
         loadMainButtonClicked();
 
-        loadZero();
         loadTwo();
         loadFour();
         loadEight();
@@ -268,14 +266,9 @@ public class Preloader {
      * @return field's image for 0 value ({@link Preloader#zero}).
      */
     public Drawable getZero() {
-        if (zero == null)
-            loadZero();
-        return zero;
+        return null;
     }
 
-    private void loadZero() {
-        zero = context.getDrawable(R.drawable.zero);
-    }
 
     /**
      * @return field's image for 2 value ({@link Preloader#two}).

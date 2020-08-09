@@ -5,15 +5,12 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.databinding.Observable;
 
 import com.game.a2048_app.R;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
-import com.game.module.Board;
 import com.game.module.Game;
 
 // TODO: 09.08.2020 dodac xml

@@ -27,7 +27,13 @@ public class Board implements Serializable {
     private boolean isGoalAchieved = false;
 
     private final static int PREVIOUS_BOARDS_STORED_NUMBER = 3;
+    /**
+     * Size of the board's row / column
+     */
     private final static int BOARD_DIMENSIONS = 4;
+    /**
+     * Amount of field's in the board
+     */
     private final static int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
     private final static int FIELD_POSITION_MIN = 0;
     private final static int FIELD_POSITION_MAX = BOARD_DIMENSIONS - 1;

@@ -9,21 +9,16 @@ import android.os.Bundle;
 
 public class Credits extends AppCompatActivity {
 
-    OnSwipeTouchListener onSwipeTouchListener;
-
-    ConstraintLayout constraintLayout;
-
     // TODO: 02.08.2020 uzupelnic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credits);
-        constraintLayout = findViewById(R.id.constraintLayoutCredits);
         setupSwipeListener();
     }
 
     private void setupSwipeListener() {
-        onSwipeTouchListener = new OnSwipeTouchListener(this, constraintLayout);
+        OnSwipeTouchListener onSwipeTouchListener = new OnSwipeTouchListener(this, findViewById(R.id.constraintLayoutCredits));
         final Credits credits = this;
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
             @Override

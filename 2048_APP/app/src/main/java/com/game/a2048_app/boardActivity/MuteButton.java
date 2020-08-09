@@ -20,35 +20,34 @@ public class MuteButton extends androidx.appcompat.widget.AppCompatButton {
 
     public MuteButton(Context context) {
         super(context);
+        this.prepareButton();
+    }
+
+    private OnClickListener onClickListener = new OnClickListener() {
+        /**
+         * Called when a view has been clicked.
+         *
+         * @param v The view that was clicked.
+         */
+        @Override
+        public void onClick(View v) {
+            muteButtonOnClick(v);
+        }
+    };
+
+    private void prepareButton() {
         this.setMuteButtonImage();
-        this.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                muteButtonOnClick(v);
-            }
-        });
+        this.setOnClickListener(this.onClickListener);
     }
 
     public MuteButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setMuteButtonImage();
-        this.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                muteButtonOnClick(v);
-            }
-        });
+        this.prepareButton();
     }
 
     public MuteButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.setMuteButtonImage();
-        this.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                muteButtonOnClick(v);
-            }
-        });
+        this.prepareButton();
     }
 
     /**

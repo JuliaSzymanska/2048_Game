@@ -24,6 +24,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
     public class GestureListener extends
             GestureDetector.SimpleOnGestureListener {
 
+        // TODO: 09.08.2020 chciałbym móc zmieniać to żeby mieć inny w main activity i w credits i inny w grze ale nie umim : (
         private static final int SWIPE_THRESHOLD = 40;
         private static final int SWIPE_VELOCITY_THRESHOLD = 40;
 

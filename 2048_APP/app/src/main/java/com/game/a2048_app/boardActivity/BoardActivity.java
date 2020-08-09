@@ -89,7 +89,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private final static double ANIM_SPEED_SECONDS = 0.2;
 
-    private boolean hasMoved = false;
 
     private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
@@ -397,10 +396,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     move(Game.MOVE_RIGHT);
                 }
             });
-        } else if(result.equals(getString(R.string.HasMovedFalse))) {
-            this.hasMoved = false;
-        } else if(result.equals(getString(R.string.HasMovedTrue))) {
-            this.hasMoved = true;
         } else if(result.equals(getString(R.string.SetTheme))) {
             runOnUiThread(new Runnable() {
                 @Override
@@ -715,7 +710,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             case Sensor.TYPE_ACCELEROMETER:
                 mAccelerometerData = event.values.clone();
                 if (chosenSensors[0]) {
-                    new Thread(new PositionGyroscope(this, mAccelerometerData, mMagnetometerData, hasMoved)).start();
+                    new Thread(new PositionGyroscope(this, mAccelerometerData, mMagnetometerData)).start();
                 }
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:

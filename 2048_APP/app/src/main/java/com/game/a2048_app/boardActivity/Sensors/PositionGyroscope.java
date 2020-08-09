@@ -8,12 +8,11 @@ import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
 
 public class PositionGyroscope implements Runnable {
 
-    public PositionGyroscope(Context context, float[] mAccelerometerData, float[] mMagnetometerData, boolean hasMoved) {
+    public PositionGyroscope(Context context, float[] mAccelerometerData, float[] mMagnetometerData) {
         this.context = context;
         this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;
         this.mAccelerometerData = mAccelerometerData;
         this.mMagnetometerData = mMagnetometerData;
-        this.hasMoved = hasMoved;
     }
 
     private final static float DETECT_MOVE_PITCH = 0.7f;
@@ -27,9 +26,10 @@ public class PositionGyroscope implements Runnable {
     private OurCustomListenerFIXMERenameME ourCustomListenerFIXMERenameME;
     private Context context;
 
+    private static boolean hasMoved;
+
     private float[] mAccelerometerData;
     private float[] mMagnetometerData;
-    private boolean hasMoved;
 
     private float[] magnetometerSetup() {
         float[] rotationMatrix = new float[9];
@@ -72,10 +72,10 @@ public class PositionGyroscope implements Runnable {
             } else if (roll <= -DETECT_MOVE_ROLL) {
                 ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveLeft));
             }
-            ourCustomListenerFIXMERenameME.callback(context.getString(R.string.HasMovedTrue));
+            hasMoved = true;
         }
         if (Math.abs(pitch) < RESET_PITCH && Math.abs(roll) < RESET_ROLL) {
-            ourCustomListenerFIXMERenameME.callback(context.getString(R.string.HasMovedFalse));
+            hasMoved = false;
         }
     }
 }

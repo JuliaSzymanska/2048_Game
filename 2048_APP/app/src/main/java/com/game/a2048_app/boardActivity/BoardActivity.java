@@ -159,6 +159,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             /**
              * {@inheritDoc}
              */
+            // TODO: 29.07.2020 nie wiem jak to ladnie opisac ಠ_ಠ
+            class ViewHolderItem {
+                TextView textViewItem;
+                ImageView imageViewItem;
+            }
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -405,11 +410,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-    // TODO: 29.07.2020 nie wiem jak to ladnie opisac ಠ_ಠ
-    private static class ViewHolderItem {
-        TextView textViewItem;
-        ImageView imageViewItem;
-    }
 
     /**
      * Sets all field's images to transparent.

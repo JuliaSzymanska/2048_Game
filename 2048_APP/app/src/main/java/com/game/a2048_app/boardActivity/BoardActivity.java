@@ -344,6 +344,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     // TODO: 09.08.2020 chcialbym uzyc swita ale sie nie da i wgl no jakos ladniej bym chcial xd
+    //  może zrobić kilka listenerów i każdy będzie miał osobny callback czy coś
+    //  a moze tak zostawic
     @Override
     public void callback(String result) {
         if (result.equals(getString(R.string.Button_Green))) {

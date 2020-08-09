@@ -21,6 +21,7 @@ public class EndGame extends AppCompatActivity {
     //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
     //  - https://developer.android.com/training/transitions/start-activity - credits?
     //  - bug gdzie kiedy gra jest spauzwana i próbujemy ruszyć to gra się animuje mimo to
+    //  - przywrocic gre do singletona
 
     private String score;
     private String highScore;

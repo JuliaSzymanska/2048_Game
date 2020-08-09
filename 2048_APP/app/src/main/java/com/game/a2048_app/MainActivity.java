@@ -133,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     private void setupSwipeListener() {
         onSwipeTouchListener = new OnSwipeTouchListener(this, findViewById(R.id.constraintLayoutMainActivity));
-        final MainActivity mainActivity = this;
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
             @Override
             public void swipeRight() {
@@ -141,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
             @Override
             public void swipeTop() {
-                startActivity(new Intent(mainActivity, Credits.class));
+                startActivity(new Intent(MainActivity.this, Credits.class));
                 overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
             }
 

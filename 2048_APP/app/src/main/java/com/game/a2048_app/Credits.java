@@ -38,7 +38,6 @@ public class Credits extends AppCompatActivity {
 
     private void setupSwipeListener() {
         OnSwipeTouchListener onSwipeTouchListener = new OnSwipeTouchListener(this, findViewById(R.id.constraintLayoutCredits));
-        final Credits credits = this;
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
             @Override
             public void swipeRight() {
@@ -50,7 +49,7 @@ public class Credits extends AppCompatActivity {
 
             @Override
             public void swipeBottom() {
-                startActivity(new Intent(credits, MainActivity.class));
+                startActivity(new Intent(Credits.this, MainActivity.class));
                 overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
             }
 

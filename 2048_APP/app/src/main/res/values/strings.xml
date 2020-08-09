@@ -31,19 +31,20 @@
     <string name="Credits_Title">Authors</string>
     <string name="Author_Julia">Julia Szymanska</string>
     <string name="Author_Przemek">Przemyslaw Zdrzalik</string>
+    <!--    Listener Callback Strings-->
     <string name="Undo_Succeed" translatable="false">Undo_Succeed</string>
-    <string name="Button_Green">Button_Green</string>
-    <string name="Button_Green_Light">Button_Green_Light</string>
-    <string name="Button_Blue">Button_Blue</string>
-    <string name="Button_Blue_Light">Button_Blue_Light</string>
-    <string name="Notify_Adapter">Notify_Adapter</string>
-    <string name="MoveUP">MoveUP</string>
-    <string name="MoveDown">MoveDown</string>
-    <string name="MoveRight">MoveRight</string>
-    <string name="MoveLeft">MoveLeft</string>
-    <string name="HasMovedTrue">HasMovedTrue</string>
-    <string name="HasMovedFalse">HasMovedFalse</string>
-    <string name="SetTheme">SetTheme</string>
-    <string name="IsAuthenticated">IsAuthenticated</string>
-    <string name="firstRun">FirstRun</string>
+    <string name="Button_Green" translatable="false">Button_Green</string>
+    <string name="Button_Green_Light" translatable="false">Button_Green_Light</string>
+    <string name="Button_Blue" translatable="false">Button_Blue</string>
+    <string name="Button_Blue_Light" translatable="false">Button_Blue_Light</string>
+    <string name="Notify_Adapter" translatable="false">Notify_Adapter</string>
+    <string name="MoveUP" translatable="false">MoveUP</string>
+    <string name="MoveDown" translatable="false">MoveDown</string>
+    <string name="MoveRight" translatable="false">MoveRight</string>
+    <string name="MoveLeft" translatable="false">MoveLeft</string>
+    <string name="HasMovedTrue" translatable="false">HasMovedTrue</string>
+    <string name="HasMovedFalse" translatable="false">HasMovedFalse</string>
+    <string name="SetTheme" translatable="false">SetTheme</string>
+    <string name="IsAuthenticated" translatable="false">IsAuthenticated</string>
+    <string name="firstRun" translatable="false">FirstRun</string>
 </resources>

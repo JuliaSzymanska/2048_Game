@@ -106,7 +106,7 @@ public class SoundPlayer {
     /**
      * A simple class used in order to combine multiple listeners into one
      */
-    private class CompositeMediaPlayerOnCompletionListener implements MediaPlayer.OnCompletionListener {
+    private static class CompositeMediaPlayerOnCompletionListener implements MediaPlayer.OnCompletionListener {
 
         private List<MediaPlayer.OnCompletionListener> registeredListeners = new ArrayList<>();
 

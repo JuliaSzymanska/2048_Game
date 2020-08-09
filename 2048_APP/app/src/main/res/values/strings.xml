@@ -37,4 +37,10 @@
     <string name="Button_Blue">Button_Blue</string>
     <string name="Button_Blue_Light">Button_Blue_Light</string>
     <string name="Notify_Adapter">Notify_Adapter</string>
+    <string name="MoveUP">MoveUP</string>
+    <string name="MoveDown">MoveDown</string>
+    <string name="MoveRight">MoveRight</string>
+    <string name="MoveLeft">MoveLeft</string>
+    <string name="HasMovedTrue">HasMovedTrue</string>
+    <string name="HasMovedFalse">HasMovedFalse</string>
 </resources>

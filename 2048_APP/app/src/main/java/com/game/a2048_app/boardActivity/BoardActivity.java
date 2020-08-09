@@ -48,8 +48,6 @@ import java.util.List;
 import static com.game.a2048_app.boardActivity.SettingsButton.chosenSensors;
 
 public class BoardActivity extends AppCompatActivity implements SensorEventListener, OurCustomListenerFIXMERenameME {
-    private static final float VALUE_DRIFT = 0.05f;
-
     OnSwipeTouchListener onSwipeTouchListener;
 
     private Game game;
@@ -75,7 +73,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private float[] mAccelerometerData = new float[3];
     private float[] mMagnetometerData = new float[3];
     private float mLightData;
-    private float mProximityData;
 
     private TextView textScore;
     private TextView textHighScore;
@@ -87,20 +84,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private Thread updateTimeThread;
 
-    private final static int PROXIMITY_DISTANCE = 5;
-
-    private final static float RESET_PITCH = 0.2f;
-    private final static float RESET_ROLL = 0.2f;
-
-    private final static float DETECT_MOVE_PITCH = 0.7f;
-    private final static float DETECT_MOVE_ROLL = 0.7f;
-
-
     private final static int DARKMODE_ENABLE_LIGHT = 30;
     private final static int DARKMODE_DISABLE_LIGHT = 50;
 
     private final static double ANIM_SPEED_SECONDS = 0.2;
-
 
     private boolean hasMoved = false;
 
@@ -360,6 +347,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
+    // TODO: 09.08.2020 chcialbym uzyc swita ale sie nie da i wgl no jakos ladniej bym chcial xd
     @Override
     public void callback(String result) {
         if (result.equals(getString(R.string.Button_Green))) {
@@ -397,6 +385,38 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     adapter.notifyDataSetChanged();
                 }
             });
+        } else if(result.equals(getString(R.string.MoveUP))) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    move(Game.MOVE_UP);
+                }
+            });
+        } else if(result.equals(getString(R.string.MoveDown))) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    move(Game.MOVE_DOWN);
+                }
+            });
+        } else if(result.equals(getString(R.string.MoveLeft))) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    move(Game.MOVE_LEFT);
+                }
+            });
+        } else if(result.equals(getString(R.string.MoveRight))) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    move(Game.MOVE_RIGHT);
+                }
+            });
+        } else if(result.equals(getString(R.string.HasMovedFalse))) {
+            this.hasMoved = false;
+        } else if(result.equals(getString(R.string.HasMovedTrue))) {
+            this.hasMoved = true;
         }
     }
 
@@ -704,7 +724,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             case Sensor.TYPE_ACCELEROMETER:
                 mAccelerometerData = event.values.clone();
                 if (chosenSensors[0]) {
-                    new Thread(new PositionGyroscope()).start();
+                    new Thread(new PositionGyroscope(this, mAccelerometerData, mMagnetometerData, hasMoved)).start();
                 }
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
@@ -720,71 +740,14 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 }
                 break;
             case Sensor.TYPE_PROXIMITY:
-                mProximityData = event.values[0];
+                float mProximityData = event.values[0];
                 if (chosenSensors[3]) {
-                    new Thread(new StopGameProximity()).start();
+                    new Thread(new StopGameProximity(mProximityData, this.game)).start();
                 }
                 break;
             default:
                 // FIXME: 15.07.2020, nie powinno być runtime ale nie chce dodawać throws wszędzie dla placeholdera
                 throw new RuntimeException("PLACEHOLDER, onSensorChanged");
-        }
-    }
-
-    private float[] magnetometerSetup() {
-        float[] rotationMatrix = new float[9];
-        boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
-                null, mAccelerometerData, new float[3]);
-        float[] orientationValues = new float[3];
-        if (rotationOK) {
-            SensorManager.getOrientation(rotationMatrix, orientationValues);
-        }
-        return orientationValues;
-    }
-
-    private class PositionGyroscope implements Runnable {
-        @Override
-        public void run() {
-            float[] orientationValues = magnetometerSetup();
-            // Azimuth: The direction (north/south/east/west) the device is pointing. 0 is magnetic north.
-            // Pitch: The top-to-bottom tilt of the device. 0 is flat.
-            // Roll: The left-to-right tilt of the device. 0 is flat.
-            float azimuth = orientationValues[0];
-            float pitch = orientationValues[1];
-            float roll = orientationValues[2];
-
-            // malutkie odchylenie -> zmiana na 0
-            // nam to raczej nie potrzebne
-            if (Math.abs(pitch) < VALUE_DRIFT) {
-                pitch = 0;
-            }
-            if (Math.abs(roll) < VALUE_DRIFT) {
-                roll = 0;
-            }
-
-
-            if (!hasMoved && (Math.abs(pitch) >= DETECT_MOVE_PITCH || Math.abs(roll) >= DETECT_MOVE_ROLL)) {
-                final float finalPitch = pitch;
-                final float finalRoll = roll;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (finalPitch >= DETECT_MOVE_PITCH) {
-                            move(Game.MOVE_UP);
-                        } else if (finalPitch <= -DETECT_MOVE_PITCH) {
-                            move(Game.MOVE_DOWN);
-                        } else if (finalRoll >= DETECT_MOVE_ROLL) {
-                            move(Game.MOVE_RIGHT);
-                        } else if (finalRoll <= -DETECT_MOVE_ROLL) {
-                            move(Game.MOVE_LEFT);
-                        }
-                        hasMoved = true;
-                    }
-                });
-            }
-            if (Math.abs(pitch) < RESET_PITCH && Math.abs(roll) < RESET_ROLL) {
-                hasMoved = false;
-            }
         }
     }
 
@@ -823,24 +786,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             });
         }
     }
-
-    /**
-     * Pauses or unpauses game depending on proximity level.
-     */
-    private class StopGameProximity implements Runnable {
-        @Override
-        public void run() {
-            // Proximity sensor - zatrzymuje sie czas po zblizeniu
-            if (mProximityData < PROXIMITY_DISTANCE) {
-                if (!game.isSuspended()) {
-                    game.pauseTimer();
-                }
-            } else if (game.isSuspended()) {
-                game.unpauseTimer();
-            }
-        }
-    }
-
 
     /**
      * Restarts game and reloads activity.

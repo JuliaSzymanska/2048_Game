@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BoardActivity extends AppCompatActivity implements SensorEventListener {
+public class BoardActivity extends AppCompatActivity implements SensorEventListener, OurCustomListenerFIXMERenameME {
     private static final float VALUE_DRIFT = 0.05f;
 
     OnSwipeTouchListener onSwipeTouchListener;
@@ -362,6 +362,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     };
 
+
     /**
      * Creates button on click listener to undo last move.
      * Play sound after click and change button's image.
@@ -453,6 +454,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         this.game.unpauseTimer();
         this.beginUpdatingTime();
+    }
+
+    // TODO: 09.08.2020 JAVADOC - to jest listener na przyciski
+    @Override
+    public void callback(View view, String result) {
+        if (result.equals(getString(R.string.Undo_Succeed))) {
+            adapter.notifyDataSetChanged();
+            setScoreTexts();
+        }
     }
 
     // TODO: 29.07.2020 nie wiem jak to ladnie opisac ಠ_ಠ

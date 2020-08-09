@@ -31,4 +31,5 @@
     <string name="Credits_Title">Authors</string>
     <string name="Author_Julia">Julia Szymanska</string>
     <string name="Author_Przemek">Przemyslaw Zdrzalik</string>
+    <string name="Undo_Succeed" translatable="false">Undo_Succeed</string>
 </resources>

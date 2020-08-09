@@ -1,4 +1,4 @@
-package com.game.a2048_app.boardActivity;
+package com.game.a2048_app.boardActivity.buttons;
 
 import android.content.Context;
 import android.util.AttributeSet;

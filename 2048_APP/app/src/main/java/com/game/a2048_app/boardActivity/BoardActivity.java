@@ -23,7 +23,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +32,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.game.a2048_app.EndGame;
 import com.game.a2048_app.OnSwipeTouchListener;
 import com.game.a2048_app.R;
+import com.game.a2048_app.boardActivity.Sensors.ChangeColourMagnetometer;
+import com.game.a2048_app.boardActivity.Sensors.DarkMode;
+import com.game.a2048_app.boardActivity.Sensors.PositionGyroscope;
+import com.game.a2048_app.boardActivity.Sensors.StopGameProximity;
+import com.game.a2048_app.boardActivity.buttons.UndoButton;
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
@@ -45,7 +49,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.game.a2048_app.boardActivity.SettingsButton.chosenSensors;
+import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
 
 public class BoardActivity extends AppCompatActivity implements SensorEventListener, OurCustomListenerFIXMERenameME {
     OnSwipeTouchListener onSwipeTouchListener;

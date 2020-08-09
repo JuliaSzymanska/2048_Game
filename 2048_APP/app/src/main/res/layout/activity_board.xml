@@ -122,7 +122,7 @@
         app:layout_constraintStart_toEndOf="@+id/score"
         app:layout_constraintTop_toTopOf="@+id/scoreBoard" />
 
-    <com.game.a2048_app.boardActivity.SettingsButton
+    <com.game.a2048_app.boardActivity.buttons.SettingsButton
         android:id="@+id/settingsButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -147,7 +147,7 @@
         app:layout_constraintWidth_percent="0.12"
         android:onClick="playPauseButtonOnClick"/>
 
-    <com.game.a2048_app.boardActivity.MuteButton
+    <com.game.a2048_app.boardActivity.buttons.MuteButton
         android:id="@+id/muteButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -160,7 +160,7 @@
         app:layout_constraintBottom_toTopOf="@id/undoMoveButton"
         app:layout_constraintWidth_percent="0.12" />
 
-    <com.game.a2048_app.boardActivity.UndoButton
+    <com.game.a2048_app.boardActivity.buttons.UndoButton
         android:id="@+id/undoMoveButton"
         android:layout_width="0dp"
         android:layout_height="0dp"

@@ -1,16 +1,17 @@
-package com.game.a2048_app.boardActivity;
+package com.game.a2048_app.boardActivity.Sensors;
 
 import android.content.Context;
 
 import com.game.a2048_app.R;
+import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
 import com.game.a2048_app.helpers.PreferencesHelper;
 
 /**
  * Sets dark or light mode depending on the light level.
  */
-class DarkMode implements Runnable {
+public class DarkMode implements Runnable {
 
-    DarkMode(float mLightData, Context context) {
+    public DarkMode(float mLightData, Context context) {
         this.mLightData = mLightData;
         this.context = context;
         this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;

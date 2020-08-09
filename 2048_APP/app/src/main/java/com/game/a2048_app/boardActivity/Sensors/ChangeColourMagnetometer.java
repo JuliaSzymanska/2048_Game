@@ -1,17 +1,18 @@
-package com.game.a2048_app.boardActivity;
+package com.game.a2048_app.boardActivity.Sensors;
 
 import android.content.Context;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 
 import com.game.a2048_app.R;
+import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
 
 /**
  * Changes fields background colour depending on magnetometer value.
  */
-class ChangeColourMagnetometer implements Runnable {
+public class ChangeColourMagnetometer implements Runnable {
 
-    ChangeColourMagnetometer(Context context, float[]  mAccelerometerData, float[] mMagnetometerData) {
+    public ChangeColourMagnetometer(Context context, float[]  mAccelerometerData, float[] mMagnetometerData) {
         this.context = context;
         this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;
         this.mAccelerometerData = mAccelerometerData;

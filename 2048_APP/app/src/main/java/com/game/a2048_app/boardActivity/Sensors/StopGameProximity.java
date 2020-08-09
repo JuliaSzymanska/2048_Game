@@ -1,15 +1,15 @@
-package com.game.a2048_app.boardActivity;
+package com.game.a2048_app.boardActivity.Sensors;
 
 import com.game.module.Game;
 
 /**
  * Pauses or unpauses game depending on proximity level.
  */
-class StopGameProximity implements Runnable {
+public class StopGameProximity implements Runnable {
 
     private final static int PROXIMITY_DISTANCE = 5;
 
-    StopGameProximity(float mProximityData, Game game) {
+    public StopGameProximity(float mProximityData, Game game) {
         this.mProximityData = mProximityData;
         this.game = game;
     }

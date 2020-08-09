@@ -1,4 +1,4 @@
-package com.game.a2048_app.boardActivity;
+package com.game.a2048_app.boardActivity.buttons;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 
 import com.game.a2048_app.R;
+import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
 import com.game.module.Game;
@@ -57,7 +58,7 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
     }
 
     // TODO: 09.08.2020 Cos tak czulem zeby zostawic singleton ehh
-    void setGame(Game game) {
+    public void setGame(Game game) {
         this.game = game;
         this.setUndoNumber();
     }
@@ -81,7 +82,7 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
      * Sets undo's button's image and TextView with number of available undo.
      */
     @SuppressLint("DefaultLocale")
-    void setUndoNumber() {
+    public void setUndoNumber() {
         int undoNumber = this.game.getAvailableUndoNumber();
         if (undoNumber > 0) {
             this.setBackground(preloader.getUndo());

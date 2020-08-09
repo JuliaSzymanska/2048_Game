@@ -1,4 +1,4 @@
-package com.game.a2048_app.boardActivity;
+package com.game.a2048_app.boardActivity.buttons;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -20,7 +20,7 @@ public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
     Preloader preloader = Preloader.getInstance();
     PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
-    final static boolean[] chosenSensors = new boolean[]{false, false, false, false};
+    public final static boolean[] chosenSensors = new boolean[]{false, false, false, false};
     private Context context;
 
     private void setupButton(Context context) {

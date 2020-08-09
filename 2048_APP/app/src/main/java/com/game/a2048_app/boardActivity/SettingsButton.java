@@ -14,6 +14,7 @@ import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
 
+// TODO: 09.08.2020 dodać xml
 public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
 
     Preloader preloader = Preloader.getInstance();

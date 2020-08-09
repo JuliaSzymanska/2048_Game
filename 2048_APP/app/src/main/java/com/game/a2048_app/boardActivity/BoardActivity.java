@@ -120,7 +120,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private boolean hasMoved = false;
 
     private boolean isDarkTheme = false;
-    private int volume;
     private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
     private BoardActivity boardActivity = this;
@@ -148,7 +147,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void loadData() {
         preferencesHelper.getChoosenSensors(this.choosenSensors);
         this.isDarkTheme = preferencesHelper.getDarkTheme();
-        this.volume = preferencesHelper.getVolume();
         this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(getResources().getString(R.string.authentication))), boardActivity);
         this.fields = game.getBoard().toArray(new Field[0]);
         this.fieldsImages = new Drawable[fields.length];
@@ -402,14 +400,13 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Play sound after click and change button's image.
      */
     public void muteButtonOnClick(View v) {
-        if (volume == 0) {
-            volume = 1;
-        } else if (volume == 1) {
-            volume = 0;
+        if (preferencesHelper.getVolume() == 0) {
+            preferencesHelper.setVolume(1);
+        } else if (preferencesHelper.getVolume() == 1) {
+            preferencesHelper.setVolume(0);
         } else {
             throw new IllegalArgumentException("Argument value should be 0 or 1");
         }
-        preferencesHelper.setVolume(volume);
         try {
             setMuteSettings();
         } catch (IllegalStateException | NullPointerException e) {
@@ -421,9 +418,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Sets the appropriate mute button's image
      */
     private void setMuteButtonImage() {
-        if (volume == 1) {
+        if (preferencesHelper.getVolume() == 1) {
             muteButton.setBackground(preloader.getMuteOff());
-        } else if (volume == 0) {
+        } else if (preferencesHelper.getVolume() == 0) {
             muteButton.setBackground(preloader.getMuteOn());
         } else {
             throw new IllegalArgumentException("Argument value should be 0 or 1");
@@ -436,7 +433,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     private void setMuteSettings() {
         setMuteButtonImage();
-        SoundPlayer.getInstance().setVolume(volume);
+        SoundPlayer.getInstance().setVolume(preferencesHelper.getVolume());
     }
 
     /**

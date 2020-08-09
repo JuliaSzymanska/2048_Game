@@ -519,7 +519,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-
+    /**
+     * Ordered list of all Drawables used to display game values.
+     * Correct drawable for each value is found at the index of the list equal to log base 2 of the value of the field.
+     */
     private final List<Drawable> fieldImagesDrawablesList = new ArrayList<>(
             Arrays.asList(
                     preloader.getZero(),

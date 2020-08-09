@@ -122,7 +122,7 @@
         app:layout_constraintStart_toEndOf="@+id/score"
         app:layout_constraintTop_toTopOf="@+id/scoreBoard" />
 
-    <Button
+    <com.game.a2048_app.boardActivity.SettingsButton
         android:id="@+id/settingsButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -132,8 +132,7 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/restartGameButton"
-        app:layout_constraintWidth_percent="0.12"
-        android:onClick="settingsButtonOnClick"/>
+        app:layout_constraintWidth_percent="0.12" />
 
     <Button
         android:id="@+id/pausePlayButton"

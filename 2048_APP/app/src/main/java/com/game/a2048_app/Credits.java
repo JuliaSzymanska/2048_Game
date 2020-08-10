@@ -1,11 +1,11 @@
 package com.game.a2048_app;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.game.a2048_app.helpers.DarkModeHelper;
@@ -14,7 +14,10 @@ import com.game.a2048_app.helpers.Preloader;
 
 public class Credits extends AppCompatActivity {
 
-    PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
+    private PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
+
+    private final String PRZEMEK_GITHUB = "https://github.com/ZdrzalikPrzemyslaw";
+    private final String DZULKA_GITHUB = "https://github.com/JuliaSzymanska";
 
     Preloader preloader = Preloader.getInstance();
 
@@ -25,6 +28,18 @@ public class Credits extends AppCompatActivity {
         setContentView(R.layout.activity_credits);
         setupSwipeListener();
         this.loadData();
+    }
+
+    public void onClickTextViewPrzemek(View v) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(PRZEMEK_GITHUB));
+        startActivity(i);
+    }
+
+    public void onClickTextViewDzulka(View v) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(DZULKA_GITHUB));
+        startActivity(i);
     }
 
     /**

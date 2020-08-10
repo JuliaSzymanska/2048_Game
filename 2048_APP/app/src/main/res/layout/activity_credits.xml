@@ -52,7 +52,9 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/full_names" />
+            tools:text="@tools:sample/full_names"
+            android:clickable="true"
+            android:onClick="onClickTextViewPrzemek"/>
 
         <TextView
             android:id="@+id/textViewJulia"
@@ -67,6 +69,9 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/full_names" />
+            tools:text="@tools:sample/full_names"
+            android:clickable="true"
+            android:onClick="onClickTextViewDzulka"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

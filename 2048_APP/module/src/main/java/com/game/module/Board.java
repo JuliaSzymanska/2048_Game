@@ -305,7 +305,7 @@ public class Board implements Serializable {
      * @param listB second list to pair
      * @param <A>   type of elements of listA
      * @param <B>   type of elements of listB
-     * @return pair of two list passed as params
+     * @return pair of number_two list passed as params
      */
     private static <A, B> List<Pair<A, B>> zip(List<A> listA, List<B> listB) {
         if (listA.size() != listB.size()) {

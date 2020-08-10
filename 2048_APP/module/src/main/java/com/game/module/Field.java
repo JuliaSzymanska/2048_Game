@@ -69,10 +69,10 @@ public class Field implements Serializable, Comparable<Field> {
     }
 
     /**
-     * Checks if param is power of two.
+     * Checks if param is power of number_two.
      *
      * @param x value to check.
-     * @return if param is power of two.
+     * @return if param is power of number_two.
      */
     private boolean isPowerOfTwo(int x) {
         return (x & (x - 1)) == 0;

@@ -280,7 +280,7 @@ public class Preloader {
     }
 
     private void loadTwo() {
-        two = context.getDrawable(R.drawable.two);
+        two = context.getDrawable(R.drawable.number_two);
     }
 
     /**
@@ -293,7 +293,7 @@ public class Preloader {
     }
 
     private void loadFour() {
-        four = context.getDrawable(R.drawable.four);
+        four = context.getDrawable(R.drawable.number_four);
     }
 
     /**
@@ -306,7 +306,7 @@ public class Preloader {
     }
 
     private void loadEight() {
-        eight = context.getDrawable(R.drawable.eight);
+        eight = context.getDrawable(R.drawable.number_eight);
     }
 
     /**
@@ -319,7 +319,7 @@ public class Preloader {
     }
 
     private void loadSixteen() {
-        sixteen = context.getDrawable(R.drawable.sixteen);
+        sixteen = context.getDrawable(R.drawable.number_sixteen);
     }
 
     /**
@@ -332,7 +332,7 @@ public class Preloader {
     }
 
     private void loadThirtyTwo() {
-        thirtyTwo = context.getDrawable(R.drawable.thirty_two);
+        thirtyTwo = context.getDrawable(R.drawable.number_thirty_two);
     }
 
     /**
@@ -345,7 +345,7 @@ public class Preloader {
     }
 
     private void loadSixtyFour() {
-        sixtyFour = context.getDrawable(R.drawable.sixty_four);
+        sixtyFour = context.getDrawable(R.drawable.number_sixty_four);
     }
 
     /**
@@ -358,7 +358,7 @@ public class Preloader {
     }
 
     private void loadOneHundred() {
-        oneHundred = context.getDrawable(R.drawable.one_hundred);
+        oneHundred = context.getDrawable(R.drawable.number_one_hundred);
     }
 
     /**
@@ -371,7 +371,7 @@ public class Preloader {
     }
 
     private void loadTwoHundred() {
-        twoHundred = context.getDrawable(R.drawable.two_hundred);
+        twoHundred = context.getDrawable(R.drawable.number_two_hundred);
     }
 
     /**
@@ -384,7 +384,7 @@ public class Preloader {
     }
 
     private void loadFiveHundred() {
-        fiveHundred = context.getDrawable(R.drawable.five_hundred);
+        fiveHundred = context.getDrawable(R.drawable.number_five_hundred);
     }
 
     /**
@@ -397,7 +397,7 @@ public class Preloader {
     }
 
     private void loadOneThousand() {
-        oneThousand = context.getDrawable(R.drawable.one_thousand);
+        oneThousand = context.getDrawable(R.drawable.number_one_thousand);
     }
 
     /**
@@ -410,7 +410,7 @@ public class Preloader {
     }
 
     private void loadTwoThousand() {
-        twoThousand = context.getDrawable(R.drawable.two_thousand);
+        twoThousand = context.getDrawable(R.drawable.number_two_thousand);
     }
 
     /**
@@ -423,7 +423,7 @@ public class Preloader {
     }
 
     private void loadFourThousand() {
-        fourThousand = context.getDrawable(R.drawable.four_thousand);
+        fourThousand = context.getDrawable(R.drawable.number_four_thousand);
     }
 
     /**
@@ -436,7 +436,7 @@ public class Preloader {
     }
 
     private void loadEightThousand() {
-        eightThousand = context.getDrawable(R.drawable.eight_thousand);
+        eightThousand = context.getDrawable(R.drawable.number_eight_thousand);
     }
 
     /**
@@ -449,7 +449,7 @@ public class Preloader {
     }
 
     private void loadSixteenThousand() {
-        sixteenThousand = context.getDrawable(R.drawable.sixteen_thousand);
+        sixteenThousand = context.getDrawable(R.drawable.number_sixteen_thousand);
     }
 
     /**
@@ -462,7 +462,7 @@ public class Preloader {
     }
 
     private void loadThirtyTwoThousand() {
-        thirtyTwoThousand = context.getDrawable(R.drawable.thirty_two_thousand);
+        thirtyTwoThousand = context.getDrawable(R.drawable.number_thirty_two_thousand);
     }
 
     /**
@@ -475,7 +475,7 @@ public class Preloader {
     }
 
     private void loadSixtyFiveThousand() {
-        sixtyFiveThousand = context.getDrawable(R.drawable.sixty_five_thousand);
+        sixtyFiveThousand = context.getDrawable(R.drawable.number_sixty_five_thousand);
     }
 
     /**
@@ -488,7 +488,7 @@ public class Preloader {
     }
 
     private void loadOneHundredThousand() {
-        oneHundredThousand = context.getDrawable(R.drawable.one_hundred_thousand);
+        oneHundredThousand = context.getDrawable(R.drawable.number_one_hundred_thousand);
     }
 
     /**

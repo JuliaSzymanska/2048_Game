@@ -9,19 +9,12 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.game.a2048_app.helpers.DarkModeHelper;
-import com.game.a2048_app.helpers.PreferencesHelper;
-import com.game.a2048_app.helpers.Preloader;
 
 public class Credits extends AppCompatActivity {
 
-    private PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
+    private final static String PRZEMEK_GITHUB = "https://github.com/ZdrzalikPrzemyslaw";
+    private final static String DZULKA_GITHUB = "https://github.com/JuliaSzymanska";
 
-    private final String PRZEMEK_GITHUB = "https://github.com/ZdrzalikPrzemyslaw";
-    private final String DZULKA_GITHUB = "https://github.com/JuliaSzymanska";
-
-    Preloader preloader = Preloader.getInstance();
-
-    // TODO: 02.08.2020 uzupelnic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

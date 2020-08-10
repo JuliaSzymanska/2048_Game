@@ -22,6 +22,7 @@ public class EndGame extends AppCompatActivity {
     //  - zrobic xml do buttons
     //  - kiedy pausujemy gre sensorem to ma sie zmienic przycik
     //  - przywrocic gre do singletona
+    //  - https://developer.android.com/studio/build/shrink-code.html
 
     private String score;
     private String highScore;

@@ -23,6 +23,8 @@ public class EndGame extends AppCompatActivity {
     //  - kiedy pausujemy gre sensorem to ma sie zmienic przycik
     //  - przywrocic gre do singletona
     //  - https://developer.android.com/studio/build/shrink-code.html
+    //  - nazwy domen :
+    //      - tech.szymanskazdrzalik.a2048_app
 
     private String score;
     private String highScore;

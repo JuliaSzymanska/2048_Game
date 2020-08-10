@@ -20,6 +20,7 @@ public class EndGame extends AppCompatActivity {
     // TODO: 23.07.2020  Nasze work list:
     //  - java doc
     //  - zrobic xml do buttons
+    //  - kiedy pausujemy gre sensorem to ma sie zmienic przycik
     //  - przywrocic gre do singletona
 
     private String score;

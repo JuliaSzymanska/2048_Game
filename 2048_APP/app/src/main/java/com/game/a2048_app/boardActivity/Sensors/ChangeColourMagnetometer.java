@@ -1,7 +1,6 @@
 package com.game.a2048_app.boardActivity.Sensors;
 
 import android.content.Context;
-import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 
 import com.game.a2048_app.R;

@@ -19,9 +19,7 @@ public class EndGame extends AppCompatActivity {
 
     // TODO: 23.07.2020  Nasze work list:
     //  - java doc
-    //  - wyczyścić to co zrobiłem w board i boardActivity, zoptymalizować, usunac nie potrzebny kod, podzielić na funkcje, uładnić kod
-    //  - https://developer.android.com/training/transitions/start-activity - credits?
-    //  - bug gdzie kiedy gra jest spauzwana i próbujemy ruszyć to gra się animuje mimo to
+    //  - zrobic xml do buttons
     //  - przywrocic gre do singletona
 
     private String score;
@@ -29,7 +27,7 @@ public class EndGame extends AppCompatActivity {
     private Boolean authentication;
     private Button homePageButton;
     private Preloader preloader = Preloader.getInstance();
-    private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
+//    private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
     /**
      * {@inheritDoc}

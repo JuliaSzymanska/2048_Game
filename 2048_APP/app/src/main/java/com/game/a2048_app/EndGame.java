@@ -25,6 +25,7 @@ public class EndGame extends AppCompatActivity {
     //  - https://developer.android.com/studio/build/shrink-code.html
     //  - nazwy domen :
     //      - tech.szymanskazdrzalik.a2048_app
+    //  - logger?
 
     private String score;
     private String highScore;

@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Credits">
+    tools:context=".credits.Credits">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayoutCredits"
@@ -17,12 +17,25 @@
             android:elevation="4dp"
             android:translationZ="200dp"
             android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
+
+        <com.game.a2048_app.credits.SwipeDownCreditsButton
+            android:id="@+id/authors"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/swipe_up"
+            android:rotation="180"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/darkThemeView"
+            app:layout_constraintWidth_percent="0.20"
+            tools:ignore="ContentDescription,MissingClass,MissingConstraints" />
 
         <TextView
             android:id="@+id/textView2"

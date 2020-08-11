@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.a2048_app.credits.Credits;
 import com.game.a2048_app.helpers.DarkModeHelper;
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
@@ -46,7 +47,7 @@ public class EndGame extends AppCompatActivity {
         setContentView(R.layout.activity_end_game);
         homePageButton = findViewById(R.id.homePage);
         loadData();
-        ((SwipeUpCreditsButton) findViewById(R.id.authors)).setupSwipeListener(this, findViewById(R.id.endGame));
+        ((SwipeUpCreditsButton) findViewById(R.id.authors)).setupSwipeTopListener(this, findViewById(R.id.endGame));
         this.setupSwipeListener();
     }
 

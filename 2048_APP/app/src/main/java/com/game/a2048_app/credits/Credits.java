@@ -1,6 +1,5 @@
-package com.game.a2048_app;
+package com.game.a2048_app.credits;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,9 +8,8 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.game.a2048_app.R;
 import com.game.a2048_app.helpers.DarkModeHelper;
-
-import java.util.Objects;
 
 public class Credits extends AppCompatActivity {
 
@@ -22,7 +20,7 @@ public class Credits extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credits);
-        setupSwipeListener();
+        ((SwipeDownCreditsButton) findViewById(R.id.authors)).setupSwipeBottomListener(this, findViewById(R.id.constraintLayoutCredits));
         this.loadData();
     }
 
@@ -44,35 +42,6 @@ public class Credits extends AppCompatActivity {
      */
     private void loadData() {
         DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
-    }
-
-
-    private void setupSwipeListener() {
-        OnSwipeTouchListener onSwipeTouchListener = new OnSwipeTouchListener(this, findViewById(R.id.constraintLayoutCredits));
-        onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
-            @Override
-            public void swipeRight() {
-            }
-
-            @Override
-            public void swipeTop() {
-            }
-
-            @Override
-            public void swipeBottom() {
-                Intent intent = getIntent();
-                try {
-                    startActivity(new Intent(Credits.this, Class.forName(Objects.requireNonNull(intent.getStringExtra(Activity.ACTIVITY_SERVICE)))));
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
-            }
-
-            @Override
-            public void swipeLeft() {
-            }
-        };
     }
 
 }

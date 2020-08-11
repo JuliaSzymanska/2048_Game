@@ -11,6 +11,8 @@ import com.game.a2048_app.R;
 
 public class SwipeUpListenerHelper {
 
+    // TODO: 11.08.2020 Umieścił bym to po prostu w tym swipeUpButtonie bo to robi to samo co ten przycisk
+
     public static void setupSwipeListener(final Context context, View view) {
         OnSwipeTouchListener onSwipeTouchListener = new OnSwipeTouchListener(context, view);
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {

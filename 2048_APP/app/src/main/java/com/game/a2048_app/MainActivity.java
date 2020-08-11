@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initButtons();
         loadData();
-        SwipeUpCreditsButton.setupSwipeListener(this, findViewById(R.id.constraintLayoutMainActivity));
+        ((SwipeUpCreditsButton) findViewById(R.id.authors)).setupSwipeListener(this, findViewById(R.id.constraintLayoutMainActivity));
         if (binding.getIsFingerprintSensorAvailable() && isFirstRun) {
             this.authenticationButtonOnClick(findViewById(R.id.authenticateButton));
         }

@@ -552,7 +552,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             this.setScoreTexts();
             undoButton.setUndoNumber();
         }
-        changeToEndActivity();
     }
 
     // TODO: 29.07.2020 zrob tutaj ladne javadoci

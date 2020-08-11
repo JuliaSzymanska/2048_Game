@@ -46,7 +46,7 @@ public class EndGame extends AppCompatActivity {
         setContentView(R.layout.activity_end_game);
         homePageButton = findViewById(R.id.homePage);
         loadData();
-        SwipeUpCreditsButton.setupSwipeListener(this, findViewById(R.id.endGame));
+        ((SwipeUpCreditsButton) findViewById(R.id.authors)).setupSwipeListener(this, findViewById(R.id.endGame));
         this.setupSwipeListener();
     }
 

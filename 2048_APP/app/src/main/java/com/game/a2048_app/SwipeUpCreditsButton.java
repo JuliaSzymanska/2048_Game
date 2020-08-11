@@ -13,8 +13,6 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
     private Preloader preloader = Preloader.getInstance();
     private Context context;
 
-
-
     public void initContext(Context context) {
         this.context = context;
     }
@@ -68,7 +66,11 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
      */
     // TODO: 09.08.2020 chce to usstawić w xml
     public void swipeUpCreditsButtonOnClick(View v) {
-        Intent intent = new Intent(context, Credits.class).putExtra(Activity.ACTIVITY_SERVICE, ((Activity) context).getLocalClassName());
+        startNewCreditsActivity();
+    }
+
+    private void startNewCreditsActivity(){
+        Intent intent = new Intent(context, Credits.class).putExtra(Activity.ACTIVITY_SERVICE, ((Activity) context).getClass().getCanonicalName());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.context.startActivity(intent);
         if (context instanceof Activity) {
@@ -76,7 +78,7 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
         }
     }
 
-    public static void setupSwipeListener(final Context context, View view) {
+    public void setupSwipeListener(final Context context, View view) {
         OnSwipeTouchListener onSwipeTouchListener = new OnSwipeTouchListener(context, view);
         onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
             @Override
@@ -85,13 +87,7 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
 
             @Override
             public void swipeTop() {
-                if (context == null) {
-                    throw new NullPointerException("Null context. ");
-                }
-                Intent intent = new Intent(context, Credits.class).putExtra(Activity.ACTIVITY_SERVICE, ((Activity) context).getLocalClassName());
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-                ((Activity) context).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                startNewCreditsActivity();
             }
 
             @Override

@@ -129,29 +129,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         }
     }
 
-//    private void setupSwipeListener() {
-//        onSwipeTouchListener = new OnSwipeTouchListener(this, findViewById(R.id.constraintLayoutMainActivity));
-//        onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
-//            @Override
-//            public void swipeRight() {
-//            }
-//
-//            @Override
-//            public void swipeTop() {
-//                startActivity(new Intent(MainActivity.this, Credits.class));
-//                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-//            }
-//
-//            @Override
-//            public void swipeBottom() {
-//            }
-//
-//            @Override
-//            public void swipeLeft() {
-//            }
-//        };
-//    }
-
     /**
      * {@inheritDoc}
      * {@link #isAuthenticated} is set to true

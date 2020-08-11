@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.game.a2048_app.credits.Credits;
 import com.game.a2048_app.helpers.DarkModeHelper;
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
@@ -48,7 +47,6 @@ public class EndGame extends AppCompatActivity {
         homePageButton = findViewById(R.id.homePage);
         loadData();
         ((SwipeUpCreditsButton) findViewById(R.id.authors)).setupSwipeTopListener(this, findViewById(R.id.endGame));
-        this.setupSwipeListener();
     }
 
     private void getExtrasFromIntent() {
@@ -109,30 +107,6 @@ public class EndGame extends AppCompatActivity {
         soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.slide_activities), setHomePageButtonBackgroundListener);
         startActivity(new Intent(EndGame.this, MainActivity.class));
     }
-
-    private void setupSwipeListener() {
-        onSwipeTouchListener = new OnSwipeTouchListener(this, findViewById(R.id.endGame));
-        onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
-            @Override
-            public void swipeRight() {
-            }
-
-            @Override
-            public void swipeTop() {
-                startActivity(new Intent(EndGame.this, Credits.class));
-                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-            }
-
-            @Override
-            public void swipeBottom() {
-            }
-
-            @Override
-            public void swipeLeft() {
-            }
-        };
-    }
-
 
     /**
      * Pressing back button will not perform any action.

@@ -29,12 +29,12 @@ public class EndGame extends AppCompatActivity {
     //  - logger?
     //  - https://freemusicarchive.org/music/Kevin_MacLeod - jesli uzyjemy trzeba go gdzieś w apce zcreditować, wg jego licencji.
 
-    private String score;
-    private String highScore;
-    private Boolean authentication;
+    private static String score;
+    private static String highScore;
     private Button homePageButton;
     private Preloader preloader = Preloader.getInstance();
     private OnSwipeTouchListener onSwipeTouchListener;
+    private static boolean isAuthenticated = false;
 
     /**
      * {@inheritDoc}
@@ -53,9 +53,16 @@ public class EndGame extends AppCompatActivity {
 
     private void getExtrasFromIntent() {
         Intent intent = getIntent();
-        this.score = intent.getStringExtra(getResources().getString(R.string.score));
-        this.highScore = intent.getStringExtra(getResources().getString(R.string.high_score));
-        this.authentication = Boolean.parseBoolean(intent.getStringExtra(getResources().getString(R.string.authentication)));
+        String score = intent.getStringExtra(getResources().getString(R.string.score));
+        String highScore = intent.getStringExtra(getResources().getString(R.string.high_score));
+        // TODO: 11.08.2020 to nadal zresetuje się po przejsciu do credits.
+        //  https://stackoverflow.com/a/2098936 - tak bym zrobił zapisywanie czy jesteśmy authenticated i wtedy usunał wszędzie pola isAuthenticated z każdej klasy
+        EndGame.isAuthenticated = intent.getBooleanExtra(getResources().getString(R.string.authentication), false);
+        // TODO: 11.08.2020 nie jestem pewien czy to jest null czy string null
+        if (score != null && !score.equals("null"))
+            EndGame.score = score;
+        if (highScore != null && !highScore.equals("null"))
+            EndGame.highScore = highScore;
     }
 
     /**
@@ -79,7 +86,7 @@ public class EndGame extends AppCompatActivity {
      * Sets text to display high score.
      */
     void setTextHighScoreText() {
-        if (authentication) {
+        if (EndGame.isAuthenticated) {
             TextView textScore = (TextView) findViewById(R.id.textHighScore);
             textScore.setText(String.format("%s:\n%s", getResources().getString(R.string.high_score), highScore));
         }

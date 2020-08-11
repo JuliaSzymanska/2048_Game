@@ -33,7 +33,7 @@ import me.aflak.libraries.dialog.FingerprintDialog;
 
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback {
 
-    private Boolean isAuthenticated = false;
+    private static Boolean isAuthenticated = false;
     private Button startGameButton;
     private Preloader preloader = Preloader.getInstance();
     private ActivityMainBinding binding;

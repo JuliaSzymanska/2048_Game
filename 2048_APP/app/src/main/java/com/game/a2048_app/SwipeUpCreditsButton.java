@@ -69,11 +69,14 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
      */
     // TODO: 09.08.2020 chce to usstawić w xml
     public void swipeUpCreditsButtonOnClick(View v) {
+        if (SwipeUpCreditsButton.context == null) {
+            throw new NullPointerException("Null context. ");
+        }
         Intent intent = new Intent(context, Credits.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         SwipeUpCreditsButton.context.startActivity(intent);
-        if (context instanceof Activity) {
+//        if (context instanceof Activity) {
             ((Activity) SwipeUpCreditsButton.context).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-        }
+//        }
     }
 }

@@ -12,12 +12,12 @@ import com.game.a2048_app.helpers.Preloader;
 
 public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatButton {
     private Preloader preloader = Preloader.getInstance();
-    private static Context context;
+    private Context context;
 
 
     @SuppressLint("CommitPrefEdits")
-    public static void initContext(Context context) {
-        SwipeUpCreditsButton.context = context.getApplicationContext();
+    public void initContext(Context context) {
+        this.context = context;
     }
 
     public SwipeUpCreditsButton(Context context) {
@@ -69,14 +69,11 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
      */
     // TODO: 09.08.2020 chce to usstawić w xml
     public void swipeUpCreditsButtonOnClick(View v) {
-        if (SwipeUpCreditsButton.context == null) {
-            throw new NullPointerException("Null context. ");
-        }
-        Intent intent = new Intent(context, Credits.class);
+        Intent intent = new Intent(context, Credits.class).putExtra(Activity.ACTIVITY_SERVICE, ((Activity) context).getLocalClassName());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        SwipeUpCreditsButton.context.startActivity(intent);
-//        if (context instanceof Activity) {
-            ((Activity) SwipeUpCreditsButton.context).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-//        }
+        this.context.startActivity(intent);
+        if (context instanceof Activity) {
+            ((Activity) this.context).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+        }
     }
 }

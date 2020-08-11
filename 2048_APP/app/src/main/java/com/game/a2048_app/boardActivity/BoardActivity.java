@@ -321,6 +321,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         this.game.unPauseTimer();
         this.beginUpdatingTime();
+        changeToEndActivity();
     }
 
     // TODO: 09.08.2020 JAVADOC - to jest listener na przyciski
@@ -696,6 +697,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mSensorLight = mSensorManager.getDefaultSensor(
                 Sensor.TYPE_LIGHT);
         mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+
     }
 
     /**

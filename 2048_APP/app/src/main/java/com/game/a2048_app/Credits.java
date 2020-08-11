@@ -1,5 +1,6 @@
 package com.game.a2048_app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.game.a2048_app.helpers.DarkModeHelper;
+
+import java.util.Objects;
 
 public class Credits extends AppCompatActivity {
 
@@ -29,7 +32,7 @@ public class Credits extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void onClickTextViewDzulka(View v) {
+    public void onClickTextViewJulia(View v) {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(JULIA_GITHUB));
         startActivity(i);
@@ -57,7 +60,12 @@ public class Credits extends AppCompatActivity {
 
             @Override
             public void swipeBottom() {
-                startActivity(new Intent(Credits.this, MainActivity.class));
+                Intent intent = getIntent();
+                try {
+                    startActivity(new Intent(Credits.this, Class.forName(Objects.requireNonNull(intent.getStringExtra(Activity.ACTIVITY_SERVICE)))));
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
             }
 

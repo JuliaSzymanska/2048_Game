@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private void initButtons() {
         startGameButton = (Button) findViewById(R.id.startGameButton);
         binding.setIsFingerprintSensorAvailable(isFingerprintSensorAvailable(this));
-        SwipeUpCreditsButton.initContext(this);
     }
 
     /**

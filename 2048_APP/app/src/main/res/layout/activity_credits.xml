@@ -86,7 +86,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/full_names"
             android:clickable="true"
-            android:onClick="onClickTextViewDzulka"/>
+            android:onClick="onClickTextViewJulia"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -23,7 +23,7 @@ public class SwipeUpListenerHelper {
                 if (context == null) {
                     throw new NullPointerException("Null context. ");
                 }
-                Intent intent = new Intent(context, Credits.class);
+                Intent intent = new Intent(context, Credits.class).putExtra(Activity.ACTIVITY_SERVICE, ((Activity) context).getLocalClassName());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                 ((Activity) context).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);

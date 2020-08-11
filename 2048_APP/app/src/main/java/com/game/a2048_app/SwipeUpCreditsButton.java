@@ -1,6 +1,7 @@
 package com.game.a2048_app;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
@@ -16,9 +17,7 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
 
     @SuppressLint("CommitPrefEdits")
     public static void initContext(Context context) {
-        if (SwipeUpCreditsButton.context == null) {
-            SwipeUpCreditsButton.context = context.getApplicationContext();
-        }
+        SwipeUpCreditsButton.context = context.getApplicationContext();
     }
 
     public SwipeUpCreditsButton(Context context) {
@@ -57,7 +56,6 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
     }
 
 
-
     /**
      * Sets the swipe up button's image
      */
@@ -71,12 +69,11 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
      */
     // TODO: 09.08.2020 chce to usstawić w xml
     public void swipeUpCreditsButtonOnClick(View v) {
-        if (SwipeUpCreditsButton.context == null) {
-            throw new NullPointerException("Null context. ");
-        }
         Intent intent = new Intent(context, Credits.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         SwipeUpCreditsButton.context.startActivity(intent);
-//        SwipeUpCreditsButton.context.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+        if (context instanceof Activity) {
+            ((Activity) SwipeUpCreditsButton.context).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+        }
     }
 }

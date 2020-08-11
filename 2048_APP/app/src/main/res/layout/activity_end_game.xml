@@ -65,7 +65,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/endGame" />
 
-    <Button
+    <com.game.a2048_app.SwipeUpCreditsButton
         android:id="@+id/authors"
         android:layout_width="0dp"
         android:layout_height="0dp"

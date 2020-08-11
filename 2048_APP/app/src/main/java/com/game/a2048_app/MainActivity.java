@@ -21,6 +21,7 @@ import com.game.a2048_app.helpers.DarkModeHelper;
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
+import com.game.a2048_app.helpers.SwipeUpListenerHelper;
 
 import me.aflak.libraries.callback.FingerprintDialogCallback;
 import me.aflak.libraries.dialog.FingerprintDialog;
@@ -60,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initButtons();
         loadData();
-        this.setupSwipeListener();
+        SwipeUpListenerHelper.setupSwipeListener(this, findViewById(R.id.constraintLayoutMainActivity));
+//        this.setupSwipeListener();
         if (binding.getIsFingerprintSensorAvailable() && isFirstRun) {
             this.authenticationButtonOnClick(findViewById(R.id.authenticateButton));
         }
@@ -132,28 +134,28 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         }
     }
 
-    private void setupSwipeListener() {
-        onSwipeTouchListener = new OnSwipeTouchListener(this, findViewById(R.id.constraintLayoutMainActivity));
-        onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
-            @Override
-            public void swipeRight() {
-            }
-
-            @Override
-            public void swipeTop() {
-                startActivity(new Intent(MainActivity.this, Credits.class));
-                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-            }
-
-            @Override
-            public void swipeBottom() {
-            }
-
-            @Override
-            public void swipeLeft() {
-            }
-        };
-    }
+//    private void setupSwipeListener() {
+//        onSwipeTouchListener = new OnSwipeTouchListener(this, findViewById(R.id.constraintLayoutMainActivity));
+//        onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
+//            @Override
+//            public void swipeRight() {
+//            }
+//
+//            @Override
+//            public void swipeTop() {
+//                startActivity(new Intent(MainActivity.this, Credits.class));
+//                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+//            }
+//
+//            @Override
+//            public void swipeBottom() {
+//            }
+//
+//            @Override
+//            public void swipeLeft() {
+//            }
+//        };
+//    }
 
     /**
      * {@inheritDoc}

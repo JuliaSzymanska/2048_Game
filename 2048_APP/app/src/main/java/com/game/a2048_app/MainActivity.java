@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private Boolean isAuthenticated = false;
     private Button startGameButton;
     private Preloader preloader = Preloader.getInstance();
-    private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
-    private OnSwipeTouchListener onSwipeTouchListener;
     private ActivityMainBinding binding;
 
     private static boolean isFirstRun = true;

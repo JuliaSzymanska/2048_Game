@@ -22,13 +22,16 @@ public class EndGame extends AppCompatActivity {
     //  - zrobic xml do buttons
     //  - kiedy pausujemy gre sensorem to ma sie zmienic przycik
     //  - przywrocic gre do singletona
+    //  - https://developer.android.com/studio/build/shrink-code.html
+    //  - nazwy domen :
+    //      - tech.szymanskazdrzalik.a2048_app
+    //  - logger?
 
     private String score;
     private String highScore;
     private Boolean authentication;
     private Button homePageButton;
     private Preloader preloader = Preloader.getInstance();
-//    private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
     /**
      * {@inheritDoc}

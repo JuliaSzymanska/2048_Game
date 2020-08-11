@@ -15,7 +15,7 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
     private Context context;
 
 
-    @SuppressLint("CommitPrefEdits")
+
     public void initContext(Context context) {
         this.context = context;
     }

@@ -26,6 +26,7 @@ public class EndGame extends AppCompatActivity {
     //  - nazwy domen :
     //      - tech.szymanskazdrzalik.a2048_app
     //  - logger?
+    //  - https://freemusicarchive.org/music/Kevin_MacLeod - jesli uzyjemy trzeba go gdzieś w apce zcreditować, wg jego licencji.
 
     private String score;
     private String highScore;

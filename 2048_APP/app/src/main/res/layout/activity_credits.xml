@@ -31,7 +31,7 @@
             android:src="@drawable/swipe_up"
             android:rotation="180"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHeight_percent="0.04"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/darkThemeView"
             app:layout_constraintWidth_percent="0.20"

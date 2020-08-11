@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     /**
      * Called when the activity is starting.
      * Calls methods to load data and initialize buttons.
+     *
      * @param savedInstanceState if the activity is being re-initialized after previously being shut down
      *                           then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
      *                           Otherwise is null.
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private void initButtons() {
         startGameButton = (Button) findViewById(R.id.startGameButton);
         binding.setIsFingerprintSensorAvailable(isFingerprintSensorAvailable(this));
+        SwipeUpCreditsButton.initContext(this);
     }
 
     /**
@@ -160,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     @Override
     public void onAuthenticationSucceeded() {
         this.isAuthenticated = true;
-        this.startBoardActivity();
+//        this.startBoardActivity();
     }
 
     /**

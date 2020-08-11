@@ -1,6 +1,5 @@
 package com.game.a2048_app;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -75,5 +74,33 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
         if (context instanceof Activity) {
             ((Activity) this.context).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
         }
+    }
+
+    public static void setupSwipeListener(final Context context, View view) {
+        OnSwipeTouchListener onSwipeTouchListener = new OnSwipeTouchListener(context, view);
+        onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
+            @Override
+            public void swipeRight() {
+            }
+
+            @Override
+            public void swipeTop() {
+                if (context == null) {
+                    throw new NullPointerException("Null context. ");
+                }
+                Intent intent = new Intent(context, Credits.class).putExtra(Activity.ACTIVITY_SERVICE, ((Activity) context).getLocalClassName());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+                ((Activity) context).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+            }
+
+            @Override
+            public void swipeBottom() {
+            }
+
+            @Override
+            public void swipeLeft() {
+            }
+        };
     }
 }

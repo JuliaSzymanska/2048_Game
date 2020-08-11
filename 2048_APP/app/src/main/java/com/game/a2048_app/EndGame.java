@@ -14,7 +14,6 @@ import com.game.a2048_app.helpers.DarkModeHelper;
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
-import com.game.a2048_app.helpers.SwipeUpListenerHelper;
 
 public class EndGame extends AppCompatActivity {
 
@@ -47,7 +46,7 @@ public class EndGame extends AppCompatActivity {
         setContentView(R.layout.activity_end_game);
         homePageButton = findViewById(R.id.homePage);
         loadData();
-        SwipeUpListenerHelper.setupSwipeListener(this, findViewById(R.id.endGame));
+        SwipeUpCreditsButton.setupSwipeListener(this, findViewById(R.id.endGame));
         this.setupSwipeListener();
     }
 

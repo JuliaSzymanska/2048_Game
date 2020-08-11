@@ -21,7 +21,6 @@ import com.game.a2048_app.helpers.DarkModeHelper;
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
-import com.game.a2048_app.helpers.SwipeUpListenerHelper;
 
 import me.aflak.libraries.callback.FingerprintDialogCallback;
 import me.aflak.libraries.dialog.FingerprintDialog;
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initButtons();
         loadData();
-        SwipeUpListenerHelper.setupSwipeListener(this, findViewById(R.id.constraintLayoutMainActivity));
+        SwipeUpCreditsButton.setupSwipeListener(this, findViewById(R.id.constraintLayoutMainActivity));
         if (binding.getIsFingerprintSensorAvailable() && isFirstRun) {
             this.authenticationButtonOnClick(findViewById(R.id.authenticateButton));
         }

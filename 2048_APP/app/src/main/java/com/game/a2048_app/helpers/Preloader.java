@@ -32,6 +32,7 @@ public class Preloader {
     private static Drawable muteOn;
     private static Drawable muteOff;
     private static Drawable darkThemeOn;
+    private static Drawable swipeUpCredits;
     private static Drawable two;
     private static Drawable four;
     private static Drawable eight;
@@ -84,6 +85,8 @@ public class Preloader {
         loadMainButton();
         loadMainButtonClicked();
 
+        loadSwipeUpCredits();
+
         loadTwo();
         loadFour();
         loadEight();
@@ -128,6 +131,19 @@ public class Preloader {
 
     private void loadUndoClicked() {
         undoClicked = context.getDrawable(R.drawable.undo_clicked);
+    }
+
+    /**
+     * @return swipe up button's image ({@link Preloader#swipeUpCredits}).
+     */
+    public Drawable getSwipeUpCredits() {
+        if (swipeUpCredits == null)
+            loadSwipeUpCredits();
+        return swipeUpCredits;
+    }
+
+    private void loadSwipeUpCredits() {
+        swipeUpCredits = context.getDrawable(R.drawable.swipe_up);
     }
 
     /**

@@ -1,19 +1,19 @@
 package com.game.a2048_app;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.game.a2048_app.helpers.DarkModeHelper;
 
 public class Credits extends AppCompatActivity {
 
     private final static String PRZEMEK_GITHUB = "https://github.com/ZdrzalikPrzemyslaw";
-    private final static String DZULKA_GITHUB = "https://github.com/JuliaSzymanska";
+    private final static String JULIA_GITHUB = "https://github.com/JuliaSzymanska";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class Credits extends AppCompatActivity {
 
     public void onClickTextViewDzulka(View v) {
         Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(DZULKA_GITHUB));
+        i.setData(Uri.parse(JULIA_GITHUB));
         startActivity(i);
     }
 

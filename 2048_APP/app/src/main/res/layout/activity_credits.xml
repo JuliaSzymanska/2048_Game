@@ -39,6 +39,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/scoreBoard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewJulia"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.23"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewPrzemek"
+            app:layout_constraintWidth_percent="1.2"
+            app:srcCompat="@drawable/score_board"
+            tools:ignore="MissingConstraints" />
+
         <TextView
             android:id="@+id/textViewPrzemek"
             android:layout_width="wrap_content"

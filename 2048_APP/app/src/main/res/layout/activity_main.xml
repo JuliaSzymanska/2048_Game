@@ -41,7 +41,7 @@
             android:fontFamily="sans-serif-condensed-medium"
             android:onClick="authenticationButtonOnClick"
             android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/authors"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,6 +60,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.7"
+            tools:ignore="ContentDescription,MissingConstraints" />
+
+        <com.game.a2048_app.SwipeUpCreditsButton
+            android:id="@+id/authors"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/swipe_up"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.20"
             tools:ignore="ContentDescription,MissingConstraints" />
 
         <Button

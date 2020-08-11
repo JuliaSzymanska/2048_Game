@@ -21,6 +21,7 @@ import com.game.a2048_app.helpers.DarkModeHelper;
 import com.game.a2048_app.helpers.PreferencesHelper;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
+import com.game.a2048_app.helpers.SwipeUpListenerHelper;
 
 import me.aflak.libraries.callback.FingerprintDialogCallback;
 import me.aflak.libraries.dialog.FingerprintDialog;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     /**
      * Called when the activity is starting.
      * Calls methods to load data and initialize buttons.
+     *
      * @param savedInstanceState if the activity is being re-initialized after previously being shut down
      *                           then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
      *                           Otherwise is null.
@@ -59,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initButtons();
         loadData();
-        this.setupSwipeListener();
+        SwipeUpListenerHelper.setupSwipeListener(this, findViewById(R.id.constraintLayoutMainActivity));
+//        this.setupSwipeListener();
         if (binding.getIsFingerprintSensorAvailable() && isFirstRun) {
             this.authenticationButtonOnClick(findViewById(R.id.authenticateButton));
         }
@@ -90,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private void initButtons() {
         startGameButton = (Button) findViewById(R.id.startGameButton);
         binding.setIsFingerprintSensorAvailable(isFingerprintSensorAvailable(this));
+        SwipeUpCreditsButton.initContext(this);
     }
 
     /**
@@ -130,28 +134,28 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         }
     }
 
-    private void setupSwipeListener() {
-        onSwipeTouchListener = new OnSwipeTouchListener(this, findViewById(R.id.constraintLayoutMainActivity));
-        onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
-            @Override
-            public void swipeRight() {
-            }
-
-            @Override
-            public void swipeTop() {
-                startActivity(new Intent(MainActivity.this, Credits.class));
-                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-            }
-
-            @Override
-            public void swipeBottom() {
-            }
-
-            @Override
-            public void swipeLeft() {
-            }
-        };
-    }
+//    private void setupSwipeListener() {
+//        onSwipeTouchListener = new OnSwipeTouchListener(this, findViewById(R.id.constraintLayoutMainActivity));
+//        onSwipeTouchListener.onSwipe = new OnSwipeTouchListener.onSwipeListener() {
+//            @Override
+//            public void swipeRight() {
+//            }
+//
+//            @Override
+//            public void swipeTop() {
+//                startActivity(new Intent(MainActivity.this, Credits.class));
+//                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+//            }
+//
+//            @Override
+//            public void swipeBottom() {
+//            }
+//
+//            @Override
+//            public void swipeLeft() {
+//            }
+//        };
+//    }
 
     /**
      * {@inheritDoc}
@@ -160,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     @Override
     public void onAuthenticationSucceeded() {
         this.isAuthenticated = true;
-        this.startBoardActivity();
+//        this.startBoardActivity();
     }
 
     /**

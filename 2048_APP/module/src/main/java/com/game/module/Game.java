@@ -243,8 +243,8 @@ public class Game {
     private List<Integer> integers = new ArrayList<Integer>() {
         {
             add(0);
-            add(1024);
-            add(1024);
+            add(128);
+            add(256);
             add(2);
 
             add(2);
@@ -254,8 +254,8 @@ public class Game {
 
             add(2);
             add(0);
-            add(128);
-            add(256);
+            add(1024);
+            add(1024);
 
             add(2);
             add(4);

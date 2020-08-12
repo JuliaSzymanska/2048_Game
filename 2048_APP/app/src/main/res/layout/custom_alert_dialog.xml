@@ -17,6 +17,7 @@
         android:id="@+id/linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:orientation="vertical">
 
 
@@ -29,7 +30,7 @@
             android:gravity="center"
             android:text="@string/restart_game_question_dialog"
             android:textColor="@color/defaultApplicationTextColour"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
 
@@ -39,27 +40,30 @@
             android:layout_gravity="center"
             android:background="@android:color/transparent"
             android:orientation="horizontal"
+            android:padding="5dp"
             android:layout_marginBottom="10dp">
 
             <Button
                 android:id="@+id/alert_dialog_button_yes"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:background="@color/defaultApplicationTextColour"
                 android:clickable="true"
                 android:text="@string/dialog_accept"
+                android:textSize="12sp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/alert_dialog_button_no"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:background="@color/defaultApplicationTextColour"
                 android:clickable="true"
                 android:text="@string/dialog_cancel"
+                android:textSize="12sp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
         </LinearLayout>

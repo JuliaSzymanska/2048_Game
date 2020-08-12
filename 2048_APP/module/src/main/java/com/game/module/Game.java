@@ -16,6 +16,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +25,7 @@ public class Game {
     private Board gameBoard = new Board();
     private Context context;
 
-    private int highScore = 0;
+    private int highScore = 11544;
     private boolean isUserAuthenticated = false;
 
     private long gameBeginTime;
@@ -52,14 +53,14 @@ public class Game {
         this.setUserAuthenticated(isUserAuthenticated);
         this.setContext(context);
         this.startNewGame();
-        if (this.isUserAuthenticated) {
-            try {
-                this.loadGame();
-            } catch (LoadException e) {
-                e.printStackTrace();
-                this.startNewGame();
-            }
-        }
+//        if (this.isUserAuthenticated) {
+//            try {
+//                this.loadGame();
+//            } catch (LoadException e) {
+//                e.printStackTrace();
+//                this.startNewGame();
+//            }
+//        }
         this.saveGameBackgroundThread = new Thread(this.saveGameBackgroundRunnable);
     }
 
@@ -130,6 +131,7 @@ public class Game {
             // TODO: 21.07.2020 String
             throw new GameOverException("", e);
         } catch (GoalAchievedException e) {
+            this.updateHighScore();
             throw new GoalAchievedException("", e);
         }
     }
@@ -238,11 +240,36 @@ public class Game {
         }
     }
 
+    private List<Integer> integers = new ArrayList<Integer>() {
+        {
+            add(0);
+            add(1024);
+            add(1024);
+            add(2);
+
+            add(2);
+            add(0);
+            add(64);
+            add(512);
+
+            add(2);
+            add(0);
+            add(128);
+            add(256);
+
+            add(2);
+            add(4);
+            add(8);
+            add(16);
+        }
+    };
+
     /**
      * Starts new game by calling {@link Board#restartGame()}. Time is reset.
      */
     public void startNewGame() {
-        this.gameBoard.restartGame();
+//        this.gameBoard.restartGame();
+        this.gameBoard = new Board(integers);
         this.gameBeginTime = System.nanoTime();
         this.unPauseTimer();
     }

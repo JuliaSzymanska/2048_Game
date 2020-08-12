@@ -23,7 +23,7 @@ public class Board implements Serializable {
     private List<Integer> amountMovedList;
     private List<List<Field>> previousBoards;
     private List<Integer> previousScores;
-    private int score = 0;
+    private int score = 11544;
     private boolean isGoalAchieved = false;
 
     private final static int PREVIOUS_BOARDS_STORED_NUMBER = 3;
@@ -73,7 +73,7 @@ public class Board implements Serializable {
      * Sets variables like {@link Board#score},  {@link Board#previousBoards},  {@link Board#previousScores},  {@link Board#isGoalAchieved} to default values.
      */
     private void setVariablesToDefault() {
-        this.score = 0;
+        this.score = 11544;
         this.previousBoards = new ArrayList<>();
         this.previousScores = new ArrayList<>();
         this.isGoalAchieved = false;

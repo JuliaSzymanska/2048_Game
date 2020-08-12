@@ -546,7 +546,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             changeToEndActivity();
         } catch (GoalAchievedException e) {
             e.printStackTrace();
+            this.animate(fieldsCopies, direction);
+            this.setScoreTexts();
+            undoButton.setUndoNumber();
             goalAchieved();
+            return;
         } finally {
             this.animate(fieldsCopies, direction);
             this.setScoreTexts();

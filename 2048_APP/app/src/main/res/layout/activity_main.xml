@@ -86,7 +86,7 @@
             android:paddingHorizontal="20dp"
             android:paddingVertical="10dp"
             android:text="@string/start_game"
-            android:textColor="#075275"
+            android:textColor="@color/defaultApplicationTextColour"
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toTopOf="@+id/authenticateButton"
             app:layout_constraintEnd_toEndOf="parent"

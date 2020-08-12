@@ -28,8 +28,8 @@
             android:layout_margin="10dp"
             android:gravity="center"
             android:text="@string/restart_game_question_dialog"
-            android:textColor="#075275"
-            android:textSize="15dp"
+            android:textColor="@color/defaultApplicationTextColour"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
 
@@ -46,7 +46,7 @@
                 android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="20dp"
-                android:background="#075275"
+                android:background="@color/defaultApplicationTextColour"
                 android:clickable="true"
                 android:text="@string/dialog_accept"
                 android:textColor="@android:color/white"
@@ -57,7 +57,7 @@
                 android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
-                android:background="#075275"
+                android:background="@color/defaultApplicationTextColour"
                 android:clickable="true"
                 android:text="@string/dialog_cancel"
                 android:textColor="@android:color/white"

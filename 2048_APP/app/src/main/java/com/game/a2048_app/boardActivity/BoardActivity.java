@@ -831,6 +831,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             @Override
             public void onClick(View v) {
                 dismiss();
+                restartGameButton.setBackground(preloader.getMainButton());
             }
         };
     }

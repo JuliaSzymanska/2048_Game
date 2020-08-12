@@ -627,8 +627,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 this.gridView.getChildAt(i).startAnimation(translateAnimation);
             }
         }
-        this.prepareGrid();
         setFieldsImagesToZeros();
+        this.prepareGrid();
     }
 
     private View getViewBeingAnimatedTo(int direction, int viewBeingAnimatedIndex, int amountMoved) {

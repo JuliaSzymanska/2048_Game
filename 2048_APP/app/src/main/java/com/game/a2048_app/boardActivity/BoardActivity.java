@@ -92,7 +92,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
 
-
     /**
      * {@inheritDoc}
      */
@@ -164,6 +163,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 TextView textViewItem;
                 ImageView imageViewItem;
             }
+
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -287,12 +287,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-    private void pauseGameWithButton(){
+    private void pauseGameWithButton() {
         game.pauseTimer();
         pausePlayButton.setBackground(preloader.getPausePlayOn());
     }
 
-    private void unpauseGameWithButton(){
+    private void unpauseGameWithButton() {
         game.unPauseTimer();
         pausePlayButton.setBackground(preloader.getPausePlayOff());
     }
@@ -380,39 +380,53 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     adapter.notifyDataSetChanged();
                 }
             });
-        } else if(result.equals(getString(R.string.MoveUP))) {
+        } else if (result.equals(getString(R.string.MoveUP))) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     move(Game.MOVE_UP);
                 }
             });
-        } else if(result.equals(getString(R.string.MoveDown))) {
+        } else if (result.equals(getString(R.string.MoveDown))) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     move(Game.MOVE_DOWN);
                 }
             });
-        } else if(result.equals(getString(R.string.MoveLeft))) {
+        } else if (result.equals(getString(R.string.MoveLeft))) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     move(Game.MOVE_LEFT);
                 }
             });
-        } else if(result.equals(getString(R.string.MoveRight))) {
+        } else if (result.equals(getString(R.string.MoveRight))) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     move(Game.MOVE_RIGHT);
                 }
             });
-        } else if(result.equals(getString(R.string.SetTheme))) {
+        } else if (result.equals(getString(R.string.SetTheme))) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
+                }
+            });
+        } else if (result.equals(getString(R.string.SetPauseOn))) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    pauseGameWithButton();
+                }
+            });
+        } else if (result.equals(getString(R.string.SetPauseOff))) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    unpauseGameWithButton();
                 }
             });
         }
@@ -560,7 +574,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         }
     }
 
-    private void updateActivityAfterMove(List<Field> fieldsCopies, int direction){
+    private void updateActivityAfterMove(List<Field> fieldsCopies, int direction) {
         this.animate(fieldsCopies, direction);
         this.setScoreTexts();
         undoButton.setUndoNumber();

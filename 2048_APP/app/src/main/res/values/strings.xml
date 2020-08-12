@@ -43,6 +43,8 @@
     <string name="MoveRight" translatable="false">MoveRight</string>
     <string name="MoveLeft" translatable="false">MoveLeft</string>
     <string name="SetTheme" translatable="false">SetTheme</string>
+    <string name="SetPauseOn" translatable="false">SetPauseOn</string>
+    <string name="SetPauseOff" translatable="false">SetPauseOff</string>
     <string name="IsAuthenticated" translatable="false">IsAuthenticated</string>
     <string name="firstRun" translatable="false">FirstRun</string>
 </resources>

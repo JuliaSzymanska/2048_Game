@@ -1,11 +1,9 @@
 package com.game.a2048_app.boardActivity.Sensors;
 
-import android.app.Activity;
 import android.content.Context;
-import android.widget.Button;
 
 import com.game.a2048_app.R;
-import com.game.a2048_app.helpers.Preloader;
+import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
 import com.game.module.Game;
 
 /**
@@ -19,36 +17,23 @@ public class StopGameProximity implements Runnable {
         this.mProximityData = mProximityData;
         this.game = game;
         this.context = context;
-        this.pausePlay = (Button) ((Activity) context).findViewById(R.id.pausePlayButton);
+        this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;
     }
 
     private float mProximityData;
     private Game game;
-    private Button pausePlay;
     private Context context;
-    private Preloader preloader = Preloader.getInstance();
+    private OurCustomListenerFIXMERenameME ourCustomListenerFIXMERenameME;
 
     @Override
     public void run() {
         // Proximity sensor - zatrzymuje sie czas po zblizeniu
         if (mProximityData < PROXIMITY_DISTANCE) {
             if (!game.isSuspended()) {
-                game.pauseTimer();
-                ((Activity) this.context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        pausePlay.setBackground(preloader.getPausePlayOn());
-                    }
-                });
+                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.SetPauseOn));
             }
         } else if (game.isSuspended()) {
-            game.unPauseTimer();
-            ((Activity) this.context).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    pausePlay.setBackground(preloader.getPausePlayOff());
-                }
-            });
+            ourCustomListenerFIXMERenameME.callback(context.getString(R.string.SetPauseOff));
         }
     }
 }

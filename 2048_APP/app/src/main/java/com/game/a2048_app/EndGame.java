@@ -27,6 +27,12 @@ public class EndGame extends AppCompatActivity {
     //      - tech.szymanskazdrzalik.a2048_app
     //  - logger?
     //  - https://freemusicarchive.org/music/Kevin_MacLeod - jesli uzyjemy trzeba go gdzieś w apce zcreditować, wg jego licencji.
+    //  1. Przycisk głośności na czerowono jak jest zbliżenie
+    //  2. Zmnienszyc restart button
+    //  3. Po kliknieciu restartu pytanie czy na pewno
+    //  4. Chciałeś zrobić te głośniki mute i settings w main activity
+    //  5. Sprawko 😥
+    //  6. Montaż treningowy przy pierwszym uruchomieniu
 
     private static String score;
     private static String highScore;

@@ -136,7 +136,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
         this.restartGameButton = (Button) findViewById(R.id.restartGameButton);
 
-
         this.undoButton = (UndoButton) findViewById(R.id.undoMoveButton);
         this.undoButton.setGame(this.game);
 

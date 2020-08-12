@@ -3,6 +3,7 @@ package com.game.a2048_app.boardActivity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -766,23 +768,65 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Restarts game and reloads activity.
      */
     private void restartGame() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
-        builder.setMessage(R.string.restart_game_question_dialog)
-                .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        game.restartGame();
-                        finish();
-                        overridePendingTransition(0, 0);
-                        startActivity(getIntent());
-                        overridePendingTransition(0, 0);
-                    }
-                })
-                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+//        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
+//        builder.setMessage(R.string.restart_game_question_dialog)
+//                .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        game.restartGame();
+//                        finish();
+//                        overridePendingTransition(0, 0);
+//                        startActivity(getIntent());
+//                        overridePendingTransition(0, 0);
+//                    }
+//                })
+//                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                    }
+//                });
+//        builder.setIcon(preloader.getMuteOn());
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+
+        AlertDialogRestartGame alertDialogRestartGame = new AlertDialogRestartGame(this);
+        alertDialogRestartGame.show();
+    }
+
+    public class AlertDialogRestartGame extends Dialog {
+
+        /**
+         * {@inheritDoc}
+         */
+        public AlertDialogRestartGame(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.alert_dialog_restart_game);
+            findViewById(R.id.btn_yes).setOnClickListener(listenerYes);
+            findViewById(R.id.btn_no).setOnClickListener(listenerNo);
+        }
+
+        public View.OnClickListener listenerYes = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                game.restartGame();
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
+                dismiss();
+            }
+        };
+
+        public View.OnClickListener listenerNo = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        };
     }
 
     @Override

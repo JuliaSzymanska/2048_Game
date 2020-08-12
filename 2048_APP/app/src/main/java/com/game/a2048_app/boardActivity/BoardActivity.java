@@ -675,20 +675,42 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     private void goalAchieved() {
         this.pauseGameWithButton();
-        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
-        builder.setMessage(R.string.goal_achieved_question)
-                .setPositiveButton(R.string.continue_game_dialog, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        unPauseGameWithButton();
-                    }
-                })
-                .setNegativeButton(R.string.end_game_dialog, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        changeToEndActivity();
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        new AlertDialogGoalAchieved(this).show();
+    }
+
+    private class AlertDialogGoalAchieved extends Dialog {
+        /**
+         * {@inheritDoc}
+         */
+        public AlertDialogGoalAchieved(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.custom_alert_dialog);
+            findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
+            findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
+            ((TextView)findViewById(R.id.alert_dialog_text)).setText(getText(R.string.goal_achieved_question));
+        }
+
+        public View.OnClickListener listenerYes = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unPauseGameWithButton();
+                dismiss();
+            }
+        };
+
+        public View.OnClickListener listenerNo = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeToEndActivity();
+                dismiss();
+            }
+        };
     }
 
 

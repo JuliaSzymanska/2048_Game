@@ -554,7 +554,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             changeToEndActivity();
         } catch (GoalAchievedException e) {
             e.printStackTrace();
-            updateActivityAfterMove(fieldsCopies, direction);
             goalAchieved();
         } finally {
             updateActivityAfterMove(fieldsCopies, direction);

@@ -21,6 +21,7 @@ public class StopGameProximity implements Runnable {
         this.context = context;
         this.pausePlay = (Button) ((Activity) context).findViewById(R.id.pausePlayButton);
     }
+
     private float mProximityData;
     private Game game;
     private Button pausePlay;
@@ -33,11 +34,21 @@ public class StopGameProximity implements Runnable {
         if (mProximityData < PROXIMITY_DISTANCE) {
             if (!game.isSuspended()) {
                 game.pauseTimer();
-
+                ((Activity) this.context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pausePlay.setBackground(preloader.getPausePlayOn());
+                    }
+                });
             }
         } else if (game.isSuspended()) {
             game.unPauseTimer();
-            pausePlay.setBackground(preloader.getPausePlayOff());
-    }
+            ((Activity) this.context).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    pausePlay.setBackground(preloader.getPausePlayOff());
+                }
+            });
+        }
     }
 }

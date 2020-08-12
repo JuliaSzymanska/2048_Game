@@ -20,7 +20,7 @@ public class EndGame extends AppCompatActivity {
     // TODO: 23.07.2020  Nasze work list:
     //  - java doc
     //  - zrobic xml do buttons
-    //  - kiedy pausujemy gre sensorem to ma sie zmienic przycik
+    //  - po kliknięciu resetart Button okno z pytaniem czy na pewno chce sie zrestartowac
     //  - przywrocic gre do singletona
     //  - https://developer.android.com/studio/build/shrink-code.html
     //  - nazwy domen :

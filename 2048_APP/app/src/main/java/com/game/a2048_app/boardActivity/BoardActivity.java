@@ -520,29 +520,36 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Updates game time every 100 milliseconds.
      */
     private void beginUpdatingTime() {
-        updateTimeThread = new Thread() {
-            @Override
-            public void run() {
-                while (!isInterrupted()) {
-                    try {
-                        if (textTime.getText().length() == 0 || textTime.getText().subSequence(textTime.getText().length() - 8, textTime.getText().length()) != game.getElapsedTimeToString()) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    textTime.setText(String.format("%s:\n%s", getResources().getString(R.string.time), game.getElapsedTimeToString()));
-                                }
-                            });
-                            Thread.sleep(100);
-                        }
+        setTimeText();
+        updateTimeThread = new Thread(updateTimeRunnable);
+        updateTimeThread.start();
+    }
 
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        e.printStackTrace();
+    private Runnable updateTimeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    Thread.sleep(100);
+                    if (textTime.getText().length() <= 8 || textTime.getText().subSequence(textTime.getText().length() - 8, textTime.getText().length()) != game.getElapsedTimeToString()) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setTimeText();
+                            }
+                        });
                     }
+
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    e.printStackTrace();
                 }
             }
-        };
-        updateTimeThread.start();
+        }
+    };
+
+    private void setTimeText() {
+        textTime.setText(String.format("%s:\n%s", getResources().getString(R.string.time), game.getElapsedTimeToString()));
     }
 
     /**

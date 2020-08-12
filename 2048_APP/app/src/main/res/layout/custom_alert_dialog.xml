@@ -8,13 +8,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/background"
-        android:layout_alignTop="@+id/Lineral"
-        android:layout_alignBottom="@+id/Lineral"
-        android:layout_alignStart="@+id/Lineral"
-        android:layout_alignEnd="@+id/Lineral"/>
+        android:layout_alignTop="@+id/linear"
+        android:layout_alignBottom="@+id/linear"
+        android:layout_alignStart="@+id/linear"
+        android:layout_alignEnd="@+id/linear"/>
 
     <LinearLayout
-        android:id="@+id/Lineral"
+        android:id="@+id/linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">

@@ -525,7 +525,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             public void run() {
                 while (!isInterrupted()) {
                     try {
-                        Thread.sleep(100);
                         if (textTime.getText().length() == 0 || textTime.getText().subSequence(textTime.getText().length() - 8, textTime.getText().length()) != game.getElapsedTimeToString()) {
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -533,6 +532,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                                     textTime.setText(String.format("%s:\n%s", getResources().getString(R.string.time), game.getElapsedTimeToString()));
                                 }
                             });
+                            Thread.sleep(100);
                         }
 
                     } catch (InterruptedException e) {

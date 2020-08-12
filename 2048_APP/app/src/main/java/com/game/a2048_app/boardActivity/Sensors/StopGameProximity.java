@@ -15,7 +15,6 @@ public class StopGameProximity implements Runnable {
 
     public StopGameProximity(Context context, float mProximityData, Game game) {
         this.mProximityData = mProximityData;
-        this.game = game;
         this.context = context;
         this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;
     }

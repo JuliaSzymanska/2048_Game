@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background"
+        android:layout_alignTop="@+id/Lineral"
+        android:layout_alignBottom="@+id/Lineral"
+        android:layout_alignStart="@+id/Lineral"
+        android:layout_alignEnd="@+id/Lineral"/>
+
+    <LinearLayout
+        android:id="@+id/Lineral"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/alert_dialog_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="@string/restart_game_question_dialog"
+            android:textColor="#075275"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:id="@+id/alert_dialog_button_yes"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:background="@android:color/white"
+                android:clickable="true"
+                android:text="@string/dialog_accept"
+                android:textColor="#075275"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/alert_dialog_button_no"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:background="@android:color/white"
+                android:clickable="true"
+                android:text="@string/dialog_cancel"
+                android:textColor="#075275"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

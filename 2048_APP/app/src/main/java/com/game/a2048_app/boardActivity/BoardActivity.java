@@ -271,7 +271,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         restartGameButton.setBackground(preloader.getMainButtonClicked());
         SoundPlayer soundPlayer = SoundPlayer.getInstance();
         soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.restart));
-        restartGame();
+        new AlertDialogRestartGame(this).show();
     }
 
     /**
@@ -284,7 +284,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         if (!game.isSuspended()) {
             pauseGameWithButton();
         } else {
-            unpauseGameWithButton();
+            unPauseGameWithButton();
         }
     }
 
@@ -293,7 +293,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         pausePlayButton.setBackground(preloader.getPausePlayOn());
     }
 
-    private void unpauseGameWithButton() {
+    private void unPauseGameWithButton() {
         game.unPauseTimer();
         pausePlayButton.setBackground(preloader.getPausePlayOff());
     }
@@ -309,8 +309,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         // can be unregistered in onStop().
         //
         // Check to ensure sensors are available before registering listeners.
-        // Both listeners are registered with a "normal" amount of delay
-        // (SENSOR_DELAY_NORMAL).
         if (mSensorAccelerometer != null) {
             mSensorManager.registerListener(this, mSensorAccelerometer,
                     SensorManager.SENSOR_DELAY_GAME);
@@ -328,7 +326,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     SensorManager.SENSOR_DELAY_GAME);
         }
 
-        unpauseGameWithButton();
+        unPauseGameWithButton();
         this.beginUpdatingTime();
     }
 
@@ -427,7 +425,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    unpauseGameWithButton();
+                    unPauseGameWithButton();
                 }
             });
         }
@@ -681,7 +679,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         builder.setMessage(R.string.goal_achieved_question)
                 .setPositiveButton(R.string.continue_game_dialog, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        unpauseGameWithButton();
+                        unPauseGameWithButton();
                     }
                 })
                 .setNegativeButton(R.string.end_game_dialog, new DialogInterface.OnClickListener() {
@@ -768,31 +766,16 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Restarts game and reloads activity.
      */
     private void restartGame() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
-//        builder.setMessage(R.string.restart_game_question_dialog)
-//                .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        game.restartGame();
-//                        finish();
-//                        overridePendingTransition(0, 0);
-//                        startActivity(getIntent());
-//                        overridePendingTransition(0, 0);
-//                    }
-//                })
-//                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                    }
-//                });
-//        builder.setIcon(preloader.getMuteOn());
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
-
-        AlertDialogRestartGame alertDialogRestartGame = new AlertDialogRestartGame(this);
-        alertDialogRestartGame.show();
+        game.restartGame();
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 
-    public class AlertDialogRestartGame extends Dialog {
 
+
+    private class AlertDialogRestartGame extends Dialog {
         /**
          * {@inheritDoc}
          */
@@ -804,19 +787,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.alert_dialog_restart_game);
-            findViewById(R.id.btn_yes).setOnClickListener(listenerYes);
-            findViewById(R.id.btn_no).setOnClickListener(listenerNo);
+            setContentView(R.layout.custom_alert_dialog);
+            findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
+            findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
         }
 
         public View.OnClickListener listenerYes = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                game.restartGame();
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(getIntent());
-                overridePendingTransition(0, 0);
+                restartGame();
                 dismiss();
             }
         };
@@ -829,8 +808,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         };
     }
 
+
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 
     /**
@@ -841,22 +822,44 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     @Override
     public void onBackPressed() {
         if (!game.isUserAuthenticated()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
-            builder.setMessage(R.string.dialog_back_question)
-                    .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            BoardActivity.super.onBackPressed();
-                        }
-                    })
-                    .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                        }
-                    });
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            new AlertDialogOnBackPressed(this).show();
         } else {
             super.onBackPressed();
         }
+    }
+
+    private class AlertDialogOnBackPressed extends Dialog {
+        /**
+         * {@inheritDoc}
+         */
+        public AlertDialogOnBackPressed(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.custom_alert_dialog);
+            findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
+            findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
+            ((TextView)findViewById(R.id.alert_dialog_text)).setText(getText(R.string.dialog_back_question));
+        }
+
+        public View.OnClickListener listenerYes = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BoardActivity.super.onBackPressed();
+                dismiss();
+            }
+        };
+
+        public View.OnClickListener listenerNo = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        };
     }
 
     /**

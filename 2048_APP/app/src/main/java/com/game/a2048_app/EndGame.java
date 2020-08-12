@@ -20,15 +20,12 @@ public class EndGame extends AppCompatActivity {
     // TODO: 23.07.2020  Nasze work list:
     //  - java doc
     //  - zrobic xml do buttons
-    //  - po kliknięciu resetart Button okno z pytaniem czy na pewno chce sie zrestartowac
     //  - przywrocic gre do singletona
     //  - https://developer.android.com/studio/build/shrink-code.html
     //  - nazwy domen :
     //      - tech.szymanskazdrzalik.a2048_app
     //  - logger?
     //  - https://freemusicarchive.org/music/Kevin_MacLeod - jesli uzyjemy trzeba go gdzieś w apce zcreditować, wg jego licencji.
-    //  1. Przycisk głośności na czerowono jak jest zbliżenie
-    //  3. Po kliknieciu restartu pytanie czy na pewno
     //  4. Chciałeś zrobić te głośniki mute i settings w main activity
     //  5. Sprawko 😥
     //  6. Montaż treningowy przy pierwszym uruchomieniu

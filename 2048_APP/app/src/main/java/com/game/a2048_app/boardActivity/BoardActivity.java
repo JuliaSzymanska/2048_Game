@@ -49,7 +49,6 @@ import com.game.module.exceptions.GoalAchievedException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
 
@@ -270,9 +269,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         restartGameButton.setBackground(preloader.getMainButtonClicked());
         SoundPlayer soundPlayer = SoundPlayer.getInstance();
         soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.restart));
-        AlertDialogRestartGame alertDialogRestartGame = new AlertDialogRestartGame(this);
-        Objects.requireNonNull(alertDialogRestartGame.getWindow()).setClipToOutline(true);
-        alertDialogRestartGame.show();
+        new AlertDialogRestartGame(this).show();
     }
 
     /**

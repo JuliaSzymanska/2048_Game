@@ -281,12 +281,20 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         SoundPlayer soundPlayer = SoundPlayer.getInstance();
         soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.pause));
         if (!game.isSuspended()) {
-            game.pauseTimer();
-            pausePlayButton.setBackground(preloader.getPausePlayOn());
+            pauseGameWithButton();
         } else {
-            game.unPauseTimer();
-            pausePlayButton.setBackground(preloader.getPausePlayOff());
+            unpauseGameWithButton();
         }
+    }
+
+    private void pauseGameWithButton(){
+        game.pauseTimer();
+        pausePlayButton.setBackground(preloader.getPausePlayOn());
+    }
+
+    private void unpauseGameWithButton(){
+        game.unPauseTimer();
+        pausePlayButton.setBackground(preloader.getPausePlayOff());
     }
 
     /**
@@ -319,7 +327,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     SensorManager.SENSOR_DELAY_GAME);
         }
 
-        this.game.unPauseTimer();
+        unpauseGameWithButton();
         this.beginUpdatingTime();
     }
 
@@ -654,12 +662,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * If the game's goal is achieved, the dialog is shown asking whether the user wants to continue the game or end it.
      */
     private void goalAchieved() {
-        game.pauseTimer();
+        this.pauseGameWithButton();
         AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
         builder.setMessage(R.string.goal_achieved_question)
                 .setPositiveButton(R.string.continue_game_dialog, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        game.unPauseTimer();
+                        unpauseGameWithButton();
                     }
                 })
                 .setNegativeButton(R.string.end_game_dialog, new DialogInterface.OnClickListener() {
@@ -733,7 +741,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             case Sensor.TYPE_PROXIMITY:
                 float mProximityData = event.values[0];
                 if (chosenSensors[3]) {
-                    new Thread(new StopGameProximity(mProximityData, this.game)).start();
+                    new Thread(new StopGameProximity(this, mProximityData, this.game)).start();
                 }
                 break;
             default:

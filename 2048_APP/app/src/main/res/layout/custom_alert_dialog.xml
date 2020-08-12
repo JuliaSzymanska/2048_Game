@@ -2,16 +2,22 @@
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="250dp"
+    android:layout_height="180dp">
     <View
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/background"
+        android:background="@drawable/dialog"
         android:layout_alignTop="@+id/linear"
         android:layout_alignBottom="@+id/linear"
         android:layout_alignStart="@+id/linear"
         android:layout_alignEnd="@+id/linear"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/background"/>
 
     <LinearLayout
         android:id="@+id/linear"

@@ -701,7 +701,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         Intent i = new Intent(BoardActivity.this, EndGame.class);
         i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getScore()));
         i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
-        i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(game.isUserAuthenticated()));
+        i.putExtra(getResources().getString(R.string.authentication), game.isUserAuthenticated());
         this.adapter = null;
         this.game.restartGame();
         startActivity(i);

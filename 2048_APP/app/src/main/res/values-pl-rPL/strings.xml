@@ -27,4 +27,5 @@
     <string name="Credits_Title">Autorzy</string>
     <string name="Author_Julia">Julia Szymańska</string>
     <string name="Author_Przemek">Przemysław Zdrzalik</string>
+    <string name="restart_game_question_dialog">Na pewno chcesz zresetować grę?</string>
 </resources>

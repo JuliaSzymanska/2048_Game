@@ -766,11 +766,23 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Restarts game and reloads activity.
      */
     private void restartGame() {
-        this.game.restartGame();
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
+        AlertDialog.Builder builder = new AlertDialog.Builder(BoardActivity.this);
+        builder.setMessage(R.string.restart_game_question_dialog)
+                .setPositiveButton(R.string.dialog_accept, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        game.restartGame();
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
+                    }
+                })
+                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override

@@ -10,6 +10,7 @@
     <string name="fingerprint_message">Being a phone user allows you to save a high score</string>
     <string name="dialog_accept">OK</string>
     <string name="dialog_cancel">Cancel</string>
+    <string name="restart_game_question_dialog">Are you sure you want to restart game?</string>
     <string name="settings" translatable="false">settings</string>
     <string name="dark_theme" translatable="false">dark theme</string>
     <string name="volume" translatable="false">mute</string>

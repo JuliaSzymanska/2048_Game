@@ -623,6 +623,8 @@ public class Board implements Serializable {
      *                      If the list of fields was reverted before passing it to the method, this list will also need to be reverted the same way.
      */
     private void moveFieldsInRowOrColumn(List<Field> fieldsList, List<Integer> moveCountList) {
+        // Bo jesli sa 2 razy cyfry do polaczenia to sie psuje animacja>.<
+        boolean hasJoinedFields = false;
         for (int i = BOARD_DIMENSIONS - 1; i >= 0; i--) {
             //bool, ktorego wartosc oznacza czy zostala znaleziony inny field z ktorym field moze sie polaczyc
             boolean found = false;
@@ -634,9 +636,12 @@ public class Board implements Serializable {
                 if (i != 0 && fieldsList.get(i).getValue() == fieldsList.get(index).getValue() && fieldsList.get(i).getValue() != 0) {
                     //podnies do kwadratu wartosc pola
                     // TODO: 26.07.2020 tutaj też jest sprawdzanie o ile się ruszyło, jeżeli kasujemy frajera(laczymy klocek)
-                    for (int j = index; j >= 0; j--) {
-                        moveCountList.set(j, moveCountList.get(j) + 1);
+                    if (!hasJoinedFields) {
+                        for (int j = index; j >= 0; j--) {
+                            moveCountList.set(j, moveCountList.get(j) + 1);
+                        }
                     }
+                    hasJoinedFields = true;
                     fieldsList.get(i).setNextValue();
                     //zwieksz liczbe pkt
                     this.updateScore(fieldsList.get(i).getValue());

@@ -25,16 +25,23 @@ public class GameTest {
     public void move() {
         Game game = new Game(false, null);
         int score = game.getScore();
-        try {
-            game.move(Game.MOVE_RIGHT);
-            game.move(Game.MOVE_LEFT);
-            game.move(Game.MOVE_UP);
-            game.move(Game.MOVE_DOWN);
-            assertTrue(score < game.getScore());
-            score = game.getScore();
-        } catch (GameOverException | GoalAchievedException e) {
-            Assert.fail();
+        int counter = 0;
+        while (score >= game.getScore() && counter < 3) {
+            try {
+                game.move(Game.MOVE_RIGHT);
+                game.move(Game.MOVE_LEFT);
+                game.move(Game.MOVE_UP);
+                game.move(Game.MOVE_DOWN);
+
+                assertTrue(score < game.getScore());
+                score = game.getScore();
+                counter ++;
+            } catch (GameOverException | GoalAchievedException e) {
+                Assert.fail();
+            }
         }
+        if (counter == 5)
+            Assert.fail();
         game.pauseTimer();
         try {
             game.move(Game.MOVE_RIGHT);

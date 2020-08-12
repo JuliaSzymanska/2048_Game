@@ -130,6 +130,7 @@ public class Game {
             // TODO: 21.07.2020 String
             throw new GameOverException("", e);
         } catch (GoalAchievedException e) {
+            this.updateHighScore();
             throw new GoalAchievedException("", e);
         }
     }

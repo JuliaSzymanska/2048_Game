@@ -46,10 +46,10 @@
                 android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="20dp"
-                android:background="@android:color/white"
+                android:background="#075275"
                 android:clickable="true"
                 android:text="@string/dialog_accept"
-                android:textColor="#075275"
+                android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
             <Button
@@ -57,12 +57,13 @@
                 android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
-                android:background="@android:color/white"
+                android:background="#075275"
                 android:clickable="true"
                 android:text="@string/dialog_cancel"
-                android:textColor="#075275"
+                android:textColor="@android:color/white"
                 android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
+
 </RelativeLayout>

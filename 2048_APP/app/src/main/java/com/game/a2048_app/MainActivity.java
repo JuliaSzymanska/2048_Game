@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
     private void startBoardActivity() {
         Intent i = new Intent(MainActivity.this, BoardActivity.class);
-        i.putExtra(getResources().getString(R.string.authentication), Boolean.toString(isAuthenticated));
+        i.putExtra(getResources().getString(R.string.authentication), isAuthenticated);
         startActivity(i);
     }
 

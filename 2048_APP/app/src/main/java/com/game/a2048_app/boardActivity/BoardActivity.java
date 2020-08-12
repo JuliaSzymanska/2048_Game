@@ -113,7 +113,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     private void loadData() {
         preferencesHelper.getChoosenSensors(chosenSensors);
-        this.game = new Game(Boolean.parseBoolean(getIntent().getStringExtra(getResources().getString(R.string.authentication))), this);
+        this.game = new Game(getIntent().getBooleanExtra(getResources().getString(R.string.authentication), false), this);
         this.fields = game.getBoard().toArray(new Field[0]);
         this.fieldsImages = new Drawable[fields.length];
         this.fieldsBackground = new Drawable[fields.length];

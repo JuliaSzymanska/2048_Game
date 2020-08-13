@@ -377,34 +377,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     adapter.notifyDataSetChanged();
                 }
             });
-        } else if (result.equals(getString(R.string.MoveUP))) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    move(Game.MOVE_UP);
-                }
-            });
-        } else if (result.equals(getString(R.string.MoveDown))) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    move(Game.MOVE_DOWN);
-                }
-            });
-        } else if (result.equals(getString(R.string.MoveLeft))) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    move(Game.MOVE_LEFT);
-                }
-            });
-        } else if (result.equals(getString(R.string.MoveRight))) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    move(Game.MOVE_RIGHT);
-                }
-            });
         } else if (result.equals(getString(R.string.SetTheme))) {
             runOnUiThread(new Runnable() {
                 @Override
@@ -426,6 +398,37 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     unPauseGameWithButton();
                 }
             });
+            if ((getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE) == 0) {
+                if (result.equals(getString(R.string.MoveUP))) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            move(Game.MOVE_UP);
+                        }
+                    });
+                } else if (result.equals(getString(R.string.MoveDown))) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            move(Game.MOVE_DOWN);
+                        }
+                    });
+                } else if (result.equals(getString(R.string.MoveLeft))) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            move(Game.MOVE_LEFT);
+                        }
+                    });
+                } else if (result.equals(getString(R.string.MoveRight))) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            move(Game.MOVE_RIGHT);
+                        }
+                    });
+                }
+            }
         }
     }
 
@@ -698,7 +701,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             setContentView(R.layout.custom_alert_dialog);
             findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
             findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
-            ((TextView)findViewById(R.id.alert_dialog_text)).setText(getText(R.string.goal_achieved_question));
+            ((TextView) findViewById(R.id.alert_dialog_text)).setText(getText(R.string.goal_achieved_question));
         }
 
         public View.OnClickListener listenerYes = new View.OnClickListener() {
@@ -801,7 +804,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
 
-
     private class AlertDialogRestartGame extends Dialog {
         /**
          * {@inheritDoc}
@@ -871,7 +873,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             setContentView(R.layout.custom_alert_dialog);
             findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
             findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
-            ((TextView)findViewById(R.id.alert_dialog_text)).setText(getText(R.string.dialog_back_question));
+            ((TextView) findViewById(R.id.alert_dialog_text)).setText(getText(R.string.dialog_back_question));
         }
 
         public View.OnClickListener listenerYes = new View.OnClickListener() {

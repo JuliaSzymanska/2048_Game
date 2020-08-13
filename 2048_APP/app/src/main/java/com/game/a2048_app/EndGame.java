@@ -29,6 +29,8 @@ public class EndGame extends AppCompatActivity {
     //  4. Chciałeś zrobić te głośniki mute i settings w main activity
     //  5. Sprawko 😥
     //  6. Montaż treningowy przy pierwszym uruchomieniu
+    //  Przetłumaczyć cancel w odcisku palca
+    //
 
     private static String score;
     private static String highScore;

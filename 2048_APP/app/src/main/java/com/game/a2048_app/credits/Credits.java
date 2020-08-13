@@ -37,6 +37,14 @@ public class Credits extends AppCompatActivity {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onBackPressed() {
+        ((SwipeDownCreditsButton) findViewById(R.id.authors)).swipeDownCreditsButtonOnClick(findViewById(R.id.authors));
+    }
+
+    /**
      * Call method to set theme.
      * Loads volume and current theme.
      */

@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
             FingerprintDialog.initialize(this)
                     .title(R.string.fingerprint_title)
                     .message(R.string.fingerprint_message)
+                    .circleScanningColor(R.color.defaultApplicationTextColour)
                     .callback(this)
                     .show();
         }

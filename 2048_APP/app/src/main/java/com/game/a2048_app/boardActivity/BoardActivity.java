@@ -704,6 +704,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
             findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
             ((TextView) findViewById(R.id.alert_dialog_text)).setText(getText(R.string.goal_achieved_question));
+            this.getWindow().getDecorView().setBackgroundColor(Color.TRANSPARENT);
         }
 
         public View.OnClickListener listenerYes = new View.OnClickListener() {
@@ -877,6 +878,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
             findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
             ((TextView) findViewById(R.id.alert_dialog_text)).setText(getText(R.string.dialog_back_question));
+            this.getWindow().getDecorView().setBackgroundColor(Color.TRANSPARENT);
         }
 
         public View.OnClickListener listenerYes = new View.OnClickListener() {

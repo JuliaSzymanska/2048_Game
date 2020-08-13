@@ -398,38 +398,39 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     unPauseGameWithButton();
                 }
             });
-            if ((getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE) == 0) {
-                if (result.equals(getString(R.string.MoveUP))) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            move(Game.MOVE_UP);
-                        }
-                    });
-                } else if (result.equals(getString(R.string.MoveDown))) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            move(Game.MOVE_DOWN);
-                        }
-                    });
-                } else if (result.equals(getString(R.string.MoveLeft))) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            move(Game.MOVE_LEFT);
-                        }
-                    });
-                } else if (result.equals(getString(R.string.MoveRight))) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            move(Game.MOVE_RIGHT);
-                        }
-                    });
-                }
+        }
+        if ((getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE) == 0) {
+            if (result.equals(getString(R.string.MoveUP))) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        move(Game.MOVE_UP);
+                    }
+                });
+            } else if (result.equals(getString(R.string.MoveDown))) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        move(Game.MOVE_DOWN);
+                    }
+                });
+            } else if (result.equals(getString(R.string.MoveLeft))) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        move(Game.MOVE_LEFT);
+                    }
+                });
+            } else if (result.equals(getString(R.string.MoveRight))) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        move(Game.MOVE_RIGHT);
+                    }
+                });
             }
         }
+
     }
 
 

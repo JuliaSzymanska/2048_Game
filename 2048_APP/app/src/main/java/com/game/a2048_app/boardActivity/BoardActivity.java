@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -820,6 +821,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             setContentView(R.layout.custom_alert_dialog);
             findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
             findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
+            this.getWindow().getDecorView().setBackgroundColor(Color.TRANSPARENT);
         }
 
         public View.OnClickListener listenerYes = new View.OnClickListener() {

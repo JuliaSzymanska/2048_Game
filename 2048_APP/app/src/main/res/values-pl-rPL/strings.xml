@@ -7,7 +7,7 @@
     <string name="restart_game">Zrestartuj Grę</string>
     <string name="home_page">Strona Startowa</string>
     <string name="fingerprint_title">Autoryzacja odciskiem palca</string>
-    <string name="fingerprint_message">Zautoryzuj by zapisać grę oraz najwyższy wynik. </string>
+    <string name="fingerprint_message">Autoryzacja odciskiem palca pozwala na zapisanie gry oraz najwyższego wyniku </string>
     <string name="dialog_accept">OK</string>
     <string name="dialog_cancel">Anuluj</string>
     <string name="score">Wynik</string>

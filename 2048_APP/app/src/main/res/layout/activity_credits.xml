@@ -80,7 +80,7 @@
             android:clickable="true"
             android:onClick="onClickTextViewJulia"
             android:text="@string/Author_Julia"
-            android:textColor="#097EDC"
+            android:textColor="@color/text_colors"
             android:textSize="24sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"

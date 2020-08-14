@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     @Override
     public void onAuthenticationSucceeded() {
         this.isAuthenticated = true;
-//        this.startBoardActivity();
     }
 
     /**

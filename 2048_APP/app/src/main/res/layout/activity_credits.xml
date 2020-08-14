@@ -60,6 +60,7 @@
             android:layout_marginBottom="483dp"
             android:text="@string/Author_Przemek"
             android:textSize="24sp"
+            android:textColor="#097EDC"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -75,16 +76,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="400dp"
             android:layout_marginBottom="400dp"
+            android:clickable="true"
+            android:onClick="onClickTextViewJulia"
             android:text="@string/Author_Julia"
+            android:textColor="#097EDC"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/full_names"
-            android:clickable="true"
-            android:onClick="onClickTextViewJulia"/>
+            tools:text="@tools:sample/full_names" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

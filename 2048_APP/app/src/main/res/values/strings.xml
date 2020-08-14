@@ -30,8 +30,8 @@
     <string name="continue_game_dialog">Continue</string>
     <string name="end_game_dialog">End Game</string>
     <string name="Credits_Title">Authors</string>
-    <string name="Author_Julia">Julia Szymanska</string>
-    <string name="Author_Przemek">Przemyslaw Zdrzalik</string>
+    <string name="Author_Julia"><u>Julia Szymanska</u></string>
+    <string name="Author_Przemek"><u>Przemyslaw Zdrzalik</u></string>
     <!--    Listener Callback Strings-->
     <string name="Undo_Succeed" translatable="false">Undo_Succeed</string>
     <string name="Button_Green" translatable="false">Button_Green</string>

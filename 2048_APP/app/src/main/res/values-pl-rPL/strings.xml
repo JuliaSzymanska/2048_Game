@@ -25,7 +25,7 @@
     <string name="continue_game_dialog">Kontynuuj</string>
     <string name="end_game_dialog">Zakończ</string>
     <string name="Credits_Title">Autorzy</string>
-    <string name="Author_Julia">Julia Szymańska</string>
-    <string name="Author_Przemek">Przemysław Zdrzalik</string>
+    <string name="Author_Julia"><u>Julia Szymańska</u></string>
+    <string name="Author_Przemek"><u>Przemysław Zdrzalik</u></string>
     <string name="restart_game_question_dialog">Na pewno chcesz zresetować grę?</string>
 </resources>

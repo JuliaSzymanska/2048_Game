@@ -58,17 +58,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="336dp"
             android:layout_marginBottom="483dp"
+            android:clickable="true"
+            android:onClick="onClickTextViewPrzemek"
             android:text="@string/Author_Przemek"
-            android:textSize="24sp"
             android:textColor="#097EDC"
+            android:textSize="24sp"
+            android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/full_names"
-            android:clickable="true"
-            android:onClick="onClickTextViewPrzemek"/>
+            tools:text="@tools:sample/full_names" />
 
         <TextView
             android:id="@+id/textViewJulia"
@@ -81,6 +82,7 @@
             android:text="@string/Author_Julia"
             android:textColor="#097EDC"
             android:textSize="24sp"
+            android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         }
     };
 
+
     public void mainActivityMainButtonOnClick(View v) {
         startGameButton.setBackground(preloader.getMainButtonClicked());
         SoundPlayer soundPlayer = SoundPlayer.getInstance();
@@ -109,6 +110,10 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         this.startBoardActivity();
     }
 
+    /**
+     * Starts new activity - board activity.
+     * Pass
+     */
     private void startBoardActivity() {
         Intent i = new Intent(MainActivity.this, BoardActivity.class);
         i.putExtra(getResources().getString(R.string.authentication), isAuthenticated);

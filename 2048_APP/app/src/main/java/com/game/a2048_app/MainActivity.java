@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
 
 
     public void mainActivityMainButtonOnClick(View v) {
-        startGameButton.setBackground(preloader.getMainButtonClicked());
         SoundPlayer soundPlayer = SoundPlayer.getInstance();
         soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.slide_activities), setStartGameBackgroundListener);
         this.startBoardActivity();

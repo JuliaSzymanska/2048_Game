@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 
@@ -130,8 +131,10 @@ public class SoundPlayer {
     private void prepareAndRunMediaplayer(AssetFileDescriptor assetFileDescriptor, MediaPlayer.OnCompletionListener onCompletion) {
             MediaPlayer mediaPlayer = this.initMediaPlayer();
             try {
-            mediaPlayer.setDataSource(assetFileDescriptor);
-            mediaPlayer.setOnCompletionListener(onCompletion);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    mediaPlayer.setDataSource(assetFileDescriptor);
+                }
+                mediaPlayer.setOnCompletionListener(onCompletion);
             mediaPlayer.prepare();
             mediaPlayer.start();
         } catch (IOException e) {

@@ -106,7 +106,6 @@ public class EndGame extends AppCompatActivity {
      * Play sound after click and change button's image.
      */
     public void homePageButtonOnClick(View v) {
-        homePageButton.setBackground(preloader.getMainButtonClicked());
         SoundPlayer soundPlayer = SoundPlayer.getInstance();
         soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.slide_activities), setHomePageButtonBackgroundListener);
         startActivity(new Intent(EndGame.this, MainActivity.class));

@@ -11,13 +11,11 @@ import android.widget.ListView;
 
 import com.game.a2048_app.R;
 import com.game.a2048_app.helpers.PreferencesHelper;
-import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
 
 // TODO: 09.08.2020 dodać xml
 public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
 
-    Preloader preloader = Preloader.getInstance();
     PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
     public final static boolean[] chosenSensors = new boolean[]{false, false, false, false};
@@ -61,7 +59,6 @@ public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
      * Creates dialog to allow the user to turn sensors on or off.
      */
     public void settingsButtonOnClick(View v) {
-        this.setBackground(preloader.getSettingsClicked());
         SoundPlayer soundPlayer = SoundPlayer.getInstance();
         soundPlayer.playSound(soundPlayer.getAsset(this.context, R.raw.button_no_reverb));
         AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
@@ -77,7 +74,6 @@ public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 preferencesHelper.setChoosenSensors(chosenSensors);
-                SettingsButton.this.setBackground(preloader.getSettings());
             }
         });
         AlertDialog dialog = builder.create();

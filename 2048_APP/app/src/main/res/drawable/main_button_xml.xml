@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" android:dither="true">
+
+    <item
+        android:state_pressed="true"
+        android:drawable="@drawable/main_button_clicked"/>
+    <item
+        android:drawable="@drawable/main_button" tools:ignore="ResourceCycle" />
+
+</selector>

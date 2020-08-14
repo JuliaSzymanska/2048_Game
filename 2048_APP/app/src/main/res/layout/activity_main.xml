@@ -79,7 +79,7 @@
             style="@android:style/Widget.Material.Light.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/main_button"
+            android:background="@drawable/main_button_xml"
             android:fadingEdge="horizontal"
             android:fontFamily="sans-serif-condensed-medium"
             android:onClick="mainActivityMainButtonOnClick"

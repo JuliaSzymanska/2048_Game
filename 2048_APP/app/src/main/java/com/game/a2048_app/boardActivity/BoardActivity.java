@@ -267,7 +267,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
 
     public void restartGameButtonOnClick(View v) {
-        restartGameButton.setBackground(preloader.getMainButtonClicked());
         SoundPlayer soundPlayer = SoundPlayer.getInstance();
         soundPlayer.playSound(soundPlayer.getAsset(getApplicationContext(), R.raw.restart));
         new AlertDialogRestartGame(this).show();
@@ -837,7 +836,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             @Override
             public void onClick(View v) {
                 dismiss();
-                restartGameButton.setBackground(preloader.getMainButton());
             }
         };
     }

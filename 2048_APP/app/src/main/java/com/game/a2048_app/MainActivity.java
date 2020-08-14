@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     private ActivityMainBinding binding;
 
     private static boolean isFirstRun = true;
-    // jesli nie pierwszy raz odpalony activity - nie pytamy o authentication
 
     /**
      * Called when the activity is starting.

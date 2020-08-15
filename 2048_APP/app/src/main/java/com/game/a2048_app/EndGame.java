@@ -31,6 +31,7 @@ public class EndGame extends AppCompatActivity {
     //  6. Montaż treningowy przy pierwszym uruchomieniu
     //  Przetłumaczyć cancel w odcisku palca
     //  Dao naprawic
+    //  Game over & goal achieved
 
     private static String score;
     private static String highScore;

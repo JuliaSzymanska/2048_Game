@@ -73,6 +73,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Sensor mSensorMagnetometer;
     private Sensor mSensorLight;
     private Sensor mSensorProximity;
+    private Sensor mSensorGyroscope;
 
     private float[] mAccelerometerData = new float[3];
     private float[] mMagnetometerData = new float[3];
@@ -323,7 +324,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             mSensorManager.registerListener(this, mSensorProximity,
                     SensorManager.SENSOR_DELAY_GAME);
         }
-
+        if (mSensorGyroscope != null) {
+            mSensorManager.registerListener(this, mSensorGyroscope,
+                    SensorManager.SENSOR_DELAY_GAME);
+        }
         unPauseGameWithButton();
         this.beginUpdatingTime();
     }
@@ -750,6 +754,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         mSensorLight = mSensorManager.getDefaultSensor(
                 Sensor.TYPE_LIGHT);
         mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        mSensorGyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
     }
 

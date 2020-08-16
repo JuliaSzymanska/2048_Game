@@ -51,13 +51,14 @@ import com.game.module.exceptions.GoalAchievedException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
 
 public class BoardActivity extends AppCompatActivity implements SensorEventListener, OurCustomListenerFIXMERenameME {
 
-    // TODO: 16.08.2020 usunac i uzywac tej flagi, z jakiegoś powodu nie umiem flagowac
-    private boolean isNotTouchable = false;
+    // TODO: 16.08.2020 usunac i uzywac tej flagi, z jakiegoś powodu nie umiem flagowa
 
     private Game game;
     private ArrayAdapter<Drawable> adapter;
@@ -408,7 +409,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 }
             });
         }
-        if (!isNotTouchable) {
+        if ((getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE) == 0) {
             if (result.equals(getString(R.string.MoveUP))) {
                 runOnUiThread(new Runnable() {
                     @Override
@@ -571,6 +572,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.setTextHighScoreText();
     }
 
+    private Lock lock = new ReentrantLock();
+
     /**
      * Makes move in appropriate direction and calls move animation.
      *
@@ -578,18 +581,22 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      */
     private void move(int direction) {
         List<Field> fieldsCopies = game.getCopyOfTheBoard();
-        try {
-            game.move(direction);
-        } catch (GameOverException e) {
-            e.printStackTrace();
-            changeToEndActivity();
-        } catch (GoalAchievedException e) {
-            e.printStackTrace();
-            goalAchieved();
-        } finally {
-            updateActivityAfterMove(fieldsCopies, direction);
-        }
+        // TODO: 16.08.2020 sprawdzic czy to cokolwiek daje
+            try {
+                game.move(direction);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            } catch (GameOverException e) {
+                e.printStackTrace();
+                changeToEndActivity();
+            } catch (GoalAchievedException e) {
+                e.printStackTrace();
+                goalAchieved();
+            } finally {
+                updateActivityAfterMove(fieldsCopies, direction);
+            }
     }
+
 
     private void updateActivityAfterMove(List<Field> fieldsCopies, int direction) {
         this.animate(fieldsCopies, direction);
@@ -606,9 +613,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
          */
         @Override
         public void onAnimationStart(Animation arg0) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            isNotTouchable = true;
+
         }
 
         /**
@@ -618,7 +623,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         public void onAnimationEnd(Animation arg0) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             adapter.notifyDataSetChanged();
-            isNotTouchable = false;
         }
 
         /**
@@ -801,7 +805,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             case Sensor.TYPE_GYROSCOPE:
                 mGyroscopeData = event.values;
                 // TODO: 16.08.2020 if in settings
-                    new Thread(new GyroscopeMovement(this, mGyroscopeData, mAccelerometerData, mMagnetometerData)).start();
+                new Thread(new GyroscopeMovement(this, mGyroscopeData, mAccelerometerData, mMagnetometerData)).start();
                 break;
             default:
                 // FIXME: 15.07.2020, nie powinno być runtime ale nie chce dodawać throws wszędzie dla placeholdera

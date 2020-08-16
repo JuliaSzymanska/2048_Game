@@ -7,7 +7,12 @@ import android.hardware.SensorManager;
 import com.game.a2048_app.R;
 import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class GyroscopeMovement implements Runnable {
+
+    private static Lock lock = new ReentrantLock();
 
     private final static float minGyroValue = 2f;
 
@@ -47,30 +52,36 @@ public class GyroscopeMovement implements Runnable {
      */
     @Override
     public void run() {
-        float[] orientationValues = getOrientationValues();
+        if (GyroscopeMovement.lock.tryLock()) {
+            try {
+                float[] orientationValues = getOrientationValues();
 
-        float azimuth = orientationValues[0];
-        float pitch = orientationValues[1];
-        float roll = orientationValues[2];
+                float azimuth = orientationValues[0];
+                float pitch = orientationValues[1];
+                float roll = orientationValues[2];
 
-
-        if (!hasMoved) {
-            if (this.mGyroscopeData[0] > minGyroValue) {
-                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveDown));
-            } else if (this.mGyroscopeData[0] < -minGyroValue) {
-                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveUP));
-            } else if (this.mGyroscopeData[1] > minGyroValue) {
-                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveRight));
-            } else if (this.mGyroscopeData[1] < -minGyroValue) {
-                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveLeft));
+                if (!hasMoved) {
+                    if (this.mGyroscopeData[0] > minGyroValue) {
+                        ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveDown));
+                    } else if (this.mGyroscopeData[0] < -minGyroValue) {
+                        ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveUP));
+                    } else if (this.mGyroscopeData[1] > minGyroValue) {
+                        ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveRight));
+                    } else if (this.mGyroscopeData[1] < -minGyroValue) {
+                        ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveLeft));
+                    }
+                    if (Math.abs(this.mGyroscopeData[0]) > minGyroValue && Math.abs(this.mGyroscopeData[1]) > minGyroValue) {
+                        hasMoved = true;
+                    }
+                }
+                if (Math.abs(pitch) < RESET_PITCH && Math.abs(roll) < RESET_ROLL &&
+                        Math.abs(this.mGyroscopeData[0]) < resetGyroValue && Math.abs(this.mGyroscopeData[1]) < resetGyroValue) {
+                    hasMoved = false;
+                }
             }
-            if(Math.abs(this.mGyroscopeData[0]) > minGyroValue && Math.abs(this.mGyroscopeData[1]) > minGyroValue ) {
-                hasMoved = true;
+            finally {
+                GyroscopeMovement.lock.unlock();
             }
-        }
-        if (Math.abs(pitch) < RESET_PITCH && Math.abs(roll) < RESET_ROLL &&
-            Math.abs(this.mGyroscopeData[0]) < resetGyroValue && Math.abs(this.mGyroscopeData[1]) < resetGyroValue) {
-            hasMoved = false;
         }
     }
 }

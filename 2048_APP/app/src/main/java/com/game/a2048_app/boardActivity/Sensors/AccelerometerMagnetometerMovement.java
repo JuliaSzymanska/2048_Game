@@ -6,7 +6,11 @@ import android.hardware.SensorManager;
 import com.game.a2048_app.R;
 import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
 
+
+
 public class AccelerometerMagnetometerMovement implements Runnable {
+
+
 
     public AccelerometerMagnetometerMovement(Context context, float[] mAccelerometerData, float[] mMagnetometerData) {
         this.context = context;

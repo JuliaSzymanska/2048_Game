@@ -35,6 +35,7 @@ import com.game.a2048_app.OnSwipeTouchListener;
 import com.game.a2048_app.R;
 import com.game.a2048_app.boardActivity.Sensors.ChangeColourMagnetometer;
 import com.game.a2048_app.boardActivity.Sensors.DarkMode;
+import com.game.a2048_app.boardActivity.Sensors.GyroscopeMovement;
 import com.game.a2048_app.boardActivity.Sensors.PositionGyroscope;
 import com.game.a2048_app.boardActivity.Sensors.StopGameProximity;
 import com.game.a2048_app.boardActivity.buttons.UndoButton;
@@ -54,6 +55,9 @@ import java.util.List;
 import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
 
 public class BoardActivity extends AppCompatActivity implements SensorEventListener, OurCustomListenerFIXMERenameME {
+
+    // TODO: 16.08.2020 usunac i uzywac tej flagi, z jakiegoś powodu nie umiem flagowac
+    private boolean isNotTouchable = false;
 
     private Game game;
     private ArrayAdapter<Drawable> adapter;
@@ -77,6 +81,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private float[] mAccelerometerData = new float[3];
     private float[] mMagnetometerData = new float[3];
+    private float[] mGyroscopeData = new float[3];
 
     private TextView textScore;
     private TextView textHighScore;
@@ -325,7 +330,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorGyroscope != null) {
-            mSensorManager.registerListener(this, mSensorGyroscope,
+            mSensorManager.registerListener(new GyroscopeMovement(this), mSensorGyroscope,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         unPauseGameWithButton();
@@ -403,7 +408,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 }
             });
         }
-        if ((getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE) == 0) {
+        if (!isNotTouchable) {
             if (result.equals(getString(R.string.MoveUP))) {
                 runOnUiThread(new Runnable() {
                     @Override
@@ -572,6 +577,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * @param direction of movement.
      */
     private void move(int direction) {
+        isNotTouchable = true;
         List<Field> fieldsCopies = game.getCopyOfTheBoard();
         try {
             game.move(direction);
@@ -592,6 +598,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         undoButton.setUndoNumber();
     }
 
+
     // TODO: 29.07.2020 zrob tutaj ladne javadoci
     private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
 
@@ -602,6 +609,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         public void onAnimationStart(Animation arg0) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            isNotTouchable = true;
         }
 
         /**
@@ -611,6 +619,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         public void onAnimationEnd(Animation arg0) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             adapter.notifyDataSetChanged();
+            isNotTouchable = false;
         }
 
         /**

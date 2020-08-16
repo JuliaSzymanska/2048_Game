@@ -330,7 +330,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorGyroscope != null) {
-            mSensorManager.registerListener(new GyroscopeMovement(this), mSensorGyroscope,
+            mSensorManager.registerListener(this, mSensorGyroscope,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         unPauseGameWithButton();
@@ -577,7 +577,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * @param direction of movement.
      */
     private void move(int direction) {
-        isNotTouchable = true;
         List<Field> fieldsCopies = game.getCopyOfTheBoard();
         try {
             game.move(direction);
@@ -798,6 +797,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 if (chosenSensors[3]) {
                     new Thread(new StopGameProximity(this, mProximityData, this.game)).start();
                 }
+                break;
+            case Sensor.TYPE_GYROSCOPE:
+                mGyroscopeData = event.values;
+                // TODO: 16.08.2020 if in settings
+                    new Thread(new GyroscopeMovement(this, mGyroscopeData, mAccelerometerData, mMagnetometerData)).start();
                 break;
             default:
                 // FIXME: 15.07.2020, nie powinno być runtime ale nie chce dodawać throws wszędzie dla placeholdera

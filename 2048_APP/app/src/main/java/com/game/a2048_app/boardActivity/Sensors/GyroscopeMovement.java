@@ -1,46 +1,45 @@
 package com.game.a2048_app.boardActivity.Sensors;
 
 import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+
 
 import com.game.a2048_app.R;
 import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
 
-public class GyroscopeMovement implements Runnable, SensorEventListener {
+public class GyroscopeMovement implements Runnable {
 
     private final static float minGyroValue = 2f;
 
-    private float[] mGyroscopeData = new float[3];
+    private final static float resetGyroValue = 0.3f;
+
+    private float[] mGyroscopeData;
+    private float[] mAccelerometerData;
+    private float[] mMagnetometerData;
     private Context context;
     private OurCustomListenerFIXMERenameME ourCustomListenerFIXMERenameME;
+    private static boolean hasMoved = true;
 
-    public GyroscopeMovement(Context context) {
+    private final static float RESET_PITCH = 0.2f;
+    private final static float RESET_ROLL = 0.2f;
+
+    public GyroscopeMovement(Context context, float[] mGyroscopeData, float[] mAccelerometerData, float[] mMagnetometerData) {
         this.context = context;
         this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;
+        this.mGyroscopeData = mGyroscopeData;
+        this.mAccelerometerData = mAccelerometerData;
+        this.mMagnetometerData = mMagnetometerData;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        int sensorType = event.sensor.getType();
-        if (sensorType == Sensor.TYPE_GYROSCOPE) {
-            this.mGyroscopeData = event.values;
-            new Thread(this).start();
+    private float[] getOrientationValues() {
+        float[] rotationMatrix = new float[9];
+        boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
+                null, mAccelerometerData, mMagnetometerData);
+        float[] orientationValues = new float[3];
+        if (rotationOK) {
+            SensorManager.getOrientation(rotationMatrix, orientationValues);
         }
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+        return orientationValues;
     }
 
     /**
@@ -48,14 +47,30 @@ public class GyroscopeMovement implements Runnable, SensorEventListener {
      */
     @Override
     public void run() {
-        if(this.mGyroscopeData[0] > minGyroValue) {
-            ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveDown));
-        } else if(this.mGyroscopeData[0] < -minGyroValue) {
-            ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveUP));
-        } else if(this.mGyroscopeData[1] > minGyroValue) {
-            ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveRight));
-        } else if(this.mGyroscopeData[1] < -minGyroValue) {
-            ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveLeft));
+        float[] orientationValues = getOrientationValues();
+
+        float azimuth = orientationValues[0];
+        float pitch = orientationValues[1];
+        float roll = orientationValues[2];
+
+
+        if (!hasMoved) {
+            if (this.mGyroscopeData[0] > minGyroValue) {
+                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveDown));
+            } else if (this.mGyroscopeData[0] < -minGyroValue) {
+                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveUP));
+            } else if (this.mGyroscopeData[1] > minGyroValue) {
+                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveRight));
+            } else if (this.mGyroscopeData[1] < -minGyroValue) {
+                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveLeft));
+            }
+            if(Math.abs(this.mGyroscopeData[0]) > minGyroValue && Math.abs(this.mGyroscopeData[1]) > minGyroValue ) {
+                hasMoved = true;
+            }
+        }
+        if (Math.abs(pitch) < RESET_PITCH && Math.abs(roll) < RESET_ROLL &&
+            Math.abs(this.mGyroscopeData[0]) < resetGyroValue && Math.abs(this.mGyroscopeData[1]) < resetGyroValue) {
+            hasMoved = false;
         }
     }
 }

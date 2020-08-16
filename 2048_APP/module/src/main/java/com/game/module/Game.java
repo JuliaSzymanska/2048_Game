@@ -225,6 +225,9 @@ public class Game {
                 // FIXME: 18.07.2020
                 e.printStackTrace();
                 throw new LoadException(e);
+            } catch (Throwable e) {
+                // TODO: 16.08.2020 tutaj sie crashowalo to juz sie nie zcrashuje xdd
+                e.printStackTrace();
             }
         }
     }

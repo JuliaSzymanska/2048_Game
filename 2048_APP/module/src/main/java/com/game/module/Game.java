@@ -195,11 +195,11 @@ public class Game {
     }
 
     /**
-     * Calls {@link Board#getAmountMovedList()} method.
+     * Calls {@link Board#getAmountMovedListCopyAndWipeAmountMovedList()} method.
      * @return list with amount of moves.
      */
     public List<Integer> getAmountMovedList() {
-        return this.gameBoard.getAmountMovedList();
+        return this.gameBoard.getAmountMovedListCopyAndWipeAmountMovedList();
     }
 
     /**

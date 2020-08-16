@@ -573,11 +573,14 @@ public class Board implements Serializable {
     }
 
     /**
+     * A simple getter for a copy of {@link #amountMovedList}. The original list is destroyed in the process.
      * @return 1d list of Integers. Indexes of the list correspond with indexes in {@link Board#board}.
      * Each integer in the list reflects the amount the corresponding field in {@link Board#board} was moved in the previous move.
-     */
-    List<Integer> getAmountMovedList() {
-        return amountMovedList;
+    */
+    List<Integer> getAmountMovedListCopyAndWipeAmountMovedList() {
+        List<Integer> list = new ArrayList<>(amountMovedList);
+        amountMovedList = newAmountMovedList();
+        return list;
     }
 
     /**

@@ -512,7 +512,7 @@ public class BoardTest {
             Assert.fail();
         }
         int counter = 0;
-        for (Pair<Integer, Integer> item : zip(moveUpAmountsMoved, board.getAmountMovedList())) {
+        for (Pair<Integer, Integer> item : zip(moveUpAmountsMoved, board.getAmountMovedListCopyAndWipeAmountMovedList())) {
             if(integers.get(counter) != 0) {
                 Assert.assertEquals(item.getLeft(), item.getRight());
             }

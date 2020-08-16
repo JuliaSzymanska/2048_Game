@@ -6,9 +6,9 @@ import android.hardware.SensorManager;
 import com.game.a2048_app.R;
 import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
 
-public class PositionGyroscope implements Runnable {
+public class AccelerometerMagnetometerMovement implements Runnable {
 
-    public PositionGyroscope(Context context, float[] mAccelerometerData, float[] mMagnetometerData) {
+    public AccelerometerMagnetometerMovement(Context context, float[] mAccelerometerData, float[] mMagnetometerData) {
         this.context = context;
         this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;
         this.mAccelerometerData = mAccelerometerData;

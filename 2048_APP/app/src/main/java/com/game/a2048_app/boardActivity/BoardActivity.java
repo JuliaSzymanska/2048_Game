@@ -36,7 +36,7 @@ import com.game.a2048_app.R;
 import com.game.a2048_app.boardActivity.Sensors.ChangeColourMagnetometer;
 import com.game.a2048_app.boardActivity.Sensors.DarkMode;
 import com.game.a2048_app.boardActivity.Sensors.GyroscopeMovement;
-import com.game.a2048_app.boardActivity.Sensors.PositionGyroscope;
+import com.game.a2048_app.boardActivity.Sensors.AccelerometerMagnetometerMovement;
 import com.game.a2048_app.boardActivity.Sensors.StopGameProximity;
 import com.game.a2048_app.boardActivity.buttons.UndoButton;
 import com.game.a2048_app.helpers.DarkModeHelper;
@@ -777,7 +777,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             case Sensor.TYPE_ACCELEROMETER:
                 mAccelerometerData = event.values.clone();
                 if (chosenSensors[0]) {
-                    new Thread(new PositionGyroscope(this, mAccelerometerData, mMagnetometerData)).start();
+                    new Thread(new AccelerometerMagnetometerMovement(this, mAccelerometerData, mMagnetometerData)).start();
                 }
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:

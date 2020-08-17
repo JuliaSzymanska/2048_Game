@@ -17,6 +17,7 @@ public class Preloader {
     private Preloader() {
     }
 
+    private static Drawable background;
     private static Drawable buttonGreen;
     private static Drawable buttonGreenLight;
     private static Drawable buttonBlue;
@@ -68,6 +69,8 @@ public class Preloader {
      */
     // TODO: 04.08.2020 ustawic alfabetycznie
     public void loadAssets() {
+        loadBackground();
+
         loadUndoClicked();
         loadUndo();
 
@@ -119,6 +122,19 @@ public class Preloader {
     }
 
     // TODO: 04.08.2020 ustawic alfabetycznie
+
+    /**
+     * @return background image ({@link Preloader#background}).
+     */
+    public Drawable getBackground() {
+        if (background == null)
+            loadBackground();
+        return background;
+    }
+
+    private void loadBackground() {
+        background = context.getDrawable(R.drawable.background);
+    }
 
     /**
      * @return clicked undo button's image ({@link Preloader#undoClicked}).

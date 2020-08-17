@@ -12,12 +12,16 @@ import android.widget.ListView;
 
 import com.game.a2048_app.R;
 import com.game.a2048_app.helpers.PreferencesHelper;
+import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
+
+import java.util.Objects;
 
 // TODO: 09.08.2020 dodać xml
 public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
 
     PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
+    private Preloader preloader = Preloader.getInstance();
 
     public final static boolean[] chosenSensors = new boolean[]{false, false, false, false};
     private Context context;
@@ -78,7 +82,7 @@ public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
             }
         });
         AlertDialog dialog = builder.create();
-        dialog.getWindow().getDecorView().setBackgroundResource(R.drawable.background);
+        Objects.requireNonNull(dialog.getWindow()).getDecorView().setBackground(preloader.getBackground());
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, 1000);
         dialog.setOnShowListener(disableUnavailableSensorsInDialog);
         dialog.show();

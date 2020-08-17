@@ -9,8 +9,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,7 +31,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.game.a2048_app.EndGame;
 import com.game.a2048_app.OnSwipeTouchListener;
 import com.game.a2048_app.R;
-import com.game.a2048_app.boardActivity.Sensors.ChangeColourMagnetometer;
 import com.game.a2048_app.boardActivity.Sensors.DarkMode;
 import com.game.a2048_app.boardActivity.Sensors.GyroscopeMovement;
 import com.game.a2048_app.boardActivity.Sensors.StopGameProximity;
@@ -50,10 +47,11 @@ import com.game.module.exceptions.GoalAchievedException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
 
-public class BoardActivity extends AppCompatActivity implements SensorEventListener, BoardActivityListener {
+public class BoardActivity extends AppCompatActivity implements BoardActivityListener {
 
     // TODO: 16.08.2020 usunac i uzywac tej flagi, z jakiegoś powodu nie umiem flagowa
 
@@ -65,6 +63,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Drawable[] fieldsBackground;
     private Preloader preloader = Preloader.getInstance();
     private Drawable mThumbIds = preloader.getButtonBlue();
+    private GyroscopeMovement gyroscopeMovement;
     private StopGameProximity stopGameProximity;
     private DarkMode darkMode;
 
@@ -78,10 +77,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Sensor mSensorLight;
     private Sensor mSensorProximity;
     private Sensor mSensorGyroscope;
-
-    private float[] mAccelerometerData = new float[3];
-    private float[] mMagnetometerData = new float[3];
-    private float[] mGyroscopeData = new float[3];
 
     private TextView textScore;
     private TextView textHighScore;
@@ -125,6 +120,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.fieldsBackground = new Drawable[fields.length];
         Arrays.fill(fieldsImages, preloader.getZero());
         Arrays.fill(fieldsBackground, mThumbIds);
+        this.gyroscopeMovement = new GyroscopeMovement(this);
         this.stopGameProximity = new StopGameProximity(this, this.game);
         this.darkMode = new DarkMode(this);
     }
@@ -313,15 +309,15 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         //
         // Check to ensure sensors are available before registering listeners.
         if (mSensorGyroscope != null) {
-            mSensorManager.registerListener(this, mSensorGyroscope,
+            mSensorManager.registerListener(gyroscopeMovement, mSensorGyroscope,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorAccelerometer != null) {
-            mSensorManager.registerListener(this, mSensorAccelerometer,
+            mSensorManager.registerListener(gyroscopeMovement, mSensorAccelerometer,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorMagnetometer != null) {
-            mSensorManager.registerListener(this, mSensorMagnetometer,
+            mSensorManager.registerListener(gyroscopeMovement, mSensorMagnetometer,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorLight != null) {
@@ -718,7 +714,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
             findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
             ((TextView) findViewById(R.id.alert_dialog_text)).setText(getText(R.string.goal_achieved_question));
-            this.getWindow().getDecorView().setBackgroundColor(Color.TRANSPARENT);
+            Objects.requireNonNull(this.getWindow()).getDecorView().setBackgroundColor(Color.TRANSPARENT);
         }
 
         public View.OnClickListener listenerYes = new View.OnClickListener() {
@@ -772,35 +768,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        int sensorType = event.sensor.getType();
-        switch (sensorType) {
-            // TODO: 15.07.2020 rename all Runnable classes to things that make sense
-            case Sensor.TYPE_GYROSCOPE:
-                mGyroscopeData = event.values;
-                if (chosenSensors[0]) {
-                    new Thread(new GyroscopeMovement(this, mGyroscopeData, mAccelerometerData, mMagnetometerData)).start();
-                }
-                break;
-            case Sensor.TYPE_ACCELEROMETER:
-                mAccelerometerData = event.values.clone();
-                break;
-            case Sensor.TYPE_MAGNETIC_FIELD:
-                mMagnetometerData = event.values.clone();
-                if (chosenSensors[1]) {
-                    new Thread(new ChangeColourMagnetometer(this, mAccelerometerData, mMagnetometerData)).start();
-                }
-                break;
-            default:
-                // FIXME: 15.07.2020, nie powinno być runtime ale nie chce dodawać throws wszędzie dla placeholdera
-                throw new RuntimeException("PLACEHOLDER, onSensorChanged");
-        }
-    }
-
-    /**
      * Restarts game and reloads activity.
      */
     private void restartGame() {
@@ -846,12 +813,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         };
     }
 
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
-
     /**
      * {@inheritDoc}
      * Pressing back button will change current activity to main activity.
@@ -882,7 +843,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
             findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
             ((TextView) findViewById(R.id.alert_dialog_text)).setText(getText(R.string.dialog_back_question));
-            this.getWindow().getDecorView().setBackgroundColor(Color.TRANSPARENT);
+            Objects.requireNonNull(this.getWindow()).getDecorView().setBackgroundColor(Color.TRANSPARENT);
         }
 
         public View.OnClickListener listenerYes = new View.OnClickListener() {
@@ -910,7 +871,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         super.onStop();
         // Unregister all sensor listeners in this callback so they don't
         // continue to use resources when the app is stopped.
-        mSensorManager.unregisterListener(this);
         this.game.pauseTimer();
         if (!this.updateTimeThread.isInterrupted()) {
             this.updateTimeThread.interrupt();

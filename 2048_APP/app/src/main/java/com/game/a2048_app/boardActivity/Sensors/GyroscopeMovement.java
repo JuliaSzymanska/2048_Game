@@ -1,6 +1,9 @@
 package com.game.a2048_app.boardActivity.Sensors;
 
 import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 
@@ -10,12 +13,22 @@ import com.game.a2048_app.boardActivity.BoardActivityListener;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class GyroscopeMovement implements Runnable {
+import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
+
+public class GyroscopeMovement implements SensorEventListener {
 
     private static Lock lock = new ReentrantLock();
 
     private final static float MIN_GYRO_VALUE_HORIZONTAL = 3f;
     private final static float MIN_GYRO_VALUE_VERTICAL = 2f;
+
+    private final static double HORIZONTAL_PITCH_MAX = 0.5;
+    private final static double HORIZONTAL_PITCH_MIN = -0.5;
+
+    private final static double changeColourAzimuthBreakpoint1 = 0.25;
+    private final static double changeColourAzimuthBreakpoint2 = 1.25;
+    private final static double changeColourAzimuthBreakpoint3 = 1.75;
+    private final static double changeColourAzimuthBreakpoint4 = 2.75;
 
     private final static double MIN_PITCH = 0.05;
     private final static double MIN_ROLL = 0.05;
@@ -26,12 +39,9 @@ public class GyroscopeMovement implements Runnable {
     private Context context;
     private BoardActivityListener boardActivityListener;
 
-    public GyroscopeMovement(Context context, float[] mGyroscopeData, float[] mAccelerometerData, float[] mMagnetometerData) {
+    public GyroscopeMovement(Context context) {
         this.context = context;
         this.boardActivityListener = (BoardActivityListener) context;
-        this.mGyroscopeData = mGyroscopeData;
-        this.mAccelerometerData = mAccelerometerData;
-        this.mMagnetometerData = mMagnetometerData;
     }
 
     private float[] getOrientationValues() {
@@ -45,11 +55,7 @@ public class GyroscopeMovement implements Runnable {
         return orientationValues;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void run() {
+    private void makeMove() {
         if (GyroscopeMovement.lock.tryLock()) {
             try {
                 float[] orientationValues = getOrientationValues();
@@ -77,5 +83,94 @@ public class GyroscopeMovement implements Runnable {
                 }
             }
         }
+    }
+
+    private void changeColour(){
+        float[] orientationValues = getOrientationValues();
+        final float azimuth = orientationValues[0];
+        final float pitch = orientationValues[1];
+        if (pitch > HORIZONTAL_PITCH_MIN && pitch < HORIZONTAL_PITCH_MAX) {
+            if (azimuth >= changeColourAzimuthBreakpoint1 && azimuth < changeColourAzimuthBreakpoint2) {
+                boardActivityListener.callback(context.getString(R.string.Button_Green));
+            } else if (azimuth >= changeColourAzimuthBreakpoint3 && azimuth < changeColourAzimuthBreakpoint4) {
+                boardActivityListener.callback(context.getString(R.string.Button_Green_Light));
+            } else if (azimuth >= -changeColourAzimuthBreakpoint4 && azimuth < -changeColourAzimuthBreakpoint3) {
+                boardActivityListener.callback(context.getString(R.string.Button_Blue));
+            } else if (azimuth > -changeColourAzimuthBreakpoint2 && azimuth < -changeColourAzimuthBreakpoint1) {
+                boardActivityListener.callback(context.getString(R.string.Button_Blue_Light));
+            } else {
+                return;
+            }
+            boardActivityListener.callback(context.getString(R.string.Notify_Adapter));
+        }
+    }
+
+
+//    /**
+//     * {@inheritDoc}
+//     */
+//    @Override
+//    public void run() {
+//        if (GyroscopeMovement.lock.tryLock()) {
+//            try {
+//                float[] orientationValues = getOrientationValues();
+//
+//                float azimuth = orientationValues[0];
+//                float pitch = orientationValues[1];
+//                float roll = orientationValues[2];
+//
+//                if (this.mGyroscopeData[0] > MIN_GYRO_VALUE_VERTICAL && pitch < MIN_PITCH) {
+//                    boardActivityListener.callback(context.getString(R.string.MoveDown));
+//                } else if (this.mGyroscopeData[0] < -MIN_GYRO_VALUE_VERTICAL && pitch > MIN_PITCH) {
+//                    boardActivityListener.callback(context.getString(R.string.MoveUP));
+//                } else if (this.mGyroscopeData[1] > MIN_GYRO_VALUE_HORIZONTAL && roll > MIN_ROLL) {
+//                    boardActivityListener.callback(context.getString(R.string.MoveRight));
+//                } else if (this.mGyroscopeData[1] < -MIN_GYRO_VALUE_HORIZONTAL && roll < MIN_ROLL) {
+//                    boardActivityListener.callback(context.getString(R.string.MoveLeft));
+//                }
+//            } finally {
+//                try {
+//                    Thread.sleep(100);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } finally {
+//                    GyroscopeMovement.lock.unlock();
+//                }
+//            }
+//        }
+//    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        int sensorType = event.sensor.getType();
+        switch (sensorType) {
+            case Sensor.TYPE_GYROSCOPE:
+                this.mGyroscopeData = event.values;
+                if (chosenSensors[0]) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            makeMove();
+                        }
+                    }).start();
+                }
+            case Sensor.TYPE_ACCELEROMETER:
+                this.mAccelerometerData = event.values.clone();
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                mMagnetometerData = event.values.clone();
+                if (chosenSensors[1]) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            changeColour();
+                        }
+                    }).start();
+                }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }

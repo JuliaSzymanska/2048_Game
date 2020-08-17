@@ -412,6 +412,7 @@ public class Board implements Serializable {
             this.amountMovedList = saveAmountMovedList;
             return;
         }
+        this.amountMovedList = saveAmountMovedList;
         throw new GameOverException("Game lost");
     }
 

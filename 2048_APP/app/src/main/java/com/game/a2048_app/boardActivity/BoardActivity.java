@@ -737,13 +737,26 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Saves score, high score and user authentication to next activity.
      */
     private void changeToEndActivity() {
-        Intent i = new Intent(BoardActivity.this, EndGame.class);
-        i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getScore()));
-        i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
-        i.putExtra(getResources().getString(R.string.authentication), game.isUserAuthenticated());
-        this.adapter = null;
-        this.game.restartGame();
-        startActivity(i);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while ((getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE) == 0) {
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("DZIEJ SIE PROSZE");
+                        Intent i = new Intent(BoardActivity.this, EndGame.class);
+                        i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getScore()));
+                        i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
+                        i.putExtra(getResources().getString(R.string.authentication), game.isUserAuthenticated());
+                        adapter = null;
+                        game.restartGame();
+                        startActivity(i);
+                    }
+                });
+            }
+        }).start();
     }
 
 

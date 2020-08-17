@@ -1,6 +1,9 @@
 package com.game.a2048_app.boardActivity.Sensors;
 
 import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 
 import com.game.a2048_app.R;
 import com.game.a2048_app.boardActivity.BoardActivityListener;
@@ -9,7 +12,7 @@ import com.game.module.Game;
 /**
  * Pauses or unpauses game depending on proximity level.
  */
-public class StopGameProximity implements Runnable {
+public class StopGameProximity implements Runnable, SensorEventListener {
 
     private final static int PROXIMITY_DISTANCE = 5;
 
@@ -35,5 +38,15 @@ public class StopGameProximity implements Runnable {
         } else if (game.isSuspended()) {
             boardActivityListener.callback(context.getString(R.string.SetPauseOff));
         }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }

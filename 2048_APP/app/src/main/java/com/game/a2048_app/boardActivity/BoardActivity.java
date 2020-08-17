@@ -50,8 +50,6 @@ import com.game.module.exceptions.GoalAchievedException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
 
@@ -67,6 +65,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Drawable[] fieldsBackground;
     private Preloader preloader = Preloader.getInstance();
     private Drawable mThumbIds = preloader.getButtonBlue();
+    private StopGameProximity stopGameProximity;
 
     // System sensor manager instance.
     private SensorManager mSensorManager;

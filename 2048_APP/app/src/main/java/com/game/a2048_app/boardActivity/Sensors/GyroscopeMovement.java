@@ -14,7 +14,7 @@ public class GyroscopeMovement implements Runnable {
 
     private static Lock lock = new ReentrantLock();
 
-    private final static float minGyroValue = 2f;
+    private final static float minGyroValue = 3f;
 
     private final static float resetGyroValue = 0.3f;
 

@@ -27,7 +27,6 @@ public class GyroscopeMovement implements Runnable {
     private float[] mMagnetometerData;
     private Context context;
     private OurCustomListenerFIXMERenameME ourCustomListenerFIXMERenameME;
-    private static boolean hasMoved = true;
 
     private final static float RESET_PITCH = 0.2f;
     private final static float RESET_ROLL = 0.2f;
@@ -67,20 +66,13 @@ public class GyroscopeMovement implements Runnable {
                 if (!hasMoved) {
                     if (this.mGyroscopeData[0] > MIN_GYRO_VALUE_VERTICAL && pitch < 0) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveDown));
-                        hasMoved = true;
                     } else if (this.mGyroscopeData[0] < -MIN_GYRO_VALUE_VERTICAL && pitch > 0) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveUP));
-                        hasMoved = true;
                     } else if (this.mGyroscopeData[1] > MIN_GYRO_VALUE_HORIZONTAL && roll > 0) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveRight));
-                        hasMoved = true;
                     } else if (this.mGyroscopeData[1] < -MIN_GYRO_VALUE_HORIZONTAL && roll < 0) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveLeft));
-                        hasMoved = true;
                     }
-                }
-                if (Math.abs(this.mGyroscopeData[0]) < RESET_GYRO_VALUE && Math.abs(this.mGyroscopeData[1]) < RESET_GYRO_VALUE) {
-                    hasMoved = false;
                 }
             }
             finally {

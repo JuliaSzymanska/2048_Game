@@ -380,7 +380,7 @@ public class Board implements Serializable {
     private void testIfGameOver(List<Field> copyList) throws GoalAchievedException, GameOverException {
         if (this.checkIfBoardChanged(copyList)) {
             this.addNewNonEmptyFieldAfterMove();
-            return;
+            copyList = this.getCopyBoard();
         }
         if (this.getAllEmptyFields().size() != 0) {
             return;
@@ -411,6 +411,10 @@ public class Board implements Serializable {
             return;
         }
         throw new GameOverException("Game lost");
+    }
+
+    private void testIfGameOver() throws GoalAchievedException, GameOverException {
+
     }
 
     /**

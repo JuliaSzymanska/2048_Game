@@ -64,13 +64,13 @@ public class GyroscopeMovement implements Runnable {
                 float roll = orientationValues[2];
 
                 if (!hasMoved) {
-                    if (this.mGyroscopeData[0] > minGyroValue) {
+                    if (this.mGyroscopeData[0] > minGyroValue && pitch < 0) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveDown));
-                    } else if (this.mGyroscopeData[0] < -minGyroValue) {
+                    } else if (this.mGyroscopeData[0] < -minGyroValue && pitch > 0) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveUP));
-                    } else if (this.mGyroscopeData[1] > minGyroValue) {
+                    } else if (this.mGyroscopeData[1] > minGyroValue && roll > 0) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveRight));
-                    } else if (this.mGyroscopeData[1] < -minGyroValue) {
+                    } else if (this.mGyroscopeData[1] < -minGyroValue && roll < 0) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveLeft));
                     }
                     if (Math.abs(this.mGyroscopeData[0]) > minGyroValue && Math.abs(this.mGyroscopeData[1]) > minGyroValue) {

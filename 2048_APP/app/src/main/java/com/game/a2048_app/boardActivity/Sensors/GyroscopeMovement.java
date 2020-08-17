@@ -5,7 +5,7 @@ import android.hardware.SensorManager;
 
 
 import com.game.a2048_app.R;
-import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
+import com.game.a2048_app.boardActivity.BoardActivityListener;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -24,11 +24,11 @@ public class GyroscopeMovement implements Runnable {
     private float[] mAccelerometerData;
     private float[] mMagnetometerData;
     private Context context;
-    private OurCustomListenerFIXMERenameME ourCustomListenerFIXMERenameME;
+    private BoardActivityListener boardActivityListener;
 
     public GyroscopeMovement(Context context, float[] mGyroscopeData, float[] mAccelerometerData, float[] mMagnetometerData) {
         this.context = context;
-        this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;
+        this.boardActivityListener = (BoardActivityListener) context;
         this.mGyroscopeData = mGyroscopeData;
         this.mAccelerometerData = mAccelerometerData;
         this.mMagnetometerData = mMagnetometerData;
@@ -59,13 +59,13 @@ public class GyroscopeMovement implements Runnable {
                 float roll = orientationValues[2];
 
                 if (this.mGyroscopeData[0] > MIN_GYRO_VALUE_VERTICAL && pitch < MIN_PITCH) {
-                    ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveDown));
+                    boardActivityListener.callback(context.getString(R.string.MoveDown));
                 } else if (this.mGyroscopeData[0] < -MIN_GYRO_VALUE_VERTICAL && pitch > MIN_PITCH) {
-                    ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveUP));
+                    boardActivityListener.callback(context.getString(R.string.MoveUP));
                 } else if (this.mGyroscopeData[1] > MIN_GYRO_VALUE_HORIZONTAL && roll > MIN_ROLL) {
-                    ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveRight));
+                    boardActivityListener.callback(context.getString(R.string.MoveRight));
                 } else if (this.mGyroscopeData[1] < -MIN_GYRO_VALUE_HORIZONTAL && roll < MIN_ROLL) {
-                    ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveLeft));
+                    boardActivityListener.callback(context.getString(R.string.MoveLeft));
                 }
             } finally {
                 try {

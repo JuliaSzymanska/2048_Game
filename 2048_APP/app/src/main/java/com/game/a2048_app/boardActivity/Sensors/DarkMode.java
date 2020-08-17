@@ -3,7 +3,7 @@ package com.game.a2048_app.boardActivity.Sensors;
 import android.content.Context;
 
 import com.game.a2048_app.R;
-import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
+import com.game.a2048_app.boardActivity.BoardActivityListener;
 import com.game.a2048_app.helpers.PreferencesHelper;
 
 /**
@@ -14,13 +14,13 @@ public class DarkMode implements Runnable {
     public DarkMode(float mLightData, Context context) {
         this.mLightData = mLightData;
         this.context = context;
-        this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;
+        this.boardActivityListener = (BoardActivityListener) context;
     }
 
     private Context context;
 
     private PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
-    private OurCustomListenerFIXMERenameME ourCustomListenerFIXMERenameME;
+    private BoardActivityListener boardActivityListener;
     private float mLightData;
 
     private final static int DARK_MODE_ENABLE_LIGHT = 30;
@@ -31,10 +31,10 @@ public class DarkMode implements Runnable {
         // Light Sensor - gdy jest ciemno włącza się dark mode
         if (mLightData <= DARK_MODE_ENABLE_LIGHT && !preferencesHelper.getDarkTheme()) {
             preferencesHelper.setDarkTheme(true);
-            ourCustomListenerFIXMERenameME.callback(context.getString(R.string.SetTheme));
+            boardActivityListener.callback(context.getString(R.string.SetTheme));
         } else if (mLightData >= DARK_MODE_DISABLE_LIGHT && preferencesHelper.getDarkTheme()) {
             preferencesHelper.setDarkTheme(false);
-            ourCustomListenerFIXMERenameME.callback(context.getString(R.string.SetTheme));
+            boardActivityListener.callback(context.getString(R.string.SetTheme));
         }
     }
 }

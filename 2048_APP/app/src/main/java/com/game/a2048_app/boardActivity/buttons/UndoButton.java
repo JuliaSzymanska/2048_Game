@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 
 import com.game.a2048_app.R;
-import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
+import com.game.a2048_app.boardActivity.BoardActivityListener;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
 import com.game.module.Game;
@@ -21,7 +21,7 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
     private TextView undoTextView;
     private Preloader preloader = Preloader.getInstance();
     private Context context;
-    private OurCustomListenerFIXMERenameME ourCustomListenerFIXMERenameME;
+    private BoardActivityListener boardActivityListener;
 
     private OnClickListener onClickListener = new OnClickListener() {
         /**
@@ -39,7 +39,7 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
         this.context = context;
         this.setOnClickListener(this.onClickListener);
         this.undoTextView = findViewById(R.id.undoMoveButton);
-        this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;
+        this.boardActivityListener = (BoardActivityListener) context;
     }
 
     public UndoButton(Context context) {
@@ -75,7 +75,7 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
         SoundPlayer soundPlayer = SoundPlayer.getInstance();
         soundPlayer.playSound(soundPlayer.getAsset(this.context, R.raw.undo), setUndoAmountListener);
         game.undoPreviousMove();
-        ourCustomListenerFIXMERenameME.callback(this, context.getString(R.string.Undo_Succeed));
+        boardActivityListener.callback(this, context.getString(R.string.Undo_Succeed));
     }
 
     /**

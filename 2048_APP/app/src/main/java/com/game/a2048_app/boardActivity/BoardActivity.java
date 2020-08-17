@@ -53,7 +53,7 @@ import java.util.List;
 
 import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
 
-public class BoardActivity extends AppCompatActivity implements SensorEventListener, OurCustomListenerFIXMERenameME {
+public class BoardActivity extends AppCompatActivity implements SensorEventListener, BoardActivityListener {
 
     // TODO: 16.08.2020 usunac i uzywac tej flagi, z jakiegoś powodu nie umiem flagowa
 

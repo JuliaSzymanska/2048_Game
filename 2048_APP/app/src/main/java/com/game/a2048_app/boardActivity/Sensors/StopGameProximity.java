@@ -3,7 +3,7 @@ package com.game.a2048_app.boardActivity.Sensors;
 import android.content.Context;
 
 import com.game.a2048_app.R;
-import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
+import com.game.a2048_app.boardActivity.BoardActivityListener;
 import com.game.module.Game;
 
 /**
@@ -17,23 +17,23 @@ public class StopGameProximity implements Runnable {
         this.mProximityData = mProximityData;
         this.context = context;
         this.game = game;
-        this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;
+        this.boardActivityListener = (BoardActivityListener) context;
     }
 
     private float mProximityData;
     private Game game;
     private Context context;
-    private OurCustomListenerFIXMERenameME ourCustomListenerFIXMERenameME;
+    private BoardActivityListener boardActivityListener;
 
     @Override
     public void run() {
         // Proximity sensor - zatrzymuje sie czas po zblizeniu
         if (mProximityData < PROXIMITY_DISTANCE) {
             if (!game.isSuspended()) {
-                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.SetPauseOn));
+                boardActivityListener.callback(context.getString(R.string.SetPauseOn));
             }
         } else if (game.isSuspended()) {
-            ourCustomListenerFIXMERenameME.callback(context.getString(R.string.SetPauseOff));
+            boardActivityListener.callback(context.getString(R.string.SetPauseOff));
         }
     }
 }

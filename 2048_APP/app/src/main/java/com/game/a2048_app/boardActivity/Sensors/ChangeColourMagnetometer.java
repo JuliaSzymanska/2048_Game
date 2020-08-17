@@ -4,7 +4,7 @@ import android.content.Context;
 import android.hardware.SensorManager;
 
 import com.game.a2048_app.R;
-import com.game.a2048_app.boardActivity.OurCustomListenerFIXMERenameME;
+import com.game.a2048_app.boardActivity.BoardActivityListener;
 
 /**
  * Changes fields background colour depending on magnetometer value.
@@ -13,12 +13,12 @@ public class ChangeColourMagnetometer implements Runnable {
 
     public ChangeColourMagnetometer(Context context, float[]  mAccelerometerData, float[] mMagnetometerData) {
         this.context = context;
-        this.ourCustomListenerFIXMERenameME = (OurCustomListenerFIXMERenameME) context;
+        this.boardActivityListener = (BoardActivityListener) context;
         this.mAccelerometerData = mAccelerometerData;
         this.mMagnetometerData = mMagnetometerData;
     }
 
-    private OurCustomListenerFIXMERenameME ourCustomListenerFIXMERenameME;
+    private BoardActivityListener boardActivityListener;
     private Context context;
 
     private float[] mAccelerometerData;
@@ -51,17 +51,17 @@ public class ChangeColourMagnetometer implements Runnable {
         final float pitch = orientationValues[1];
         if (pitch > HORIZONTAL_PITCH_MIN && pitch < HORIZONTAL_PITCH_MAX) {
             if (azimuth >= changeColourAzimuthBreakpoint1 && azimuth < changeColourAzimuthBreakpoint2) {
-                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.Button_Green));
+                boardActivityListener.callback(context.getString(R.string.Button_Green));
             } else if (azimuth >= changeColourAzimuthBreakpoint3 && azimuth < changeColourAzimuthBreakpoint4) {
-                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.Button_Green_Light));
+                boardActivityListener.callback(context.getString(R.string.Button_Green_Light));
             } else if (azimuth >= -changeColourAzimuthBreakpoint4 && azimuth < -changeColourAzimuthBreakpoint3) {
-                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.Button_Blue));
+                boardActivityListener.callback(context.getString(R.string.Button_Blue));
             } else if (azimuth > -changeColourAzimuthBreakpoint2 && azimuth < -changeColourAzimuthBreakpoint1) {
-                ourCustomListenerFIXMERenameME.callback(context.getString(R.string.Button_Blue_Light));
+                boardActivityListener.callback(context.getString(R.string.Button_Blue_Light));
             } else {
                 return;
             }
-            ourCustomListenerFIXMERenameME.callback(context.getString(R.string.Notify_Adapter));
+            boardActivityListener.callback(context.getString(R.string.Notify_Adapter));
         }
     }
 }

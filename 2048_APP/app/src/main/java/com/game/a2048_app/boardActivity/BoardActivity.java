@@ -601,7 +601,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private void updateActivityAfterMove(List<Field> fieldsCopies, int direction) {
         this.animate(fieldsCopies, direction);
-        if (isGameOver) {
+        if (!isGameOver) {
             this.setScoreTexts();
             undoButton.setUndoNumber();
         }

@@ -14,9 +14,10 @@ public class GyroscopeMovement implements Runnable {
 
     private static Lock lock = new ReentrantLock();
 
-    private final static float minGyroValue = 3f;
+    private final static float MIN_GYRO_VALUE_HORIZONTAL = 3f;
+    private final static float MIN_GYRO_VALUE_VERTICAL = 2f;
 
-    private final static float resetGyroValue = 0.3f;
+    private final static float RESET_GYRO_VALUE = 0.3f;
 
     private final static float DETECT_MOVE_PITCH = 0.3f;
     private final static float DETECT_MOVE_ROLL = 0.3f;
@@ -64,20 +65,20 @@ public class GyroscopeMovement implements Runnable {
                 float roll = orientationValues[2];
 
                 if (!hasMoved) {
-                    if (this.mGyroscopeData[0] > minGyroValue && pitch < 0) {
+                    if (this.mGyroscopeData[0] > MIN_GYRO_VALUE_VERTICAL && pitch < 0) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveDown));
-                    } else if (this.mGyroscopeData[0] < -minGyroValue && pitch > 0) {
+                    } else if (this.mGyroscopeData[0] < -MIN_GYRO_VALUE_VERTICAL && pitch > 0) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveUP));
-                    } else if (this.mGyroscopeData[1] > minGyroValue && roll > 0) {
+                    } else if (this.mGyroscopeData[1] > MIN_GYRO_VALUE_HORIZONTAL && roll > 0) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveRight));
-                    } else if (this.mGyroscopeData[1] < -minGyroValue && roll < 0) {
+                    } else if (this.mGyroscopeData[1] < -MIN_GYRO_VALUE_HORIZONTAL && roll < 0) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveLeft));
                     }
-                    if (Math.abs(this.mGyroscopeData[0]) > minGyroValue && Math.abs(this.mGyroscopeData[1]) > minGyroValue) {
+                    if (Math.abs(this.mGyroscopeData[0]) > MIN_GYRO_VALUE_HORIZONTAL && Math.abs(this.mGyroscopeData[1]) > MIN_GYRO_VALUE_HORIZONTAL) {
                         hasMoved = true;
                     }
                 }
-                if (Math.abs(this.mGyroscopeData[0]) < resetGyroValue && Math.abs(this.mGyroscopeData[1]) < resetGyroValue) {
+                if (Math.abs(this.mGyroscopeData[0]) < RESET_GYRO_VALUE && Math.abs(this.mGyroscopeData[1]) < RESET_GYRO_VALUE) {
                     hasMoved = false;
                 }
             }

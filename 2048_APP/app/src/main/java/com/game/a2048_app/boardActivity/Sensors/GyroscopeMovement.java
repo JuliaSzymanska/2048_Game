@@ -63,19 +63,16 @@ public class GyroscopeMovement implements Runnable {
                 float pitch = orientationValues[1];
                 float roll = orientationValues[2];
 
-                if (!hasMoved) {
-                    if (this.mGyroscopeData[0] > MIN_GYRO_VALUE_VERTICAL && pitch < 0) {
-                        ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveDown));
-                    } else if (this.mGyroscopeData[0] < -MIN_GYRO_VALUE_VERTICAL && pitch > 0) {
-                        ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveUP));
-                    } else if (this.mGyroscopeData[1] > MIN_GYRO_VALUE_HORIZONTAL && roll > 0) {
-                        ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveRight));
-                    } else if (this.mGyroscopeData[1] < -MIN_GYRO_VALUE_HORIZONTAL && roll < 0) {
-                        ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveLeft));
-                    }
+                if (this.mGyroscopeData[0] > MIN_GYRO_VALUE_VERTICAL && pitch < 0) {
+                    ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveDown));
+                } else if (this.mGyroscopeData[0] < -MIN_GYRO_VALUE_VERTICAL && pitch > 0) {
+                    ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveUP));
+                } else if (this.mGyroscopeData[1] > MIN_GYRO_VALUE_HORIZONTAL && roll > 0) {
+                    ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveRight));
+                } else if (this.mGyroscopeData[1] < -MIN_GYRO_VALUE_HORIZONTAL && roll < 0) {
+                    ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveLeft));
                 }
-            }
-            finally {
+            } finally {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {

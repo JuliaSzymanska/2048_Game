@@ -63,7 +63,7 @@ public class GyroscopeMovement implements Runnable {
                 float pitch = orientationValues[1];
                 float roll = orientationValues[2];
 
-                if (!hasMoved && (Math.abs(pitch) >= DETECT_MOVE_PITCH || Math.abs(roll) >= DETECT_MOVE_ROLL)) {
+                if (!hasMoved) {
                     if (this.mGyroscopeData[0] > minGyroValue) {
                         ourCustomListenerFIXMERenameME.callback(context.getString(R.string.MoveDown));
                     } else if (this.mGyroscopeData[0] < -minGyroValue) {
@@ -77,8 +77,7 @@ public class GyroscopeMovement implements Runnable {
                         hasMoved = true;
                     }
                 }
-                if ((Math.abs(pitch) < RESET_PITCH && Math.abs(roll) < RESET_ROLL) &&
-                        Math.abs(this.mGyroscopeData[0]) < resetGyroValue && Math.abs(this.mGyroscopeData[1]) < resetGyroValue) {
+                if (Math.abs(this.mGyroscopeData[0]) < resetGyroValue && Math.abs(this.mGyroscopeData[1]) < resetGyroValue) {
                     hasMoved = false;
                 }
             }

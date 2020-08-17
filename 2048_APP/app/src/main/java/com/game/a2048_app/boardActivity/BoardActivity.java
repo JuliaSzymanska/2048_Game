@@ -862,6 +862,12 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         };
     }
 
+    private void unregisterSensors() {
+        mSensorManager.unregisterListener(darkMode);
+        mSensorManager.unregisterListener(stopGameProximity);
+        mSensorManager.unregisterListener(orientationSensors);
+    }
+
     /**
      * {@inheritDoc}
      * On activity stop game is paused and updating time is stopped.
@@ -875,5 +881,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         if (!this.updateTimeThread.isInterrupted()) {
             this.updateTimeThread.interrupt();
         }
+        unregisterSensors();
     }
 }

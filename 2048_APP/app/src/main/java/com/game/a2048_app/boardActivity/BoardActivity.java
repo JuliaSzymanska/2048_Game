@@ -33,10 +33,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.game.a2048_app.EndGame;
 import com.game.a2048_app.OnSwipeTouchListener;
 import com.game.a2048_app.R;
+import com.game.a2048_app.boardActivity.Sensors.AccelerometerMagnetometerMovement;
 import com.game.a2048_app.boardActivity.Sensors.ChangeColourMagnetometer;
 import com.game.a2048_app.boardActivity.Sensors.DarkMode;
 import com.game.a2048_app.boardActivity.Sensors.GyroscopeMovement;
-import com.game.a2048_app.boardActivity.Sensors.AccelerometerMagnetometerMovement;
 import com.game.a2048_app.boardActivity.Sensors.StopGameProximity;
 import com.game.a2048_app.boardActivity.buttons.UndoButton;
 import com.game.a2048_app.helpers.DarkModeHelper;
@@ -51,8 +51,6 @@ import com.game.module.exceptions.GoalAchievedException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
 
@@ -67,7 +65,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Drawable[] fieldsImages;
     private Drawable[] fieldsBackground;
     private Preloader preloader = Preloader.getInstance();
-    private Drawable mThumbIds = preloader.getButtonGreen();
+    private Drawable mThumbIds = preloader.getButtonBlue();
 
     // System sensor manager instance.
     private SensorManager mSensorManager;

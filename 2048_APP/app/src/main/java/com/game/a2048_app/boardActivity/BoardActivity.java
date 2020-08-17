@@ -50,6 +50,8 @@ import com.game.module.exceptions.GoalAchievedException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
 
@@ -731,31 +733,19 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         };
     }
 
-
     /**
      * Changes current activity to EndGameActivity.
      * Saves score, high score and user authentication to next activity.
      */
     private void changeToEndActivity() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        System.out.println("DZIEJ SIE PROSZE");
-                        Intent i = new Intent(BoardActivity.this, EndGame.class);
-                        i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getScore()));
-                        i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
-                        i.putExtra(getResources().getString(R.string.authentication), game.isUserAuthenticated());
-                        adapter = null;
-                        game.restartGame();
-                        startActivity(i);
-                    }
-                });
-            }
-        });
-        thread.start();
+        System.out.println("DZIEJ SIE PROSZE");
+        Intent i = new Intent(BoardActivity.this, EndGame.class);
+        i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getScore()));
+        i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));
+        i.putExtra(getResources().getString(R.string.authentication), game.isUserAuthenticated());
+        adapter = null;
+        game.restartGame();
+        startActivity(i);
     }
 
 

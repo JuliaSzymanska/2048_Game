@@ -269,7 +269,7 @@ public class Board implements Serializable {
      * @param row                row's number.
      * @param amountMovedListRow list of amount of moves for fields.
      */
-    private void setAmoutMovedRow(int row, List<Integer> amountMovedListRow) {
+    private void setAmountMovedRow(int row, List<Integer> amountMovedListRow) {
         for (int i = 0; i < BOARD_DIMENSIONS; i++) {
             this.amountMovedList.set(i + row * BOARD_DIMENSIONS, amountMovedListRow.get(i));
         }
@@ -381,34 +381,35 @@ public class Board implements Serializable {
         if (this.checkIfBoardChanged(copyList)) {
             this.appendPreviousBoardToHistory();
             this.addNewNonEmptyFieldAfterMove();
-            return;
+            copyList = getCopyBoard();
         }
         if (this.getAllEmptyFields().size() != 0) {
             return;
         }
+        List<Integer> saveAmountMovedList = this.amountMovedList;
         int score_before_test = this.score;
         this.moveDownAndDontTestIfGameOver();
-        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChangedAndRestoreBoard(copyList)) {
             this.score = score_before_test;
+            this.amountMovedList = saveAmountMovedList;
             return;
         }
         this.moveLeftAndDontTestIfGameOver();
-        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChangedAndRestoreBoard(copyList)) {
             this.score = score_before_test;
+            this.amountMovedList = saveAmountMovedList;
             return;
         }
         this.moveUpAndDontTestIfGameOver();
-        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChangedAndRestoreBoard(copyList)) {
             this.score = score_before_test;
+            this.amountMovedList = saveAmountMovedList;
             return;
         }
         this.moveRightAndDontTestIfGameOver();
-        this.amountMovedList = newAmountMovedList();
         if (this.checkIfBoardChangedAndRestoreBoard(copyList)) {
             this.score = score_before_test;
+            this.amountMovedList = saveAmountMovedList;
             return;
         }
         throw new GameOverException("Game lost");
@@ -429,7 +430,7 @@ public class Board implements Serializable {
             row = getRow(i);
             rowAmountMoved = getAmountMovedRow(i);
             moveFieldsInRowOrColumn(row, rowAmountMoved);
-            setAmoutMovedRow(i, rowAmountMoved);
+            setAmountMovedRow(i, rowAmountMoved);
         }
     }
 
@@ -456,7 +457,7 @@ public class Board implements Serializable {
             Collections.reverse(rowAmountMoved);
             this.moveFieldsInRowOrColumn(row, rowAmountMoved);
             Collections.reverse(rowAmountMoved);
-            this.setAmoutMovedRow(i, rowAmountMoved);
+            this.setAmountMovedRow(i, rowAmountMoved);
         }
     }
 

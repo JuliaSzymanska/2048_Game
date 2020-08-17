@@ -556,6 +556,6 @@ public class Preloader {
     }
 
     private void loadButtonBlueLight() {
-        buttonBlueLight = context.getDrawable(R.drawable.button_green_light);
+        buttonBlueLight = context.getDrawable(R.drawable.button_blue_light);
     }
 }

@@ -74,8 +74,7 @@ public class GyroscopeMovement implements Runnable {
                         hasMoved = true;
                     }
                 }
-                if (Math.abs(pitch) < RESET_PITCH && Math.abs(roll) < RESET_ROLL &&
-                        Math.abs(this.mGyroscopeData[0]) < resetGyroValue && Math.abs(this.mGyroscopeData[1]) < resetGyroValue) {
+                if (Math.abs(this.mGyroscopeData[0]) < resetGyroValue && Math.abs(this.mGyroscopeData[1]) < resetGyroValue) {
                     hasMoved = false;
                 }
             }

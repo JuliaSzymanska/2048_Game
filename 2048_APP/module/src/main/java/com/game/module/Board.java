@@ -379,7 +379,6 @@ public class Board implements Serializable {
      */
     private void testIfGameOver(List<Field> copyList) throws GoalAchievedException, GameOverException {
         if (this.checkIfBoardChanged(copyList)) {
-            this.appendPreviousBoardToHistory();
             this.addNewNonEmptyFieldAfterMove();
             copyList = getCopyBoard();
         }
@@ -439,6 +438,7 @@ public class Board implements Serializable {
      * @see #moveDown()
      */
     void moveRight() throws GameOverException, GoalAchievedException {
+        this.appendPreviousBoardToHistory();
         List<Field> copyList = this.getCopyBoard();
         this.moveRightAndDontTestIfGameOver();
         testIfGameOver(copyList);
@@ -466,6 +466,7 @@ public class Board implements Serializable {
      * @see #moveDown()
      */
     void moveLeft() throws GameOverException, GoalAchievedException {
+        this.appendPreviousBoardToHistory();
         List<Field> copyList = this.getCopyBoard();
         this.moveLeftAndDontTestIfGameOver();
         this.testIfGameOver(copyList);
@@ -496,6 +497,7 @@ public class Board implements Serializable {
      * @throws GameOverException     if the game has been lost.
      */
     void moveDown() throws GameOverException, GoalAchievedException {
+        this.appendPreviousBoardToHistory();
         List<Field> copyList = this.getCopyBoard();
         this.moveDownAndDontTestIfGameOver();
         this.testIfGameOver(copyList);
@@ -523,6 +525,7 @@ public class Board implements Serializable {
      * @see #moveDown()
      */
     void moveUp() throws GameOverException, GoalAchievedException {
+        this.appendPreviousBoardToHistory();
         List<Field> copyList = this.getCopyBoard();
         this.moveUpAndDontTestIfGameOver();
         testIfGameOver(copyList);

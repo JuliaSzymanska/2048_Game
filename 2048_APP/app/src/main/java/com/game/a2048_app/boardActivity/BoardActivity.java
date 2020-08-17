@@ -577,6 +577,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * @param direction of movement.
      */
 
+    private boolean isGameOver = false;
+
     private void move(int direction) {
         List<Field> fieldsCopies = game.getCopyOfTheBoard();
         // TODO: 16.08.2020 sprawdzic czy to cokolwiek daje
@@ -586,6 +588,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         } catch (GameOverException e) {
             e.printStackTrace();
+            this.isGameOver = true;
             changeToEndActivity();
         } catch (GoalAchievedException e) {
             e.printStackTrace();
@@ -598,8 +601,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
 
     private void updateActivityAfterMove(List<Field> fieldsCopies, int direction) {
         this.animate(fieldsCopies, direction);
-        this.setScoreTexts();
-        undoButton.setUndoNumber();
+        if (isGameOver) {
+            this.setScoreTexts();
+            undoButton.setUndoNumber();
+        }
     }
 
 

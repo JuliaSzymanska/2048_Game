@@ -572,8 +572,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.setTextHighScoreText();
     }
 
-    private Lock lock = new ReentrantLock();
-
     /**
      * Makes move in appropriate direction and calls move animation.
      *

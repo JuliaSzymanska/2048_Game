@@ -79,7 +79,13 @@ public class GyroscopeMovement implements Runnable {
                 }
             }
             finally {
-                GyroscopeMovement.lock.unlock();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    GyroscopeMovement.lock.unlock();
+                }
             }
         }
     }

@@ -87,7 +87,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private TextView textHighScore;
     private TextView textTime;
 
-    private Button restartGameButton;
     private Button pausePlayButton;
     private UndoButton undoButton;
 
@@ -140,8 +139,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.textTime = (TextView) findViewById(R.id.time);
         this.prepareScoreText();
         this.prepareHighscoreText();
-
-        this.restartGameButton = (Button) findViewById(R.id.restartGameButton);
 
         this.undoButton = (UndoButton) findViewById(R.id.undoMoveButton);
         this.undoButton.setGame(this.game);

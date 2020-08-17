@@ -32,7 +32,7 @@ import com.game.a2048_app.EndGame;
 import com.game.a2048_app.OnSwipeTouchListener;
 import com.game.a2048_app.R;
 import com.game.a2048_app.boardActivity.Sensors.DarkMode;
-import com.game.a2048_app.boardActivity.Sensors.GyroscopeMovement;
+import com.game.a2048_app.boardActivity.Sensors.OrientationSensors;
 import com.game.a2048_app.boardActivity.Sensors.StopGameProximity;
 import com.game.a2048_app.boardActivity.buttons.UndoButton;
 import com.game.a2048_app.helpers.DarkModeHelper;
@@ -63,7 +63,7 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     private Drawable[] fieldsBackground;
     private Preloader preloader = Preloader.getInstance();
     private Drawable mThumbIds = preloader.getButtonBlue();
-    private GyroscopeMovement gyroscopeMovement;
+    private OrientationSensors orientationSensors;
     private StopGameProximity stopGameProximity;
     private DarkMode darkMode;
 
@@ -120,7 +120,7 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         this.fieldsBackground = new Drawable[fields.length];
         Arrays.fill(fieldsImages, preloader.getZero());
         Arrays.fill(fieldsBackground, mThumbIds);
-        this.gyroscopeMovement = new GyroscopeMovement(this);
+        this.orientationSensors = new OrientationSensors(this);
         this.stopGameProximity = new StopGameProximity(this, this.game);
         this.darkMode = new DarkMode(this);
     }
@@ -309,15 +309,15 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         //
         // Check to ensure sensors are available before registering listeners.
         if (mSensorGyroscope != null) {
-            mSensorManager.registerListener(gyroscopeMovement, mSensorGyroscope,
+            mSensorManager.registerListener(orientationSensors, mSensorGyroscope,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorAccelerometer != null) {
-            mSensorManager.registerListener(gyroscopeMovement, mSensorAccelerometer,
+            mSensorManager.registerListener(orientationSensors, mSensorAccelerometer,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorMagnetometer != null) {
-            mSensorManager.registerListener(gyroscopeMovement, mSensorMagnetometer,
+            mSensorManager.registerListener(orientationSensors, mSensorMagnetometer,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorLight != null) {

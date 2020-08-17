@@ -576,6 +576,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      *
      * @param direction of movement.
      */
+
     private void move(int direction) {
         List<Field> fieldsCopies = game.getCopyOfTheBoard();
         // TODO: 16.08.2020 sprawdzic czy to cokolwiek daje
@@ -738,7 +739,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
      * Saves score, high score and user authentication to next activity.
      */
     private void changeToEndActivity() {
-        System.out.println("DZIEJ SIE PROSZE");
         Intent i = new Intent(BoardActivity.this, EndGame.class);
         i.putExtra(getResources().getString(R.string.score), Integer.toString(game.getScore()));
         i.putExtra(getResources().getString(R.string.high_score), Integer.toString(game.getHighScore()));

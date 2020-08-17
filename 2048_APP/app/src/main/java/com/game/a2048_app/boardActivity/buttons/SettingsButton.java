@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.game.a2048_app.R;
@@ -77,6 +78,8 @@ public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
             }
         });
         AlertDialog dialog = builder.create();
+        dialog.getWindow().getDecorView().setBackgroundResource(R.drawable.background);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, 1000);
         dialog.setOnShowListener(disableUnavailableSensorsInDialog);
         dialog.show();
     }

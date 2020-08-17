@@ -17,11 +17,6 @@ public class GyroscopeMovement implements Runnable {
     private final static float MIN_GYRO_VALUE_HORIZONTAL = 3f;
     private final static float MIN_GYRO_VALUE_VERTICAL = 2f;
 
-    private final static float RESET_GYRO_VALUE = 0.3f;
-
-    private final static float DETECT_MOVE_PITCH = 0.3f;
-    private final static float DETECT_MOVE_ROLL = 0.3f;
-
     private final static double MIN_PITCH = 0.05;
     private final static double MIN_ROLL = 0.05;
 
@@ -30,9 +25,6 @@ public class GyroscopeMovement implements Runnable {
     private float[] mMagnetometerData;
     private Context context;
     private OurCustomListenerFIXMERenameME ourCustomListenerFIXMERenameME;
-
-    private final static float RESET_PITCH = 0.2f;
-    private final static float RESET_ROLL = 0.2f;
 
     public GyroscopeMovement(Context context, float[] mGyroscopeData, float[] mAccelerometerData, float[] mMagnetometerData) {
         this.context = context;

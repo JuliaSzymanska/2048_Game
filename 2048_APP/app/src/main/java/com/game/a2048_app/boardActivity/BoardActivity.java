@@ -33,7 +33,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.game.a2048_app.EndGame;
 import com.game.a2048_app.OnSwipeTouchListener;
 import com.game.a2048_app.R;
-import com.game.a2048_app.boardActivity.Sensors.AccelerometerMagnetometerMovement;
 import com.game.a2048_app.boardActivity.Sensors.ChangeColourMagnetometer;
 import com.game.a2048_app.boardActivity.Sensors.DarkMode;
 import com.game.a2048_app.boardActivity.Sensors.GyroscopeMovement;
@@ -578,19 +577,19 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private void move(int direction) {
         List<Field> fieldsCopies = game.getCopyOfTheBoard();
         // TODO: 16.08.2020 sprawdzic czy to cokolwiek daje
-            try {
-                game.move(direction);
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            } catch (GameOverException e) {
-                e.printStackTrace();
-                changeToEndActivity();
-            } catch (GoalAchievedException e) {
-                e.printStackTrace();
-                goalAchieved();
-            } finally {
-                updateActivityAfterMove(fieldsCopies, direction);
-            }
+        try {
+            game.move(direction);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        } catch (GameOverException e) {
+            e.printStackTrace();
+            changeToEndActivity();
+        } catch (GoalAchievedException e) {
+            e.printStackTrace();
+            goalAchieved();
+        } finally {
+            updateActivityAfterMove(fieldsCopies, direction);
+        }
     }
 
 
@@ -776,9 +775,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
             // TODO: 15.07.2020 rename all Runnable classes to things that make sense
             case Sensor.TYPE_ACCELEROMETER:
                 mAccelerometerData = event.values.clone();
-                if (chosenSensors[0]) {
-                    new Thread(new AccelerometerMagnetometerMovement(this, mAccelerometerData, mMagnetometerData)).start();
-                }
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
                 mMagnetometerData = event.values.clone();
@@ -800,8 +796,9 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 break;
             case Sensor.TYPE_GYROSCOPE:
                 mGyroscopeData = event.values;
-                // TODO: 16.08.2020 if in settings
-                new Thread(new GyroscopeMovement(this, mGyroscopeData, mAccelerometerData, mMagnetometerData)).start();
+                if (chosenSensors[0]) {
+                    new Thread(new GyroscopeMovement(this, mGyroscopeData, mAccelerometerData, mMagnetometerData)).start();
+                }
                 break;
             default:
                 // FIXME: 15.07.2020, nie powinno być runtime ale nie chce dodawać throws wszędzie dla placeholdera

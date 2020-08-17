@@ -773,6 +773,12 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         int sensorType = event.sensor.getType();
         switch (sensorType) {
             // TODO: 15.07.2020 rename all Runnable classes to things that make sense
+            case Sensor.TYPE_GYROSCOPE:
+                mGyroscopeData = event.values;
+                if (chosenSensors[0]) {
+                    new Thread(new GyroscopeMovement(this, mGyroscopeData, mAccelerometerData, mMagnetometerData)).start();
+                }
+                break;
             case Sensor.TYPE_ACCELEROMETER:
                 mAccelerometerData = event.values.clone();
                 break;
@@ -792,12 +798,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 float mProximityData = event.values[0];
                 if (chosenSensors[3]) {
                     new Thread(new StopGameProximity(this, mProximityData, this.game)).start();
-                }
-                break;
-            case Sensor.TYPE_GYROSCOPE:
-                mGyroscopeData = event.values;
-                if (chosenSensors[0]) {
-                    new Thread(new GyroscopeMovement(this, mGyroscopeData, mAccelerometerData, mMagnetometerData)).start();
                 }
                 break;
             default:

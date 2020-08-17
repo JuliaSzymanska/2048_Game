@@ -66,6 +66,7 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
     private Preloader preloader = Preloader.getInstance();
     private Drawable mThumbIds = preloader.getButtonBlue();
     private StopGameProximity stopGameProximity;
+    private DarkMode darkMode;
 
     // System sensor manager instance.
     private SensorManager mSensorManager;
@@ -124,6 +125,8 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         this.fieldsBackground = new Drawable[fields.length];
         Arrays.fill(fieldsImages, preloader.getZero());
         Arrays.fill(fieldsBackground, mThumbIds);
+        this.stopGameProximity = new StopGameProximity(this, this.game);
+        this.darkMode = new DarkMode(this);
     }
 
 
@@ -309,6 +312,10 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
         // can be unregistered in onStop().
         //
         // Check to ensure sensors are available before registering listeners.
+        if (mSensorGyroscope != null) {
+            mSensorManager.registerListener(this, mSensorGyroscope,
+                    SensorManager.SENSOR_DELAY_GAME);
+        }
         if (mSensorAccelerometer != null) {
             mSensorManager.registerListener(this, mSensorAccelerometer,
                     SensorManager.SENSOR_DELAY_GAME);
@@ -318,15 +325,11 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorLight != null) {
-            mSensorManager.registerListener(this, mSensorLight,
+            mSensorManager.registerListener(darkMode, mSensorLight,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         if (mSensorProximity != null) {
-            mSensorManager.registerListener(this, mSensorProximity,
-                    SensorManager.SENSOR_DELAY_GAME);
-        }
-        if (mSensorGyroscope != null) {
-            mSensorManager.registerListener(this, mSensorGyroscope,
+            mSensorManager.registerListener(stopGameProximity, mSensorProximity,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         unPauseGameWithButton();
@@ -789,18 +792,6 @@ public class BoardActivity extends AppCompatActivity implements SensorEventListe
                 mMagnetometerData = event.values.clone();
                 if (chosenSensors[1]) {
                     new Thread(new ChangeColourMagnetometer(this, mAccelerometerData, mMagnetometerData)).start();
-                }
-                break;
-            case Sensor.TYPE_LIGHT:
-                float mLightData = event.values[0];
-                if (chosenSensors[2]) {
-                    new Thread(new DarkMode(mLightData, this)).start();
-                }
-                break;
-            case Sensor.TYPE_PROXIMITY:
-                float mProximityData = event.values[0];
-                if (chosenSensors[3]) {
-                    new Thread(new StopGameProximity(this, mProximityData, this.game)).start();
                 }
                 break;
             default:

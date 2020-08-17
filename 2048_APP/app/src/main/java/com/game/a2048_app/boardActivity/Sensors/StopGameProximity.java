@@ -9,6 +9,8 @@ import com.game.a2048_app.R;
 import com.game.a2048_app.boardActivity.BoardActivityListener;
 import com.game.module.Game;
 
+import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
+
 /**
  * Pauses or unpauses game depending on proximity level.
  */
@@ -16,8 +18,7 @@ public class StopGameProximity implements Runnable, SensorEventListener {
 
     private final static int PROXIMITY_DISTANCE = 5;
 
-    public StopGameProximity(Context context, float mProximityData, Game game) {
-        this.mProximityData = mProximityData;
+    public StopGameProximity(Context context, Game game) {
         this.context = context;
         this.game = game;
         this.boardActivityListener = (BoardActivityListener) context;
@@ -42,7 +43,10 @@ public class StopGameProximity implements Runnable, SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-
+        mProximityData = event.values[0];
+        if (chosenSensors[3]) {
+            new Thread(this).start();
+        }
     }
 
     @Override

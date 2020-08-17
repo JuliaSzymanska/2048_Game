@@ -1,18 +1,22 @@
 package com.game.a2048_app.boardActivity.Sensors;
 
 import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 
 import com.game.a2048_app.R;
 import com.game.a2048_app.boardActivity.BoardActivityListener;
 import com.game.a2048_app.helpers.PreferencesHelper;
 
+import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
+
 /**
  * Sets dark or light mode depending on the light level.
  */
-public class DarkMode implements Runnable {
+public class DarkMode implements Runnable, SensorEventListener {
 
-    public DarkMode(float mLightData, Context context) {
-        this.mLightData = mLightData;
+    public DarkMode(Context context) {
         this.context = context;
         this.boardActivityListener = (BoardActivityListener) context;
     }
@@ -36,5 +40,18 @@ public class DarkMode implements Runnable {
             preferencesHelper.setDarkTheme(false);
             boardActivityListener.callback(context.getString(R.string.SetTheme));
         }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        this.mLightData = event.values[0];
+        if (chosenSensors[2]) {
+            new Thread(this).start();
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }

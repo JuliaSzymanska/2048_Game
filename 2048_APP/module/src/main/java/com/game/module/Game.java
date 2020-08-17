@@ -61,6 +61,7 @@ public class Game {
             }
         }
         this.saveGameBackgroundThread = new Thread(this.saveGameBackgroundRunnable);
+        this.saveGameBackgroundThread.start();
     }
 
     /**

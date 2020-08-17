@@ -15,9 +15,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 class GameSaveDao implements Dao<Board, Integer, Long> {
+
+    private static Lock lock = new ReentrantLock();
 
     private String filename;
     private Context context;
@@ -61,13 +65,17 @@ class GameSaveDao implements Dao<Board, Integer, Long> {
 
     @Override
     public void write(Board board, Integer score, Long time) throws IOException {
-        try(FileOutputStream fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
-            List<Object> list = new ArrayList<Object>();
-            list.add(board);
-            list.add(score);
-            list.add(time);
-            objectOutputStream.writeObject(list);
+        if (lock.tryLock()) {
+            try (FileOutputStream fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+                List<Object> list = new ArrayList<Object>();
+                list.add(board);
+                list.add(score);
+                list.add(time);
+                objectOutputStream.writeObject(list);
+            } finally {
+                lock.unlock();
+            }
         }
     }
 

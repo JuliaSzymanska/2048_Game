@@ -862,6 +862,9 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         };
     }
 
+    /**
+     * Unregisters listeners for sensors.
+     */
     private void unregisterSensors() {
         mSensorManager.unregisterListener(darkMode);
         mSensorManager.unregisterListener(stopGameProximity);

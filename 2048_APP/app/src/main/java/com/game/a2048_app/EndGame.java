@@ -54,6 +54,9 @@ public class EndGame extends AppCompatActivity {
         ((SwipeUpCreditsButton) findViewById(R.id.authors)).setupSwipeTopListener(this, findViewById(R.id.endGame));
     }
 
+    /**
+     * Get data passed from {@link com.game.a2048_app.boardActivity.BoardActivity}
+     */
     private void getExtrasFromIntent() {
         Intent intent = getIntent();
         String score = intent.getStringExtra(getResources().getString(R.string.score));

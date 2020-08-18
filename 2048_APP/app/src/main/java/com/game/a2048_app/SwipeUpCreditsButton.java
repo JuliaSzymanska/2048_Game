@@ -10,6 +10,13 @@ import com.game.a2048_app.credits.Credits;
 import com.game.a2048_app.helpers.Preloader;
 
 
+/**
+ * Button used in {@link MainActivity} and {@link EndGame} to open the {@link Credits} activity.
+ * Pressing the button takes the user to {@link Credits}. Using the button in an Activity also implements {@link OnSwipeTouchListener#onSwipeTop()}
+ * That performs the same action as pressing the button.
+ *
+ */
+
 public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatButton {
     private Preloader preloader = Preloader.getInstance();
     private Context context;
@@ -38,9 +45,8 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
 
     private OnClickListener onClickListener = new OnClickListener() {
         /**
-         * Called when a view has been clicked.
-         *
-         * @param v The view that was clicked.
+         * {@inheritDoc}
+         * Takes the user to {@link Credits} Activity.
          */
         @Override
         public void onClick(View v) {

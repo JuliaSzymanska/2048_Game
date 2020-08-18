@@ -12,6 +12,9 @@ public class SplashActivity extends AppCompatActivity {
 
     private final static int SPLASH_TIME_OUT = 1000;
 
+    /**
+     * Loads assets into memory using {@link Preloader}
+     */
     private Runnable loadImagesRunnable = new Runnable() {
         @Override
         public void run() {
@@ -22,6 +25,10 @@ public class SplashActivity extends AppCompatActivity {
     };
 
     private Thread loadImagesThread;
+
+    /**
+     * Waits for all the assets in {@link Preloader} to load.
+     */
 
     private Runnable waitForLoadImagesThreadRunnable = new Runnable() {
         @Override

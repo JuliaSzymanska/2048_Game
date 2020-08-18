@@ -44,6 +44,12 @@ public class OrientationSensors implements SensorEventListener {
         this.boardActivityListener = (BoardActivityListener) context;
     }
 
+    /**
+     *
+     * @return {@link SensorManager#getOrientation(float[], float[])} with a rotation matrix optained from
+     * {@link SensorManager#getRotationMatrix(float[], float[], float[], float[])}
+     */
+
     private float[] getOrientationValues() {
         float[] rotationMatrix = new float[9];
         boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
@@ -54,6 +60,11 @@ public class OrientationSensors implements SensorEventListener {
         }
         return orientationValues;
     }
+
+    /**
+     * Method to check the current Gyroscope, Magnetometer and Accelerometer values and use {@link BoardActivityListener#callback(String)}
+     * on parent {@link com.game.a2048_app.boardActivity.BoardActivity} class to cause a move in {@link com.game.module.Game}.
+     */
 
     private class MakeMove implements Runnable {
 
@@ -89,6 +100,11 @@ public class OrientationSensors implements SensorEventListener {
         }
     }
 
+    /**
+     * Method to check the current Gyroscope, Magnetometer and Accelerometer values and use {@link BoardActivityListener#callback(String)}
+     * on parent {@link com.game.a2048_app.boardActivity.BoardActivity} class to change the background colours of the displayed game board
+     * depending on the direction of the world the phone is currently pointing towards.
+     */
 
     private class ChangeColour implements Runnable {
 
@@ -114,6 +130,12 @@ public class OrientationSensors implements SensorEventListener {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * Calls {@link ChangeColour} or {@link MakeMove} depending on the {@link SensorEvent} and updates the
+     * {@link OrientationSensors#mGyroscopeData}, {@link OrientationSensors#mAccelerometerData},
+     * {@link OrientationSensors#mMagnetometerData} variables.
+     */
     @Override
     public void onSensorChanged(SensorEvent event) {
         int sensorType = event.sensor.getType();
@@ -133,6 +155,9 @@ public class OrientationSensors implements SensorEventListener {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 

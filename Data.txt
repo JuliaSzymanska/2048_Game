@@ -22,6 +22,7 @@ https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bm
 BMI160 Gyroscope BOSCH ++
 
 
+
 AK09915 Magnetometer AKM:  ++ SPI/I2C
 https://www.akm.com/content/dam/documents/products/electronic-compass/ak09915c/ak09915c-en-datasheet.pdf
 

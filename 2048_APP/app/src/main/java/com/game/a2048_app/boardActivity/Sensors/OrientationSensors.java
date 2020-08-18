@@ -78,13 +78,13 @@ public class OrientationSensors implements SensorEventListener {
                     float pitch = orientationValues[1];
                     float roll = orientationValues[2];
 
-                    if (mGyroscopeData[0] > MIN_GYRO_VALUE_VERTICAL && pitch < MIN_PITCH) {
+                    if (mGyroscopeData[0] > MIN_GYRO_VALUE_VERTICAL && pitch < -MIN_PITCH) {
                         boardActivityListener.callback(context.getString(R.string.MoveDown));
                     } else if (mGyroscopeData[0] < -MIN_GYRO_VALUE_VERTICAL && pitch > MIN_PITCH) {
                         boardActivityListener.callback(context.getString(R.string.MoveUP));
                     } else if (mGyroscopeData[1] > MIN_GYRO_VALUE_HORIZONTAL && roll > MIN_ROLL) {
                         boardActivityListener.callback(context.getString(R.string.MoveRight));
-                    } else if (mGyroscopeData[1] < -MIN_GYRO_VALUE_HORIZONTAL && roll < MIN_ROLL) {
+                    } else if (mGyroscopeData[1] < -MIN_GYRO_VALUE_HORIZONTAL && roll < -MIN_ROLL) {
                         boardActivityListener.callback(context.getString(R.string.MoveLeft));
                     }
                 } finally {

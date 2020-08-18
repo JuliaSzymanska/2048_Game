@@ -45,7 +45,6 @@ public class OrientationSensors implements SensorEventListener {
     }
 
     /**
-     *
      * @return {@link SensorManager#getOrientation(float[], float[])} with a rotation matrix optained from
      * {@link SensorManager#getRotationMatrix(float[], float[], float[], float[])}
      */

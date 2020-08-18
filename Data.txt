@@ -2,10 +2,15 @@ HUAWEI P20 PRO
 
 Accelerometer - accelerometer-icm20690 ++ SPI/I2C
 Gyroscope - gyroscope-icm20690 ++ 
+https://invensense.tdk.com/wp-content/uploads/2016/10/DS-000178-ICM-20690-v1.0.pdf
+
+
 Magnetic - mag-akm09918   ++ 
+https://www.akm.com/content/dam/documents/products/electronic-compass/ak09918c/ak09918c-en-datasheet.pdf
+
+
 Light - light-liteon-ltr582
 Proximity - proximity-ltr582
-
 
 http://www.deviceinfohw.ru/devices/index.php?platform=platform0&cpu=cpu0&brand=brand0&filter=CLT-L29&submit=Search
 
@@ -13,12 +18,18 @@ HTC U 11
 BMI160 Accelerometer BOSCH: ++ SPI/I2C
 https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi160-ds000.pdf
 
+
 BMI160 Gyroscope BOSCH ++
-BMI160 Step Counter BOSCH ++
+
+
 AK09915 Magnetometer AKM:  ++ SPI/I2C
 https://www.akm.com/content/dam/documents/products/electronic-compass/ak09915c/ak09915c-en-datasheet.pdf
 
 CM36686 Proximity Sensor Capella +
+
+
 CM36686 Light Sensor Capella +
+
+
 FPC1020 FingerPrint: ++ SPI
 http://www.shenzhen2u.com/doc/Module/Fingerprint/710-FPC1020_PB3_Product-Specification.pdf

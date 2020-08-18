@@ -30,6 +30,11 @@ public class DarkMode implements Runnable, SensorEventListener {
     private final static int DARK_MODE_ENABLE_LIGHT = 30;
     private final static int DARK_MODE_DISABLE_LIGHT = 50;
 
+
+    /**
+     * {@inheritDoc}
+     * Calls {@link BoardActivityListener} to change the theme of the parent activity.
+     */
     @Override
     public void run() {
         // Light Sensor - gdy jest ciemno włącza się dark mode
@@ -42,6 +47,9 @@ public class DarkMode implements Runnable, SensorEventListener {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onSensorChanged(SensorEvent event) {
         this.mLightData = event.values[0];

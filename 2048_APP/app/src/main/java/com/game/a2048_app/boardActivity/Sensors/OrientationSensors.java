@@ -145,13 +145,16 @@ public class OrientationSensors implements SensorEventListener {
                 if (chosenSensors[0]) {
                     new Thread(new MakeMove()).start();
                 }
+                break;
             case Sensor.TYPE_ACCELEROMETER:
                 this.mAccelerometerData = event.values.clone();
+                break;
             case Sensor.TYPE_MAGNETIC_FIELD:
                 mMagnetometerData = event.values.clone();
                 if (chosenSensors[1]) {
                     new Thread(new ChangeColour()).start();
                 }
+                break;
         }
     }
 

@@ -48,6 +48,7 @@ public class Board implements Serializable {
         this.board = newFieldsList();
         this.amountMovedList = newAmountMovedList();
         this.resetBoard();
+        this.setVariablesToDefault();
     }
 
     /**

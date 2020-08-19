@@ -7,40 +7,19 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-
 import com.game.a2048_app.R;
 import com.game.a2048_app.boardActivity.BoardActivityListener;
 import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
 import com.game.module.Game;
 
-// TODO: 09.08.2020 dodac xml
-
 public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
+
     private Game game;
     private TextView undoTextView;
     private Preloader preloader = Preloader.getInstance();
     private Context context;
     private BoardActivityListener boardActivityListener;
-
-    private OnClickListener onClickListener = new OnClickListener() {
-        /**
-         * Called when a view has been clicked.
-         *
-         * @param v The view that was clicked.
-         */
-        @Override
-        public void onClick(View v) {
-           undoButtonOnClick(v);
-        }
-    };
-
-    private void setupButton(Context context) {
-        this.context = context;
-        this.setOnClickListener(this.onClickListener);
-        this.undoTextView = findViewById(R.id.undoMoveButton);
-        this.boardActivityListener = (BoardActivityListener) context;
-    }
 
     public UndoButton(Context context) {
         super(context);
@@ -57,12 +36,41 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
         this.setupButton(context);
     }
 
-    // TODO: 09.08.2020 Cos tak czulem zeby zostawic singleton ehh
+    private OnClickListener onClickListener = new OnClickListener() {
+        /**
+         * Called when a view has been clicked.
+         *
+         * @param v The view that was clicked.
+         */
+        @Override
+        public void onClick(View v) {
+            undoButtonOnClick(v);
+        }
+    };
+
+    /**
+     * Sets class context, on click listener and amount of available undo's.
+     * @param context context from activity.
+     */
+    private void setupButton(Context context) {
+        this.context = context;
+        this.setOnClickListener(this.onClickListener);
+        this.undoTextView = findViewById(R.id.undoMoveButton);
+        this.boardActivityListener = (BoardActivityListener) context;
+    }
+
+    /**
+     * Sets class attribute to param.
+     * @param game current game.
+     */
     public void setGame(Game game) {
         this.game = game;
         this.setUndoNumber();
     }
 
+    /**
+     * Calls method after sound finished.
+     */
     private MediaPlayer.OnCompletionListener setUndoAmountListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
@@ -70,6 +78,11 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
         }
     };
 
+    /**
+     * Method called by on click listener. Play sound and change button's image.
+     * Calls game's method to undo previous move.
+     * @param v View
+     */
     public void undoButtonOnClick(View v) {
         this.setBackground(preloader.getUndoClicked());
         SoundPlayer soundPlayer = SoundPlayer.getInstance();

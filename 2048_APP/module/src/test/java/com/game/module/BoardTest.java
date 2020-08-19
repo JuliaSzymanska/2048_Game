@@ -348,7 +348,6 @@ public class BoardTest {
                 newFieldsCounter++;
             }
         }
-        // TODO: 31.05.2020 zrobic drugi test ktory sprawdzi czy po ruchu tworzy sie nowe pole
         Assert.assertEquals(newFieldsCounter, 2);
     }
 
@@ -365,7 +364,8 @@ public class BoardTest {
         while (counter < 5) {
             try {
                 board.moveRight();
-            } catch (GameOverException | GoalAchievedException ignored) { }
+            } catch (GameOverException | GoalAchievedException ignored) {
+            }
             int newFieldsCounter = 0;
             for (Field f : board.getCopyBoard()) {
                 if (f.getValue() != 0) {
@@ -383,15 +383,12 @@ public class BoardTest {
     @Test
     public void copyBoardTest() {
         Board board = new Board(this.integers);
-        List<Field> copyBoard = board.getBoard();
+        List<Field> copyBoard = board.getCopyBoard();
         for (Pair<Field, Field> item : zip(copyBoard, board.getBoard())) {
             Assert.assertEquals(item.getLeft(), item.getRight());
         }
         copyBoard.get(7).setValue(16);
-        // TODO: 03.06.2020 nie przechodzi dlatego ze teraz kopja planszy nie jest kopia
-        //  tylko przepisuje referencje
-        //  bedzie trzeba poprawic jak sie przerzucimy na prawdziwa kopie znowu
-//        Assert.assertNotEquals(copyBoard.get(7), board.getCopyBoard().get(7));
+        Assert.assertNotEquals(copyBoard.get(7), board.getCopyBoard().get(7));
     }
 
 
@@ -543,7 +540,7 @@ public class BoardTest {
         }
         int counter = 0;
         for (Pair<Integer, Integer> item : zip(moveUpAmountsMoved, board.getAmountMovedListCopyAndWipeAmountMovedList())) {
-            if(integers.get(counter) != 0) {
+            if (integers.get(counter) != 0) {
                 Assert.assertEquals(item.getLeft(), item.getRight());
             }
             counter++;

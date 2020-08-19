@@ -540,7 +540,6 @@ public class Board implements Serializable {
      * @param index      index of the field to start with.
      * @see #removeZerosInMove(List, List)
      */
-    // TODO: 25.07.2020 w liscie trzeba inkrementowac dla indeksow dla pol ktore się przesuenly
     private void moveFieldsPositions(List<Field> fieldsList, int index, List<Integer> moveCountList) {
         for (int i = index; i >= 0; i--) {
             if (i > 0) {
@@ -644,7 +643,6 @@ public class Board implements Serializable {
                 //jesli nie jest to ostatni element oraz to pole i pole na indexie sa rowne i pole ma wartosc rozna od 0 to
                 if (i != 0 && fieldsList.get(i).getValue() == fieldsList.get(index).getValue() && fieldsList.get(i).getValue() != 0) {
                     //podnies do kwadratu wartosc pola
-                    // TODO: 26.07.2020 tutaj też jest sprawdzanie o ile się ruszyło, jeżeli kasujemy frajera(laczymy klocek)
                     if (!hasJoinedFields) {
                         for (int j = index; j >= 0; j--) {
                             moveCountList.set(j, moveCountList.get(j) + 1);

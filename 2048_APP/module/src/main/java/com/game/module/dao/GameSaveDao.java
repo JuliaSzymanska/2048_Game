@@ -31,7 +31,6 @@ class GameSaveDao implements Dao<Board, Integer, Long> {
         this.context = context;
     }
 
-    // TODO: 24.07.2020 PAMIETAJ O MNIE PRZEMKU
     @Nullable
     @Override
     public Triple<Board, Integer, Long> read() throws IOException, ClassNotFoundException, NullPointerException {

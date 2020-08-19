@@ -14,6 +14,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -352,6 +353,34 @@ public class BoardTest {
     }
 
     @Test
+    public void createNewValueAfterMoveTest() {
+        Board board = new Board();
+        int fieldsCounter = 0;
+        for (Field f : board.getCopyBoard()) {
+            if (f.getValue() != 0) {
+                fieldsCounter++;
+            }
+        }
+        int counter = 0;
+        while (counter < 5) {
+            try {
+                board.moveRight();
+            } catch (GameOverException | GoalAchievedException ignored) { }
+            int newFieldsCounter = 0;
+            for (Field f : board.getCopyBoard()) {
+                if (f.getValue() != 0) {
+                    newFieldsCounter++;
+                }
+            }
+            if (newFieldsCounter > fieldsCounter)
+                break;
+            counter++;
+        }
+        if (counter >= 5)
+            fail();
+    }
+
+    @Test
     public void copyBoardTest() {
         Board board = new Board(this.integers);
         List<Field> copyBoard = board.getBoard();
@@ -364,6 +393,7 @@ public class BoardTest {
         //  bedzie trzeba poprawic jak sie przerzucimy na prawdziwa kopie znowu
 //        Assert.assertNotEquals(copyBoard.get(7), board.getCopyBoard().get(7));
     }
+
 
     @Test
     public void getScoreTest() {

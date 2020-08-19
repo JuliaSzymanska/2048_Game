@@ -17,6 +17,10 @@ public class SwipeDownCreditsButton extends androidx.appcompat.widget.AppCompatB
     private Preloader preloader = Preloader.getInstance();
     private Context context;
 
+    /**
+     * Inizializes class context.
+     * @param context context from activity.
+     */
     public void initContext(Context context) {
         this.context = context;
     }
@@ -39,6 +43,7 @@ public class SwipeDownCreditsButton extends androidx.appcompat.widget.AppCompatB
         this.prepareButton();
     }
 
+
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         /**
          * Called when a view has been clicked.
@@ -51,6 +56,9 @@ public class SwipeDownCreditsButton extends androidx.appcompat.widget.AppCompatB
         }
     };
 
+    /**
+     * Calls method to set button's image and set on click listener.
+     */
     private void prepareButton() {
         this.setSwipeUpCreditsImage();
         this.setOnClickListener(this.onClickListener);
@@ -87,7 +95,6 @@ public class SwipeDownCreditsButton extends androidx.appcompat.widget.AppCompatB
             ((Activity) this.context).overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
         }
     }
-
 
     public void setupSwipeBottomListener(final Context context, View view) {
         OnSwipeTouchListener onSwipeTouchListener = new OnSwipeTouchListener(context, view);

@@ -128,11 +128,10 @@ public class Game {
             }
         } catch (GameOverException e) {
             this.saveGameBackgroundThread.interrupt();
-            // TODO: 21.07.2020 String
-            throw new GameOverException("", e);
+            throw new GameOverException(e.getLocalizedMessage(), e);
         } catch (GoalAchievedException e) {
             this.updateHighScore();
-            throw new GoalAchievedException("", e);
+            throw new GoalAchievedException(e.getLocalizedMessage(), e);
         }
     }
 
@@ -223,7 +222,6 @@ public class Game {
                 this.highScore = daoBoard.read().getMiddle();
                 this.gameBeginTime = System.nanoTime() - daoBoard.read().getRight();
             } catch (IOException | ClassNotFoundException | NullPointerException e) {
-                // FIXME: 18.07.2020
                 e.printStackTrace();
                 throw new LoadException(e);
             } catch (Exception e) {
@@ -287,7 +285,6 @@ public class Game {
             this.gameBeginTime = System.nanoTime() - this.pausedTimeDuration;
             this.pausedTimeDuration = 0;
             if (this.saveGameBackgroundThread.isInterrupted()) {
-                // TODO: 23.07.2020 nie jestem pewien czy to takie dobre jest 
                 this.saveGameBackgroundThread = new Thread(this.saveGameBackgroundRunnable);
             }
         }
@@ -401,9 +398,6 @@ public class Game {
      */
     @Override
     protected void finalize() throws Throwable {
-        // TODO: 21.07.2020 nie jestem pewien czy to np może być tutaj null i się wywalić?
-        //  albo może jak juz jest przerwany to nie można drugi raz przerwać?
-        //  sprawdzić i ewentualnie usunąc ify
         if (this.saveGameBackgroundThread != null && !this.saveGameBackgroundThread.isInterrupted()) {
             this.saveGameBackgroundThread.interrupt();
         }

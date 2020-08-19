@@ -17,7 +17,6 @@ import com.game.a2048_app.helpers.SoundPlayer;
 
 import java.util.Objects;
 
-// TODO: 09.08.2020 dodać xml
 public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
 
     PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
@@ -26,6 +25,25 @@ public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
     public final static boolean[] chosenSensors = new boolean[]{false, false, false, false};
     private Context context;
 
+    public SettingsButton(Context context) {
+        super(context);
+        this.setupButton(context);
+    }
+
+    public SettingsButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.setupButton(context);
+    }
+
+    public SettingsButton(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        this.setupButton(context);
+    }
+
+    /**
+     * Sets class context and on click listener to button.
+     * @param context context from activity.
+     */
     private void setupButton(Context context) {
         this.context = context;
         this.setOnClickListener(this.onClickListener);
@@ -42,21 +60,6 @@ public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
             settingsButtonOnClick(v);
         }
     };
-
-    public SettingsButton(Context context) {
-        super(context);
-        this.setupButton(context);
-    }
-
-    public SettingsButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        this.setupButton(context);
-    }
-
-    public SettingsButton(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        this.setupButton(context);
-    }
 
     /**
      * Creates button on click listener to open settings dialog.

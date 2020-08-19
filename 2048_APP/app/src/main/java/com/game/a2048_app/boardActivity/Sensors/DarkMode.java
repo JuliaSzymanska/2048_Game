@@ -16,11 +16,6 @@ import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSens
  */
 public class DarkMode implements Runnable, SensorEventListener {
 
-    public DarkMode(Context context) {
-        this.context = context;
-        this.boardActivityListener = (BoardActivityListener) context;
-    }
-
     private Context context;
 
     private PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
@@ -30,6 +25,15 @@ public class DarkMode implements Runnable, SensorEventListener {
     private final static int DARK_MODE_ENABLE_LIGHT = 30;
     private final static int DARK_MODE_DISABLE_LIGHT = 50;
 
+    /**
+     * Default class constructor. Sets class context.
+     *
+     * @param context context from activity.
+     */
+    public DarkMode(Context context) {
+        this.context = context;
+        this.boardActivityListener = (BoardActivityListener) context;
+    }
 
     /**
      * {@inheritDoc}
@@ -37,7 +41,6 @@ public class DarkMode implements Runnable, SensorEventListener {
      */
     @Override
     public void run() {
-        // Light Sensor - gdy jest ciemno włącza się dark mode
         if (mLightData <= DARK_MODE_ENABLE_LIGHT && !preferencesHelper.getDarkTheme()) {
             preferencesHelper.setDarkTheme(true);
             boardActivityListener.callback(context.getString(R.string.SetTheme));
@@ -58,6 +61,9 @@ public class DarkMode implements Runnable, SensorEventListener {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 

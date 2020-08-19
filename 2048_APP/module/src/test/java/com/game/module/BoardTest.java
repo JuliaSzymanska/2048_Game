@@ -500,10 +500,10 @@ public class BoardTest {
     // TODO: 24.07.2020 zmienic
     @Test
     public void hashCodeTest() {
-        Board board1 = new Board();
-        Board board2 = new Board();
-        if (board1.hashCode() != board2.hashCode())
-            assertNotEquals(board1, board2);
+        Board board1 = new Board(integers);
+        Board board2 = new Board(integers);
+        assertEquals(board1, board2);
+        assertEquals(board1.hashCode(), board2.hashCode());
     }
 
     private List<Integer> moveUpAmountsMoved = new ArrayList<Integer>() {

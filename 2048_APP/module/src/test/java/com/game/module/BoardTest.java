@@ -361,7 +361,7 @@ public class BoardTest {
             }
         }
         int counter = 0;
-        while (counter < 5) {
+        while (counter < 10) {
             try {
                 board.moveRight();
             } catch (GameOverException | GoalAchievedException ignored) {
@@ -376,7 +376,7 @@ public class BoardTest {
                 break;
             counter++;
         }
-        if (counter >= 5)
+        if (counter >= 10)
             fail();
     }
 
@@ -497,7 +497,6 @@ public class BoardTest {
         assertEquals(board1, board2);
     }
 
-    // TODO: 24.07.2020 zmienic
     @Test
     public void hashCodeTest() {
         Board board1 = new Board(integers);

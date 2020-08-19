@@ -3,6 +3,8 @@ package com.game.module;
 import com.game.module.exceptions.GameOverException;
 import com.game.module.exceptions.GoalAchievedException;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,23 +27,6 @@ public class GameTest {
     public void move() {
         Game game = new Game(false, null);
         int score = game.getScore();
-        int counter = 0;
-        while (score >= game.getScore() && counter < 3) {
-            try {
-                game.move(Game.MOVE_RIGHT);
-                game.move(Game.MOVE_LEFT);
-                game.move(Game.MOVE_UP);
-                game.move(Game.MOVE_DOWN);
-
-                assertTrue(score < game.getScore());
-                score = game.getScore();
-                counter ++;
-            } catch (GameOverException | GoalAchievedException e) {
-                Assert.fail();
-            }
-        }
-        if (counter == 5)
-            Assert.fail();
         game.pauseTimer();
         try {
             game.move(Game.MOVE_RIGHT);
@@ -100,7 +85,6 @@ public class GameTest {
         Assert.assertTrue(game.getElapsedTime() > 0);
     }
 
-    // TODO: 29.05.2020 update somehow 
     @Test
     public void getCurrentScore() {
         Game game = new Game(false, null);
@@ -119,7 +103,6 @@ public class GameTest {
         assertTrue(score < game.getScore());
     }
 
-    // TODO: 29.05.2020 update somehow
     @Test
     public void getHighScore() {
         Game game = new Game(true, null);
@@ -205,7 +188,6 @@ public class GameTest {
         assertTrue(game.isUserAuthenticated());
     }
 
-    // TODO: 22.07.2020 taki biedny ten test
     @Test
     public void equalsTest() {
         Game game1 = new Game(true, null);
@@ -221,20 +203,8 @@ public class GameTest {
     public void hashCodeTest(){
         Game game1 = new Game(false, null);
         Game game2 = new Game(false, null);
-        if (game1.hashCode() != game2.hashCode())
+        if(game1.hashCode() != game2.hashCode()) {
             assertNotEquals(game1, game2);
+        }
     }
-
-    // TODO: 22.07.2020 tu chwilowo tez nwm jak to powinno byc zeby dostac sie do boarda poza getcopyboard
-//    @Test
-//    public void toStringTest(){
-//        Game game = new Game(false, null);
-//        String string = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-//                .append("gameBoard", game.)
-//                .append("time elapsed", game.getElapsedTimeToString())
-//                .append("highScore", game.getHighScore())
-//                .toString();
-//        assertEquals(string, game.toString());
-//    }
-
 }

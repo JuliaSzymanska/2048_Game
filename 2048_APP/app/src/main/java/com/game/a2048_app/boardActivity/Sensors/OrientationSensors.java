@@ -27,9 +27,9 @@ public class OrientationSensors implements SensorEventListener {
     private final static double changeColourAzimuthBreakpoint3 = 1.75;
     private final static double changeColourAzimuthBreakpoint4 = 2.75;
 
-    private float[] mGyroscopeData;
-    private float[] mAccelerometerData;
-    private float[] mMagnetometerData;
+    private float[] mAccelerometerData = new float[3];
+    private float[] mGyroscopeData = new float[3];
+    private float[] mMagnetometerData = new float[3];
     private Context context;
     private BoardActivityListener boardActivityListener;
 

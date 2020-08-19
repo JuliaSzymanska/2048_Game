@@ -6,18 +6,15 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-
 import com.game.a2048_app.R;
 import com.game.a2048_app.boardActivity.BoardActivityListener;
-
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
 
 public class OrientationSensors implements SensorEventListener {
 
-    private static Lock lock = new ReentrantLock();
+    private final static double MIN_PITCH = 0.05;
+    private final static double MIN_ROLL = 0.05;
 
     private final static float MIN_GYRO_VALUE_HORIZONTAL = 3f;
     private final static float MIN_GYRO_VALUE_VERTICAL = 2f;
@@ -30,15 +27,17 @@ public class OrientationSensors implements SensorEventListener {
     private final static double changeColourAzimuthBreakpoint3 = 1.75;
     private final static double changeColourAzimuthBreakpoint4 = 2.75;
 
-    private final static double MIN_PITCH = 0.05;
-    private final static double MIN_ROLL = 0.05;
-
     private float[] mGyroscopeData;
     private float[] mAccelerometerData;
     private float[] mMagnetometerData;
     private Context context;
     private BoardActivityListener boardActivityListener;
 
+    /**
+     * Class constructor.
+     *
+     * @param context context from activity.
+     */
     public OrientationSensors(Context context) {
         this.context = context;
         this.boardActivityListener = (BoardActivityListener) context;
@@ -69,31 +68,28 @@ public class OrientationSensors implements SensorEventListener {
 
         @Override
         public void run() {
-            if (OrientationSensors.lock.tryLock()) {
+            try {
+                float[] orientationValues = getOrientationValues();
+
+                float azimuth = orientationValues[0];
+                float pitch = orientationValues[1];
+                float roll = orientationValues[2];
+
+                if (mGyroscopeData[0] > MIN_GYRO_VALUE_VERTICAL && pitch < -MIN_PITCH) {
+                    boardActivityListener.callback(context.getString(R.string.MoveDown));
+                } else if (mGyroscopeData[0] < -MIN_GYRO_VALUE_VERTICAL && pitch > MIN_PITCH) {
+                    boardActivityListener.callback(context.getString(R.string.MoveUP));
+                } else if (mGyroscopeData[1] > MIN_GYRO_VALUE_HORIZONTAL && roll > MIN_ROLL) {
+                    boardActivityListener.callback(context.getString(R.string.MoveRight));
+                } else if (mGyroscopeData[1] < -MIN_GYRO_VALUE_HORIZONTAL && roll < -MIN_ROLL) {
+                    boardActivityListener.callback(context.getString(R.string.MoveLeft));
+                }
+            } finally {
                 try {
-                    float[] orientationValues = getOrientationValues();
-
-                    float azimuth = orientationValues[0];
-                    float pitch = orientationValues[1];
-                    float roll = orientationValues[2];
-
-                    if (mGyroscopeData[0] > MIN_GYRO_VALUE_VERTICAL && pitch < -MIN_PITCH) {
-                        boardActivityListener.callback(context.getString(R.string.MoveDown));
-                    } else if (mGyroscopeData[0] < -MIN_GYRO_VALUE_VERTICAL && pitch > MIN_PITCH) {
-                        boardActivityListener.callback(context.getString(R.string.MoveUP));
-                    } else if (mGyroscopeData[1] > MIN_GYRO_VALUE_HORIZONTAL && roll > MIN_ROLL) {
-                        boardActivityListener.callback(context.getString(R.string.MoveRight));
-                    } else if (mGyroscopeData[1] < -MIN_GYRO_VALUE_HORIZONTAL && roll < -MIN_ROLL) {
-                        boardActivityListener.callback(context.getString(R.string.MoveLeft));
-                    }
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 } finally {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } finally {
-                        OrientationSensors.lock.unlock();
-                    }
                 }
             }
         }
@@ -104,7 +100,6 @@ public class OrientationSensors implements SensorEventListener {
      * on parent {@link com.game.a2048_app.boardActivity.BoardActivity} class to change the background colours of the displayed game board
      * depending on the direction of the world the phone is currently pointing towards.
      */
-
     private class ChangeColour implements Runnable {
 
         @Override

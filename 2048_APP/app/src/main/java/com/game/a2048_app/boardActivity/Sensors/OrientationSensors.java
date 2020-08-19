@@ -47,7 +47,6 @@ public class OrientationSensors implements SensorEventListener {
      * @return {@link SensorManager#getOrientation(float[], float[])} with a rotation matrix optained from
      * {@link SensorManager#getRotationMatrix(float[], float[], float[], float[])}
      */
-
     private float[] getOrientationValues() {
         float[] rotationMatrix = new float[9];
         boolean rotationOK = SensorManager.getRotationMatrix(rotationMatrix,
@@ -63,7 +62,6 @@ public class OrientationSensors implements SensorEventListener {
      * Method to check the current Gyroscope, Magnetometer and Accelerometer values and use {@link BoardActivityListener#callback(String)}
      * on parent {@link com.game.a2048_app.boardActivity.BoardActivity} class to cause a move in {@link com.game.module.Game}.
      */
-
     private class MakeMove implements Runnable {
 
         @Override
@@ -89,7 +87,6 @@ public class OrientationSensors implements SensorEventListener {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                } finally {
                 }
             }
         }

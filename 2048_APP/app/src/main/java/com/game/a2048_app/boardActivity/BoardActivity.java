@@ -53,8 +53,6 @@ import static com.game.a2048_app.boardActivity.buttons.SettingsButton.chosenSens
 
 public class BoardActivity extends AppCompatActivity implements BoardActivityListener {
 
-    // TODO: 16.08.2020 usunac i uzywac tej flagi, z jakiegoś powodu nie umiem flagowa
-
     private Game game;
     private ArrayAdapter<Drawable> adapter;
     private GridView gridView;
@@ -88,7 +86,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     private Thread updateTimeThread;
 
     private final static double ANIM_SPEED_SECONDS = 0.2;
-
 
     private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
 
@@ -159,7 +156,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
             /**
              * {@inheritDoc}
              */
-            // TODO: 29.07.2020 nie wiem jak to ladnie opisac ಠ_ಠ
             class ViewHolderItem {
                 TextView textViewItem;
                 ImageView imageViewItem;
@@ -287,11 +283,17 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         }
     }
 
+    /**
+     * Pauses game and change pause play button's image.
+     */
     private void pauseGameWithButton() {
         game.pauseTimer();
         pausePlayButton.setBackground(preloader.getPausePlayOn());
     }
 
+    /**
+     * Unpauses game and change pause play button's image.
+     */
     private void unPauseGameWithButton() {
         game.unPauseTimer();
         pausePlayButton.setBackground(preloader.getPausePlayOff());
@@ -341,9 +343,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         }
     }
 
-    // TODO: 09.08.2020 chcialbym uzyc swita ale sie nie da i wgl no jakos ladniej bym chcial xd
-    //  może zrobić kilka listenerów i każdy będzie miał osobny callback czy coś
-    //  a moze tak zostawic
     @Override
     public void callback(String result) {
         if (result.equals(getString(R.string.Button_Green))) {
@@ -531,6 +530,10 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         updateTimeThread.start();
     }
 
+    /**
+     * {@inheritDoc}
+     * Updates game's time every 100 milliseconds.
+     */
     private Runnable updateTimeRunnable = new Runnable() {
         @Override
         public void run() {
@@ -554,6 +557,9 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         }
     };
 
+    /**
+     * Sets {@link BoardActivity#textTime} string.
+     */
     private void setTimeText() {
         textTime.setText(String.format("%s:\n%s", getResources().getString(R.string.time), game.getElapsedTimeToString()));
     }
@@ -566,14 +572,13 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         this.setTextHighScoreText();
     }
 
+    private boolean isGameOver = false;
+
     /**
      * Makes move in appropriate direction and calls move animation.
      *
      * @param direction of movement.
      */
-
-    private boolean isGameOver = false;
-
     private void move(int direction) {
         List<Field> fieldsCopies = game.getCopyOfTheBoard();
         // TODO: 16.08.2020 sprawdzic czy to cokolwiek daje
@@ -593,7 +598,12 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         }
     }
 
-
+    /**
+     * Updates activity after move. Makes animations and updates score's text and available undo's amount.
+     *
+     * @param fieldsCopies copy of the game's board.
+     * @param direction    direction of movement.
+     */
     private void updateActivityAfterMove(List<Field> fieldsCopies, int direction) {
         this.animate(fieldsCopies, direction);
         if (!isGameOver) {
@@ -602,8 +612,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         }
     }
 
-
-    // TODO: 29.07.2020 zrob tutaj ladne javadoci
     private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
 
         /**
@@ -631,6 +639,9 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         }
     };
 
+    /**
+     * {@inheritDoc}
+     */
     private TranslateAnimation prepareTranslateAnimation(View viewBeingAnimated, View viewBeingAnimatedTo) {
         TranslateAnimation translateAnimation =
                 new TranslateAnimation(0, viewBeingAnimatedTo.getX() - viewBeingAnimated.getX(),
@@ -640,7 +651,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         translateAnimation.setFillAfter(true);
         return translateAnimation;
     }
-
 
     private void startAnimation(List<Field> fieldCopies, List<TranslateAnimation> translateAnimationList) {
         for (int i = 0; i < this.gridView.getChildCount(); i++) {
@@ -748,7 +758,9 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         startActivity(i);
     }
 
-
+    /**
+     * Sets sensors.
+     */
     private void prepareSensors() {
         // Get accelerometer and magnetometer sensors from the sensor manager.
         // The getDefaultSensor() method returns null if the sensor
@@ -835,6 +847,9 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
             super(context);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);

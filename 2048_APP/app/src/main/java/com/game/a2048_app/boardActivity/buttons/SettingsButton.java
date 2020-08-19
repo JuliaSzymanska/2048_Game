@@ -91,6 +91,9 @@ public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
         dialog.show();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     private DialogInterface.OnShowListener disableUnavailableSensorsInDialog = new DialogInterface.OnShowListener() {
         @Override
         public void onShow(DialogInterface dialog) {

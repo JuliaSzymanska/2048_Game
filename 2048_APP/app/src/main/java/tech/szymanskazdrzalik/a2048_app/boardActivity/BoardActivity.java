@@ -28,6 +28,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
 import tech.szymanskazdrzalik.a2048_app.EndGame;
 import tech.szymanskazdrzalik.a2048_app.OnSwipeTouchListener;
 import tech.szymanskazdrzalik.a2048_app.R;
@@ -43,11 +48,6 @@ import tech.szymanskazdrzalik.module.Field;
 import tech.szymanskazdrzalik.module.Game;
 import tech.szymanskazdrzalik.module.exceptions.GameOverException;
 import tech.szymanskazdrzalik.module.exceptions.GoalAchievedException;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 import static tech.szymanskazdrzalik.a2048_app.boardActivity.buttons.SettingsButton.chosenSensors;
 
@@ -65,11 +65,8 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     private StopGameProximity stopGameProximity;
     private DarkMode darkMode;
 
-    // System sensor manager instance.
     private SensorManager mSensorManager;
 
-    // Accelerometer and magnetometer sensors, as retrieved from the
-    // sensor manager.
     private Sensor mSensorAccelerometer;
     private Sensor mSensorMagnetometer;
     private Sensor mSensorLight;
@@ -95,7 +92,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
      */
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
-    // https://developer.android.com/guide/components/activities/activity-lifecycle
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PreferencesHelper.initContext(this);
@@ -127,18 +123,18 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
      * Prepares views like TextViews, Buttons, ImageViews, sets id and onClickListeners.
      */
     private void prepareViews() {
-        this.gridView = (GridView) findViewById(R.id.gridView);
+        this.gridView = findViewById(R.id.gridView);
         this.prepareGrid();
         this.setupSwipeListener();
 
-        this.textTime = (TextView) findViewById(R.id.time);
+        this.textTime = findViewById(R.id.time);
         this.prepareScoreText();
         this.prepareHighscoreText();
 
-        this.undoButton = (UndoButton) findViewById(R.id.undoMoveButton);
+        this.undoButton = findViewById(R.id.undoMoveButton);
         this.undoButton.setGame(this.game);
 
-        this.pausePlayButton = (Button) findViewById(R.id.pausePlayButton);
+        this.pausePlayButton = findViewById(R.id.pausePlayButton);
 
         DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
 
@@ -169,8 +165,8 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
                     LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
                     convertView = inflater.inflate(R.layout.item, parent, false);
                     viewHolder = new ViewHolderItem();
-                    viewHolder.textViewItem = (TextView) convertView.findViewById(R.id.textView);
-                    viewHolder.imageViewItem = (ImageView) convertView.findViewById(R.id.imageView);
+                    viewHolder.textViewItem = convertView.findViewById(R.id.textView);
+                    viewHolder.imageViewItem = convertView.findViewById(R.id.imageView);
                     convertView.setTag(viewHolder);
                 } else {
                     viewHolder = (ViewHolderItem) convertView.getTag();
@@ -230,7 +226,7 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
      * Prepares TextView to display current score.
      */
     private void prepareScoreText() {
-        textScore = (TextView) findViewById(R.id.score);
+        textScore = findViewById(R.id.score);
         this.setTextScoreText();
     }
 
@@ -245,7 +241,7 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
      * Prepares TextView to display high score.
      */
     private void prepareHighscoreText() {
-        textHighScore = (TextView) findViewById(R.id.highScore);
+        textHighScore = findViewById(R.id.highScore);
         this.setTextHighScoreText();
     }
 
@@ -306,10 +302,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     @Override
     protected void onStart() {
         super.onStart();
-        // Listeners for the sensors are registered in this callback and
-        // can be unregistered in onStop().
-        //
-        // Check to ensure sensors are available before registering listeners.
         if (mSensorGyroscope != null) {
             mSensorManager.registerListener(orientationSensors, mSensorGyroscope,
                     SensorManager.SENSOR_DELAY_GAME);
@@ -334,7 +326,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         this.beginUpdatingTime();
     }
 
-    // TODO: 09.08.2020 JAVADOC - to jest listener na przyciski
     @Override
     public void callback(View view, String result) {
         if (result.equals(getString(R.string.Undo_Succeed))) {
@@ -581,7 +572,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
      */
     private void move(int direction) {
         List<Field> fieldsCopies = game.getCopyOfTheBoard();
-        // TODO: 16.08.2020 sprawdzic czy to cokolwiek daje
         try {
             game.move(direction);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -762,9 +752,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
      * Sets sensors.
      */
     private void prepareSensors() {
-        // Get accelerometer and magnetometer sensors from the sensor manager.
-        // The getDefaultSensor() method returns null if the sensor
-        // is not available on the device.
         mSensorManager = (SensorManager) getSystemService(
                 Context.SENSOR_SERVICE);
         assert mSensorManager != null;
@@ -806,7 +793,7 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
             setContentView(R.layout.custom_alert_dialog);
             findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
             findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
-            this.getWindow().getDecorView().setBackgroundColor(Color.TRANSPARENT);
+            Objects.requireNonNull(this.getWindow()).getDecorView().setBackgroundColor(Color.TRANSPARENT);
         }
 
         public View.OnClickListener listenerYes = new View.OnClickListener() {
@@ -893,8 +880,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     @Override
     protected void onStop() {
         super.onStop();
-        // Unregister all sensor listeners in this callback so they don't
-        // continue to use resources when the app is stopped.
         this.game.pauseTimer();
         if (!this.updateTimeThread.isInterrupted()) {
             this.updateTimeThread.interrupt();

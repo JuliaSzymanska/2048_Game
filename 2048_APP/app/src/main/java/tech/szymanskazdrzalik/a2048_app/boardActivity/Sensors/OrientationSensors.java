@@ -69,7 +69,6 @@ public class OrientationSensors implements SensorEventListener {
             try {
                 float[] orientationValues = getOrientationValues();
 
-                float azimuth = orientationValues[0];
                 float pitch = orientationValues[1];
                 float roll = orientationValues[2];
 

@@ -8,7 +8,9 @@ import tech.szymanskazdrzalik.a2048_app.R;
 
 public class PreferencesHelper {
 
+    @SuppressLint("StaticFieldLeak")
     private static final PreferencesHelper INSTANCE = new PreferencesHelper();
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
     private static SharedPreferences sharedPreferencesSettings;
     private static SharedPreferences.Editor sharedPreferencesEditor;
@@ -28,9 +30,10 @@ public class PreferencesHelper {
 
     /**
      * Initialized context for class.
+     *
      * @param context context passed by activity.
-     * Assigns {@link PreferencesHelper#sharedPreferencesSettings} instance of {@link SharedPreferences} class for accessing and modifying preference data.
-     * Assigns  {@link PreferencesHelper#sharedPreferencesEditor} a new instance of the {@link SharedPreferences.Editor} interface.
+     *                Assigns {@link PreferencesHelper#sharedPreferencesSettings} instance of {@link SharedPreferences} class for accessing and modifying preference data.
+     *                Assigns  {@link PreferencesHelper#sharedPreferencesEditor} a new instance of the {@link SharedPreferences.Editor} interface.
      */
     @SuppressLint("CommitPrefEdits")
     public static void initContext(Context context) {
@@ -45,6 +48,7 @@ public class PreferencesHelper {
 
     /**
      * Loads if dark theme is on/off and return it.
+     *
      * @return if dark theme is on/off.
      */
     public boolean getDarkTheme() {
@@ -68,7 +72,7 @@ public class PreferencesHelper {
     }
 
     /**
-     * @return choosen sensors by user loaded from shared preferences settings.
+     * @return chosen sensors by user loaded from shared preferences settings.
      */
     public void getChoosenSensors(boolean[] choosenSensors) {
         if (PreferencesHelper.context == null) {
@@ -82,6 +86,7 @@ public class PreferencesHelper {
 
     /**
      * Sets setting about dark theme to shared preferences settings.
+     *
      * @param isDarkTheme if dark theme is on/off.
      */
     public void setDarkTheme(boolean isDarkTheme) {
@@ -94,6 +99,7 @@ public class PreferencesHelper {
 
     /**
      * Sets volume to shared preferences settings.
+     *
      * @param volume value of application volume.
      */
     public void setVolume(int volume) {
@@ -106,6 +112,7 @@ public class PreferencesHelper {
 
     /**
      * Sets choosen sensors to shared preferences settings.
+     *
      * @param choosenSensors user's choosen sensors.
      */
     public void setChoosenSensors(boolean[] choosenSensors) {

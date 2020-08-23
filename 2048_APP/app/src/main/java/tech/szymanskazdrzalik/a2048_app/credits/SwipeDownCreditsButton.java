@@ -6,11 +6,11 @@ import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.Objects;
+
 import tech.szymanskazdrzalik.a2048_app.OnSwipeTouchListener;
 import tech.szymanskazdrzalik.a2048_app.R;
 import tech.szymanskazdrzalik.a2048_app.helpers.Preloader;
-
-import java.util.Objects;
 
 public class SwipeDownCreditsButton extends androidx.appcompat.widget.AppCompatButton  {
 
@@ -76,7 +76,6 @@ public class SwipeDownCreditsButton extends androidx.appcompat.widget.AppCompatB
      * Creates button on click listener to swipe up.
      * Starts new credits activity.
      */
-    // TODO: 09.08.2020 chce to ustawić w xml
     public void swipeDownCreditsButtonOnClick(View v) {
         startNewActivity();
     }

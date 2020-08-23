@@ -7,7 +7,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -123,7 +122,7 @@ public class FieldTest {
         Field fieldThird = null;
         assertEquals(1, fieldFirst.compareTo(fieldThird));
 
-        assertTrue(fieldFirst.equals(fieldSecond));
+        assertEquals(fieldFirst, fieldSecond);
         assertEquals(0, fieldFirst.compareTo(fieldSecond));
 
         fieldFirst.setNextValue();

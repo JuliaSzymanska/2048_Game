@@ -3,8 +3,6 @@ package com.game.module;
 import com.game.module.exceptions.GameOverException;
 import com.game.module.exceptions.GoalAchievedException;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -34,7 +32,6 @@ public class GameTest {
             game.move(Game.MOVE_UP);
             game.move(Game.MOVE_DOWN);
             assertEquals(score, game.getScore());
-            score = game.getScore();
         } catch (GameOverException | GoalAchievedException e) {
             Assert.fail();
         }
@@ -124,30 +121,6 @@ public class GameTest {
         game.restartGame();
         assertEquals(score, game.getHighScore());
     }
-
-    // TODO: 22.07.2020 pomysl niby dobry, ale jak tworzysz nowa gre to odrazu po utworzeniu jest zapisywana wiec w sumie nwm jak to ladnie przetestowac
-//    @Test
-//    public void loadGameTest(){
-//        Game game = new Game(true, null);
-//        Assert.assertEquals(game.getHighScore(), 0);
-//        int score = game.getCurrentScore();
-//        while (game.getCurrentScore() == 0) {
-//            try {
-//                game.move(Game.MOVE_RIGHT);
-//                game.move(Game.MOVE_LEFT);
-//                game.move(Game.MOVE_UP);
-//                game.move(Game.MOVE_DOWN);
-//            } catch (GameOverException e) {
-//                Assert.fail();
-//            }
-//        }
-//        assertTrue(score < game.getCurrentScore());
-//        score = game.getCurrentScore();
-//        game.restartGame();
-//        Assert.assertEquals(0, game.getCurrentScore());
-//        game.loadGame();
-//        assertEquals(score, game.getCurrentScore());
-//    }
 
     @Test
     public void isSuspendedTest() throws InterruptedException {

@@ -1,6 +1,5 @@
 package com.game.module;
 
-
 import com.game.module.exceptions.GameOverException;
 import com.game.module.exceptions.GoalAchievedException;
 

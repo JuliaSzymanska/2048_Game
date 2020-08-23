@@ -17,7 +17,7 @@ import com.game.a2048_app.helpers.Preloader;
  *
  */
 
-public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatButton {
+public class SwipeTopCreditsButton extends androidx.appcompat.widget.AppCompatButton {
     private Preloader preloader = Preloader.getInstance();
     private Context context;
 
@@ -25,19 +25,19 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
         this.context = context;
     }
 
-    public SwipeUpCreditsButton(Context context) {
+    public SwipeTopCreditsButton(Context context) {
         super(context);
         initContext(context);
         this.prepareButton();
     }
 
-    public SwipeUpCreditsButton(Context context, AttributeSet attrs) {
+    public SwipeTopCreditsButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         initContext(context);
         this.prepareButton();
     }
 
-    public SwipeUpCreditsButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SwipeTopCreditsButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initContext(context);
         this.prepareButton();
@@ -50,12 +50,12 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
          */
         @Override
         public void onClick(View v) {
-            swipeUpCreditsButtonOnClick(v);
+            swipeTopCreditsButtonOnClick(v);
         }
     };
 
     private void prepareButton() {
-        this.setSwipeUpCreditsImage();
+        this.setSwipeTopCreditsImage();
         this.setOnClickListener(this.onClickListener);
     }
 
@@ -63,7 +63,7 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
     /**
      * Sets the swipe up button's image
      */
-    private void setSwipeUpCreditsImage() {
+    private void setSwipeTopCreditsImage() {
         this.setBackground(preloader.getSwipeUpCredits());
     }
 
@@ -72,7 +72,7 @@ public class SwipeUpCreditsButton extends androidx.appcompat.widget.AppCompatBut
      * Starts new credits activity.
      */
     // TODO: 09.08.2020 chce to ustawić w xml
-    public void swipeUpCreditsButtonOnClick(View v) {
+    public void swipeTopCreditsButtonOnClick(View v) {
         startNewCreditsActivity();
     }
 

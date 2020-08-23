@@ -1,5 +1,6 @@
 package com.game.a2048_app;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -16,6 +17,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
     /**
      * {@inheritDoc}
      */
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         return gestureDetector.onTouchEvent(event);
@@ -24,7 +26,6 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
     public class GestureListener extends
             GestureDetector.SimpleOnGestureListener {
 
-        // TODO: 09.08.2020 chciałbym móc zmieniać to żeby mieć inny w main activity i w credits i inny w grze ale nie umim : (
         private static final int SWIPE_THRESHOLD = 40;
         private static final int SWIPE_VELOCITY_THRESHOLD = 40;
 

@@ -1,4 +1,3 @@
-
 package com.game.a2048_app;
 
 import android.annotation.SuppressLint;
@@ -25,11 +24,6 @@ import com.game.a2048_app.helpers.SoundPlayer;
 import me.aflak.libraries.callback.FingerprintDialogCallback;
 import me.aflak.libraries.dialog.FingerprintDialog;
 
-// TODO: 19.07.2020  powiązanie musi zawierać załączniki w postaci wszystkich dokumentów powiązanych
-//  (not katalogowych, dokumentów RFC, aktów prawnych, itp.,
-//  a także wszystkich programów źródłowych (także bibliotek open source'owych), a także programów wykonywalnych
-//  do czego zmierzam, pamiętać żeby to dodać jako biblioteka opensourcowa
-//  https://github.com/OmarAflak/Fingerprint
 
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback {
 
@@ -57,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initButtons();
         loadData();
-        ((SwipeUpCreditsButton) findViewById(R.id.authors)).setupSwipeTopListener(this, findViewById(R.id.constraintLayoutMainActivity));
+        ((SwipeTopCreditsButton) findViewById(R.id.authors)).setupSwipeTopListener(this, findViewById(R.id.constraintLayoutMainActivity));
         if (binding.getIsFingerprintSensorAvailable() && isFirstRun) {
             this.authenticationButtonOnClick(findViewById(R.id.authenticateButton));
         }
@@ -86,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      * Calls method to initialize buttons.
      */
     private void initButtons() {
-        startGameButton = (Button) findViewById(R.id.startGameButton);
+        startGameButton = findViewById(R.id.startGameButton);
         binding.setIsFingerprintSensorAvailable(isFingerprintSensorAvailable(this));
     }
 
@@ -139,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      */
     @Override
     public void onAuthenticationSucceeded() {
-        this.isAuthenticated = true;
+        isAuthenticated = true;
     }
 
     /**

@@ -16,28 +16,12 @@ import com.game.a2048_app.helpers.Preloader;
 import com.game.a2048_app.helpers.SoundPlayer;
 
 public class EndGame extends AppCompatActivity {
-
-    // TODO: 23.07.2020  Nasze work list:
-    //  - java doc
-    //  - zrobic xml do buttons
-    //  - przywrocic gre do singletona
-    //  - https://developer.android.com/studio/build/shrink-code.html
     //  - nazwy domen :
     //      - tech.szymanskazdrzalik.a2048_app
-    //  - logger?
-    //  - https://freemusicarchive.org/music/Kevin_MacLeod - jesli uzyjemy trzeba go gdzieś w apce zcreditować, wg jego licencji.
-    //  4. Chciałeś zrobić te głośniki mute i settings w main activity
-    //  5. Sprawko 😥
-    //  6. Montaż treningowy przy pierwszym uruchomieniu
-    //  Przetłumaczyć cancel w odcisku palca
-    //  Dao naprawic
-    //  Game over & goal achieved
-
     private static String score;
     private static String highScore;
     private Button homePageButton;
     private Preloader preloader = Preloader.getInstance();
-    private OnSwipeTouchListener onSwipeTouchListener;
     private static boolean isAuthenticated = false;
 
     /**
@@ -51,7 +35,7 @@ public class EndGame extends AppCompatActivity {
         setContentView(R.layout.activity_end_game);
         homePageButton = findViewById(R.id.homePage);
         loadData();
-        ((SwipeUpCreditsButton) findViewById(R.id.authors)).setupSwipeTopListener(this, findViewById(R.id.endGame));
+        ((SwipeTopCreditsButton) findViewById(R.id.authors)).setupSwipeTopListener(this, findViewById(R.id.endGame));
     }
 
     /**
@@ -61,10 +45,7 @@ public class EndGame extends AppCompatActivity {
         Intent intent = getIntent();
         String score = intent.getStringExtra(getResources().getString(R.string.score));
         String highScore = intent.getStringExtra(getResources().getString(R.string.high_score));
-        // TODO: 11.08.2020 to nadal zresetuje się po przejsciu do credits.
-        //  https://stackoverflow.com/a/2098936 - tak bym zrobił zapisywanie czy jesteśmy authenticated i wtedy usunał wszędzie pola isAuthenticated z każdej klasy
         EndGame.isAuthenticated = intent.getBooleanExtra(getResources().getString(R.string.authentication), false);
-        // TODO: 11.08.2020 nie jestem pewien czy to jest null czy string null
         if (score != null && !score.equals("null"))
             EndGame.score = score;
         if (highScore != null && !highScore.equals("null"))
@@ -84,7 +65,7 @@ public class EndGame extends AppCompatActivity {
      * Sets text to display score.
      */
     void setTextScoreText() {
-        TextView textScore = (TextView) findViewById(R.id.textScore);
+        TextView textScore = findViewById(R.id.textScore);
         textScore.setText(String.format("%s:\n%s", getResources().getString(R.string.score), score));
     }
 
@@ -93,7 +74,7 @@ public class EndGame extends AppCompatActivity {
      */
     void setTextHighScoreText() {
         if (EndGame.isAuthenticated) {
-            TextView textScore = (TextView) findViewById(R.id.textHighScore);
+            TextView textScore = findViewById(R.id.textHighScore);
             textScore.setText(String.format("%s:\n%s", getResources().getString(R.string.high_score), highScore));
         }
     }

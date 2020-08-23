@@ -62,7 +62,7 @@
             app:layout_constraintWidth_percent="0.7"
             tools:ignore="ContentDescription,MissingConstraints" />
 
-        <com.game.a2048_app.SwipeUpCreditsButton
+        <com.game.a2048_app.SwipeTopCreditsButton
             android:id="@+id/authors"
             android:layout_width="0dp"
             android:layout_height="0dp"

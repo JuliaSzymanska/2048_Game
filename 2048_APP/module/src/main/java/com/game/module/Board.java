@@ -695,7 +695,6 @@ public class Board implements Serializable {
      * Take into consideration: board.
      */
     @Override
-
     public String toString() {
         ToStringBuilder toStringBuilder = new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE);
         toStringBuilder.append("");

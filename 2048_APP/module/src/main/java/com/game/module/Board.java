@@ -3,11 +3,10 @@ package com.game.module;
 import com.game.module.exceptions.GameOverException;
 import com.game.module.exceptions.GoalAchievedException;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.Serializable;
@@ -125,7 +124,6 @@ public class Board implements Serializable {
             this.addNewNonEmptyFieldAfterMove();
             this.addNewNonEmptyFieldAfterMove();
         } catch (GoalAchievedException ignore) {
-            // nie może się rzucić fizycznie ten wyjątek tutaj
         }
     }
 
@@ -201,7 +199,7 @@ public class Board implements Serializable {
         if ((x < FIELD_POSITION_MIN || x > FIELD_POSITION_MAX) || (y < FIELD_POSITION_MIN || y > FIELD_POSITION_MAX)) {
             throw new IndexOutOfBoundsException("Values have to be in range " + FIELD_POSITION_MIN + " - " + FIELD_POSITION_MAX);
         }
-        return this.board.get(x + y * BOARD_DIMENSIONS); // od lewej do prawej, od dołu do góry
+        return this.board.get(x + y * BOARD_DIMENSIONS);
     }
 
     /**
@@ -416,10 +414,6 @@ public class Board implements Serializable {
         throw new GameOverException("Game lost");
     }
 
-    private void testIfGameOver() throws GoalAchievedException, GameOverException {
-
-    }
-
     /**
      * @see #moveDownAndDontTestIfGameOver()
      */
@@ -531,17 +525,18 @@ public class Board implements Serializable {
         this.moveUpAndDontTestIfGameOver();
         testIfGameOver(copyList);
     }
-    
+
 
     /**
      * This method is responsible for moving rows or columns,
-     * where there exist fields that can be 'combined'. 
+     * where there exist fields that can be 'combined'.
      * This method should only ever be called by the method {@link Board#moveFieldsInRowOrColumn(List, List)}
+     *
      * @param fieldsList 2d list of fields in board as rows or columns.
      * @param index      index of the field to start with.
      * @see #removeZerosInMove(List, List)
      */
-    private void moveFieldsPositions(List<Field> fieldsList, int index, List<Integer> moveCountList) {
+    private void moveFieldsPositions(List<Field> fieldsList, int index) {
         for (int i = index; i >= 0; i--) {
             if (i > 0) {
                 //jesli nie jest to ostatni element to przesuwa go o jeden w prawo
@@ -558,6 +553,7 @@ public class Board implements Serializable {
      * the method is able to determine how many times does the method
      * {@link Board#removeZerosInMove(List, List)} have to pass through the corresponding row or column in order to complete a move.
      * This method should only ever be called by the method {@link Board#removeZerosInMove(List, List)}
+     *
      * @param fieldsList list of moving fields in board where zero should be deleted.
      * @return amount of zeros in param to delete during move.
      */
@@ -580,9 +576,10 @@ public class Board implements Serializable {
 
     /**
      * A simple getter for a copy of {@link #amountMovedList}. The original list is destroyed in the process.
+     *
      * @return 1d list of Integers. Indexes of the list correspond with indexes in {@link Board#board}.
      * Each integer in the list reflects the amount the corresponding field in {@link Board#board} was moved in the previous move.
-    */
+     */
     List<Integer> getAmountMovedListCopyAndWipeAmountMovedList() {
         List<Integer> list = new ArrayList<>(amountMovedList);
         amountMovedList = newAmountMovedList();
@@ -595,8 +592,8 @@ public class Board implements Serializable {
      * that have not been moved the maximum possible distance (so there are fields with value '0', or in other words empty fields
      * left between the fields and their expected destinations).
      * This method also does part of the work of counting the amount the Board's fields moved in each move.
+     *
      * @param fieldsList list of fields, of size equal to {@link Board#BOARD_DIMENSIONS}.
-     * @see #moveFieldsPositions(List, int, List)
      */
     private void removeZerosInMove(List<Field> fieldsList, List<Integer> moveCountList) {
         int countMoves = countZerosToDelete(fieldsList);
@@ -613,7 +610,7 @@ public class Board implements Serializable {
             for (int j = BOARD_DIMENSIONS - 1; j >= 0; j--) {
                 //jesli wartosc jest rowna 0 to przesun od tej pozycji w prawo o 1
                 if (fieldsList.get(j).getValue() == 0) {
-                    moveFieldsPositions(fieldsList, j, moveCountList);
+                    moveFieldsPositions(fieldsList, j);
                 }
             }
         }
@@ -622,6 +619,7 @@ public class Board implements Serializable {
     /**
      * This method checks whether there exist any fields in a given row / column
      * that should be moved and/or combined and moves and / or combines them.
+     *
      * @param fieldsList    List of fields in row or column to move.
      *                      The passed param should be a list of length equal to {@link Board#BOARD_DIMENSIONS}.
      *                      The param represents a row or a column from the Board.
@@ -654,7 +652,7 @@ public class Board implements Serializable {
                     //zwieksz liczbe pkt
                     this.updateScore(fieldsList.get(i).getValue());
                     //przesun pola o jeden w prawo
-                    moveFieldsPositions(fieldsList, index, moveCountList);
+                    moveFieldsPositions(fieldsList, index);
                     //ustaw wartosc boola na true czyli znalezlismy
                     found = true;
                     //jesli pole jest rowne zero
@@ -697,6 +695,7 @@ public class Board implements Serializable {
      * Take into consideration: board.
      */
     @Override
+
     public String toString() {
         ToStringBuilder toStringBuilder = new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE);
         toStringBuilder.append("");

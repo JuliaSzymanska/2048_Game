@@ -44,7 +44,7 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
          */
         @Override
         public void onClick(View v) {
-            undoButtonOnClick(v);
+            undoButtonOnClick();
         }
     };
 
@@ -81,9 +81,8 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
     /**
      * Method called by on click listener. Play sound and change button's image.
      * Calls game's method to undo previous move.
-     * @param v View
      */
-    public void undoButtonOnClick(View v) {
+    public void undoButtonOnClick() {
         this.setBackground(preloader.getUndoClicked());
         SoundPlayer soundPlayer = SoundPlayer.getInstance();
         soundPlayer.playSound(soundPlayer.getAsset(this.context, R.raw.undo), setUndoAmountListener);

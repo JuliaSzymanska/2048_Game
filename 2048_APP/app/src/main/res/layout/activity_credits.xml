@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <com.game.a2048_app.credits.SwipeDownCreditsButton
+        <tech.szymanskazdrzalik.a2048_app.credits.SwipeDownCreditsButton
             android:id="@+id/authors"
             android:layout_width="0dp"
             android:layout_height="0dp"

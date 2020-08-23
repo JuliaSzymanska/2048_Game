@@ -14,7 +14,6 @@ import tech.szymanskazdrzalik.a2048_app.helpers.Preloader;
  * Button used in {@link MainActivity} and {@link EndGame} to open the {@link Credits} activity.
  * Pressing the button takes the user to {@link Credits}. Using the button in an Activity also implements {@link OnSwipeTouchListener#onSwipeTop()}
  * That performs the same action as pressing the button.
- *
  */
 
 public class SwipeTopCreditsButton extends androidx.appcompat.widget.AppCompatButton {

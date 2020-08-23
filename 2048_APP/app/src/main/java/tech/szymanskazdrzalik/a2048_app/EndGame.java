@@ -33,7 +33,7 @@ public class EndGame extends AppCompatActivity {
         setContentView(R.layout.activity_end_game);
         homePageButton = findViewById(R.id.homePage);
         loadData();
-        ((SwipeTopCreditsButton) findViewById(R.id.authors)).setupSwipeTopListener(this, findViewById(R.id.endGame));
+        ((SwipeTopCreditsButton) findViewById(R.id.authors)).setupSwipeTopListener(this, findViewById(R.id.endGameId));
     }
 
     /**

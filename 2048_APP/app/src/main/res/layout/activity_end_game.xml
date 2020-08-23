@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/endGameId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
@@ -20,7 +21,7 @@
         tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/endGame"
+        android:id="@+id/endGameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/end_game"
@@ -64,7 +65,7 @@
         app:layout_constraintBottom_toTopOf="@+id/textHighScore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endGame" />
+        app:layout_constraintTop_toBottomOf="@+id/endGameTextView" />
 
     <tech.szymanskazdrzalik.a2048_app.SwipeTopCreditsButton
         android:id="@+id/authors"
@@ -90,6 +91,6 @@
         app:layout_constraintBottom_toTopOf="@+id/homePage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endGame"
+        app:layout_constraintTop_toBottomOf="@+id/endGameTextView"
         app:layout_constraintVertical_bias="0.75" />
 </androidx.constraintlayout.widget.ConstraintLayout>

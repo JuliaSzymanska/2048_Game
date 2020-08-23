@@ -10,12 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.util.Objects;
+
 import tech.szymanskazdrzalik.a2048_app.R;
 import tech.szymanskazdrzalik.a2048_app.helpers.PreferencesHelper;
 import tech.szymanskazdrzalik.a2048_app.helpers.Preloader;
 import tech.szymanskazdrzalik.a2048_app.helpers.SoundPlayer;
-
-import java.util.Objects;
 
 public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
 
@@ -109,7 +109,6 @@ public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
             Sensor mSensorProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
             final ListView alertDialogList = ((AlertDialog) dialog).getListView();
             for (int position = 0; position < alertDialogList.getChildCount(); position++) {
-                // TODO: 23.07.2020 Zobaczyć czy dziala
                 if ((mSensorAccelerometer == null && getResources().getStringArray(R.array.sensors)[position]
                         .equals(getResources().getString(R.string.Gyroscope_And_Accelerometer_Settings))
                         || (mSensorMagnetometer == null && getResources().getStringArray(R.array.sensors)[position]

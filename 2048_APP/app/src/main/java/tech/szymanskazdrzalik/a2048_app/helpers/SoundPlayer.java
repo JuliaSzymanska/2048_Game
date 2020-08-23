@@ -20,7 +20,6 @@ import java.util.List;
 
 public class SoundPlayer {
 
-    // TODO: 03.08.2020  czy to powinien być singleton? chyba nie ale narazie jest lul
     private static SoundPlayer instance = new SoundPlayer();
 
     private float volume;

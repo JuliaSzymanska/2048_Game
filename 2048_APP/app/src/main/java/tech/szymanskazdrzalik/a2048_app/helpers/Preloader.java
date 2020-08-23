@@ -8,7 +8,9 @@ import tech.szymanskazdrzalik.a2048_app.R;
 
 public class Preloader {
 
+    @SuppressLint("StaticFieldLeak")
     private static Preloader instance = new Preloader();
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
 
     /**
@@ -22,10 +24,7 @@ public class Preloader {
     private static Drawable buttonGreenLight;
     private static Drawable buttonBlue;
     private static Drawable buttonBlueLight;
-    private static Drawable mainButtonClicked;
     private static Drawable mainButton;
-    private static Drawable settingsClicked;
-    private static Drawable settings;
     private static Drawable undoClicked;
     private static Drawable undo;
     private static Drawable pausePlayOn;
@@ -67,7 +66,6 @@ public class Preloader {
     /**
      * Loads Drawable images from R.drawable.
      */
-    // TODO: 04.08.2020 ustawic alfabetycznie
     public void loadAssets() {
         loadBackground();
 
@@ -82,11 +80,7 @@ public class Preloader {
 
         loadDarkThemeOn();
 
-        loadSettings();
-        loadSettingsClicked();
-
         loadMainButton();
-        loadMainButtonClicked();
 
         loadSwipeUpCredits();
 
@@ -121,7 +115,6 @@ public class Preloader {
         return instance;
     }
 
-    // TODO: 04.08.2020 ustawic alfabetycznie
 
     /**
      * @return background image ({@link Preloader#background}).
@@ -239,46 +232,6 @@ public class Preloader {
 
     private void loadDarkThemeOn() {
         darkThemeOn = context.getDrawable(R.drawable.dark_theme_on);
-    }
-
-
-    /**
-     * @return settings button's image ({@link Preloader#settings}).
-     */
-    public Drawable getSettings() {
-        if (settings == null)
-            loadSettings();
-        return settings;
-    }
-
-    private void loadSettings() {
-        settings = context.getDrawable(R.drawable.settings);
-    }
-
-    /**
-     * @return settings clicked button's image ({@link Preloader#settingsClicked}).
-     */
-    public Drawable getSettingsClicked() {
-        if (settingsClicked == null)
-            loadSettingsClicked();
-        return settingsClicked;
-    }
-
-    private void loadSettingsClicked() {
-        settingsClicked = context.getDrawable(R.drawable.settings_clicked);
-    }
-
-    /**
-     * @return main button's clicked image ({@link Preloader#mainButtonClicked}).
-     */
-    public Drawable getMainButtonClicked() {
-        if (mainButtonClicked == null)
-            loadMainButtonClicked();
-        return mainButtonClicked;
-    }
-
-    private void loadMainButtonClicked() {
-        mainButtonClicked = context.getDrawable(R.drawable.main_button_clicked);
     }
 
     /**

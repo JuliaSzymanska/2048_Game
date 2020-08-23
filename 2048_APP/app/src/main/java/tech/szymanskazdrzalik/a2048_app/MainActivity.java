@@ -10,15 +10,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-
-import com.game.a2048_app.databinding.ActivityMainBinding;
-
 import me.aflak.libraries.callback.FingerprintDialogCallback;
 import me.aflak.libraries.dialog.FingerprintDialog;
 import tech.szymanskazdrzalik.a2048_app.boardActivity.BoardActivity;
+import tech.szymanskazdrzalik.a2048_app.databinding.ActivityMainBinding;
 import tech.szymanskazdrzalik.a2048_app.helpers.DarkModeHelper;
 import tech.szymanskazdrzalik.a2048_app.helpers.PreferencesHelper;
 import tech.szymanskazdrzalik.a2048_app.helpers.Preloader;

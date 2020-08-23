@@ -52,7 +52,7 @@ public class Credits extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-        ((SwipeDownCreditsButton) findViewById(R.id.authors)).swipeDownCreditsButtonOnClick(findViewById(R.id.authors));
+        ((SwipeDownCreditsButton) findViewById(R.id.authors)).swipeDownCreditsButtonOnClick();
     }
 
     /**

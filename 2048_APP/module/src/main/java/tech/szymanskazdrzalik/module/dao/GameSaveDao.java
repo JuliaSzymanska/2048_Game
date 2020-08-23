@@ -4,8 +4,6 @@ import android.content.Context;
 
 import androidx.annotation.Nullable;
 
-import tech.szymanskazdrzalik.module.Board;
-
 import org.apache.commons.lang3.tuple.Triple;
 
 import java.io.FileInputStream;
@@ -17,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import tech.szymanskazdrzalik.module.Board;
 
 
 class GameSaveDao implements Dao<Board, Integer, Long> {
@@ -67,7 +67,7 @@ class GameSaveDao implements Dao<Board, Integer, Long> {
         if (lock.tryLock()) {
             try (FileOutputStream fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
                  ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
-                List<Object> list = new ArrayList<Object>();
+                List<Object> list = new ArrayList<>();
                 list.add(board);
                 list.add(score);
                 list.add(time);

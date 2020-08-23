@@ -50,7 +50,7 @@ public class SwipeTopCreditsButton extends androidx.appcompat.widget.AppCompatBu
          */
         @Override
         public void onClick(View v) {
-            swipeTopCreditsButtonOnClick(v);
+            swipeTopCreditsButtonOnClick();
         }
     };
 
@@ -71,8 +71,7 @@ public class SwipeTopCreditsButton extends androidx.appcompat.widget.AppCompatBu
      * Creates button on click listener to swipe up.
      * Starts new credits activity.
      */
-    // TODO: 09.08.2020 chce to ustawić w xml
-    public void swipeTopCreditsButtonOnClick(View v) {
+    public void swipeTopCreditsButtonOnClick() {
         startNewCreditsActivity();
     }
 

@@ -52,7 +52,7 @@ public class SwipeDownCreditsButton extends androidx.appcompat.widget.AppCompatB
          */
         @Override
         public void onClick(View v) {
-            swipeDownCreditsButtonOnClick(v);
+            swipeDownCreditsButtonOnClick();
         }
     };
 
@@ -76,7 +76,7 @@ public class SwipeDownCreditsButton extends androidx.appcompat.widget.AppCompatB
      * Creates button on click listener to swipe up.
      * Starts new credits activity.
      */
-    public void swipeDownCreditsButtonOnClick(View v) {
+    public void swipeDownCreditsButtonOnClick() {
         startNewActivity();
     }
 

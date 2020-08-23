@@ -1,12 +1,12 @@
 package tech.szymanskazdrzalik.module;
 
-import tech.szymanskazdrzalik.module.exceptions.GameOverException;
-import tech.szymanskazdrzalik.module.exceptions.GoalAchievedException;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
+
+import tech.szymanskazdrzalik.module.exceptions.GameOverException;
+import tech.szymanskazdrzalik.module.exceptions.GoalAchievedException;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -148,13 +148,13 @@ public class GameTest {
     }
 
     @Test
-    public void getElapsedTimeToStringTest() throws InterruptedException {
+    public void getElapsedTimeToStringTest() {
         Game game = new Game(false, null);
         assertEquals("00:00:00", game.getElapsedTimeToString());
     }
 
     @Test
-    public void isUserAuthenticatedTest(){
+    public void isUserAuthenticatedTest() {
         Game game = new Game(false, null);
         assertFalse(game.isUserAuthenticated());
         game.setUserAuthenticated(true);
@@ -173,10 +173,10 @@ public class GameTest {
     }
 
     @Test
-    public void hashCodeTest(){
+    public void hashCodeTest() {
         Game game1 = new Game(false, null);
         Game game2 = new Game(false, null);
-        if(game1.hashCode() != game2.hashCode()) {
+        if (game1.hashCode() != game2.hashCode()) {
             assertNotEquals(game1, game2);
         }
     }

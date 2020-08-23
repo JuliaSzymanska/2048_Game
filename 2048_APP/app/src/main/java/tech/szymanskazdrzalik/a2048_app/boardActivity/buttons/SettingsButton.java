@@ -57,7 +57,7 @@ public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
          */
         @Override
         public void onClick(View v) {
-            settingsButtonOnClick(v);
+            settingsButtonOnClick();
         }
     };
 
@@ -66,7 +66,7 @@ public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
      * Play sound after click and change button's image.
      * Creates dialog to allow the user to turn sensors on or off.
      */
-    public void settingsButtonOnClick(View v) {
+    public void settingsButtonOnClick() {
         SoundPlayer soundPlayer = SoundPlayer.getInstance();
         soundPlayer.playSound(soundPlayer.getAsset(this.context, R.raw.button_no_reverb));
         AlertDialog.Builder builder = new AlertDialog.Builder(this.context);

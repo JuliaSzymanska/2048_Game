@@ -36,7 +36,7 @@ public class MuteButton extends androidx.appcompat.widget.AppCompatButton {
          */
         @Override
         public void onClick(View v) {
-            muteButtonOnClick(v);
+            muteButtonOnClick();
         }
     };
 
@@ -76,7 +76,7 @@ public class MuteButton extends androidx.appcompat.widget.AppCompatButton {
      * Creates button on click listener to mute or unmute application.
      * Play sound after click and change button's image.
      */
-    public void muteButtonOnClick(View v) {
+    public void muteButtonOnClick() {
         if (preferencesHelper.getVolume() == 0) {
             preferencesHelper.setVolume(1);
         } else if (preferencesHelper.getVolume() == 1) {

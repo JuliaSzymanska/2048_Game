@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.hardware.fingerprint.FingerprintManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -60,8 +59,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      * @return if fingerprint sensor is available.
      */
     private boolean isFingerprintSensorAvailable(Context context) {
-        FingerprintManager manager = (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
-        return (manager != null && manager.isHardwareDetected() && manager.hasEnrolledFingerprints());
+        return (FingerprintDialog.isAvailable(this));
     }
 
     /**

@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <com.game.a2048_app.credits.SwipeDownCreditsButton
+        <tech.szymanskazdrzalik.a2048_app.credits.SwipeDownCreditsButton
             android:id="@+id/authors"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -58,16 +58,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="336dp"
             android:layout_marginBottom="483dp"
+            android:clickable="true"
+            android:onClick="onClickTextViewPrzemek"
             android:text="@string/Author_Przemek"
+            android:textColor="#097EDC"
             android:textSize="24sp"
+            android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/full_names"
-            android:clickable="true"
-            android:onClick="onClickTextViewPrzemek"/>
+            tools:text="@tools:sample/full_names" />
 
         <TextView
             android:id="@+id/textViewJulia"
@@ -75,16 +77,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="400dp"
             android:layout_marginBottom="400dp"
+            android:clickable="true"
+            android:onClick="onClickTextViewJulia"
             android:text="@string/Author_Julia"
+            android:textColor="@color/text_colors"
             android:textSize="24sp"
+            android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/full_names"
-            android:clickable="true"
-            android:onClick="onClickTextViewJulia"/>
+            tools:text="@tools:sample/full_names" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

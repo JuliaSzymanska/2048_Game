@@ -29,7 +29,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
         <Button
             android:id="@+id/authenticateButton"
@@ -62,7 +63,7 @@
             app:layout_constraintWidth_percent="0.7"
             tools:ignore="ContentDescription,MissingConstraints" />
 
-        <com.game.a2048_app.SwipeUpCreditsButton
+        <tech.szymanskazdrzalik.a2048_app.SwipeTopCreditsButton
             android:id="@+id/authors"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -79,14 +80,14 @@
             style="@android:style/Widget.Material.Light.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/main_button"
+            android:background="@drawable/main_button_xml"
             android:fadingEdge="horizontal"
             android:fontFamily="sans-serif-condensed-medium"
             android:onClick="mainActivityMainButtonOnClick"
             android:paddingHorizontal="20dp"
             android:paddingVertical="10dp"
             android:text="@string/start_game"
-            android:textColor="#075275"
+            android:textColor="@color/defaultApplicationTextColour"
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toTopOf="@+id/authenticateButton"
             app:layout_constraintEnd_toEndOf="parent"

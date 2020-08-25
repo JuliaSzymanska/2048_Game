@@ -45,13 +45,13 @@
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="624dp"
-        android:background="@drawable/main_button"
+        android:background="@drawable/main_button_xml"
         android:fadingEdge="horizontal"
         android:fontFamily="sans-serif-condensed-medium"
         android:paddingHorizontal="20dp"
         android:paddingVertical="10dp"
         android:text="@string/restart_game"
-        android:textColor="#075275"
+        android:textColor="@color/defaultApplicationTextColour"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +84,7 @@
         android:layout_marginStart="10dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:textAlignment="center"
-        android:textColor="#075275"
+        android:textColor="@color/defaultApplicationTextColour"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/scoreBoard"
@@ -99,7 +99,7 @@
         android:layout_marginStart="15dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:textAlignment="center"
-        android:textColor="#075275"
+        android:textColor="@color/defaultApplicationTextColour"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/scoreBoard"
@@ -114,7 +114,7 @@
         android:layout_marginEnd="10dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:textAlignment="center"
-        android:textColor="#075275"
+        android:textColor="@color/defaultApplicationTextColour"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/scoreBoard"
@@ -122,12 +122,12 @@
         app:layout_constraintStart_toEndOf="@+id/score"
         app:layout_constraintTop_toTopOf="@+id/scoreBoard" />
 
-    <com.game.a2048_app.boardActivity.buttons.SettingsButton
+    <tech.szymanskazdrzalik.a2048_app.boardActivity.buttons.SettingsButton
         android:id="@+id/settingsButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="18dp"
-        android:background="@drawable/settings"
+        android:background="@drawable/settings_button_xml"
         app:layout_constraintBottom_toTopOf="@+id/scoreBoard"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -147,7 +147,7 @@
         app:layout_constraintWidth_percent="0.12"
         android:onClick="playPauseButtonOnClick"/>
 
-    <com.game.a2048_app.boardActivity.buttons.MuteButton
+    <tech.szymanskazdrzalik.a2048_app.boardActivity.buttons.MuteButton
         android:id="@+id/muteButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -160,7 +160,7 @@
         app:layout_constraintBottom_toTopOf="@id/undoMoveButton"
         app:layout_constraintWidth_percent="0.12" />
 
-    <com.game.a2048_app.boardActivity.buttons.UndoButton
+    <tech.szymanskazdrzalik.a2048_app.boardActivity.buttons.UndoButton
         android:id="@+id/undoMoveButton"
         android:layout_width="0dp"
         android:layout_height="0dp"

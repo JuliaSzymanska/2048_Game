@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/endGameId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
@@ -16,16 +17,17 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         android:scaleType="fitXY"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/endGame"
+        android:id="@+id/endGameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/end_game"
         android:textAlignment="center"
-        android:textColor="#075275"
-        android:textSize="60dp"
+        android:textColor="@color/defaultApplicationTextColour"
+        android:textSize="60sp"
         app:layout_constraintBottom_toTopOf="@+id/homePage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,9 +38,9 @@
         android:id="@+id/homePage"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/main_button"
+        android:background="@drawable/main_button_xml"
         android:text="@string/home_page"
-        android:textColor="#075275"
+        android:textColor="@color/defaultApplicationTextColour"
         android:paddingHorizontal="20dp"
         android:paddingVertical="10dp"
         app:autoSizeTextType="uniform"
@@ -57,15 +59,15 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed-medium"
         android:textAlignment="center"
-        android:textColor="#075275"
+        android:textColor="@color/defaultApplicationTextColour"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textHighScore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endGame" />
+        app:layout_constraintTop_toBottomOf="@+id/endGameTextView" />
 
-    <com.game.a2048_app.SwipeUpCreditsButton
+    <tech.szymanskazdrzalik.a2048_app.SwipeTopCreditsButton
         android:id="@+id/authors"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -83,12 +85,12 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed-medium"
         android:textAlignment="center"
-        android:textColor="#075275"
+        android:textColor="@color/defaultApplicationTextColour"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/homePage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endGame"
+        app:layout_constraintTop_toBottomOf="@+id/endGameTextView"
         app:layout_constraintVertical_bias="0.75" />
 </androidx.constraintlayout.widget.ConstraintLayout>

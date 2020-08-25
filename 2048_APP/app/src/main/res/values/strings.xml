@@ -7,9 +7,10 @@
     <string name="restart_game">Restart Game</string>
     <string name="home_page">Home Page</string>
     <string name="fingerprint_title">Fingerprint authentication</string>
-    <string name="fingerprint_message">Being a phone user allows you to save a high score</string>
+    <string name="fingerprint_message">Fingerprint authentication allows you to save the game and a high score</string>
     <string name="dialog_accept">OK</string>
     <string name="dialog_cancel">Cancel</string>
+    <string name="restart_game_question_dialog">Are you sure you want to restart game?</string>
     <string name="settings" translatable="false">settings</string>
     <string name="dark_theme" translatable="false">dark theme</string>
     <string name="volume" translatable="false">mute</string>
@@ -43,6 +44,8 @@
     <string name="MoveRight" translatable="false">MoveRight</string>
     <string name="MoveLeft" translatable="false">MoveLeft</string>
     <string name="SetTheme" translatable="false">SetTheme</string>
+    <string name="SetPauseOn" translatable="false">SetPauseOn</string>
+    <string name="SetPauseOff" translatable="false">SetPauseOff</string>
     <string name="IsAuthenticated" translatable="false">IsAuthenticated</string>
     <string name="firstRun" translatable="false">FirstRun</string>
 </resources>

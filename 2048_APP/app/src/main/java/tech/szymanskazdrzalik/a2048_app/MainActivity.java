@@ -55,10 +55,9 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     }
 
     /**
-     * @param context current context.
      * @return if fingerprint sensor is available.
      */
-    private boolean isFingerprintSensorAvailable(Context context) {
+    private boolean isFingerprintSensorAvailable() {
         return (FingerprintDialog.isAvailable(this));
     }
 
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      */
     private void initButtons() {
         startGameButton = findViewById(R.id.startGameButton);
-        binding.setIsFingerprintSensorAvailable(isFingerprintSensorAvailable(this));
+        binding.setIsFingerprintSensorAvailable(isFingerprintSensorAvailable());
     }
 
     /**
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      * Init fingerprint dialog to authenticate user.
      */
     public void authenticationButtonOnClick(View v) {
-        if (FingerprintDialog.isAvailable(this)) {
+        if (this.isFingerprintSensorAvailable()) {
             FingerprintDialog.initialize(this)
                     .title(R.string.fingerprint_title)
                     .message(R.string.fingerprint_message)

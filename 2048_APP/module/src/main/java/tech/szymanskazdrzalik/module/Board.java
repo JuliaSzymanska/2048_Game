@@ -1,8 +1,5 @@
 package tech.szymanskazdrzalik.module;
 
-import tech.szymanskazdrzalik.module.exceptions.GameOverException;
-import tech.szymanskazdrzalik.module.exceptions.GoalAchievedException;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -15,6 +12,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+import tech.szymanskazdrzalik.module.exceptions.GameOverException;
+import tech.szymanskazdrzalik.module.exceptions.GoalAchievedException;
 
 public class Board implements Serializable {
 
@@ -111,30 +111,6 @@ public class Board implements Serializable {
         return amountMovedList;
     }
 
-    private List<Integer> integers = new ArrayList<Integer>() {
-        {
-            add(0);
-            add(1024);
-            add(1024);
-            add(2);
-
-            add(2);
-            add(0);
-            add(2);
-            add(0);
-
-            add(2);
-            add(2);
-            add(4);
-            add(2);
-
-            add(0);
-            add(0);
-            add(8);
-            add(0);
-        }
-    };
-
 
     /**
      * Reset board variable by creating new fields list.
@@ -150,12 +126,6 @@ public class Board implements Serializable {
             this.addNewNonEmptyFieldAfterMove();
         } catch (GoalAchievedException ignore) {
         }
-        int counter = 0;
-        for (Field i : board) {
-            i.setValue(this.integers.get(counter));
-            counter++;
-        }
-        this.score = 2137;
     }
 
     /**

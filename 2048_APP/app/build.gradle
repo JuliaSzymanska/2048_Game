@@ -9,8 +9,7 @@ android {
     }
 
     defaultConfig {
-        // Niestety wstawilismy na play store pod tym Id ._.
-        applicationId 'com.game.a2048_app'
+        applicationId 'tech.szymanskazdrzalik.a2048_app'
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 2

@@ -111,6 +111,31 @@ public class Board implements Serializable {
         return amountMovedList;
     }
 
+    private List<Integer> integers = new ArrayList<Integer>() {
+        {
+            add(0);
+            add(1024);
+            add(1024);
+            add(2);
+
+            add(2);
+            add(0);
+            add(2);
+            add(0);
+
+            add(2);
+            add(2);
+            add(4);
+            add(2);
+
+            add(0);
+            add(0);
+            add(8);
+            add(0);
+        }
+    };
+
+
     /**
      * Reset board variable by creating new fields list.
      * Adds new fields with values other than zero by calling {@link Board#addNewNonEmptyFieldAfterMove()}.
@@ -125,6 +150,12 @@ public class Board implements Serializable {
             this.addNewNonEmptyFieldAfterMove();
         } catch (GoalAchievedException ignore) {
         }
+        int counter = 0;
+        for (Field i : board) {
+            i.setValue(this.integers.get(counter));
+            counter++;
+        }
+        this.score = 2137;
     }
 
     /**

@@ -181,14 +181,14 @@ public class Game {
     }
 
     /**
-     * Saves game calling {@link tech.szymanskazdrzalik.module.dao.Dao#write(Object, Object, Object)}.
+     * Saves game calling {@link tech.szymanskazdrzalik.module.dao.Dao#write(Object)}.
      * The game is saved in a file called {@link #GAME_SAVE_NAME}.
      * The game is only saved for authenticated users.
      */
     private void saveGame() {
         if (this.context != null && this.isUserAuthenticated) {
-            try (Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
-                daoBoard.write(this.gameBoard, this.highScore, System.nanoTime() - this.gameBeginTime);
+            try (Dao<SaveGame> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
+                daoBoard.write(new SaveGame(this.gameBoard, this.highScore, System.nanoTime() - this.gameBeginTime));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -218,7 +218,7 @@ public class Game {
      */
     public void loadGame() throws LoadException {
         if (this.context != null && this.isUserAuthenticated) {
-            try (Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
+            try (Dao<SaveGame> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
                 SaveGame saveGame = daoBoard.read();
                 this.gameBoard = saveGame.getBoard();
                 this.highScore = saveGame.getHighScore();

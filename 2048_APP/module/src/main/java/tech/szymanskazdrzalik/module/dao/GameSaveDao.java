@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import tech.szymanskazdrzalik.module.Board;
 
 
-class GameSaveDao implements Dao<Board, Integer, Long> {
+class GameSaveDao implements Dao<SaveGame> {
 
     private static Lock lock = new ReentrantLock();
 
@@ -34,7 +34,7 @@ class GameSaveDao implements Dao<Board, Integer, Long> {
     @Override
     public SaveGame read() throws SaveGame.SaveGameException {
         try (FileInputStream fileInputStream = context.openFileInput(filename);
-             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
             Object obj = objectInputStream.readObject();
             if (obj instanceof SaveGame) {
                 return (SaveGame) obj;
@@ -46,11 +46,10 @@ class GameSaveDao implements Dao<Board, Integer, Long> {
     }
 
     @Override
-    public void write(Board board, Integer score, Long time) throws IOException {
+    public void write(SaveGame saveGame) throws IOException {
         if (lock.tryLock()) {
             try (FileOutputStream fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
-                SaveGame saveGame = new SaveGame(board, score, time);
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
                 objectOutputStream.writeObject(saveGame);
             } finally {
                 lock.unlock();

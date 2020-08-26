@@ -3,9 +3,9 @@ package tech.szymanskazdrzalik.module.dao;
 
 import java.io.IOException;
 
-public interface Dao<T, Y, Z> extends AutoCloseable {
+public interface Dao<T> extends AutoCloseable {
     SaveGame read() throws IOException, ClassNotFoundException, SaveGame.SaveGameException;
-    void write(T t, Y y, Z z) throws IOException;
+    void write(T t) throws IOException;
     /**
      * {@inheritDoc}
      */

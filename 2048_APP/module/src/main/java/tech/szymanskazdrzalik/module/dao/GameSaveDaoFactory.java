@@ -9,7 +9,7 @@ public class GameSaveDaoFactory implements AutoCloseable {
     private GameSaveDaoFactory() {
     }
 
-    public static Dao<Board, Integer, Long> getFileBoardDao(String fileName, Context context) {
+    public static Dao<SaveGame> getFileBoardDao(String fileName, Context context) {
         return new GameSaveDao(fileName, context);
     }
 

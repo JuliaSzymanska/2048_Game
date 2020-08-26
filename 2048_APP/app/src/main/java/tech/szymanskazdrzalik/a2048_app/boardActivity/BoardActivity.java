@@ -337,91 +337,31 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     @Override
     public void callback(String result) {
         if (result.equals(getString(R.string.Button_Green))) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mThumbIds = preloader.getButtonGreen();
-                }
-            });
+            runOnUiThread(() -> mThumbIds = preloader.getButtonGreen());
         } else if (result.equals(getString(R.string.Button_Green_Light))) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mThumbIds = preloader.getButtonGreenLight();
-                }
-            });
+            runOnUiThread(() -> mThumbIds = preloader.getButtonGreenLight());
         } else if (result.equals(getString(R.string.Button_Blue))) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mThumbIds = preloader.getButtonBlue();
-                }
-            });
+            runOnUiThread(() -> mThumbIds = preloader.getButtonBlue());
         } else if (result.equals(getString(R.string.Button_Blue_Light))) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mThumbIds = preloader.getButtonBlueLight();
-                }
-            });
+            runOnUiThread(() -> mThumbIds = preloader.getButtonBlueLight());
         } else if (result.equals(getString(R.string.Notify_Adapter))) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.notifyDataSetChanged();
-                }
-            });
+            runOnUiThread(() -> adapter.notifyDataSetChanged());
         } else if (result.equals(getString(R.string.SetTheme))) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
-                }
-            });
+            runOnUiThread((Runnable) () -> DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView)));
         } else if (result.equals(getString(R.string.SetPauseOn))) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    pauseGameWithButton();
-                }
-            });
+            runOnUiThread(this::pauseGameWithButton);
         } else if (result.equals(getString(R.string.SetPauseOff))) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    unPauseGameWithButton();
-                }
-            });
+            runOnUiThread(this::unPauseGameWithButton);
         }
         if ((getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE) == 0) {
             if (result.equals(getString(R.string.MoveUP))) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        move(Game.MOVE_UP);
-                    }
-                });
+                runOnUiThread(() -> move(Game.MOVE_UP));
             } else if (result.equals(getString(R.string.MoveDown))) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        move(Game.MOVE_DOWN);
-                    }
-                });
+                runOnUiThread(() -> move(Game.MOVE_DOWN));
             } else if (result.equals(getString(R.string.MoveLeft))) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        move(Game.MOVE_LEFT);
-                    }
-                });
+                runOnUiThread(() -> move(Game.MOVE_LEFT));
             } else if (result.equals(getString(R.string.MoveRight))) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        move(Game.MOVE_RIGHT);
-                    }
-                });
+                runOnUiThread(() -> move(Game.MOVE_RIGHT));
             }
         }
 
@@ -532,12 +472,7 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
                 try {
                     Thread.sleep(100);
                     if (textTime.getText().length() <= 8 || textTime.getText().subSequence(textTime.getText().length() - 8, textTime.getText().length()) != game.getElapsedTimeToString()) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                setTimeText();
-                            }
-                        });
+                        runOnUiThread(() -> setTimeText());
                     }
 
                 } catch (InterruptedException e) {
@@ -563,6 +498,7 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         this.setTextHighScoreText();
     }
 
+
     private boolean isGameOver = false;
 
     /**
@@ -571,20 +507,22 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
      * @param direction of movement.
      */
     private void move(int direction) {
-        List<Field> fieldsCopies = game.getCopyOfTheBoard();
-        try {
-            game.move(direction);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        } catch (GameOverException e) {
-            e.printStackTrace();
-            this.isGameOver = true;
-            changeToEndActivity();
-        } catch (GoalAchievedException e) {
-            e.printStackTrace();
-            goalAchieved();
-        } finally {
-            updateActivityAfterMove(fieldsCopies, direction);
+        if (!this.isGameOver) {
+            List<Field> fieldsCopies = game.getCopyOfTheBoard();
+            try {
+                game.move(direction);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            } catch (GameOverException e) {
+                e.printStackTrace();
+                this.isGameOver = true;
+                this.changeToEndActivity();
+            } catch (GoalAchievedException e) {
+                e.printStackTrace();
+                goalAchieved();
+            } finally {
+                updateActivityAfterMove(fieldsCopies, direction);
+            }
         }
     }
 

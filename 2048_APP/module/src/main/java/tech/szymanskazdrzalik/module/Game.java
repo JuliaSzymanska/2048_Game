@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 
 import tech.szymanskazdrzalik.module.dao.Dao;
 import tech.szymanskazdrzalik.module.dao.GameSaveDaoFactory;
+import tech.szymanskazdrzalik.module.dao.SaveGame;
 import tech.szymanskazdrzalik.module.exceptions.GameOverException;
 import tech.szymanskazdrzalik.module.exceptions.GoalAchievedException;
 
@@ -218,10 +219,11 @@ public class Game {
     public void loadGame() throws LoadException {
         if (this.context != null && this.isUserAuthenticated) {
             try (Dao<Board, Integer, Long> daoBoard = GameSaveDaoFactory.getFileBoardDao(GAME_SAVE_NAME, context)) {
-                this.gameBoard = daoBoard.read().getLeft();
-                this.highScore = daoBoard.read().getMiddle();
-                this.gameBeginTime = System.nanoTime() - daoBoard.read().getRight();
-            } catch (IOException | ClassNotFoundException | NullPointerException e) {
+                SaveGame saveGame = daoBoard.read();
+                this.gameBoard = saveGame.getBoard();
+                this.highScore = saveGame.getHighScore();
+                this.gameBeginTime = System.nanoTime() - saveGame.getTime();
+            } catch (SaveGame.SaveGameException e) {
                 e.printStackTrace();
                 throw new LoadException(e);
             } catch (Exception e) {
@@ -229,7 +231,6 @@ public class Game {
                 //  Nie łączyć z poprzednim żeby było widać że jest osobno!
                 e.printStackTrace();
                 throw new LoadException(e);
-
             }
         }
     }

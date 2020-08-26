@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -33,33 +32,17 @@ class GameSaveDao implements Dao<Board, Integer, Long> {
 
     @Nullable
     @Override
-    public Triple<Board, Integer, Long> read() throws IOException, ClassNotFoundException, NullPointerException {
-        try(FileInputStream fileInputStream = context.openFileInput(filename);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
-            try {
-                Board inBoard = null;
-                Integer inScore = null;
-                Long inTime = null;
-                Object obj = objectInputStream.readObject();
-                if (obj instanceof ArrayList<?>) {
-                    ArrayList<?> al = (ArrayList<?>) obj;
-                    if (al.size() > 0) {
-                        for(Object o : al) {
-                            if (o instanceof Board) {
-                                inBoard = (Board) o;
-                            } else if (o instanceof Integer) {
-                                inScore = (Integer) o;
-                            } else if (o instanceof Long) {
-                                inTime = (Long) o;
-                            }
-                        }
-                    }
-                }
-                return Triple.of(inBoard, inScore, inTime);
-            } catch (ClassCastException | IndexOutOfBoundsException e) {
-                return null;
-            }
+    public SaveGame read() throws SaveGame.SaveGameException {
+        try (FileInputStream fileInputStream = context.openFileInput(filename);
+             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+            Object obj = objectInputStream.readObject();
+            if (obj instanceof SaveGame) {
+                return (SaveGame) obj;
+            } else throw new SaveGame.SaveGameException("Invalid Save Object");
+        } catch (Exception e) {
+            throw new SaveGame.SaveGameException("Save Game Operation Failed", e);
         }
+
     }
 
     @Override
@@ -67,11 +50,8 @@ class GameSaveDao implements Dao<Board, Integer, Long> {
         if (lock.tryLock()) {
             try (FileOutputStream fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
                  ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
-                List<Object> list = new ArrayList<>();
-                list.add(board);
-                list.add(score);
-                list.add(time);
-                objectOutputStream.writeObject(list);
+                SaveGame saveGame = new SaveGame(board, score, time);
+                objectOutputStream.writeObject(saveGame);
             } finally {
                 lock.unlock();
             }

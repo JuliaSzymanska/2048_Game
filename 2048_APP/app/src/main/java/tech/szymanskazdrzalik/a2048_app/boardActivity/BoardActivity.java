@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -347,7 +348,7 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         } else if (result.equals(getString(R.string.Notify_Adapter))) {
             runOnUiThread(() -> adapter.notifyDataSetChanged());
         } else if (result.equals(getString(R.string.SetTheme))) {
-            runOnUiThread((Runnable) () -> DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView)));
+            runOnUiThread(() -> DarkModeHelper.setTheme(findViewById(R.id.darkThemeView)));
         } else if (result.equals(getString(R.string.SetPauseOn))) {
             runOnUiThread(this::pauseGameWithButton);
         } else if (result.equals(getString(R.string.SetPauseOff))) {
@@ -499,6 +500,18 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     }
 
 
+    private CountDownTimer gameOverTimer = new CountDownTimer((long) (ANIM_SPEED_SECONDS * 1000), (long)(ANIM_SPEED_SECONDS * 1000)) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            changeToEndActivity();
+        }
+    };
+
     private boolean isGameOver = false;
 
     /**
@@ -516,7 +529,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
             } catch (GameOverException e) {
                 e.printStackTrace();
                 this.isGameOver = true;
-                this.changeToEndActivity();
             } catch (GoalAchievedException e) {
                 e.printStackTrace();
                 goalAchieved();
@@ -557,6 +569,7 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         public void onAnimationEnd(Animation arg0) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             adapter.notifyDataSetChanged();
+            if (isGameOver) gameOverTimer.start();
         }
 
         /**
@@ -655,12 +668,9 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
             Objects.requireNonNull(this.getWindow()).getDecorView().setBackgroundColor(Color.TRANSPARENT);
         }
 
-        public View.OnClickListener listenerYes = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                unPauseGameWithButton();
-                dismiss();
-            }
+        public View.OnClickListener listenerYes = v -> {
+            unPauseGameWithButton();
+            dismiss();
         };
 
         public View.OnClickListener listenerNo = new View.OnClickListener() {

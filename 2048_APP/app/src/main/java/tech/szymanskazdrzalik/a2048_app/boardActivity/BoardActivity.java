@@ -551,6 +551,8 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         }
     }
 
+    private static boolean wasEndGameAnimated = false;
+
     private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
 
         /**
@@ -568,7 +570,10 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         public void onAnimationEnd(Animation arg0) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             adapter.notifyDataSetChanged();
-            if (isGameOver) gameOverTimer.start();
+            if (isGameOver && !wasEndGameAnimated) {
+                wasEndGameAnimated = true;
+                gameOverTimer.start();
+            }
         }
 
         /**

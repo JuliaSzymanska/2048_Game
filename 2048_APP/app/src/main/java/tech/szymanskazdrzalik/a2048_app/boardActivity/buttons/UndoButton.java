@@ -71,12 +71,7 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
     /**
      * Calls method after sound finished.
      */
-    private MediaPlayer.OnCompletionListener setUndoAmountListener = new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            setUndoNumber();
-        }
-    };
+    private MediaPlayer.OnCompletionListener setUndoAmountListener = mp -> setUndoNumber();
 
     /**
      * Method called by on click listener. Play sound and change button's image.

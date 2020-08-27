@@ -500,10 +500,9 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     }
 
 
-    private CountDownTimer gameOverTimer = new CountDownTimer((long) (ANIM_SPEED_SECONDS * 1000), (long)(ANIM_SPEED_SECONDS * 1000)) {
+    private CountDownTimer gameOverTimer = new CountDownTimer((long) (ANIM_SPEED_SECONDS * 1000), (long) (ANIM_SPEED_SECONDS * 1000)) {
         @Override
         public void onTick(long millisUntilFinished) {
-
         }
 
         @Override
@@ -673,12 +672,9 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
             dismiss();
         };
 
-        public View.OnClickListener listenerNo = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeToEndActivity();
-                dismiss();
-            }
+        public View.OnClickListener listenerNo = v -> {
+            changeToEndActivity();
+            dismiss();
         };
     }
 
@@ -744,20 +740,12 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
             Objects.requireNonNull(this.getWindow()).getDecorView().setBackgroundColor(Color.TRANSPARENT);
         }
 
-        public View.OnClickListener listenerYes = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                restartGame();
-                dismiss();
-            }
+        public View.OnClickListener listenerYes = v -> {
+            restartGame();
+            dismiss();
         };
 
-        public View.OnClickListener listenerNo = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        };
+        public View.OnClickListener listenerNo = v -> dismiss();
     }
 
     /**
@@ -796,20 +784,12 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
             Objects.requireNonNull(this.getWindow()).getDecorView().setBackgroundColor(Color.TRANSPARENT);
         }
 
-        public View.OnClickListener listenerYes = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BoardActivity.super.onBackPressed();
-                dismiss();
-            }
+        public View.OnClickListener listenerYes = v -> {
+            BoardActivity.super.onBackPressed();
+            dismiss();
         };
 
-        public View.OnClickListener listenerNo = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        };
+        public View.OnClickListener listenerNo = v -> dismiss();
     }
 
     /**

@@ -70,20 +70,10 @@ public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
         SoundPlayer soundPlayer = SoundPlayer.getInstance();
         soundPlayer.playSound(soundPlayer.getAsset(this.context, R.raw.button_no_reverb));
         AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
-        builder.setMultiChoiceItems(R.array.sensors, chosenSensors, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                chosenSensors[which] = isChecked;
-            }
-        });
+        builder.setMultiChoiceItems(R.array.sensors, chosenSensors, (dialog, which, isChecked) -> chosenSensors[which] = isChecked);
         builder.setCancelable(false);
         builder.setTitle(R.string.settings_menu_title);
-        builder.setPositiveButton(getResources().getString(R.string.dialog_accept), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                preferencesHelper.setChoosenSensors(chosenSensors);
-            }
-        });
+        builder.setPositiveButton(getResources().getString(R.string.dialog_accept), (dialog, which) -> preferencesHelper.setChoosenSensors(chosenSensors));
         AlertDialog dialog = builder.create();
         Objects.requireNonNull(dialog.getWindow()).getDecorView().setBackground(preloader.getBackground());
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, 1000);

@@ -2,7 +2,6 @@ package tech.szymanskazdrzalik.a2048_app.boardActivity.buttons;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 
 import tech.szymanskazdrzalik.a2048_app.helpers.PreferencesHelper;
 import tech.szymanskazdrzalik.a2048_app.helpers.Preloader;
@@ -28,17 +27,11 @@ public class MuteButton extends androidx.appcompat.widget.AppCompatButton {
         this.prepareButton();
     }
 
-    private OnClickListener onClickListener = new OnClickListener() {
-        /**
-         * Called when a view has been clicked.
-         *
-         * @param v The view that was clicked.
-         */
-        @Override
-        public void onClick(View v) {
-            muteButtonOnClick();
-        }
-    };
+
+    /**
+     * Called when a view has been clicked.
+     */
+    private OnClickListener onClickListener = v -> muteButtonOnClick();
 
     /**
      * Calls methods:

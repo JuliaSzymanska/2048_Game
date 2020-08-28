@@ -121,7 +121,6 @@ public class Game {
                     default:
                         throw new IllegalArgumentException("Value can only be equal to 0, 1, 2 or 3");
                 }
-                this.updateHighScore();
                 if (this.isUserAuthenticated) {
                     Thread t = new Thread(this.saveGameOnceRunnable);
                     t.start();
@@ -131,8 +130,9 @@ public class Game {
             this.saveGameBackgroundThread.interrupt();
             throw new GameOverException(e.getLocalizedMessage(), e);
         } catch (GoalAchievedException e) {
-            this.updateHighScore();
             throw new GoalAchievedException(e.getLocalizedMessage(), e);
+        } finally {
+            this.updateHighScore();
         }
     }
 

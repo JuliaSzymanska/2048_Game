@@ -24,7 +24,7 @@ import tech.szymanskazdrzalik.a2048_app.helpers.SoundPlayer;
 
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback {
 
-    private static Boolean isAuthenticated = true;
+    private static Boolean isAuthenticated = false;
     private Button startGameButton;
     private Preloader preloader = Preloader.getInstance();
     private ActivityMainBinding binding;

@@ -36,16 +36,7 @@ public class Game {
     private long pausedTimeDuration;
     private boolean isSuspended;
     private Thread saveGameBackgroundThread;
-    /**
-     * Anonymous implementation of Runnable that saves game.
-     * Called after moves in {@link Game#move(int)} method.
-     */
-    private Runnable saveGameOnceRunnable = new Runnable() {
-        @Override
-        public void run() {
-            saveGame();
-        }
-    };
+
     /**
      * Anonymous implementation of Runnable that saves game every {@link Game#SAVE_GAME_DELAY_SECONDS} seconds.
      */

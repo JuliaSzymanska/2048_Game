@@ -27,7 +27,7 @@ public class Game {
     public final static int MOVE_DOWN = 2;
     public final static int MOVE_LEFT = 3;
     private final static String GAME_SAVE_NAME = "GameSave";
-    private final static int SAVE_GAME_DELAY_SECONDS = 5;
+    private final static int SAVE_GAME_DELAY_SECONDS = 2;
     private Board gameBoard = new Board();
     private Context context;
     private int highScore = 0;
@@ -147,10 +147,6 @@ public class Game {
                         break;
                     default:
                         throw new IllegalArgumentException("Value can only be equal to 0, 1, 2 or 3");
-                }
-                if (this.isUserAuthenticated) {
-                    Thread t = new Thread(this.saveGameOnceRunnable);
-                    t.start();
                 }
             }
         } catch (GameOverException e) {

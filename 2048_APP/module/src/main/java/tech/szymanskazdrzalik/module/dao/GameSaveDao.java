@@ -9,13 +9,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 
 class GameSaveDao implements Dao<SaveGame> {
-
-    private static Lock lock = new ReentrantLock();
 
     private String filename;
     private Context context;
@@ -42,13 +38,9 @@ class GameSaveDao implements Dao<SaveGame> {
 
     @Override
     public void write(SaveGame saveGame) throws IOException {
-        if (lock.tryLock()) {
-            try (FileOutputStream fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
-                objectOutputStream.writeObject(saveGame);
-            } finally {
-                lock.unlock();
-            }
+        try (FileOutputStream fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+            objectOutputStream.writeObject(saveGame);
         }
     }
 

@@ -350,34 +350,6 @@ public class BoardTest {
         Assert.assertEquals(newFieldsCounter, 2);
     }
 
-    @Test
-    public void createNewValueAfterMoveTest() {
-        Board board = new Board();
-        int fieldsCounter = 0;
-        for (Field f : board.getCopyBoard()) {
-            if (f.getValue() != 0) {
-                fieldsCounter++;
-            }
-        }
-        int counter = 0;
-        while (counter < 10) {
-            try {
-                board.moveRight();
-            } catch (GameOverException | GoalAchievedException ignored) {
-            }
-            int newFieldsCounter = 0;
-            for (Field f : board.getCopyBoard()) {
-                if (f.getValue() != 0) {
-                    newFieldsCounter++;
-                }
-            }
-            if (newFieldsCounter > fieldsCounter)
-                break;
-            counter++;
-        }
-        if (counter >= 10)
-            fail();
-    }
 
     @Test
     public void copyBoardTest() {

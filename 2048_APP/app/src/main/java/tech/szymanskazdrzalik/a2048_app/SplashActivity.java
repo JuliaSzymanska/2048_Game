@@ -15,13 +15,10 @@ public class SplashActivity extends AppCompatActivity {
     /**
      * Loads assets into memory using {@link Preloader}
      */
-    private Runnable loadImagesRunnable = new Runnable() {
-        @Override
-        public void run() {
-            Preloader preloader = Preloader.getInstance();
-            Preloader.initContext(SplashActivity.this);
-            preloader.loadAssets();
-        }
+    private Runnable loadImagesRunnable = () -> {
+        Preloader preloader = Preloader.getInstance();
+        Preloader.initContext(SplashActivity.this);
+        preloader.loadAssets();
     };
 
     private Thread loadImagesThread;
@@ -38,21 +35,12 @@ public class SplashActivity extends AppCompatActivity {
             } catch (InterruptedException ignored) {
 
             } finally {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        new Handler().postDelayed(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Intent i = new Intent(SplashActivity.this, MainActivity.class);
-                                startActivity(i);
-                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                finish();
-                            }
-                        }, SPLASH_TIME_OUT);
-                    }
-                });
+                runOnUiThread(() -> new Handler().postDelayed(() -> {
+                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(i);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    finish();
+                }, SPLASH_TIME_OUT));
             }
         }
     };

@@ -18,13 +18,6 @@ import tech.szymanskazdrzalik.module.exceptions.GoalAchievedException;
 
 public class Board implements Serializable {
 
-    private List<Field> board;
-    private List<Integer> amountMovedList;
-    private List<List<Field>> previousBoards;
-    private List<Integer> previousScores;
-    private int score = 0;
-    private boolean isGoalAchieved = false;
-
     private final static int PREVIOUS_BOARDS_STORED_NUMBER = 3;
     /**
      * Size of the board's row / column
@@ -36,6 +29,12 @@ public class Board implements Serializable {
     private final static int BOARD_SIZE = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
     private final static int FIELD_POSITION_MIN = 0;
     private final static int FIELD_POSITION_MAX = BOARD_DIMENSIONS - 1;
+    private List<Field> board;
+    private List<Integer> amountMovedList;
+    private List<List<Field>> previousBoards;
+    private List<Integer> previousScores;
+    private int score = 0;
+    private boolean isGoalAchieved = false;
 
     /**
      * Default class constructor.
@@ -67,6 +66,26 @@ public class Board implements Serializable {
             counter++;
         }
         this.setVariablesToDefault();
+    }
+
+    /**
+     * @param listA first list to pair
+     * @param listB second list to pair
+     * @param <A>   type of elements of listA
+     * @param <B>   type of elements of listB
+     * @return pair of number_two list passed as params
+     */
+    private static <A, B> List<Pair<A, B>> zip(List<A> listA, List<B> listB) {
+        if (listA.size() != listB.size()) {
+            throw new IllegalArgumentException("Lists must have same size");
+        }
+
+        List<Pair<A, B>> pairList = new LinkedList<>();
+
+        for (int index = 0; index < listA.size(); index++) {
+            pairList.add(Pair.of(listA.get(index), listB.get(index)));
+        }
+        return pairList;
     }
 
     /**
@@ -110,7 +129,6 @@ public class Board implements Serializable {
         java.util.Collections.fill(amountMovedList, 0);
         return amountMovedList;
     }
-
 
     /**
      * Reset board variable by creating new fields list.
@@ -304,26 +322,6 @@ public class Board implements Serializable {
             this.previousBoards.remove(0);
             this.previousScores.remove(0);
         }
-    }
-
-    /**
-     * @param listA first list to pair
-     * @param listB second list to pair
-     * @param <A>   type of elements of listA
-     * @param <B>   type of elements of listB
-     * @return pair of number_two list passed as params
-     */
-    private static <A, B> List<Pair<A, B>> zip(List<A> listA, List<B> listB) {
-        if (listA.size() != listB.size()) {
-            throw new IllegalArgumentException("Lists must have same size");
-        }
-
-        List<Pair<A, B>> pairList = new LinkedList<>();
-
-        for (int index = 0; index < listA.size(); index++) {
-            pairList.add(Pair.of(listA.get(index), listB.get(index)));
-        }
-        return pairList;
     }
 
     /**

@@ -25,8 +25,9 @@ public class StopGameProximity implements Runnable, SensorEventListener {
 
     /**
      * Class constructor.
+     *
      * @param context context from activity.
-     * @param game current game.
+     * @param game    current game.
      */
     public StopGameProximity(Context context, Game game) {
         this.context = context;

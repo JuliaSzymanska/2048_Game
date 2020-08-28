@@ -64,14 +64,16 @@ public class FieldTest {
 
         try {
             field.setValue(3);
-        } catch (IllegalArgumentException ignore){}
+        } catch (IllegalArgumentException ignore) {
+        }
 
         assertNotEquals(3, field.getValue());
         assertEquals(4, field.getValue());
 
         try {
             field.setValue(12);
-        } catch (IllegalArgumentException ignore) {}
+        } catch (IllegalArgumentException ignore) {
+        }
 
         assertNotEquals(12, field.getValue());
         assertEquals(4, field.getValue());

@@ -11,6 +11,10 @@ public class MuteButton extends androidx.appcompat.widget.AppCompatButton {
 
     private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
     private Preloader preloader = Preloader.getInstance();
+    /**
+     * Called when a view has been clicked.
+     */
+    private OnClickListener onClickListener = v -> muteButtonOnClick();
 
     public MuteButton(Context context) {
         super(context);
@@ -22,16 +26,11 @@ public class MuteButton extends androidx.appcompat.widget.AppCompatButton {
         this.prepareButton();
     }
 
+
     public MuteButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.prepareButton();
     }
-
-
-    /**
-     * Called when a view has been clicked.
-     */
-    private OnClickListener onClickListener = v -> muteButtonOnClick();
 
     /**
      * Calls methods:

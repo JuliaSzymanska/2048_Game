@@ -8,6 +8,7 @@ import android.view.View;
 
 public class OnSwipeTouchListener implements View.OnTouchListener {
     private final GestureDetector gestureDetector;
+    public onSwipeListener onSwipe;
 
     public OnSwipeTouchListener(Context ctx, View mainView) {
         gestureDetector = new GestureDetector(ctx, new GestureListener());
@@ -21,6 +22,32 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         return gestureDetector.onTouchEvent(event);
+    }
+
+    void onSwipeRight() {
+        this.onSwipe.swipeRight();
+    }
+
+    void onSwipeLeft() {
+        this.onSwipe.swipeLeft();
+    }
+
+    void onSwipeTop() {
+        this.onSwipe.swipeTop();
+    }
+
+    void onSwipeBottom() {
+        this.onSwipe.swipeBottom();
+    }
+
+    public interface onSwipeListener {
+        void swipeRight();
+
+        void swipeTop();
+
+        void swipeBottom();
+
+        void swipeLeft();
     }
 
     public class GestureListener extends
@@ -70,32 +97,4 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
             return result;
         }
     }
-
-    void onSwipeRight() {
-        this.onSwipe.swipeRight();
-    }
-
-    void onSwipeLeft() {
-        this.onSwipe.swipeLeft();
-    }
-
-    void onSwipeTop() {
-        this.onSwipe.swipeTop();
-    }
-
-    void onSwipeBottom() {
-        this.onSwipe.swipeBottom();
-    }
-
-    public interface onSwipeListener {
-        void swipeRight();
-
-        void swipeTop();
-
-        void swipeBottom();
-
-        void swipeLeft();
-    }
-
-    public onSwipeListener onSwipe;
 }

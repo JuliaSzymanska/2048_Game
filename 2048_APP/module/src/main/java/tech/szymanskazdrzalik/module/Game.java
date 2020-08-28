@@ -4,12 +4,6 @@ import android.content.Context;
 
 import androidx.annotation.Nullable;
 
-import tech.szymanskazdrzalik.module.dao.Dao;
-import tech.szymanskazdrzalik.module.dao.GameSaveDaoFactory;
-import tech.szymanskazdrzalik.module.dao.SaveGame;
-import tech.szymanskazdrzalik.module.exceptions.GameOverException;
-import tech.szymanskazdrzalik.module.exceptions.GoalAchievedException;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -20,34 +14,63 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import tech.szymanskazdrzalik.module.dao.Dao;
+import tech.szymanskazdrzalik.module.dao.GameSaveDaoFactory;
+import tech.szymanskazdrzalik.module.dao.SaveGame;
+import tech.szymanskazdrzalik.module.exceptions.GameOverException;
+import tech.szymanskazdrzalik.module.exceptions.GoalAchievedException;
+
 public class Game {
-
-    private Board gameBoard = new Board();
-    private Context context;
-
-    private int highScore = 0;
-    private boolean isUserAuthenticated = false;
-
-    private long gameBeginTime;
-    private long pausedTimeDuration;
-    private boolean isSuspended;
 
     public final static int MOVE_UP = 0;
     public final static int MOVE_RIGHT = 1;
     public final static int MOVE_DOWN = 2;
     public final static int MOVE_LEFT = 3;
-
     private final static String GAME_SAVE_NAME = "GameSave";
     private final static int SAVE_GAME_DELAY_SECONDS = 5;
-
+    private Board gameBoard = new Board();
+    private Context context;
+    private int highScore = 0;
+    private boolean isUserAuthenticated = false;
+    private long gameBeginTime;
+    private long pausedTimeDuration;
+    private boolean isSuspended;
     private Thread saveGameBackgroundThread;
+    /**
+     * Anonymous implementation of Runnable that saves game.
+     * Called after moves in {@link Game#move(int)} method.
+     */
+    private Runnable saveGameOnceRunnable = new Runnable() {
+        @Override
+        public void run() {
+            saveGame();
+        }
+    };
+    /**
+     * Anonymous implementation of Runnable that saves game every {@link Game#SAVE_GAME_DELAY_SECONDS} seconds.
+     */
+    private Runnable saveGameBackgroundRunnable = new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    Thread.sleep(SAVE_GAME_DELAY_SECONDS * 1000);
+                    saveGame();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+    };
 
     /**
      * Class constructor specifying if user is authenticated ({@link Game#isUserAuthenticated}) and context from activity ({@link Game#context}).
      * Starts new game if user is not authenticated, otherwise calls {@link Game#loadGame()}.
      * Creates new thread ({@link Game#saveGameBackgroundThread}) for saving game in background while playing.
+     *
      * @param isUserAuthenticated whether the user is authenticated.
-     * @param context context from activity.
+     * @param context             context from activity.
      */
     public Game(boolean isUserAuthenticated, @Nullable Context context) {
         this.setUserAuthenticated(isUserAuthenticated);
@@ -67,6 +90,7 @@ public class Game {
 
     /**
      * Sets {@link Game#context}.
+     *
      * @param context passed in constructor.
      */
     public void setContext(Context context) {
@@ -77,6 +101,7 @@ public class Game {
 
     /**
      * Calls {@link Board#getCopyBoard()} method.
+     *
      * @return copy of the board.
      */
     public List<Field> getCopyOfTheBoard() {
@@ -85,6 +110,7 @@ public class Game {
 
     /**
      * Calls {@link Board#getBoard()} method.
+     *
      * @return game's board.
      */
     public List<Field> getBoard() {
@@ -98,9 +124,10 @@ public class Game {
      * To move down: {@link Board#moveDown()}.
      * To move left: {@link Board#moveLeft()}.
      * Updates game's high score by calling {@link Game#updateHighScore()}
+     *
      * @param direction of the move.
      * @throws GoalAchievedException when one or more fields have value equal or higher then 2048.
-     * @throws GameOverException when the game ended.
+     * @throws GameOverException     when the game ended.
      */
     public void move(int direction) throws GameOverException, GoalAchievedException {
         try {
@@ -137,35 +164,6 @@ public class Game {
     }
 
     /**
-     * Anonymous implementation of Runnable that saves game.
-     * Called after moves in {@link Game#move(int)} method.
-     */
-    private Runnable saveGameOnceRunnable = new Runnable() {
-        @Override
-        public void run() {
-            saveGame();
-        }
-    };
-
-    /**
-     * Anonymous implementation of Runnable that saves game every {@link Game#SAVE_GAME_DELAY_SECONDS} seconds.
-     */
-    private Runnable saveGameBackgroundRunnable = new Runnable() {
-        @Override
-        public void run() {
-            while (!Thread.currentThread().isInterrupted()) {
-                try {
-                    Thread.sleep(SAVE_GAME_DELAY_SECONDS * 1000);
-                    saveGame();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }
-    };
-
-    /**
      * Calls {@link Board#undoPreviousMove()} method to undo previous move.
      */
     public void undoPreviousMove() {
@@ -174,6 +172,7 @@ public class Game {
 
     /**
      * Calls {@link Board#getAvailableUndoNumber()} method to get number of available undo.
+     *
      * @return number of available undo.
      */
     public int getAvailableUndoNumber() {
@@ -197,6 +196,7 @@ public class Game {
 
     /**
      * Calls {@link Board#getAmountMovedListCopyAndWipeAmountMovedList()} method.
+     *
      * @return list with amount of moves.
      */
     public List<Integer> getAmountMovedList() {
@@ -204,16 +204,8 @@ public class Game {
     }
 
     /**
-     * Load exception class.
-     */
-    private static class LoadException extends Exception {
-        LoadException(Exception e) {
-            super(e);
-        }
-    }
-
-    /**
      * Loads game using {@link Dao#read()}.
+     *
      * @throws LoadException when loading encounters a problem.
      */
     public void loadGame() throws LoadException {
@@ -317,9 +309,9 @@ public class Game {
         return time.substring(0, time.length() - 4);
     }
 
-
     /**
      * Calls {@link Board#getScore()} method to get current score.
+     *
      * @return board's score.
      */
     public int getScore() {
@@ -342,6 +334,7 @@ public class Game {
 
     /**
      * Sets if user is authenticated.
+     *
      * @param userAuthenticated if user is authenticated.
      */
     public void setUserAuthenticated(boolean userAuthenticated) {
@@ -403,5 +396,14 @@ public class Game {
             this.saveGameBackgroundThread.interrupt();
         }
         super.finalize();
+    }
+
+    /**
+     * Load exception class.
+     */
+    private static class LoadException extends Exception {
+        LoadException(Exception e) {
+            super(e);
+        }
     }
 }

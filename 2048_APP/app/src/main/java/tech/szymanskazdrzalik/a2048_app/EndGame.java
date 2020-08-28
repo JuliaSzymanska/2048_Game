@@ -18,9 +18,15 @@ import tech.szymanskazdrzalik.a2048_app.helpers.SoundPlayer;
 public class EndGame extends AppCompatActivity {
     private static String score;
     private static String highScore;
+    private static boolean isAuthenticated = false;
     private Button homePageButton;
     private Preloader preloader = Preloader.getInstance();
-    private static boolean isAuthenticated = false;
+    private MediaPlayer.OnCompletionListener setHomePageButtonBackgroundListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            homePageButton.setBackground(preloader.getMainButton());
+        }
+    };
 
     /**
      * {@inheritDoc}
@@ -76,13 +82,6 @@ public class EndGame extends AppCompatActivity {
             textScore.setText(String.format("%s:\n%s", getResources().getString(R.string.high_score), highScore));
         }
     }
-
-    private MediaPlayer.OnCompletionListener setHomePageButtonBackgroundListener = new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            homePageButton.setBackground(preloader.getMainButton());
-        }
-    };
 
     /**
      * Creates button on click listener to change to main activity.

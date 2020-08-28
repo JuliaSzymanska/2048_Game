@@ -12,18 +12,21 @@ import tech.szymanskazdrzalik.a2048_app.OnSwipeTouchListener;
 import tech.szymanskazdrzalik.a2048_app.R;
 import tech.szymanskazdrzalik.a2048_app.helpers.Preloader;
 
-public class SwipeDownCreditsButton extends androidx.appcompat.widget.AppCompatButton  {
+public class SwipeDownCreditsButton extends androidx.appcompat.widget.AppCompatButton {
 
     private Preloader preloader = Preloader.getInstance();
     private Context context;
-
-    /**
-     * Inizializes class context.
-     * @param context context from activity.
-     */
-    public void initContext(Context context) {
-        this.context = context;
-    }
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        /**
+         * Called when a view has been clicked.
+         *
+         * @param v The view that was clicked.
+         */
+        @Override
+        public void onClick(View v) {
+            swipeDownCreditsButtonOnClick();
+        }
+    };
 
     public SwipeDownCreditsButton(Context context) {
         super(context);
@@ -43,18 +46,14 @@ public class SwipeDownCreditsButton extends androidx.appcompat.widget.AppCompatB
         this.prepareButton();
     }
 
-
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
-        /**
-         * Called when a view has been clicked.
-         *
-         * @param v The view that was clicked.
-         */
-        @Override
-        public void onClick(View v) {
-            swipeDownCreditsButtonOnClick();
-        }
-    };
+    /**
+     * Inizializes class context.
+     *
+     * @param context context from activity.
+     */
+    public void initContext(Context context) {
+        this.context = context;
+    }
 
     /**
      * Calls method to set button's image and set on click listener.
@@ -80,10 +79,10 @@ public class SwipeDownCreditsButton extends androidx.appcompat.widget.AppCompatB
         startNewActivity();
     }
 
-    private void startNewActivity(){
+    private void startNewActivity() {
         Intent intent = null;
         try {
-            intent = new Intent(context, Class.forName(Objects.requireNonNull( ((Activity) this.context).getIntent().getStringExtra(Activity.ACTIVITY_SERVICE))));
+            intent = new Intent(context, Class.forName(Objects.requireNonNull(((Activity) this.context).getIntent().getStringExtra(Activity.ACTIVITY_SERVICE))));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

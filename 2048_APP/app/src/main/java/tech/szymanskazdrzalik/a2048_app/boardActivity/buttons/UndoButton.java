@@ -20,6 +20,21 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
     private Preloader preloader = Preloader.getInstance();
     private Context context;
     private BoardActivityListener boardActivityListener;
+    /**
+     * Calls method after sound finished.
+     */
+    private MediaPlayer.OnCompletionListener setUndoAmountListener = mp -> setUndoNumber();
+    private OnClickListener onClickListener = new OnClickListener() {
+        /**
+         * Called when a view has been clicked.
+         *
+         * @param v The view that was clicked.
+         */
+        @Override
+        public void onClick(View v) {
+            undoButtonOnClick();
+        }
+    };
 
     public UndoButton(Context context) {
         super(context);
@@ -36,20 +51,9 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
         this.setupButton(context);
     }
 
-    private OnClickListener onClickListener = new OnClickListener() {
-        /**
-         * Called when a view has been clicked.
-         *
-         * @param v The view that was clicked.
-         */
-        @Override
-        public void onClick(View v) {
-            undoButtonOnClick();
-        }
-    };
-
     /**
      * Sets class context, on click listener and amount of available undo's.
+     *
      * @param context context from activity.
      */
     private void setupButton(Context context) {
@@ -61,17 +65,13 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
 
     /**
      * Sets class attribute to param.
+     *
      * @param game current game.
      */
     public void setGame(Game game) {
         this.game = game;
         this.setUndoNumber();
     }
-
-    /**
-     * Calls method after sound finished.
-     */
-    private MediaPlayer.OnCompletionListener setUndoAmountListener = mp -> setUndoNumber();
 
     /**
      * Method called by on click listener. Play sound and change button's image.

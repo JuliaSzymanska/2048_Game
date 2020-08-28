@@ -5,15 +5,14 @@ import java.io.Serializable;
 import tech.szymanskazdrzalik.module.Board;
 
 public class SaveGame implements Serializable {
+    private Board board;
+    private Integer highScore;
+    private Long time;
     public SaveGame(Board board, Integer highScore, Long time) {
         this.board = board;
         this.highScore = highScore;
         this.time = time;
     }
-
-    private Board board;
-    private Integer highScore;
-    private Long time;
 
     public Board getBoard() {
         return board;

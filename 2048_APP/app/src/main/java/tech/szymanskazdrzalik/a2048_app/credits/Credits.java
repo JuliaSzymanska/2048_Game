@@ -29,6 +29,7 @@ public class Credits extends AppCompatActivity {
 
     /**
      * On click listener for Przemek's text view.
+     *
      * @param v view.
      */
     public void onClickTextViewPrzemek(View v) {
@@ -39,6 +40,7 @@ public class Credits extends AppCompatActivity {
 
     /**
      * On click listener for Julia's text view.
+     *
      * @param v view.
      */
     public void onClickTextViewJulia(View v) {

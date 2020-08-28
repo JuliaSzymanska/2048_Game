@@ -8,9 +8,7 @@ import tech.szymanskazdrzalik.a2048_app.R;
 
 public class PreferencesHelper {
 
-    @SuppressLint("StaticFieldLeak")
     private static final PreferencesHelper INSTANCE = new PreferencesHelper();
-    @SuppressLint("StaticFieldLeak")
     private static Context context;
     private static SharedPreferences sharedPreferencesSettings;
     private static SharedPreferences.Editor sharedPreferencesEditor;
@@ -60,31 +58,6 @@ public class PreferencesHelper {
     }
 
     /**
-     * @return volume loaded from shared preferences settings.
-     */
-    public int getVolume() {
-        if (PreferencesHelper.context == null) {
-            throw new NullPointerException("Null context. ");
-        }
-        return PreferencesHelper.sharedPreferencesSettings.
-                getBoolean(PreferencesHelper.context.getResources().getString(R.string.volume), true) ? 1 : 0;
-
-    }
-
-    /**
-     * @return chosen sensors by user loaded from shared preferences settings.
-     */
-    public void getChoosenSensors(boolean[] choosenSensors) {
-        if (PreferencesHelper.context == null) {
-            throw new NullPointerException("Null context. ");
-        }
-        String[] sensorNames = PreferencesHelper.context.getResources().getStringArray(R.array.sensors);
-        for (int i = 0; i < choosenSensors.length; i++) {
-            choosenSensors[i] = PreferencesHelper.sharedPreferencesSettings.getBoolean(sensorNames[i], false);
-        }
-    }
-
-    /**
      * Sets setting about dark theme to shared preferences settings.
      *
      * @param isDarkTheme if dark theme is on/off.
@@ -98,6 +71,18 @@ public class PreferencesHelper {
     }
 
     /**
+     * @return volume loaded from shared preferences settings.
+     */
+    public int getVolume() {
+        if (PreferencesHelper.context == null) {
+            throw new NullPointerException("Null context. ");
+        }
+        return PreferencesHelper.sharedPreferencesSettings.
+                getBoolean(PreferencesHelper.context.getResources().getString(R.string.volume), true) ? 1 : 0;
+
+    }
+
+    /**
      * Sets volume to shared preferences settings.
      *
      * @param volume value of application volume.
@@ -108,6 +93,19 @@ public class PreferencesHelper {
         }
         sharedPreferencesEditor.putBoolean(PreferencesHelper.context.getResources().getString(R.string.volume), (volume == 1));
         sharedPreferencesEditor.apply();
+    }
+
+    /**
+     * @return chosen sensors by user loaded from shared preferences settings.
+     */
+    public void getChoosenSensors(boolean[] choosenSensors) {
+        if (PreferencesHelper.context == null) {
+            throw new NullPointerException("Null context. ");
+        }
+        String[] sensorNames = PreferencesHelper.context.getResources().getStringArray(R.array.sensors);
+        for (int i = 0; i < choosenSensors.length; i++) {
+            choosenSensors[i] = PreferencesHelper.sharedPreferencesSettings.getBoolean(sensorNames[i], false);
+        }
     }
 
     /**

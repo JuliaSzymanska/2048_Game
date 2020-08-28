@@ -4,5 +4,6 @@ import android.view.View;
 
 public interface BoardActivityListener {
     void callback(View view, String result);
+
     void callback(String result);
 }

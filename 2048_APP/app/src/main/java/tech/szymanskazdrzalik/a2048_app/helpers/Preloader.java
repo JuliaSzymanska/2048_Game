@@ -12,13 +12,6 @@ public class Preloader {
     private static Preloader instance = new Preloader();
     @SuppressLint("StaticFieldLeak")
     private static Context context;
-
-    /**
-     * Empty default class constructor.
-     */
-    private Preloader() {
-    }
-
     private static Drawable background;
     private static Drawable buttonGreen;
     private static Drawable buttonGreenLight;
@@ -50,6 +43,11 @@ public class Preloader {
     private static Drawable thirtyTwoThousand;
     private static Drawable sixtyFiveThousand;
     private static Drawable oneHundredThousand;
+    /**
+     * Empty default class constructor.
+     */
+    private Preloader() {
+    }
 
     /**
      * Initialized context for class.
@@ -61,6 +59,13 @@ public class Preloader {
         if (Preloader.context == null) {
             Preloader.context = context.getApplicationContext();
         }
+    }
+
+    /**
+     * @return instance of class ({@link Preloader#instance}).
+     */
+    public static Preloader getInstance() {
+        return instance;
     }
 
     /**
@@ -107,14 +112,6 @@ public class Preloader {
         loadButtonBlue();
         loadButtonBlueLight();
     }
-
-    /**
-     * @return instance of class ({@link Preloader#instance}).
-     */
-    public static Preloader getInstance() {
-        return instance;
-    }
-
 
     /**
      * @return background image ({@link Preloader#background}).

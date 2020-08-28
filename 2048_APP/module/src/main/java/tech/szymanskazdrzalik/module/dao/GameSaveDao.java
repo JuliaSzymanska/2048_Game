@@ -4,18 +4,13 @@ import android.content.Context;
 
 import androidx.annotation.Nullable;
 
-import org.apache.commons.lang3.tuple.Triple;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-import tech.szymanskazdrzalik.module.Board;
 
 
 class GameSaveDao implements Dao<SaveGame> {
@@ -34,7 +29,7 @@ class GameSaveDao implements Dao<SaveGame> {
     @Override
     public SaveGame read() throws SaveGame.SaveGameException {
         try (FileInputStream fileInputStream = context.openFileInput(filename);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
             Object obj = objectInputStream.readObject();
             if (obj instanceof SaveGame) {
                 return (SaveGame) obj;
@@ -49,7 +44,7 @@ class GameSaveDao implements Dao<SaveGame> {
     public void write(SaveGame saveGame) throws IOException {
         if (lock.tryLock()) {
             try (FileOutputStream fileOutputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
                 objectOutputStream.writeObject(saveGame);
             } finally {
                 lock.unlock();

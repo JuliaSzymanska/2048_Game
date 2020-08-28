@@ -16,14 +16,12 @@ import static tech.szymanskazdrzalik.a2048_app.boardActivity.buttons.SettingsBut
  */
 public class DarkMode implements Runnable, SensorEventListener {
 
+    private final static int DARK_MODE_ENABLE_LIGHT = 30;
+    private final static int DARK_MODE_DISABLE_LIGHT = 50;
     private Context context;
-
     private PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
     private BoardActivityListener boardActivityListener;
     private float mLightData;
-
-    private final static int DARK_MODE_ENABLE_LIGHT = 30;
-    private final static int DARK_MODE_DISABLE_LIGHT = 50;
 
     /**
      * Default class constructor. Sets class context.

@@ -19,10 +19,16 @@ import tech.szymanskazdrzalik.a2048_app.helpers.Preloader;
 public class SwipeTopCreditsButton extends androidx.appcompat.widget.AppCompatButton {
     private Preloader preloader = Preloader.getInstance();
     private Context context;
-
-    public void initContext(Context context) {
-        this.context = context;
-    }
+    private OnClickListener onClickListener = new OnClickListener() {
+        /**
+         * {@inheritDoc}
+         * Takes the user to {@link Credits} Activity.
+         */
+        @Override
+        public void onClick(View v) {
+            swipeTopCreditsButtonOnClick();
+        }
+    };
 
     public SwipeTopCreditsButton(Context context) {
         super(context);
@@ -42,16 +48,9 @@ public class SwipeTopCreditsButton extends androidx.appcompat.widget.AppCompatBu
         this.prepareButton();
     }
 
-    private OnClickListener onClickListener = new OnClickListener() {
-        /**
-         * {@inheritDoc}
-         * Takes the user to {@link Credits} Activity.
-         */
-        @Override
-        public void onClick(View v) {
-            swipeTopCreditsButtonOnClick();
-        }
-    };
+    public void initContext(Context context) {
+        this.context = context;
+    }
 
     private void prepareButton() {
         this.setSwipeTopCreditsImage();
@@ -74,7 +73,7 @@ public class SwipeTopCreditsButton extends androidx.appcompat.widget.AppCompatBu
         startNewCreditsActivity();
     }
 
-    private void startNewCreditsActivity(){
+    private void startNewCreditsActivity() {
         Intent intent = new Intent(context, Credits.class).putExtra(Activity.ACTIVITY_SERVICE, ((Activity) context).getClass().getCanonicalName());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.context.startActivity(intent);

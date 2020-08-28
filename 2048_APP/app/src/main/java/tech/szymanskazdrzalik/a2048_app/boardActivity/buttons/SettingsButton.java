@@ -19,68 +19,10 @@ import tech.szymanskazdrzalik.a2048_app.helpers.SoundPlayer;
 
 public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
 
+    public final static boolean[] chosenSensors = new boolean[]{false, false, false, false};
     PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
     private Preloader preloader = Preloader.getInstance();
-
-    public final static boolean[] chosenSensors = new boolean[]{false, false, false, false};
     private Context context;
-
-    public SettingsButton(Context context) {
-        super(context);
-        this.setupButton(context);
-    }
-
-    public SettingsButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        this.setupButton(context);
-    }
-
-    public SettingsButton(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        this.setupButton(context);
-    }
-
-    /**
-     * Sets class context and on click listener to button.
-     * @param context context from activity.
-     */
-    private void setupButton(Context context) {
-        this.context = context;
-        this.setOnClickListener(this.onClickListener);
-    }
-
-    private OnClickListener onClickListener = new OnClickListener() {
-        /**
-         * Called when a view has been clicked.
-         *
-         * @param v The view that was clicked.
-         */
-        @Override
-        public void onClick(View v) {
-            settingsButtonOnClick();
-        }
-    };
-
-    /**
-     * Creates button on click listener to open settings dialog.
-     * Play sound after click and change button's image.
-     * Creates dialog to allow the user to turn sensors on or off.
-     */
-    public void settingsButtonOnClick() {
-        SoundPlayer soundPlayer = SoundPlayer.getInstance();
-        soundPlayer.playSound(soundPlayer.getAsset(this.context, R.raw.button_no_reverb));
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
-        builder.setMultiChoiceItems(R.array.sensors, chosenSensors, (dialog, which, isChecked) -> chosenSensors[which] = isChecked);
-        builder.setCancelable(false);
-        builder.setTitle(R.string.settings_menu_title);
-        builder.setPositiveButton(getResources().getString(R.string.dialog_accept), (dialog, which) -> preferencesHelper.setChoosenSensors(chosenSensors));
-        AlertDialog dialog = builder.create();
-        Objects.requireNonNull(dialog.getWindow()).getDecorView().setBackground(preloader.getBackground());
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, 1000);
-        dialog.setOnShowListener(disableUnavailableSensorsInDialog);
-        dialog.show();
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -113,4 +55,60 @@ public class SettingsButton extends androidx.appcompat.widget.AppCompatButton {
             }
         }
     };
+    private OnClickListener onClickListener = new OnClickListener() {
+        /**
+         * Called when a view has been clicked.
+         *
+         * @param v The view that was clicked.
+         */
+        @Override
+        public void onClick(View v) {
+            settingsButtonOnClick();
+        }
+    };
+
+    public SettingsButton(Context context) {
+        super(context);
+        this.setupButton(context);
+    }
+
+    public SettingsButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.setupButton(context);
+    }
+
+    public SettingsButton(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        this.setupButton(context);
+    }
+
+    /**
+     * Sets class context and on click listener to button.
+     *
+     * @param context context from activity.
+     */
+    private void setupButton(Context context) {
+        this.context = context;
+        this.setOnClickListener(this.onClickListener);
+    }
+
+    /**
+     * Creates button on click listener to open settings dialog.
+     * Play sound after click and change button's image.
+     * Creates dialog to allow the user to turn sensors on or off.
+     */
+    public void settingsButtonOnClick() {
+        SoundPlayer soundPlayer = SoundPlayer.getInstance();
+        soundPlayer.playSound(soundPlayer.getAsset(this.context, R.raw.button_no_reverb));
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
+        builder.setMultiChoiceItems(R.array.sensors, chosenSensors, (dialog, which, isChecked) -> chosenSensors[which] = isChecked);
+        builder.setCancelable(false);
+        builder.setTitle(R.string.settings_menu_title);
+        builder.setPositiveButton(getResources().getString(R.string.dialog_accept), (dialog, which) -> preferencesHelper.setChoosenSensors(chosenSensors));
+        AlertDialog dialog = builder.create();
+        Objects.requireNonNull(dialog.getWindow()).getDecorView().setBackground(preloader.getBackground());
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, 1000);
+        dialog.setOnShowListener(disableUnavailableSensorsInDialog);
+        dialog.show();
+    }
 }

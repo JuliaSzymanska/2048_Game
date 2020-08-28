@@ -1,8 +1,5 @@
 package tech.szymanskazdrzalik.module;
 
-import tech.szymanskazdrzalik.module.exceptions.GameOverException;
-import tech.szymanskazdrzalik.module.exceptions.GoalAchievedException;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,9 +8,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import tech.szymanskazdrzalik.module.exceptions.GameOverException;
+import tech.szymanskazdrzalik.module.exceptions.GoalAchievedException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.fail;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -21,19 +20,6 @@ import static org.junit.Assert.fail;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class BoardTest {
-    private static <A, B> List<Pair<A, B>> zip(List<A> listA, List<B> listB) {
-        if (listA.size() != listB.size()) {
-            throw new IllegalArgumentException("Lists must have same size");
-        }
-
-        List<Pair<A, B>> pairList = new LinkedList<>();
-
-        for (int index = 0; index < listA.size(); index++) {
-            pairList.add(Pair.of(listA.get(index), listB.get(index)));
-        }
-        return pairList;
-    }
-
     private List<Integer> integers = new ArrayList<Integer>() {
         {
             add(0);
@@ -57,7 +43,6 @@ public class BoardTest {
             add(0);
         }
     };
-
     private List<Integer> gameOverIntegers = new ArrayList<Integer>() {
         {
             add(2);
@@ -81,7 +66,6 @@ public class BoardTest {
             add(4);
         }
     };
-
     private List<Integer> gameWinIntegers = new ArrayList<Integer>() {
         {
             add(0);
@@ -105,6 +89,42 @@ public class BoardTest {
             add(0);
         }
     };
+    private List<Integer> moveUpAmountsMoved = new ArrayList<Integer>() {
+        {
+            add(0);
+            add(0);
+            add(0);
+            add(0);
+
+            add(1);
+            add(0);
+            add(1);
+            add(0);
+
+            add(2);
+            add(2);
+            add(1);
+            add(2);
+
+            add(0);
+            add(0);
+            add(1);
+            add(0);
+        }
+    };
+
+    private static <A, B> List<Pair<A, B>> zip(List<A> listA, List<B> listB) {
+        if (listA.size() != listB.size()) {
+            throw new IllegalArgumentException("Lists must have same size");
+        }
+
+        List<Pair<A, B>> pairList = new LinkedList<>();
+
+        for (int index = 0; index < listA.size(); index++) {
+            pairList.add(Pair.of(listA.get(index), listB.get(index)));
+        }
+        return pairList;
+    }
 
     @Test
     public void boardDefaultConstructorTest() {
@@ -117,7 +137,6 @@ public class BoardTest {
         }
         Assert.assertEquals(numberOfNonZeroFields, 2);
     }
-
 
     @Test
     public void boardListConstructorTest() {
@@ -350,7 +369,6 @@ public class BoardTest {
         Assert.assertEquals(newFieldsCounter, 2);
     }
 
-
     @Test
     public void copyBoardTest() {
         Board board = new Board(this.integers);
@@ -361,7 +379,6 @@ public class BoardTest {
         copyBoard.get(7).setValue(16);
         Assert.assertNotEquals(copyBoard.get(7), board.getCopyBoard().get(7));
     }
-
 
     @Test
     public void getScoreTest() {
@@ -475,30 +492,6 @@ public class BoardTest {
         assertEquals(board1, board2);
         assertEquals(board1.hashCode(), board2.hashCode());
     }
-
-    private List<Integer> moveUpAmountsMoved = new ArrayList<Integer>() {
-        {
-            add(0);
-            add(0);
-            add(0);
-            add(0);
-
-            add(1);
-            add(0);
-            add(1);
-            add(0);
-
-            add(2);
-            add(2);
-            add(1);
-            add(2);
-
-            add(0);
-            add(0);
-            add(1);
-            add(0);
-        }
-    };
 
     @Test
     public void amountMovedTest() {

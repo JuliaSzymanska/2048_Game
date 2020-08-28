@@ -54,6 +54,9 @@ import static tech.szymanskazdrzalik.a2048_app.boardActivity.buttons.SettingsBut
 
 public class BoardActivity extends AppCompatActivity implements BoardActivityListener {
 
+    private final static double ANIM_SPEED_SECONDS = 0.2;
+    private static boolean wasEndGameAnimated = false;
+    private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
     private Game game;
     private ArrayAdapter<Drawable> adapter;
     private GridView gridView;
@@ -61,32 +64,109 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     private Drawable[] fieldsImages;
     private Drawable[] fieldsBackground;
     private Preloader preloader = Preloader.getInstance();
+    /**
+     * Ordered list of all Drawables used to display game values.
+     * Correct drawable for each value is found at the index of the list equal to log base 2 of the value of the field.
+     */
+    private final List<Drawable> fieldImagesDrawablesList = new ArrayList<>(
+            Arrays.asList(
+                    preloader.getZero(),
+                    preloader.getTwo(),
+                    preloader.getFour(),
+                    preloader.getEight(),
+                    preloader.getSixteen(),
+                    preloader.getThirtyTwo(),
+                    preloader.getSixtyFour(),
+                    preloader.getOneHundred(),
+                    preloader.getTwoHundred(),
+                    preloader.getFiveHundred(),
+                    preloader.getOneThousand(),
+                    preloader.getTwoThousand(),
+                    preloader.getFourThousand(),
+                    preloader.getEightThousand(),
+                    preloader.getSixteenThousand(),
+                    preloader.getThirtyTwoThousand(),
+                    preloader.getSixtyFiveThousand(),
+                    preloader.getOneHundredThousand())
+    );
     private Drawable mThumbIds = preloader.getButtonBlue();
     private OrientationSensors orientationSensors;
     private StopGameProximity stopGameProximity;
     private DarkMode darkMode;
-
     private SensorManager mSensorManager;
-
     private Sensor mSensorAccelerometer;
     private Sensor mSensorMagnetometer;
     private Sensor mSensorLight;
     private Sensor mSensorProximity;
     private Sensor mSensorGyroscope;
-
     private TextView textScore;
     private TextView textHighScore;
     private TextView textTime;
-
     private Button pausePlayButton;
     private UndoButton undoButton;
-
     private Thread updateTimeThread;
+    /**
+     * {@inheritDoc}
+     * Updates game's time every 100 milliseconds.
+     */
+    private Runnable updateTimeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    Thread.sleep(100);
+                    if (textTime.getText().length() <= 8 || textTime.getText().subSequence(textTime.getText().length() - 8, textTime.getText().length()) != game.getElapsedTimeToString()) {
+                        runOnUiThread(() -> setTimeText());
+                    }
 
-    private final static double ANIM_SPEED_SECONDS = 0.2;
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+    private CountDownTimer gameOverTimer = new CountDownTimer((long) (ANIM_SPEED_SECONDS * 1000), (long) (ANIM_SPEED_SECONDS * 1000)) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
 
-    private final PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
+        @Override
+        public void onFinish() {
+            changeToEndActivity();
+        }
+    };
+    private boolean isGameOver = false;
+    private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
 
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void onAnimationStart(Animation arg0) {
+
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void onAnimationEnd(Animation arg0) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            adapter.notifyDataSetChanged();
+            if (isGameOver && !wasEndGameAnimated) {
+                wasEndGameAnimated = true;
+                gameOverTimer.start();
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+        }
+    };
 
     /**
      * {@inheritDoc}
@@ -119,7 +199,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         this.darkMode = new DarkMode(this);
     }
 
-
     /**
      * Prepares views like TextViews, Buttons, ImageViews, sets id and onClickListeners.
      */
@@ -150,14 +229,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     private void prepareGrid() {
         this.adapter = new ArrayAdapter<Drawable>(this,
                 android.R.layout.simple_list_item_1, fieldsImages) {
-            /**
-             * {@inheritDoc}
-             */
-            class ViewHolderItem {
-                TextView textViewItem;
-                ImageView imageViewItem;
-            }
-
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -188,6 +259,14 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
                     setFieldsBackground();
                     super.notifyDataSetChanged();
                 }
+            }
+
+            /**
+             * {@inheritDoc}
+             */
+            class ViewHolderItem {
+                TextView textViewItem;
+                ImageView imageViewItem;
             }
         };
         gridView.setAdapter(adapter);
@@ -368,7 +447,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
 
     }
 
-
     /**
      * Sets all field's images to transparent.
      */
@@ -378,33 +456,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
             fieldsBackground[i] = mThumbIds;
         }
     }
-
-    /**
-     * Ordered list of all Drawables used to display game values.
-     * Correct drawable for each value is found at the index of the list equal to log base 2 of the value of the field.
-     */
-    private final List<Drawable> fieldImagesDrawablesList = new ArrayList<>(
-            Arrays.asList(
-                    preloader.getZero(),
-                    preloader.getTwo(),
-                    preloader.getFour(),
-                    preloader.getEight(),
-                    preloader.getSixteen(),
-                    preloader.getThirtyTwo(),
-                    preloader.getSixtyFour(),
-                    preloader.getOneHundred(),
-                    preloader.getTwoHundred(),
-                    preloader.getFiveHundred(),
-                    preloader.getOneThousand(),
-                    preloader.getTwoThousand(),
-                    preloader.getFourThousand(),
-                    preloader.getEightThousand(),
-                    preloader.getSixteenThousand(),
-                    preloader.getThirtyTwoThousand(),
-                    preloader.getSixtyFiveThousand(),
-                    preloader.getOneHundredThousand())
-    );
-
 
     /**
      * Checks if param is power of number_two.
@@ -463,28 +514,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     }
 
     /**
-     * {@inheritDoc}
-     * Updates game's time every 100 milliseconds.
-     */
-    private Runnable updateTimeRunnable = new Runnable() {
-        @Override
-        public void run() {
-            while (!Thread.currentThread().isInterrupted()) {
-                try {
-                    Thread.sleep(100);
-                    if (textTime.getText().length() <= 8 || textTime.getText().subSequence(textTime.getText().length() - 8, textTime.getText().length()) != game.getElapsedTimeToString()) {
-                        runOnUiThread(() -> setTimeText());
-                    }
-
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    e.printStackTrace();
-                }
-            }
-        }
-    };
-
-    /**
      * Sets {@link BoardActivity#textTime} string.
      */
     private void setTimeText() {
@@ -498,20 +527,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         this.setTextScoreText();
         this.setTextHighScoreText();
     }
-
-
-    private CountDownTimer gameOverTimer = new CountDownTimer((long) (ANIM_SPEED_SECONDS * 1000), (long) (ANIM_SPEED_SECONDS * 1000)) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-        }
-
-        @Override
-        public void onFinish() {
-            changeToEndActivity();
-        }
-    };
-
-    private boolean isGameOver = false;
 
     /**
      * Makes move in appropriate direction and calls move animation.
@@ -550,39 +565,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
             undoButton.setUndoNumber();
         }
     }
-
-    private static boolean wasEndGameAnimated = false;
-
-    private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void onAnimationStart(Animation arg0) {
-
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void onAnimationEnd(Animation arg0) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            adapter.notifyDataSetChanged();
-            if (isGameOver && !wasEndGameAnimated) {
-                wasEndGameAnimated = true;
-                gameOverTimer.start();
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-        }
-    };
 
     /**
      * {@inheritDoc}
@@ -653,36 +635,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         new AlertDialogGoalAchieved(this).show();
     }
 
-    private class AlertDialogGoalAchieved extends Dialog {
-        /**
-         * {@inheritDoc}
-         */
-        public AlertDialogGoalAchieved(@NonNull Context context) {
-            super(context);
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.custom_alert_dialog);
-            findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
-            findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
-            ((TextView) findViewById(R.id.alert_dialog_text)).setText(getText(R.string.goal_achieved_question));
-            Objects.requireNonNull(this.getWindow()).getDecorView().setBackgroundColor(Color.TRANSPARENT);
-        }
-
-        public View.OnClickListener listenerYes = v -> {
-            unPauseGameWithButton();
-            dismiss();
-        };
-
-        public View.OnClickListener listenerNo = v -> {
-            changeToEndActivity();
-            dismiss();
-        };
-    }
-
     /**
      * Changes current activity to EndGameActivity.
      * Saves score, high score and user authentication to next activity.
@@ -726,33 +678,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         overridePendingTransition(0, 0);
     }
 
-
-    private class AlertDialogRestartGame extends Dialog {
-        /**
-         * {@inheritDoc}
-         */
-        public AlertDialogRestartGame(@NonNull Context context) {
-            super(context);
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.custom_alert_dialog);
-            findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
-            findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
-            Objects.requireNonNull(this.getWindow()).getDecorView().setBackgroundColor(Color.TRANSPARENT);
-        }
-
-        public View.OnClickListener listenerYes = v -> {
-            restartGame();
-            dismiss();
-        };
-
-        public View.OnClickListener listenerNo = v -> dismiss();
-    }
-
     /**
      * {@inheritDoc}
      * Pressing back button will change current activity to main activity.
@@ -765,36 +690,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
         } else {
             super.onBackPressed();
         }
-    }
-
-    private class AlertDialogOnBackPressed extends Dialog {
-        /**
-         * {@inheritDoc}
-         */
-        public AlertDialogOnBackPressed(@NonNull Context context) {
-            super(context);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.custom_alert_dialog);
-            findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
-            findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
-            ((TextView) findViewById(R.id.alert_dialog_text)).setText(getText(R.string.dialog_back_question));
-            Objects.requireNonNull(this.getWindow()).getDecorView().setBackgroundColor(Color.TRANSPARENT);
-        }
-
-        public View.OnClickListener listenerYes = v -> {
-            BoardActivity.super.onBackPressed();
-            dismiss();
-        };
-
-        public View.OnClickListener listenerNo = v -> dismiss();
     }
 
     /**
@@ -818,5 +713,88 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
             this.updateTimeThread.interrupt();
         }
         unregisterSensors();
+    }
+
+    private class AlertDialogGoalAchieved extends Dialog {
+        public View.OnClickListener listenerYes = v -> {
+            unPauseGameWithButton();
+            dismiss();
+        };
+        public View.OnClickListener listenerNo = v -> {
+            changeToEndActivity();
+            dismiss();
+        };
+
+        /**
+         * {@inheritDoc}
+         */
+        public AlertDialogGoalAchieved(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.custom_alert_dialog);
+            findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
+            findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
+            ((TextView) findViewById(R.id.alert_dialog_text)).setText(getText(R.string.goal_achieved_question));
+            Objects.requireNonNull(this.getWindow()).getDecorView().setBackgroundColor(Color.TRANSPARENT);
+        }
+    }
+
+    private class AlertDialogRestartGame extends Dialog {
+        public View.OnClickListener listenerYes = v -> {
+            restartGame();
+            dismiss();
+        };
+        public View.OnClickListener listenerNo = v -> dismiss();
+
+        /**
+         * {@inheritDoc}
+         */
+        public AlertDialogRestartGame(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.custom_alert_dialog);
+            findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
+            findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
+            Objects.requireNonNull(this.getWindow()).getDecorView().setBackgroundColor(Color.TRANSPARENT);
+        }
+    }
+
+    private class AlertDialogOnBackPressed extends Dialog {
+        public View.OnClickListener listenerYes = v -> {
+            BoardActivity.super.onBackPressed();
+            dismiss();
+        };
+        public View.OnClickListener listenerNo = v -> dismiss();
+
+        /**
+         * {@inheritDoc}
+         */
+        public AlertDialogOnBackPressed(@NonNull Context context) {
+            super(context);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.custom_alert_dialog);
+            findViewById(R.id.alert_dialog_button_yes).setOnClickListener(listenerYes);
+            findViewById(R.id.alert_dialog_button_no).setOnClickListener(listenerNo);
+            ((TextView) findViewById(R.id.alert_dialog_text)).setText(getText(R.string.dialog_back_question));
+            Objects.requireNonNull(this.getWindow()).getDecorView().setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 }

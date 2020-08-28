@@ -2,8 +2,6 @@ package tech.szymanskazdrzalik.module.dao;
 
 import android.content.Context;
 
-import tech.szymanskazdrzalik.module.Board;
-
 public class GameSaveDaoFactory implements AutoCloseable {
 
     private GameSaveDaoFactory() {

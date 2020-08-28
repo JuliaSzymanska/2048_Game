@@ -59,6 +59,42 @@ public class OrientationSensors implements SensorEventListener {
     }
 
     /**
+     * {@inheritDoc}
+     * Calls {@link ChangeColour} or {@link MakeMove} depending on the {@link SensorEvent} and updates the
+     * {@link OrientationSensors#mGyroscopeData}, {@link OrientationSensors#mAccelerometerData},
+     * {@link OrientationSensors#mMagnetometerData} variables.
+     */
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        int sensorType = event.sensor.getType();
+        switch (sensorType) {
+            case Sensor.TYPE_GYROSCOPE:
+                this.mGyroscopeData = event.values;
+                if (chosenSensors[0]) {
+                    new Thread(new MakeMove()).start();
+                }
+                break;
+            case Sensor.TYPE_ACCELEROMETER:
+                this.mAccelerometerData = event.values.clone();
+                break;
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                mMagnetometerData = event.values.clone();
+                if (chosenSensors[1]) {
+                    new Thread(new ChangeColour()).start();
+                }
+                break;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    /**
      * Method to check the current Gyroscope, Magnetometer and Accelerometer values and use {@link BoardActivityListener#callback(String)}
      * on parent {@link tech.szymanskazdrzalik.a2048_app.boardActivity.BoardActivity} class to cause a move in {@link tech.szymanskazdrzalik.module.Game}.
      */
@@ -118,41 +154,5 @@ public class OrientationSensors implements SensorEventListener {
                 boardActivityListener.callback(context.getString(R.string.Notify_Adapter));
             }
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     * Calls {@link ChangeColour} or {@link MakeMove} depending on the {@link SensorEvent} and updates the
-     * {@link OrientationSensors#mGyroscopeData}, {@link OrientationSensors#mAccelerometerData},
-     * {@link OrientationSensors#mMagnetometerData} variables.
-     */
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        int sensorType = event.sensor.getType();
-        switch (sensorType) {
-            case Sensor.TYPE_GYROSCOPE:
-                this.mGyroscopeData = event.values;
-                if (chosenSensors[0]) {
-                    new Thread(new MakeMove()).start();
-                }
-                break;
-            case Sensor.TYPE_ACCELEROMETER:
-                this.mAccelerometerData = event.values.clone();
-                break;
-            case Sensor.TYPE_MAGNETIC_FIELD:
-                mMagnetometerData = event.values.clone();
-                if (chosenSensors[1]) {
-                    new Thread(new ChangeColour()).start();
-                }
-                break;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
     }
 }

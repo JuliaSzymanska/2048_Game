@@ -26,7 +26,6 @@ public class MuteButton extends androidx.appcompat.widget.AppCompatButton {
         this.prepareButton();
     }
 
-
     public MuteButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.prepareButton();

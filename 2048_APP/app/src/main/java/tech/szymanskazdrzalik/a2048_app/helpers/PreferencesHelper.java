@@ -1,6 +1,5 @@
 package tech.szymanskazdrzalik.a2048_app.helpers;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -8,9 +7,7 @@ import tech.szymanskazdrzalik.a2048_app.R;
 
 public class PreferencesHelper {
 
-    @SuppressLint("StaticFieldLeak")
     private static final PreferencesHelper INSTANCE = new PreferencesHelper();
-    @SuppressLint("StaticFieldLeak")
     private static Context context;
     private static SharedPreferences sharedPreferencesSettings;
     private static SharedPreferences.Editor sharedPreferencesEditor;
@@ -35,7 +32,6 @@ public class PreferencesHelper {
      *                Assigns {@link PreferencesHelper#sharedPreferencesSettings} instance of {@link SharedPreferences} class for accessing and modifying preference data.
      *                Assigns  {@link PreferencesHelper#sharedPreferencesEditor} a new instance of the {@link SharedPreferences.Editor} interface.
      */
-    @SuppressLint("CommitPrefEdits")
     public static void initContext(Context context) {
         if (PreferencesHelper.context == null) {
             PreferencesHelper.context = context.getApplicationContext();

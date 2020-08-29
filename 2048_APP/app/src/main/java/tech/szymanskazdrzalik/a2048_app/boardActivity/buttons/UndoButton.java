@@ -1,6 +1,5 @@
 package tech.szymanskazdrzalik.a2048_app.boardActivity.buttons;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.util.AttributeSet;
@@ -88,7 +87,6 @@ public class UndoButton extends androidx.appcompat.widget.AppCompatButton {
     /**
      * Sets undo's button's image and TextView with number of available undo.
      */
-    @SuppressLint("DefaultLocale")
     public void setUndoNumber() {
         int undoNumber = this.game.getAvailableUndoNumber();
         if (undoNumber > 0) {

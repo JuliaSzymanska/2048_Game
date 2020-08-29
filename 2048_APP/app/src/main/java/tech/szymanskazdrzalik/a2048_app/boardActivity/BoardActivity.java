@@ -1,6 +1,5 @@
 package tech.szymanskazdrzalik.a2048_app.boardActivity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -171,7 +170,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     /**
      * {@inheritDoc}
      */
-    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

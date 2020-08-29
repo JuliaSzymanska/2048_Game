@@ -1,13 +1,11 @@
 package tech.szymanskazdrzalik.a2048_app;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -25,11 +23,21 @@ import tech.szymanskazdrzalik.a2048_app.helpers.SoundPlayer;
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback {
 
     private static Boolean isAuthenticated = false;
+    private static boolean isFirstRun = true;
     private Button startGameButton;
     private Preloader preloader = Preloader.getInstance();
     private ActivityMainBinding binding;
+    /**
+     * Creates button on click listener to start game.
+     * Play sound after click and change button's image.
+     */
 
-    private static boolean isFirstRun = true;
+    private MediaPlayer.OnCompletionListener setStartGameBackgroundListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            startGameButton.setBackground(preloader.getMainButton());
+        }
+    };
 
     /**
      * Called when the activity is starting.
@@ -39,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      *                           then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
      *                           Otherwise is null.
      */
-    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -67,9 +74,8 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      * Loads volume and current theme.
      */
     private void loadData() {
-        DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
+        DarkModeHelper.setTheme(findViewById(R.id.darkThemeView));
     }
-
 
     /**
      * Calls method to initialize buttons.
@@ -78,19 +84,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
         startGameButton = findViewById(R.id.startGameButton);
         binding.setIsFingerprintSensorAvailable(isFingerprintSensorAvailable());
     }
-
-    /**
-     * Creates button on click listener to start game.
-     * Play sound after click and change button's image.
-     */
-
-    private MediaPlayer.OnCompletionListener setStartGameBackgroundListener = new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            startGameButton.setBackground(preloader.getMainButton());
-        }
-    };
-
 
     public void mainActivityMainButtonOnClick(View v) {
         SoundPlayer soundPlayer = SoundPlayer.getInstance();

@@ -23,6 +23,14 @@ public class SoundPlayer {
     private static SoundPlayer instance = new SoundPlayer();
 
     private float volume;
+    /**
+     * Default onCompletionListener for {@link MediaPlayer} instances, calls {@link MediaPlayer#release()} on the MediaPlayer instance.
+     */
+    private MediaPlayer.OnCompletionListener onCompletionListener = MediaPlayer::release;
+
+    private SoundPlayer() {
+        this.volume = PreferencesHelper.getInstance().getVolume();
+    }
 
     public static SoundPlayer getInstance() {
         return instance;
@@ -76,15 +84,6 @@ public class SoundPlayer {
         prepareAndRunMediaplayer(assetFileDescriptor, compositeMediaPlayerOnCompletionListener);
     }
 
-    private SoundPlayer() {
-        this.volume = PreferencesHelper.getInstance().getVolume();
-    }
-
-    /**
-     * Default onCompletionListener for {@link MediaPlayer} instances, calls {@link MediaPlayer#release()} on the MediaPlayer instance.
-     */
-    private MediaPlayer.OnCompletionListener onCompletionListener = MediaPlayer::release;
-
     /**
      * Initializes the MediaPlayer instances to correct {@link AudioAttributes} and volume.
      *
@@ -100,25 +99,6 @@ public class SoundPlayer {
         );
         mediaPlayer.setVolume(volume, volume);
         return mediaPlayer;
-    }
-
-    /**
-     * A simple class used in order to combine multiple listeners into one
-     */
-    private static class CompositeMediaPlayerOnCompletionListener implements MediaPlayer.OnCompletionListener {
-
-        private List<MediaPlayer.OnCompletionListener> registeredListeners = new ArrayList<>();
-
-        public void registerListener(MediaPlayer.OnCompletionListener listener) {
-            registeredListeners.add(listener);
-        }
-
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            for (MediaPlayer.OnCompletionListener listener : registeredListeners) {
-                listener.onCompletion(mp);
-            }
-        }
     }
 
     /**
@@ -138,6 +118,25 @@ public class SoundPlayer {
             mediaPlayer.start();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * A simple class used in order to combine multiple listeners into one
+     */
+    private static class CompositeMediaPlayerOnCompletionListener implements MediaPlayer.OnCompletionListener {
+
+        private List<MediaPlayer.OnCompletionListener> registeredListeners = new ArrayList<>();
+
+        public void registerListener(MediaPlayer.OnCompletionListener listener) {
+            registeredListeners.add(listener);
+        }
+
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            for (MediaPlayer.OnCompletionListener listener : registeredListeners) {
+                listener.onCompletion(mp);
+            }
         }
     }
 }

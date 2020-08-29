@@ -1,6 +1,5 @@
 package tech.szymanskazdrzalik.a2048_app.helpers;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -8,9 +7,7 @@ import tech.szymanskazdrzalik.a2048_app.R;
 
 public class PreferencesHelper {
 
-    @SuppressLint("StaticFieldLeak")
     private static final PreferencesHelper INSTANCE = new PreferencesHelper();
-    @SuppressLint("StaticFieldLeak")
     private static Context context;
     private static SharedPreferences sharedPreferencesSettings;
     private static SharedPreferences.Editor sharedPreferencesEditor;
@@ -35,7 +32,6 @@ public class PreferencesHelper {
      *                Assigns {@link PreferencesHelper#sharedPreferencesSettings} instance of {@link SharedPreferences} class for accessing and modifying preference data.
      *                Assigns  {@link PreferencesHelper#sharedPreferencesEditor} a new instance of the {@link SharedPreferences.Editor} interface.
      */
-    @SuppressLint("CommitPrefEdits")
     public static void initContext(Context context) {
         if (PreferencesHelper.context == null) {
             PreferencesHelper.context = context.getApplicationContext();
@@ -98,30 +94,30 @@ public class PreferencesHelper {
     }
 
     /**
-     * @return chosen sensors by user loaded from shared preferences settings.
+     * @param chosenSensors chosen sensors by user loaded from shared preferences settings.
      */
-    public void getChoosenSensors(boolean[] choosenSensors) {
+    public void getChosenSensors(boolean[] chosenSensors) {
         if (PreferencesHelper.context == null) {
             throw new NullPointerException("Null context. ");
         }
         String[] sensorNames = PreferencesHelper.context.getResources().getStringArray(R.array.sensors);
-        for (int i = 0; i < choosenSensors.length; i++) {
-            choosenSensors[i] = PreferencesHelper.sharedPreferencesSettings.getBoolean(sensorNames[i], false);
+        for (int i = 0; i < chosenSensors.length; i++) {
+            chosenSensors[i] = PreferencesHelper.sharedPreferencesSettings.getBoolean(sensorNames[i], false);
         }
     }
 
     /**
-     * Sets choosen sensors to shared preferences settings.
+     * Sets chosen sensors to shared preferences settings.
      *
-     * @param choosenSensors user's choosen sensors.
+     * @param chosenSensors user's chosen sensors.
      */
-    public void setChoosenSensors(boolean[] choosenSensors) {
+    public void setChosenSensors(boolean[] chosenSensors) {
         if (PreferencesHelper.context == null) {
-            throw new NullPointerException("Null context. ");
+            throw new NullPointerException("Null context.");
         }
         String[] sensorNames = PreferencesHelper.context.getResources().getStringArray(R.array.sensors);
-        for (int i = 0; i < choosenSensors.length; i++) {
-            sharedPreferencesEditor.putBoolean(sensorNames[i], choosenSensors[i]);
+        for (int i = 0; i < chosenSensors.length; i++) {
+            sharedPreferencesEditor.putBoolean(sensorNames[i], chosenSensors[i]);
         }
         sharedPreferencesEditor.apply();
     }

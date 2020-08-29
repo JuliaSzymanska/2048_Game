@@ -1,6 +1,5 @@
 package tech.szymanskazdrzalik.a2048_app;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -18,9 +17,9 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
     /**
      * {@inheritDoc}
      */
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        v.performClick();
         return gestureDetector.onTouchEvent(event);
     }
 

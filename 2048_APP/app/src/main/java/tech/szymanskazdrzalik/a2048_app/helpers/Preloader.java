@@ -1,6 +1,5 @@
 package tech.szymanskazdrzalik.a2048_app.helpers;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
@@ -8,9 +7,7 @@ import tech.szymanskazdrzalik.a2048_app.R;
 
 public class Preloader {
 
-    @SuppressLint("StaticFieldLeak")
     private static Preloader instance = new Preloader();
-    @SuppressLint("StaticFieldLeak")
     private static Context context;
     private static Drawable background;
     private static Drawable buttonGreen;
@@ -43,6 +40,7 @@ public class Preloader {
     private static Drawable thirtyTwoThousand;
     private static Drawable sixtyFiveThousand;
     private static Drawable oneHundredThousand;
+
     /**
      * Empty default class constructor.
      */
@@ -54,7 +52,6 @@ public class Preloader {
      *
      * @param context context passed by activity.
      */
-    @SuppressLint("CommitPrefEdits")
     public static void initContext(Context context) {
         if (Preloader.context == null) {
             Preloader.context = context.getApplicationContext();

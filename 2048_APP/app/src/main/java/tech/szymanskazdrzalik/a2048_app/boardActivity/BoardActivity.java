@@ -379,17 +379,15 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     @Override
     protected void onStart() {
         super.onStart();
-        if (mSensorGyroscope != null) {
-            mSensorManager.registerListener(orientationSensors, mSensorGyroscope,
-                    SensorManager.SENSOR_DELAY_GAME);
-        }
-        if (mSensorAccelerometer != null) {
+        if (mSensorAccelerometer != null && mSensorMagnetometer != null) {
             mSensorManager.registerListener(orientationSensors, mSensorAccelerometer,
                     SensorManager.SENSOR_DELAY_GAME);
-        }
-        if (mSensorMagnetometer != null) {
             mSensorManager.registerListener(orientationSensors, mSensorMagnetometer,
                     SensorManager.SENSOR_DELAY_GAME);
+            if (mSensorGyroscope != null) {
+                mSensorManager.registerListener(orientationSensors, mSensorGyroscope,
+                        SensorManager.SENSOR_DELAY_GAME);
+            }
         }
         if (mSensorLight != null) {
             mSensorManager.registerListener(darkMode, mSensorLight,

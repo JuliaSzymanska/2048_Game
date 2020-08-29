@@ -185,7 +185,7 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
      * Loads settings, game and grid drawable resources.
      */
     private void loadData() {
-        preferencesHelper.getChoosenSensors(chosenSensors);
+        preferencesHelper.getChosenSensors(chosenSensors);
         this.game = new Game(getIntent().getBooleanExtra(getResources().getString(R.string.authentication), false), this);
         this.fields = game.getBoard().toArray(new Field[0]);
         this.fieldsImages = new Drawable[fields.length];

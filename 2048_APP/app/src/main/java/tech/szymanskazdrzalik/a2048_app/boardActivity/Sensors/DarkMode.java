@@ -16,8 +16,8 @@ import static tech.szymanskazdrzalik.a2048_app.boardActivity.buttons.SettingsBut
  */
 public class DarkMode implements Runnable, SensorEventListener {
 
-    private final static int DARK_MODE_ENABLE_LIGHT = 30;
-    private final static int DARK_MODE_DISABLE_LIGHT = 50;
+    private final static int DARK_MODE_ENABLE_DARK_MODE = 30;
+    private final static int DARK_MODE_DISABLE_DARK_MODE = 50;
     private Context context;
     private PreferencesHelper preferencesHelper = PreferencesHelper.getInstance();
     private BoardActivityListener boardActivityListener;
@@ -39,10 +39,10 @@ public class DarkMode implements Runnable, SensorEventListener {
      */
     @Override
     public void run() {
-        if (mLightData <= DARK_MODE_ENABLE_LIGHT && !preferencesHelper.getDarkTheme()) {
+        if (mLightData <= DARK_MODE_ENABLE_DARK_MODE && !preferencesHelper.getDarkTheme()) {
             preferencesHelper.setDarkTheme(true);
             boardActivityListener.callback(context.getString(R.string.SetTheme));
-        } else if (mLightData >= DARK_MODE_DISABLE_LIGHT && preferencesHelper.getDarkTheme()) {
+        } else if (mLightData >= DARK_MODE_DISABLE_DARK_MODE && preferencesHelper.getDarkTheme()) {
             preferencesHelper.setDarkTheme(false);
             boardActivityListener.callback(context.getString(R.string.SetTheme));
         }

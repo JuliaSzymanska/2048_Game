@@ -378,22 +378,22 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     @Override
     protected void onStart() {
         super.onStart();
-        if (mSensorAccelerometer != null && mSensorMagnetometer != null) {
-            mSensorManager.registerListener(orientationSensors, mSensorAccelerometer,
+        if (this.mSensorAccelerometer != null && this.mSensorMagnetometer != null) {
+            this.mSensorManager.registerListener(this.orientationSensors, this.mSensorAccelerometer,
                     SensorManager.SENSOR_DELAY_GAME);
-            mSensorManager.registerListener(orientationSensors, mSensorMagnetometer,
+            this.mSensorManager.registerListener(this.orientationSensors, this.mSensorMagnetometer,
                     SensorManager.SENSOR_DELAY_GAME);
-            if (mSensorGyroscope != null) {
-                mSensorManager.registerListener(orientationSensors, mSensorGyroscope,
+            if (this.mSensorGyroscope != null) {
+                this.mSensorManager.registerListener(this.orientationSensors, this.mSensorGyroscope,
                         SensorManager.SENSOR_DELAY_GAME);
             }
         }
-        if (mSensorLight != null) {
-            mSensorManager.registerListener(darkMode, mSensorLight,
+        if (this.mSensorLight != null) {
+            this.mSensorManager.registerListener(this.darkMode, this.mSensorLight,
                     SensorManager.SENSOR_DELAY_GAME);
         }
-        if (mSensorProximity != null) {
-            mSensorManager.registerListener(stopGameProximity, mSensorProximity,
+        if (this.mSensorProximity != null) {
+            this.mSensorManager.registerListener(this.stopGameProximity, this.mSensorProximity,
                     SensorManager.SENSOR_DELAY_GAME);
         }
         unPauseGameWithButton();

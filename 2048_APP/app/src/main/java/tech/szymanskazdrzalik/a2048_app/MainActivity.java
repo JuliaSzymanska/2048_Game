@@ -2,7 +2,6 @@ package tech.szymanskazdrzalik.a2048_app;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         PreferencesHelper.initContext(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);

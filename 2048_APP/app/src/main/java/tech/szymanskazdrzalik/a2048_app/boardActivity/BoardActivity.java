@@ -176,7 +176,6 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PreferencesHelper.initContext(this);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_board);
         this.loadData();
         this.prepareViews();

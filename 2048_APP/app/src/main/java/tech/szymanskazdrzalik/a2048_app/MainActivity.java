@@ -7,7 +7,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      * Loads volume and current theme.
      */
     private void loadData() {
-        DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
+        DarkModeHelper.setTheme(findViewById(R.id.darkThemeView));
     }
 
 

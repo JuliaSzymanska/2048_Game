@@ -216,7 +216,7 @@ public class BoardActivity extends AppCompatActivity implements BoardActivityLis
 
         this.pausePlayButton = findViewById(R.id.pausePlayButton);
 
-        DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
+        DarkModeHelper.setTheme(findViewById(R.id.darkThemeView));
 
         this.adapter.notifyDataSetChanged();
     }

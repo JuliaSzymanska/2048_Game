@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -62,7 +61,7 @@ public class Credits extends AppCompatActivity {
      * Loads volume and current theme.
      */
     private void loadData() {
-        DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
+        DarkModeHelper.setTheme(findViewById(R.id.darkThemeView));
     }
 
 }

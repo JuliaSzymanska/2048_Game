@@ -5,7 +5,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,7 +59,7 @@ public class EndGame extends AppCompatActivity {
      * Calls method to set TextView texts.
      */
     private void loadData() {
-        DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
+        DarkModeHelper.setTheme(findViewById(R.id.darkThemeView));
         setTextScoreText();
         setTextHighScoreText();
     }

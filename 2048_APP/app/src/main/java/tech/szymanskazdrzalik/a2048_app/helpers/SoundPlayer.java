@@ -83,12 +83,7 @@ public class SoundPlayer {
     /**
      * Default onCompletionListener for {@link MediaPlayer} instances, calls {@link MediaPlayer#release()} on the MediaPlayer instance.
      */
-    private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            mp.release();
-        }
-    };
+    private MediaPlayer.OnCompletionListener onCompletionListener = MediaPlayer::release;
 
     /**
      * Initializes the MediaPlayer instances to correct {@link AudioAttributes} and volume.

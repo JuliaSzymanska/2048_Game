@@ -8,7 +8,9 @@ import tech.szymanskazdrzalik.a2048_app.R;
 
 public class PreferencesHelper {
 
+    @SuppressLint("StaticFieldLeak")
     private static final PreferencesHelper INSTANCE = new PreferencesHelper();
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
     private static SharedPreferences sharedPreferencesSettings;
     private static SharedPreferences.Editor sharedPreferencesEditor;

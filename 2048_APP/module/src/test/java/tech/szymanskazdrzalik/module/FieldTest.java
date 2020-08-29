@@ -121,8 +121,7 @@ public class FieldTest {
     public void compareToTest() {
         Field fieldFirst = new Field(2);
         Field fieldSecond = new Field(2);
-        Field fieldThird = null;
-        assertEquals(1, fieldFirst.compareTo(fieldThird));
+        assertEquals(1, fieldFirst.compareTo(null));
 
         assertEquals(fieldFirst, fieldSecond);
         assertEquals(0, fieldFirst.compareTo(fieldSecond));

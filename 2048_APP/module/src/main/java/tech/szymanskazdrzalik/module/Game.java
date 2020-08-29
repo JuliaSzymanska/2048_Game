@@ -206,9 +206,8 @@ public class Game {
                 e.printStackTrace();
                 throw new LoadException(e);
             } catch (Exception e) {
-                // TODO: 16.08.2020 tutaj sie crashowalo to juz sie nie zcrashuje xdd
-                //  Nie łączyć z poprzednim żeby było widać że jest osobno!
                 e.printStackTrace();
+                System.out.println("Unexpected exception in game load");
                 throw new LoadException(e);
             }
         }

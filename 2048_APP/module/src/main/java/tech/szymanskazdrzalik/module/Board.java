@@ -144,12 +144,6 @@ public class Board implements Serializable {
             this.addNewNonEmptyFieldAfterMove();
         } catch (GoalAchievedException ignore) {
         }
-        // uncomment for an instant lose board
-//        int value = 2;
-//        for(Field i : board) {
-//            i.setValue(value);
-//            value = value * 2 ;
-//        }
     }
 
     /**

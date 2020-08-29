@@ -64,7 +64,7 @@ public class GameTest {
     }
 
     @Test
-    public void pauseAndUnpauseTimer() throws InterruptedException {
+    public void pauseAndUnPauseTimer() throws InterruptedException {
         Game game = new Game(false, null);
         TimeUnit.MILLISECONDS.sleep(10);
         game.pauseTimer();

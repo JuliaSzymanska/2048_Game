@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -23,7 +24,7 @@ import tech.szymanskazdrzalik.a2048_app.helpers.SoundPlayer;
 
 public class MainActivity extends AppCompatActivity implements FingerprintDialogCallback {
 
-    private static Boolean isAuthenticated = true;
+    private static Boolean isAuthenticated = false;
     private Button startGameButton;
     private Preloader preloader = Preloader.getInstance();
     private ActivityMainBinding binding;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements FingerprintDialog
      * Loads volume and current theme.
      */
     private void loadData() {
-        DarkModeHelper.setTheme(findViewById(R.id.darkThemeView));
+        DarkModeHelper.setTheme((ImageView) findViewById(R.id.darkThemeView));
     }
 
 

@@ -49,6 +49,44 @@ public class Board implements Serializable {
         this.setVariablesToDefault();
     }
 
+    public Board(Board board) {
+        this.board = board.getCopyBoard();
+        this.amountMovedList = board.getAmountMovedListCopy();
+        this.previousBoards = board.getPreviousBoardsCopy();
+        this.previousScores = board.getPreviousScoresCopy();
+        this.score = board.score;
+        this.isGoalAchieved = board.isGoalAchieved;
+    }
+
+    private List<Integer> getAmountMovedListCopy() {
+        List<Integer> cloneList = new ArrayList<>();
+        for (Integer i : this.amountMovedList) {
+            cloneList.add(i.intValue());
+        }
+        return cloneList;
+    }
+
+    private List<List<Field>> getPreviousBoardsCopy() {
+        List<List<Field>> cloneList = new ArrayList<>();
+        int counter = 0;
+        for (List<Field> i : this.previousBoards) {
+            cloneList.add(new ArrayList<Field>());
+            for (Field j : i) {
+                cloneList.get(counter).add(new Field(j));
+            }
+            counter++;
+        }
+        return cloneList;
+    }
+
+    private List<Integer> getPreviousScoresCopy() {
+        List<Integer> cloneList = new ArrayList<>();
+        for (Integer i : this.previousScores) {
+            cloneList.add(i.intValue());
+        }
+        return cloneList;
+    }
+
     /**
      * Class constructor specifying fields of the board with the param.
      *

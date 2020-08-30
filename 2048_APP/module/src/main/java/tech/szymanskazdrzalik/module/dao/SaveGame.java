@@ -10,7 +10,7 @@ public class SaveGame implements Serializable {
     private Long time;
 
     public SaveGame(Board board, Integer highScore, Long time) {
-        this.board = board;
+        this.board = new Board(board);
         this.highScore = highScore;
         this.time = time;
     }

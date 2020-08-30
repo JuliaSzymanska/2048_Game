@@ -46,6 +46,7 @@ public class Game {
             while (!Thread.currentThread().isInterrupted()) {
                 try {
                     Thread.sleep(SAVE_GAME_DELAY_SECONDS * 1000);
+                    System.out.println("Calling save game " + Thread.currentThread().getName());
                     saveGame();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

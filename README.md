@@ -9,7 +9,7 @@ Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(vi
 </p>
 
 
-### Gameplay
+### Gameplay:
 <p align="center">
 
 <img src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/video/gameplay.gif" alt="Gameplay" />
@@ -17,9 +17,10 @@ Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(vi
 </p>
 
 ### Requirements:
-*[Android SDK](https://developer.android.com/studio)
-
-*[Java Developement Kit](https://www.oracle.com/pl/java/technologies/javase-downloads.html)
+* [Android SDK](https://developer.android.com/studio)
+* [Java Developement Kit](https://www.oracle.com/pl/java/technologies/javase-downloads.html)
+* [Gradle](https://gradle.org/)
+* [JUnit4](https://junit.org/junit4/)
 
 ### Features
 #### The app uses the following sensors:
@@ -33,10 +34,6 @@ Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(vi
     * Pauses game when an object is detected
 * Fingerprint sensor:
     * Detects if user is the phone owner
-
-### Build With
-* [Gradle](https://gradle.org/)
-* [JUnit4](https://junit.org/junit4/)
 
 ### Tests
 

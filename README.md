@@ -38,17 +38,7 @@ The application uses device's sensors to:
 * [JUnit4](https://junit.org/junit4/)
 
 ### Features
-#### The app uses the following sensors:
-* Accelerometer + Gyroscope + Magnetometer:
-    * Alternative controls
-* Magnetometer:
-    * Change background colour
-* Light sensor:
-    * Dark/Light mode
-* Proximity sensor:
-    * Pauses game when an object is detected
-* Fingerprint sensor:
-    * Detects if user is the phone owner
+
 
 ### Tests
 

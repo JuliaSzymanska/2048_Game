@@ -3,8 +3,8 @@ Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(vi
 
 
 <p>
-<a href="play-store-url">
-<img src="play-store-image"/>
+<a href="https://play.google.com/store/apps/details?id=com.game.a2048_app">
+<img src=" http://cust234.vereinsmeier.com/files/img/Grisu-NOe/google-play.png"/>
 </a>
 </p>
 

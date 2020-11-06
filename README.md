@@ -10,7 +10,7 @@ Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(vi
 
 
 ### Gameplay:
-<table cellpadding="0" cellspacing="0" border="0" align="center">
+<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
  <tr>
  <td width="50%">
   <img width="100%" src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/English/Fingerprint.jpg/">

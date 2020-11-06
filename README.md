@@ -7,6 +7,11 @@
     src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'></a>
 </div>
 
+### Gameplay:
+<p align="left">
+    <img src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/video/gameplay.gif" alt="Gameplay" />
+</p>
+
 
 ### Description:
 Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(video_game)) for Android in Java. 
@@ -19,11 +24,6 @@ The application uses device's sensors to:
 * Authenticate user based on the fingerprint provided 
 
 
-### Gameplay:
-<p align="left">
-    <img src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/video/gameplay.gif" alt="Gameplay" />
-</p>
-
 
 
 ### Requirements:
@@ -31,9 +31,6 @@ The application uses device's sensors to:
 * [Java Developement Kit](https://www.oracle.com/pl/java/technologies/javase-downloads.html)
 * [Gradle](https://gradle.org/)
 * [JUnit4](https://junit.org/junit4/)
-
-### Features
-
 
 ### Tests
 

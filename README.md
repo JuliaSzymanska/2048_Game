@@ -20,7 +20,7 @@ The application uses device's sensors to:
 
 
 ### Gameplay:
-<p align="center">
+<p align="left">
     <img src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/video/gameplay.gif" alt="Gameplay" />
 </p>
 

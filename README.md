@@ -5,8 +5,9 @@ Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(vi
 * [Julia Szymańska](https://github.com/JuliaSzymanska)
 * [Przemysław Zdrzalik](https://github.com/ZdrzalikPrzemyslaw)
 
-### Gameplay
 <p align="center">
+<b>Gameplay </b>
+<br/>
 
 <img src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/video/gameplay.gif" alt="Gameplay" />
 

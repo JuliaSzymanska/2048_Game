@@ -22,12 +22,12 @@ The application uses device's sensors to:
 ### Gameplay:
 <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
  <tr>
- <td width="50%">
-  <a style="float:right;" href="https://play.google.com/store/apps/details?id=com.game.a2048_app">
-           <img src="http://cust234.vereinsmeier.com/files/img/Grisu-NOe/google-play.png"/>
-           </a>
+ <td width="300px">
+  <a href='https://play.google.com/store/apps/details?id=com.game.a2048_app&hl=pl&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+<img width="300px" alt='Get it on Google Play'
+    src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'></a>
  </td>
-  <td width="50%">
+  <td >
     <img width="100%" src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/video/gameplay.gif" alt="Gameplay" />
   </td>
  </tr>

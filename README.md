@@ -1,5 +1,9 @@
 <table cellpadding="0" cellspacing="0" border="0" align="center" width="900px">
  <tr>
+  <td width="450px"/>
+  <td width="450px"/>
+ </tr>
+ <tr>
  <td align="left" width="50%">
    2048 with sensors
   </td>

@@ -1,17 +1,13 @@
 # Mobile_App
 Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(video_game)) for Android in Java. 
 
-***
 
-##### Project in development
-
-***
 
 ### Team Members
 * [Julia Szymańska](https://github.com/JuliaSzymanska)
 * [Przemysław Zdrzalik](https://github.com/ZdrzalikPrzemyslaw)
 
-### Implementation Details
+### Features
 The app uses the following sensors:
 * Accelerometer + Gyroscope + Magnetometer:
     * Alternative controls

@@ -1,15 +1,15 @@
-<p style="text-align:left;">
-    2048 with sensors
-    <span style="float:right;">
-        <a href="https://play.google.com/store/apps/details?id=com.game.a2048_app">
-        <img src="http://cust234.vereinsmeier.com/files/img/Grisu-NOe/google-play.png"/>
-        </a>
-    </span>
-</p>
-
-<p align="right">
-
-</p>
+<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
+ <tr>
+ <td align="left">
+   2048 with sensors
+  </td>
+  <td align="right">
+   <a style="float:right;" href="https://play.google.com/store/apps/details?id=com.game.a2048_app">
+           <img src="http://cust234.vereinsmeier.com/files/img/Grisu-NOe/google-play.png"/>
+           </a>
+   </td>
+ </tr>
+</table>
 
 ### Description:
 Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(video_game)) for Android in Java. 

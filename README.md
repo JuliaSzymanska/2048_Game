@@ -27,7 +27,7 @@ The application uses device's sensors to:
 <img width="300px" alt='Get it on Google Play'
     src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'></a>
  </td>
-  <td >
+  <td width="400px">
     <img width="100%" src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/video/gameplay.gif" alt="Gameplay" />
   </td>
  </tr>

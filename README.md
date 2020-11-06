@@ -12,10 +12,10 @@ Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(vi
 ### Gameplay:
 <table cellpadding="0" cellspacing="0" border="0" align="center">
  <tr>
-<td width="50%" height="100%">
+<td width="50%" height="300px">
 <img src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/English/Screenshot_1598383894.png"/>
 </td>
-  <td width="50%" height="100%">
+  <td width="50%" height="300px">
     <img src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/video/gameplay.gif" alt="Gameplay" />
   </td>
  </tr>

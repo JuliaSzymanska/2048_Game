@@ -2,12 +2,26 @@
 Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(video_game)) for Android in Java. 
 
 
+<p>
+<a href="play-store-url">
+<img src="play-store-image"/>
+</a>
+</p>
+
+[![Google Play Store][play-store-image]][play-store-url]
+
+
 ### Gameplay
 <p align="center">
 
 <img src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/video/gameplay.gif" alt="Gameplay" />
 
 </p>
+
+### Requirements:
+*[Android SDK](https://developer.android.com/studio)
+
+*[Java Developement Kit](https://www.oracle.com/pl/java/technologies/javase-downloads.html)
 
 ### Features
 #### The app uses the following sensors:
@@ -37,3 +51,7 @@ Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(vi
 ### License
 
 [Apache License 2.0](https://github.com/JuliaSzymanska/Mobile_App/blob/master/LICENSE)
+
+
+[play-store-url]: https://play.google.com/store/apps/details?id=com.game.a2048_app
+[play-store-image]: http://cust234.vereinsmeier.com/files/img/Grisu-NOe/google-play.png

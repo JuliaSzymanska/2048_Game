@@ -2,7 +2,7 @@
 
 
 
-<a width="500px" href='https://play.google.com/store/apps/details?id=com.game.a2048_app&hl=pl&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' 
+<a width="100px" href='https://play.google.com/store/apps/details?id=com.game.a2048_app&hl=pl&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' 
     src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
 

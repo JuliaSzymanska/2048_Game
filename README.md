@@ -16,7 +16,7 @@ Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(vi
 <img src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/English/Screenshot_1598383894.png"/>
 </td>
   <td width="50%" height="300px">
-    <img src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/video/gameplay.gif" alt="Gameplay" />
+    <img display="block" src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/video/gameplay.gif" alt="Gameplay" />
   </td>
  </tr>
 </table>

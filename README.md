@@ -6,8 +6,11 @@ Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(vi
 * [Przemysław Zdrzalik](https://github.com/ZdrzalikPrzemyslaw)
 
 ### Gameplay
-![](https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/video/gameplay.gif)
+<p align="center">
 
+<img src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/video/gameplay.gif" alt="Gameplay" />
+
+</p>
 ### Features
 The app uses the following sensors:
 * Accelerometer + Gyroscope + Magnetometer:

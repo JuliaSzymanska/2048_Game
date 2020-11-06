@@ -2,13 +2,11 @@
 Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(video_game)) for Android in Java. 
 
 
-<p>
+<p align="center">
 <a href="https://play.google.com/store/apps/details?id=com.game.a2048_app">
-<img src=" http://cust234.vereinsmeier.com/files/img/Grisu-NOe/google-play.png"/>
+<img src="http://cust234.vereinsmeier.com/files/img/Grisu-NOe/google-play.png"/>
 </a>
 </p>
-
-[![Google Play Store][play-store-image]][play-store-url]
 
 
 ### Gameplay
@@ -53,5 +51,3 @@ Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(vi
 [Apache License 2.0](https://github.com/JuliaSzymanska/Mobile_App/blob/master/LICENSE)
 
 
-[play-store-url]: https://play.google.com/store/apps/details?id=com.game.a2048_app
-[play-store-image]: http://cust234.vereinsmeier.com/files/img/Grisu-NOe/google-play.png

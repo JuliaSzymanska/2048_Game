@@ -1,9 +1,9 @@
 <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
  <tr>
- <td align="left" width="100%">
+ <td align="left" width="50%">
    2048 with sensors
   </td>
-  <td align="right" width="100%">
+  <td align="right" width="50%">
    <a style="float:right;" href="https://play.google.com/store/apps/details?id=com.game.a2048_app">
            <img src="http://cust234.vereinsmeier.com/files/img/Grisu-NOe/google-play.png"/>
            </a>

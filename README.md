@@ -1,9 +1,14 @@
-# Mobile_App
+<p style="text-align:left;">
+    2048 with sensors
+    <span style="float:right;">
+        <a href="https://play.google.com/store/apps/details?id=com.game.a2048_app">
+        <img src="http://cust234.vereinsmeier.com/files/img/Grisu-NOe/google-play.png"/>
+        </a>
+    </span>
+</p>
 
 <p align="right">
-<a href="https://play.google.com/store/apps/details?id=com.game.a2048_app">
-<img src="http://cust234.vereinsmeier.com/files/img/Grisu-NOe/google-play.png"/>
-</a>
+
 </p>
 
 ### Description:

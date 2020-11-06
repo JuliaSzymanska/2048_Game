@@ -1,15 +1,11 @@
 # 2048 with sensors
 
-<table style="width: 100%; border-style: none;"><tr>
-<td width="60%" style="text-align: center;">
-    <a href='https://play.google.com/store/apps/details?id=com.game.a2048_app&hl=pl&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' 
-    src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
-</td>
 
-<td><strong>2048 with sensors for Google Play</strong><br />
-    <a href="https://play.google.com/store/apps/details?id=com.game.a2048_app&hl=en">Install now!</a>
-</td>
-</tr></table>
+
+<a href='https://play.google.com/store/apps/details?id=com.game.a2048_app&hl=pl&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' 
+    src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+
+
 
 ### Description:
 Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(video_game)) for Android in Java. 

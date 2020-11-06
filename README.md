@@ -23,7 +23,9 @@ The application uses device's sensors to:
 <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
  <tr>
  <td width="50%">
-  <img width="100%" src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/English/Fingerprint.jpg/">
+  <a style="float:right;" href="https://play.google.com/store/apps/details?id=com.game.a2048_app">
+           <img src="http://cust234.vereinsmeier.com/files/img/Grisu-NOe/google-play.png"/>
+           </a>
  </td>
   <td width="50%">
     <img width="100%" src="https://github.com/JuliaSzymanska/Mobile_App/blob/master/.github/video/gameplay.gif" alt="Gameplay" />

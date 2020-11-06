@@ -1,9 +1,6 @@
 # Mobile_App
 Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(video_game)) for Android in Java. 
 
-### Team Members
-* [Julia Szymańska](https://github.com/JuliaSzymanska)
-* [Przemysław Zdrzalik](https://github.com/ZdrzalikPrzemyslaw)
 
 ### Gameplay
 <p align="center">
@@ -32,6 +29,10 @@ Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(vi
 ### Tests
 
 - To run tests: gradlew.bat test
+
+### Team Members
+* [Julia Szymańska](https://github.com/JuliaSzymanska)
+* [Przemysław Zdrzalik](https://github.com/ZdrzalikPrzemyslaw)
 
 ### License
 

@@ -13,7 +13,7 @@ Implementation of the popular game [2048](https://en.wikipedia.org/wiki/2048_(vi
 </p>
 
 ### Features
-The app uses the following sensors:
+#### The app uses the following sensors:
 * Accelerometer + Gyroscope + Magnetometer:
     * Alternative controls
 * Magnetometer:
